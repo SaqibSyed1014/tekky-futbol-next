@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'Hall of Fame — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Hall of Fame',
   description: 'The history makers of TekkyFutbol.',
 };
 

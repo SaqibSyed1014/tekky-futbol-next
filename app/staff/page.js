@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'Staff & Volunteers — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Staff & Volunteers',
   description: 'Meet the organizers, creatives, and volunteers who keep TekkyFutbol moving week after week.',
 };
 

@@ -1,7 +1,7 @@
 import SignatureDropsClient from './SignatureDropsClient';
 
 export const metadata = {
-  title: 'Signature Drops — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Signature Drops',
   description: 'Limited signature drops from TekkyFutbol Season 01.',
 };
 

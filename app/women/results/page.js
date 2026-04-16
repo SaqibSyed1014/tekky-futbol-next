@@ -1,7 +1,7 @@
 import WomenResultsClient from './WomenResultsClient';
 
 export const metadata = {
-  title: "Women's Results — TekkyFutbol",
+  title: "TekkyFutbol Shop — Women's Results",
   description: "Weekly match results for the TekkyFutbol Women's division.",
 };
 

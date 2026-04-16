@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'Pre-Season 2 — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Pre-Season 2',
   description: 'TekkyFutbol Pre-Season matchday 2 results.',
 };
 

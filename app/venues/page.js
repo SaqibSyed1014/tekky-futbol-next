@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'Venues — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Venues',
   description: 'From Regular Season Battles to the Final Stage.',
 };
 

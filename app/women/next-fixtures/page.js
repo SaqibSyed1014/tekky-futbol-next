@@ -1,7 +1,7 @@
 import WomenNextFixturesClient from './WomenNextFixturesClient';
 
 export const metadata = {
-  title: "Women's Next Fixtures — TekkyFutbol",
+  title: "TekkyFutbol Shop — Women's Next Fixtures",
   description: "Upcoming fixtures for the TekkyFutbol Women's division.",
 };
 

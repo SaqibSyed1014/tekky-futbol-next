@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'Player Dashboard — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Player Dashboard',
   description: 'Your personal player dashboard.',
 };
 

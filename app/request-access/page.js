@@ -1,7 +1,7 @@
 import RequestAccessClient from './RequestAccessClient';
 
 export const metadata = {
-  title: 'Request Access — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Request Access',
   description: 'Request access to the TekkyFutbol player portal. Approved players and coaches only.',
 };
 

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'Dominion Rules — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Dominion Rules',
   description: 'Dominion phase rules.',
 };
 

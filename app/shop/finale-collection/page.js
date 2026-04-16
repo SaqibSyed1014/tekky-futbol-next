@@ -1,7 +1,7 @@
 import FinaleCollectionClient from './FinaleCollectionClient';
 
 export const metadata = {
-  title: 'Finale Collection — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Finale Collection',
   description: 'Exclusive Finale Collection drops from TekkyFutbol Season 01.',
 };
 

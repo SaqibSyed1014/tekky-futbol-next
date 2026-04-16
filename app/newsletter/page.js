@@ -1,7 +1,7 @@
 import NewsletterClient from './NewsletterClient';
 
 export const metadata = {
-  title: 'Newsletter — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Newsletter',
   description: 'Stay in the loop. League updates, match recaps, and culture drops — straight to your inbox.',
 };
 

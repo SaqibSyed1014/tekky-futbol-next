@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'Women Schedule — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Women Schedule',
   description: "Full match schedule for the Women's league.",
 };
 

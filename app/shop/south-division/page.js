@@ -1,7 +1,7 @@
 import SouthDivisionClient from './SouthDivisionClient';
 
 export const metadata = {
-  title: 'South Division Drops — TekkyFutbol',
+  title: 'TekkyFutbol Shop — South Division Drops',
   description: 'Limited merch drops for South Division fans and players.',
 };
 

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'All Tickets — TekkyFutbol',
+  title: 'TekkyFutbol Shop — All Tickets',
   description: 'Purchase TekkyFutbol tickets for any match or event.',
 };
 

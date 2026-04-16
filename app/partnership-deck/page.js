@@ -1,7 +1,7 @@
 import PartnershipDeckClient from './PartnershipDeckClient';
 
 export const metadata = {
-  title: 'Partnership Deck — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Partnership',
   description: 'A next-generation football platform built on creativity, culture, and competition.',
 };
 

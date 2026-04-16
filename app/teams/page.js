@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'Teams — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Teams',
   description: 'All teams competing in the TekkyFutbol league.',
 };
 

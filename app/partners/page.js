@@ -1,7 +1,7 @@
 import PartnersClient from './PartnersClient';
 
 export const metadata = {
-  title: 'Partners — TekkyFutbol',
+  title: 'TekkyFutbol Shop — Partners',
   description: 'TekkyFutbol collaborates with forward-thinking brands, venues, and creators to build culture-driven football experiences.',
 };
 
