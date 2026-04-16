@@ -933,7 +933,7 @@ tr:hover {
   box-shadow: 0 0 20px rgba(0, 116, 255, 0.15);
   transition: 0.3s ease;
 }
-.staff-card img{
+.staff-card .img-placeholder{
   width: 120px;
   height: 120px;
   object-fit: cover;
