@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Privacy & Terms',
+  title: 'TekkyFutbol — Privacy & Terms',
   description: 'Because creators deserve transparency and trust both on and off the pitch.',
 };
 

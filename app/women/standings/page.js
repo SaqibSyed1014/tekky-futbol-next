@@ -1,7 +1,7 @@
 import WomenStandingsClient from './WomenStandingsClient';
 
 export const metadata = {
-  title: "TekkyFutbol Shop — Women's Standings",
+  title: "TekkyFutbol — Women's Standings",
   description: "Women's division standings — North and South tables updated throughout the season.",
 };
 

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Season 1 Kits',
+  title: 'TekkyFutbol — Season 1 Kits',
   description: 'One team. One kit. All season—designed for consistency, clarity, and presence at game speed.',
 };
 

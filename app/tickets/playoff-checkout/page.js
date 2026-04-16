@@ -1,7 +1,7 @@
 import PlayoffCheckoutClient from './PlayoffCheckoutClient';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Playoff Ticket',
+  title: 'TekkyFutbol — Playoff Ticket',
   description: 'Full playoff access. Semifinals and Championship. One pass. $15.',
 };
 

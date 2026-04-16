@@ -1,7 +1,7 @@
 import StandingsClient from './StandingsClient';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Standings',
+  title: 'TekkyFutbol — Standings',
   description: 'Men\'s division standings — North and South tables updated throughout the season.',
 };
 

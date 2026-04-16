@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — 2026 League Schedule',
+  title: 'TekkyFutbol — 2026 League Schedule',
   description: 'The 2026 TekkyFutbol league schedule.',
 };
 

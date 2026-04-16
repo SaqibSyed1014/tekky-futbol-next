@@ -1,7 +1,7 @@
 import SupporterBundleCheckoutClient from './SupporterBundleCheckoutClient';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Supporter Bundle',
+  title: 'TekkyFutbol — Supporter Bundle',
   description: 'One single-game ticket plus exclusive TekkyFutbol merch. Drip meets loyalty. $60.',
 };
 

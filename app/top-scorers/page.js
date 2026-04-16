@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Top Scorers',
+  title: 'TekkyFutbol — Top Scorers',
   description: 'Goals change games. Creators change seasons.',
 };
 

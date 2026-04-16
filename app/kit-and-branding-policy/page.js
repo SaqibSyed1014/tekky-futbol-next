@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Kit & Branding Policy',
+  title: 'TekkyFutbol — Kit & Branding Policy',
   description: 'This policy governs team uniforms, sponsor placement, and visual standards within TekkyFutbol competitions.',
 };
 

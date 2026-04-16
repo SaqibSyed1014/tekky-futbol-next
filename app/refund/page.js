@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Refund Policy',
+  title: 'TekkyFutbol — Refund Policy',
   description: 'Every registration counts — but we play fair.',
 };
 

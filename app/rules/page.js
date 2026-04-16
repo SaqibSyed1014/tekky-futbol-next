@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Rules',
+  title: 'TekkyFutbol — Rules',
   description: 'Structured battles. Tactical flow. Earn every point.',
 };
 

@@ -1,7 +1,7 @@
 import SingleCheckoutClient from './SingleCheckoutClient';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Single Game Ticket',
+  title: 'TekkyFutbol — Single Game Ticket',
   description: 'Get notified when single game tickets drop. One match. One night. $10.',
 };
 

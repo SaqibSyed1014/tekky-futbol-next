@@ -2,7 +2,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Media & Highlights',
+  title: 'TekkyFutbol — Media & Highlights',
   description: 'Watch match highlights and view the latest TekkyFutbol media.',
 };
 

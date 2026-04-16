@@ -1,7 +1,7 @@
 import SeasonPassCheckoutClient from './SeasonPassCheckoutClient';
 
 export const metadata = {
-  title: 'TekkyFutbol Shop — Season Pass',
+  title: 'TekkyFutbol — Season Pass',
   description: 'All regular season matches. Full access. No compromises. $80.',
 };
 
