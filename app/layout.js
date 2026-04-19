@@ -1,6 +1,7 @@
 import './globals.css';
 import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 export const metadata = {
   title: 'TekkyFutbol',
@@ -29,9 +30,11 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <Navbar />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
