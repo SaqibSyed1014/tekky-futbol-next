@@ -18,6 +18,8 @@ const INITIAL_FORM = {
   name: '',
   phone: '',
   email: '',
+  password: '',
+  password2: '',
   gender: '',
   preferredDivision: '',
   instagram: '',
@@ -54,6 +56,7 @@ export default function RegistrationClient() {
   const [logoFile, setLogoFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
@@ -69,6 +72,12 @@ export default function RegistrationClient() {
         return;
       }
     }
+    // Password match check on step 1
+    if (step === 1 && form.password !== form.password2) {
+      setPasswordError('Passwords do not match.');
+      return;
+    }
+    setPasswordError('');
     setStep((s) => Math.min(s + 1, TOTAL_STEPS));
   }
 
@@ -93,6 +102,8 @@ export default function RegistrationClient() {
       applicationType: form.registrationType, // already APPLICATION_TYPE constant value
       name:              form.name,
       email:             form.email,
+      password:          form.password,
+      password2:         form.password2,
       phone:             form.phone,
       gender:            form.gender,
       preferredDivision: form.preferredDivision,
@@ -113,14 +124,14 @@ export default function RegistrationClient() {
       await submitApplication(payload, logoFile);
 
       // 2 — Email notification via web3forms (non-blocking)
-      const w3key = process.env.NEXT_PUBLIC_WEB3FORMS_REGISTRATION_KEY;
-      if (w3key) {
-        const fd = new FormData();
-        fd.append('access_key', w3key);
-        Object.entries(payload).forEach(([k, v]) => fd.append(k, String(v)));
-        if (logoFile) fd.append('logoAttachment', logoFile);
-        fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd }).catch(() => {});
-      }
+      // const w3key = process.env.NEXT_PUBLIC_WEB3FORMS_REGISTRATION_KEY;
+      // if (w3key) {
+      //   const fd = new FormData();
+      //   fd.append('access_key', w3key);
+      //   Object.entries(payload).forEach(([k, v]) => fd.append(k, String(v)));
+      //   if (logoFile) fd.append('logoAttachment', logoFile);
+      //   fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd }).catch(() => {});
+      // }
 
       // Advance to confirmation screen
       setStep(TOTAL_STEPS);
@@ -170,6 +181,12 @@ export default function RegistrationClient() {
                 <label htmlFor="reg-email">Email</label>
                 <input id="reg-email" type="email" name="email" value={form.email} onChange={handleChange} required />
 
+                <label htmlFor="reg-password">Password</label>
+                <input id="reg-password" type="password" name="password" value={form.password} onChange={handleChange} required minLength={8} />
+
+                <label htmlFor="reg-password2">Confirm Password</label>
+                <input id="reg-password2" type="password" name="password2" value={form.password2} onChange={handleChange} required minLength={8} />
+
                 <label htmlFor="reg-gender">Gender</label>
                 <select id="reg-gender" name="gender" value={form.gender} onChange={handleChange} required>
                   <option value="">Select</option>
@@ -189,7 +206,15 @@ export default function RegistrationClient() {
                 <label htmlFor="reg-ig">Instagram (optional)</label>
                 <input id="reg-ig" type="text" name="instagram" value={form.instagram} onChange={handleChange} />
 
+                {passwordError && (
+                  <div role="alert" style={errorBannerStyle}>{passwordError}</div>
+                )}
+
                 <button type="button" className="cta" onClick={nextStep}>Next</button>
+                <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: 'var(--text-muted, #aaa)' }}>
+                  Already registered?{' '}
+                  <Link href="/login" style={{ color: 'var(--tekky-blue)', textDecoration: 'underline' }}>Login here</Link>
+                </p>
               </div>
             )}
 
@@ -304,7 +329,7 @@ export default function RegistrationClient() {
                   Your application has been received and is under review. Selected players and teams
                   will be contacted directly with next steps, payment instructions, and onboarding details.
                 </p>
-                <button type="button" className="cta" onClick={goToFirst}>Submit Another</button>
+                <Link className="cta" href="/login" style={{ marginRight: '1rem' }}>Login to Your Account</Link>
               </div>
             )}
 

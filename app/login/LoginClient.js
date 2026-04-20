@@ -22,8 +22,8 @@ export default function LoginClient() {
     setSubmitting(true);
 
     try {
-      await login({ email, password });
-      router.push('/player-dashboard');
+      const loggedInUser = await login({ email, password });
+      router.push(loggedInUser?.role === 'admin' ? '/admin' : '/user');
     } catch (err) {
       // error is already set in AuthContext; mirror it locally so it shows
       // even if the component re-renders before context propagates

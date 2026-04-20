@@ -16,7 +16,7 @@ import { ITEMS_PER_PAGE } from '@/constants/admin';
 export function getApplications({ status = '', page = 1, limit = ITEMS_PER_PAGE } = {}) {
   const query = new URLSearchParams({ page, limit });
   if (status) query.set('status', status);
-  return api.get(`/applications?${query}`);
+  return api.get(`/applications/?${query}`);
 }
 
 /**
@@ -26,7 +26,7 @@ export function getApplications({ status = '', page = 1, limit = ITEMS_PER_PAGE 
  * @returns {Promise<object>}  Updated application record
  */
 export function approveApplication(id) {
-  return api.patch(`/applications/${id}/approve`);
+  return api.patch(`/applications/${id}/approve/`);
 }
 
 /**
@@ -37,5 +37,5 @@ export function approveApplication(id) {
  * @returns {Promise<object>}  Updated application record
  */
 export function rejectApplication(id, reason = '') {
-  return api.patch(`/applications/${id}/reject`, { reason });
+  return api.patch(`/applications/${id}/reject/`, { reason });
 }

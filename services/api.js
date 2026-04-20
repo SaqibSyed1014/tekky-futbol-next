@@ -67,8 +67,11 @@ function handleGlobalError(error) {
 async function request(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`;
 
+  // Don't set Content-Type for FormData — the browser sets it automatically
+  // with the correct multipart boundary.  For everything else default to JSON.
+  const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
   const headers = {
-    'Content-Type': 'application/json',
+    ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
     Accept: 'application/json',
     ...options.headers,
   };

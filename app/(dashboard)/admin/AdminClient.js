@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { getApplications, approveApplication, rejectApplication } from '@/services/adminApi';
 import {
@@ -85,7 +84,6 @@ function FilterTab({ label, active, onClick }) {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function AdminClient() {
-  const router = useRouter();
   const { user, loading: authLoading } = useAuth();
 
   const [applications, setApplications] = useState([]);
@@ -98,13 +96,6 @@ export default function AdminClient() {
   const [actionPending, setActionPending] = useState({});
   // Inline action errors: { [id]: string }
   const [actionErrors, setActionErrors] = useState({});
-
-  // ── Auth guard ─────────────────────────────────────────────────────────────
-  useEffect(() => {
-    if (authLoading) return;
-    if (!user) { router.replace('/login'); return; }
-    if (user.role !== 'admin') { router.replace('/'); }
-  }, [user, authLoading, router]);
 
   // ── Fetch applications ─────────────────────────────────────────────────────
   const fetchApplications = useCallback(async () => {
@@ -160,14 +151,14 @@ export default function AdminClient() {
   const isActionBusy = (id) => Boolean(actionPending[id]);
 
   // ── Render ─────────────────────────────────────────────────────────────────
-  if (authLoading || !user) return null; // handled by useEffect redirect
+  if (authLoading || !user) return null;
 
   return (
-    <main style={{ maxWidth: 1200, margin: '0 auto' }}>
+    <div style={{ maxWidth: 1200 }}>
 
       {/* Header */}
       <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", color: 'var(--tekky-blue)', fontSize: '2.4rem', marginBottom: '0.25rem' }}>
+        <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2.4rem', marginBottom: '0.25rem' }}>
           Applications
         </h1>
         <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>
@@ -321,6 +312,6 @@ export default function AdminClient() {
           50%       { opacity: 0.4; }
         }
       `}</style>
-    </main>
+    </div>
   );
 }

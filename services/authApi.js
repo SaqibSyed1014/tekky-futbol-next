@@ -13,7 +13,7 @@ import api, { auth } from '@/services/api';
  * @returns {Promise<{ user: object, token: string }>}
  */
 export async function login({ email, password }) {
-  const data = await api.post('/auth/login', { email, password });
+  const data = await api.post('/auth/login/', { email, password });
   auth.setToken(data.token);
   return data;
 }
@@ -26,7 +26,7 @@ export async function login({ email, password }) {
  * @returns {Promise<{ user: object, token?: string }>}
  */
 export async function register(payload) {
-  const data = await api.post('/auth/register', payload);
+  const data = await api.post('/auth/register/', payload);
   if (data.token) auth.setToken(data.token);
   return data;
 }
@@ -39,7 +39,7 @@ export async function register(payload) {
  */
 export async function fetchMe() {
   if (!auth.getToken()) return null;
-  return api.get('/auth/me');
+  return api.get('/auth/me/');
 }
 
 /**
@@ -47,7 +47,7 @@ export async function fetchMe() {
  */
 export async function logout() {
   try {
-    await api.post('/auth/logout');
+    await api.post('/auth/logout/');
   } catch {
     // Ignore server errors on logout
   } finally {

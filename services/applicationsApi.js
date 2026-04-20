@@ -28,13 +28,23 @@ import api from '@/services/api';
  *
  * @returns {Promise<object>}  Created application record from the server
  */
+/**
+ * GET /applications/me/
+ * Returns the authenticated player's own applications (DRF paginated).
+ *
+ * @returns {Promise<{ count: number, results: object[] }>}
+ */
+export function getMyApplications() {
+  return api.get('/applications/me/');
+}
+
 export async function submitApplication(payload, logoFile = null) {
   if (logoFile) {
     const formData = new FormData();
     Object.entries(payload).forEach(([k, v]) => formData.append(k, String(v)));
     formData.append('logo', logoFile);
-    return api.upload('/applications', formData);
+    return api.upload('/applications/', formData);
   }
 
-  return api.post('/applications', payload);
+  return api.post('/applications/', payload);
 }

@@ -3,9 +3,9 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import AdminHomeClient from './AdminHomeClient';
+import AdminClient from '../AdminClient';
 
-export default function AdminPage() {
+export default function ApplicationsPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -15,5 +15,5 @@ export default function AdminPage() {
 
   if (loading || !user || user.role !== 'admin') return null;
 
-  return <AdminHomeClient user={user} />;
+  return <AdminClient />;
 }
