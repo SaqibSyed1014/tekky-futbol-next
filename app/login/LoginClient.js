@@ -12,6 +12,7 @@ export default function LoginClient() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [localError, setLocalError] = useState('');
 
@@ -99,16 +100,39 @@ export default function LoginClient() {
             <label htmlFor="login-password" style={{ display: 'block', textAlign: 'left', marginBottom: '0.4rem', fontWeight: 600, color: 'var(--fg)', marginTop: '0.8rem' }}>
               Password
             </label>
-            <input
-              id="login-password"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-              disabled={submitting}
-            />
+            <div style={{ position: 'relative', marginBottom: "1.2rem" }}>
+              <input
+                id="login-password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                disabled={submitting}
+                style={{ paddingRight: '2.6rem', marginBottom: "0" }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                style={{
+                  position: 'absolute',
+                  right: '0.75rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--muted)',
+                  cursor: 'pointer',
+                  padding: 0,
+                  fontSize: '0.95rem',
+                  lineHeight: 1,
+                }}
+              >
+                <i className={showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'} />
+              </button>
+            </div>
 
             <button
               type="submit"

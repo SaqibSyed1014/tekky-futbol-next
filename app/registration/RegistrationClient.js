@@ -50,7 +50,51 @@ const errorBannerStyle = {
   textAlign: 'left',
 };
 
-export default function RegistrationClient() {
+// ─── Password field with show/hide toggle ─────────────────────────────────────
+
+function PasswordInput({ id, name, value, onChange, placeholder, disabled, required, minLength }) {
+  const [visible, setVisible] = useState(false);
+  return (
+    <div style={{ position: 'relative', marginBottom: "1.2rem" }}>
+      <input
+        id={id}
+        type={visible ? 'text' : 'password'}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        disabled={disabled}
+        required={required}
+        minLength={minLength}
+        style={{ paddingRight: '2.6rem', marginBottom: 0 }}
+      />
+      <button
+        type="button"
+        onClick={() => setVisible((v) => !v)}
+        aria-label={visible ? 'Hide password' : 'Show password'}
+        style={{
+          position: 'absolute',
+          right: '0.75rem',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          background: 'none',
+          border: 'none',
+          color: 'var(--muted)',
+          cursor: 'pointer',
+          padding: 0,
+          fontSize: '0.95rem',
+          lineHeight: 1,
+        }}
+      >
+        <i className={visible ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'} />
+      </button>
+    </div>
+  );
+}
+
+// ─── Main component ───────────────────────────────────────────────────────────
+
+export default function RegistrationClient({ submissionEnabled = true }) {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState(INITIAL_FORM);
   const [logoFile, setLogoFile] = useState(null);
@@ -94,12 +138,19 @@ export default function RegistrationClient() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    // ── M1 gate: form is visible but submission is disabled ──────────────────
+    if (!submissionEnabled) {
+      setSubmitError('Registration is not open yet. Check back soon!');
+      return;
+    }
+
     setSubmitting(true);
     setSubmitError('');
 
     // Build the application payload — no hardcoded values
     const payload = {
-      applicationType: form.registrationType, // already APPLICATION_TYPE constant value
+      applicationType: form.registrationType,
       name:              form.name,
       email:             form.email,
       password:          form.password,
@@ -120,20 +171,7 @@ export default function RegistrationClient() {
     };
 
     try {
-      // 1 — Submit to /applications
       await submitApplication(payload, logoFile);
-
-      // 2 — Email notification via web3forms (non-blocking)
-      // const w3key = process.env.NEXT_PUBLIC_WEB3FORMS_REGISTRATION_KEY;
-      // if (w3key) {
-      //   const fd = new FormData();
-      //   fd.append('access_key', w3key);
-      //   Object.entries(payload).forEach(([k, v]) => fd.append(k, String(v)));
-      //   if (logoFile) fd.append('logoAttachment', logoFile);
-      //   fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd }).catch(() => {});
-      // }
-
-      // Advance to confirmation screen
       setStep(TOTAL_STEPS);
       setForm(INITIAL_FORM);
       setLogoFile(null);
@@ -164,6 +202,25 @@ export default function RegistrationClient() {
       >
         <GlowDivider />
 
+        {/* Coming-soon banner — visible only when submission is disabled */}
+        {/*{!submissionEnabled && (*/}
+        {/*  <div style={{*/}
+        {/*    background: 'rgba(0,116,255,0.08)',*/}
+        {/*    border: '1px solid rgba(0,116,255,0.35)',*/}
+        {/*    borderRadius: 10,*/}
+        {/*    padding: '0.85rem 1.2rem',*/}
+        {/*    color: 'var(--tekky-blue)',*/}
+        {/*    fontSize: '0.92rem',*/}
+        {/*    margin: '1.5rem 0',*/}
+        {/*    display: 'flex',*/}
+        {/*    alignItems: 'center',*/}
+        {/*    gap: '0.6rem',*/}
+        {/*  }}>*/}
+        {/*    <i className="fa-solid fa-clock" />*/}
+        {/*    Registration is not open yet — applications will open soon. You can preview the form below.*/}
+        {/*  </div>*/}
+        {/*)}*/}
+
         <section id="mensRegistration">
           <form onSubmit={handleSubmit} style={{ marginBottom: '1rem' }}>
 
@@ -182,10 +239,26 @@ export default function RegistrationClient() {
                 <input id="reg-email" type="email" name="email" value={form.email} onChange={handleChange} required />
 
                 <label htmlFor="reg-password">Password</label>
-                <input id="reg-password" type="password" name="password" value={form.password} onChange={handleChange} required minLength={8} />
+                <PasswordInput
+                  id="reg-password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  placeholder="Min. 8 characters"
+                  required
+                  minLength={8}
+                />
 
                 <label htmlFor="reg-password2">Confirm Password</label>
-                <input id="reg-password2" type="password" name="password2" value={form.password2} onChange={handleChange} required minLength={8} />
+                <PasswordInput
+                  id="reg-password2"
+                  name="password2"
+                  value={form.password2}
+                  onChange={handleChange}
+                  placeholder="Repeat your password"
+                  required
+                  minLength={8}
+                />
 
                 <label htmlFor="reg-gender">Gender</label>
                 <select id="reg-gender" name="gender" value={form.gender} onChange={handleChange} required>

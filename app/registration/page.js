@@ -1,3 +1,4 @@
+import { MILESTONE_2_ENABLED } from '@/constants/features';
 import RegistrationClient from './RegistrationClient';
 
 export const metadata = {
@@ -6,5 +7,5 @@ export const metadata = {
 };
 
 export default function RegistrationPage() {
-  return <RegistrationClient />;
+  return <RegistrationClient submissionEnabled={MILESTONE_2_ENABLED} />;
 }

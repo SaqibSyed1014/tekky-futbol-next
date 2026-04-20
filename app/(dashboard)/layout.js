@@ -5,12 +5,13 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import Image from "next/image";
+import { MILESTONE_2_ENABLED } from '@/constants/features';
 
 // ─── Nav config ──────────────────────────────────────────────────────────────
 
 const ADMIN_NAV = [
   { href: '/admin',              icon: 'fa-solid fa-house',        label: 'Home'         },
-  { href: '/admin/applications', icon: 'fa-solid fa-file-lines',   label: 'Applications' },
+  ...(MILESTONE_2_ENABLED ? [{ href: '/admin/applications', icon: 'fa-solid fa-file-lines', label: 'Applications' }] : []),
 ];
 
 const PLAYER_NAV = [
@@ -25,8 +26,9 @@ const PAGE_TITLES = {
 
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
 
-function Sidebar({ role, sidebarOpen, onClose }) {
+function Sidebar({ role, isCaptain, sidebarOpen, onClose }) {
   const pathname = usePathname();
+  const { logout } = useAuth();
   const navItems = role === 'admin' ? ADMIN_NAV : PLAYER_NAV;
 
   return (
@@ -87,20 +89,30 @@ function Sidebar({ role, sidebarOpen, onClose }) {
         </div>
 
         {/* Role badge */}
-        <div style={{ padding: '0.85rem 1.5rem 0.5rem' }}>
-          <span style={{
-            fontSize: '0.7rem',
-            fontFamily: "'Bebas Neue', sans-serif",
-            letterSpacing: '1.5px',
-            color: role === 'admin' ? 'var(--tekky-blue)' : '#00c864',
-            background: role === 'admin' ? 'rgba(0,116,255,0.1)' : 'rgba(0,200,100,0.1)',
-            border: `1px solid ${role === 'admin' ? 'rgba(0,116,255,0.3)' : 'rgba(0,200,100,0.3)'}`,
-            borderRadius: 4,
-            padding: '0.2rem 0.6rem',
-            textTransform: 'uppercase',
-          }}>
-            {role === 'admin' ? 'Admin' : 'Player'}
-          </span>
+        <div style={{ padding: '1.5rem 1.5rem 0.5rem' }}>
+          {(() => {
+            const isAdmin   = role === 'admin';
+            const isCap     = !isAdmin && isCaptain;
+            const color     = isAdmin ? 'var(--tekky-blue)' : isCap ? '#f0b429' : '#00c864';
+            const bg        = isAdmin ? 'rgba(0,116,255,0.1)' : isCap ? 'rgba(240,180,41,0.1)' : 'rgba(0,200,100,0.1)';
+            const border    = isAdmin ? 'rgba(0,116,255,0.3)' : isCap ? 'rgba(240,180,41,0.3)' : 'rgba(0,200,100,0.3)';
+            const label     = isAdmin ? 'Admin' : isCap ? 'Captain' : 'Player';
+            return (
+              <span style={{
+                fontSize: '1rem',
+                fontFamily: "'Bebas Neue', sans-serif",
+                letterSpacing: '1.5px',
+                color,
+                background: bg,
+                border: `1px solid ${border}`,
+                borderRadius: 4,
+                padding: '0.2rem 0.6rem',
+                textTransform: 'uppercase',
+              }}>
+                {label}
+              </span>
+            );
+          })()}
         </div>
 
         {/* Nav links */}
@@ -136,6 +148,42 @@ function Sidebar({ role, sidebarOpen, onClose }) {
               </Link>
             );
           })}
+        </div>
+
+        {/* Logout button — pinned to bottom */}
+        <div style={{ padding: '0.75rem', borderTop: '1px solid rgba(0,116,255,0.15)' }}>
+          <button
+            onClick={() => { onClose(); logout(); }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              width: '100%',
+              padding: '0.7rem 0.9rem',
+              borderRadius: 8,
+              background: 'transparent',
+              border: '1px solid transparent',
+              color: 'var(--muted)',
+              fontSize: '0.92rem',
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+              fontFamily: 'inherit',
+              textAlign: 'left',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255,60,60,0.08)';
+              e.currentTarget.style.color = '#ff6b6b';
+              e.currentTarget.style.borderColor = 'rgba(255,60,60,0.2)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = 'var(--muted)';
+              e.currentTarget.style.borderColor = 'transparent';
+            }}
+          >
+            <i className="fa-solid fa-right-from-bracket" style={{ width: 18, textAlign: 'center', fontSize: '0.88rem' }} />
+            Logout
+          </button>
         </div>
 
       </aside>
@@ -351,7 +399,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <>
-      <Sidebar role={user.role} sidebarOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar role={user.role} isCaptain={user.is_captain} sidebarOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main area — offset by sidebar width on desktop */}
       <div className="db-main" style={{
