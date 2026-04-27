@@ -15,6 +15,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { login as apiLogin, logout as apiLogout, fetchMe } from '@/services/authApi';
+import {auth} from "@/services/api";
 
 const AuthContext = createContext(null);
 
@@ -24,8 +25,16 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true); // true until /auth/me resolves
   const [error, setError] = useState(null);
 
-  // Hydrate user from token on mount
+  // Hydrate user from token on mount.
+  // Also re-syncs the token to the cookie — needed for the proxy route guard
+  // which can only read cookies (not localStorage).
   useEffect(() => {
+    const existingToken = auth.getToken();
+    if (existingToken) {
+      // Re-write the cookie so the proxy sees it even after a hard refresh
+      // or if the user logged in before cookie-syncing was added.
+      auth.setToken(existingToken);
+    }
     fetchMe()
       .then((u) => setUser(u))
       .catch(() => setUser(null))

@@ -60,13 +60,20 @@ export const auth = {
  * Override this to plug in toast notifications, Sentry, etc.
  */
 function handleGlobalError(error) {
+  // Only force-logout on 401 when the user is already authenticated
+  // (i.e. a valid session expired mid-use). Skip if they're on /login — that's
+  // just a wrong-password attempt, not an expired session.
   if (error.status === 401) {
-    auth.clearToken();
-    if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/login')) {
-      window.location.href = '/login';
+    const isOnLoginPage =
+      typeof window !== 'undefined' &&
+      window.location.pathname.startsWith('/login');
+    if (!isOnLoginPage && auth.getToken()) {
+      auth.clearToken();
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login';
+      }
     }
   }
-  // Re-throw so callers can catch specific errors too
   throw error;
 }
 
@@ -116,8 +123,13 @@ async function request(endpoint, options = {}) {
   }
 
   if (!response.ok) {
+    // Backend wraps errors as: { error: { status_code, detail } }
+    // detail can itself be a string or { detail: "..." } (DRF double-nesting)
+    const errDetail = body?.error?.detail;
     const message =
-      (body && (body.message || body.error)) ||
+      (typeof errDetail === 'string' ? errDetail : null) ||
+      (typeof errDetail?.detail === 'string' ? errDetail.detail : null) ||
+      body?.message ||
       `Request failed with status ${response.status}`;
     return handleGlobalError(new ApiError(response.status, message, body));
   }
