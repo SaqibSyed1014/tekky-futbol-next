@@ -33,11 +33,24 @@ export class ApiError extends Error {
 // ─── Token helpers (client-side only) ───────────────────────────────────────
 
 const TOKEN_KEY = 'tf_token';
+const COOKIE_MAX_AGE = 7 * 24 * 60 * 60; // 7 days — matches JWT refresh lifetime
 
 export const auth = {
   getToken: () => (typeof window !== 'undefined' ? localStorage.getItem(TOKEN_KEY) : null),
-  setToken: (token) => { if (typeof window !== 'undefined') localStorage.setItem(TOKEN_KEY, token); },
-  clearToken: () => { if (typeof window !== 'undefined') localStorage.removeItem(TOKEN_KEY); },
+
+  setToken: (token) => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem(TOKEN_KEY, token);
+    // Mirror to cookie so the middleware can read it for server-side route guards.
+    document.cookie = `${TOKEN_KEY}=${token}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
+  },
+
+  clearToken: () => {
+    if (typeof window === 'undefined') return;
+    localStorage.removeItem(TOKEN_KEY);
+    // Expire the cookie immediately.
+    document.cookie = `${TOKEN_KEY}=; path=/; max-age=0; SameSite=Lax`;
+  },
 };
 
 // ─── Global error handler ────────────────────────────────────────────────────

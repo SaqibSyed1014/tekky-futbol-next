@@ -381,13 +381,26 @@ function DropdownItem({ icon, label, onClick, danger = false, disabled = false }
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, loading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Auth guard
+  // Auth + role guard (client-side safety net — middleware handles the fast path)
   useEffect(() => {
-    if (!loading && !user) router.replace('/login');
-  }, [user, loading, router]);
+    if (loading) return;
+    if (!user) {
+      router.replace('/login');
+      return;
+    }
+    // Prevent admin accessing /user/* and player accessing /admin/*
+    if (pathname.startsWith('/admin') && user.role !== 'admin') {
+      router.replace('/user');
+      return;
+    }
+    if (pathname.startsWith('/user') && user.role === 'admin') {
+      router.replace('/admin');
+    }
+  }, [user, loading, pathname, router]);
 
   if (loading || !user) {
     return (
