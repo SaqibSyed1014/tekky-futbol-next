@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 import { submitApplication } from '@/services/applicationsApi';
@@ -92,12 +92,197 @@ function PasswordInput({ id, name, value, onChange, placeholder, disabled, requi
   );
 }
 
+// ─── Logo upload zone ─────────────────────────────────────────────────────────
+
+function LogoUploadZone({ file, preview, onSelect, onRemove }) {
+  const inputRef = useRef(null);
+  const [dragOver, setDragOver] = useState(false);
+
+  function processFile(f) {
+    if (!f) return;
+    if (f.size / 1024 > MAX_LOGO_SIZE_KB) {
+      alert(`Please upload a file smaller than ${MAX_LOGO_SIZE_KB / 1000} MB`);
+      return;
+    }
+    const url = URL.createObjectURL(f);
+    onSelect(f, url);
+  }
+
+  function handleInputChange(e) {
+    processFile(e.target.files[0] || null);
+    e.target.value = '';
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    setDragOver(false);
+    processFile(e.dataTransfer.files[0] || null);
+  }
+
+  const formatSize = (bytes) => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  return (
+    <div style={{ marginBottom: '1.2rem', textAlign: 'left' }}>
+      <div style={{ fontSize: '0.8rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, marginBottom: '0.5rem' }}>
+        Team Logo
+      </div>
+
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleInputChange}
+        style={{ display: 'none' }}
+        tabIndex={-1}
+        required={true}
+      />
+
+      {!file ? (
+        // ── Empty state: drop zone ──
+        <div
+          onClick={() => inputRef.current.click()}
+          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={handleDrop}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && inputRef.current.click()}
+          aria-label="Upload team logo"
+          style={{
+            border: `2px dashed ${dragOver ? 'rgba(0,116,255,0.7)' : 'rgba(0,116,255,0.3)'}`,
+            borderRadius: 12,
+            background: dragOver ? 'rgba(0,116,255,0.07)' : 'rgba(0,116,255,0.03)',
+            padding: '2.2rem 1.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.5rem',
+            cursor: 'pointer',
+            transition: 'border-color 0.2s, background 0.2s',
+            outline: 'none',
+          }}
+          onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.6)'; }}
+          onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.3)'; }}
+        >
+          <i className="fa-solid fa-cloud-arrow-up" style={{ fontSize: '2rem', color: 'rgba(0,116,255,0.5)' }} />
+          <p style={{ margin: 0, fontSize: '0.92rem', color: 'var(--fg)', fontWeight: 500 }}>
+            Click or drag & drop to upload
+          </p>
+          <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--muted)' }}>
+            PNG, JPG, SVG · Max {MAX_LOGO_SIZE_KB / 1000} MB
+          </p>
+        </div>
+      ) : (
+        // ── Filled state: preview card ──
+        <div style={{
+          border: '1px solid rgba(0,116,255,0.3)',
+          borderRadius: 12,
+          background: 'rgba(0,116,255,0.04)',
+          padding: '1rem 1.25rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '1rem',
+        }}>
+          <div style={{
+            width: 72,
+            height: 72,
+            borderRadius: 8,
+            border: '1px solid rgba(0,116,255,0.2)',
+            background: 'rgba(0,0,0,0.4)',
+            flexShrink: 0,
+            overflow: 'hidden',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <img
+              src={preview}
+              alt="Logo preview"
+              style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 6 }}
+            />
+          </div>
+
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{
+              margin: '0 0 0.2rem',
+              fontSize: '0.88rem',
+              color: 'var(--fg)',
+              fontWeight: 500,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}>
+              {file.name}
+            </div>
+            <p style={{ margin: '0 0 0.6rem', fontSize: '0.78rem', color: 'var(--muted)' }}>
+              {formatSize(file.size)}
+            </p>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={() => inputRef.current.click()}
+                style={{
+                  fontSize: '0.78rem',
+                  padding: '0.3rem 0.75rem',
+                  border: '1px solid rgba(0,116,255,0.4)',
+                  borderRadius: 20,
+                  background: 'none',
+                  color: 'var(--tekky-blue)',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,116,255,0.1)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'none'; }}
+              >
+                <i className="fa-solid fa-arrow-up-from-bracket" style={{ marginRight: 5 }} />
+                Change
+              </button>
+              <button
+                type="button"
+                onClick={onRemove}
+                style={{
+                  fontSize: '0.78rem',
+                  padding: '0.3rem 0.75rem',
+                  border: '1px solid rgba(255,60,60,0.35)',
+                  borderRadius: 20,
+                  background: 'none',
+                  color: '#ff6b6b',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,60,60,0.08)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'none'; }}
+              >
+                <i className="fa-solid fa-trash" style={{ marginRight: 5 }} />
+                Remove
+              </button>
+            </div>
+          </div>
+
+          <i className="fa-solid fa-circle-check" style={{ fontSize: '1.3rem', color: '#00c864', flexShrink: 0 }} />
+        </div>
+      )}
+
+      <div style={{ fontSize: '0.74rem', color: 'var(--muted)', marginTop: '0.5rem', lineHeight: 1.5 }}>
+        By uploading, you confirm you own the rights to this logo. <br/>TekkyFutbol reserves the right to reject any infringing branding.
+      </div>
+    </div>
+  );
+}
+
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function RegistrationClient() {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState(INITIAL_FORM);
   const [logoFile, setLogoFile] = useState(null);
+  const [logoPreview, setLogoPreview] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -133,6 +318,7 @@ export default function RegistrationClient() {
     setStep(1);
     setForm(INITIAL_FORM);
     setLogoFile(null);
+    setLogoPreview(null);
     setSubmitError('');
   }
 
@@ -169,6 +355,7 @@ export default function RegistrationClient() {
       setStep(TOTAL_STEPS);
       setForm(INITIAL_FORM);
       setLogoFile(null);
+      setLogoPreview(null);
     } catch (err) {
       if (err instanceof ApiError) {
         setSubmitError(err.message || 'Submission failed. Please try again.');
@@ -286,32 +473,19 @@ export default function RegistrationClient() {
                 ))}
 
                 {form.registrationType === APPLICATION_TYPE.FULL_TEAM && (
-                  <div>
+                  <div style={{ paddingTop: "8px" }}>
                     <label htmlFor="reg-teamName">Team Name</label>
                     <input id="reg-teamName" type="text" name="teamName" value={form.teamName} onChange={handleChange} required />
 
                     <label htmlFor="reg-rosterSize">Estimated Roster Size</label>
                     <input id="reg-rosterSize" type="number" name="rosterSize" min="1" max="20" value={form.rosterSize} onChange={handleChange} required />
 
-                    <label htmlFor="reg-logo">Logo Upload</label>
-                    <input
-                      id="reg-logo"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        if (file && file.size / 1024 > MAX_LOGO_SIZE_KB) {
-                          alert(`Please upload a file smaller than ${MAX_LOGO_SIZE_KB / 1000} MB`);
-                          e.target.value = '';
-                          return;
-                        }
-                        setLogoFile(file || null);
-                      }}
+                    <LogoUploadZone
+                      file={logoFile}
+                      preview={logoPreview}
+                      onSelect={(file, preview) => { setLogoFile(file); setLogoPreview(preview); }}
+                      onRemove={() => { setLogoFile(null); setLogoPreview(null); }}
                     />
-                    <small>
-                      By submitting a logo, you confirm you own the rights or have authorization to use it.
-                      TekkyFutbol reserves the right to reject or modify any branding that infringes on intellectual property.
-                    </small>
                   </div>
                 )}
 

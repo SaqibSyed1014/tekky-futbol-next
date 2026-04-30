@@ -218,6 +218,154 @@ function StatusModal({ targetStatus, onConfirm, onCancel, loading }) {
   );
 }
 
+// ─── Logo thumbnail (clickable) ───────────────────────────────────────────────
+
+function LogoThumbnail({ url, onClick }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      aria-label="View logo full size"
+      style={{
+        position: 'relative',
+        width: 130,
+        height: 130,
+        borderRadius: 10,
+        border: `1px solid ${hovered ? 'rgba(0,116,255,0.55)' : 'rgba(0,116,255,0.2)'}`,
+        background: hovered ? 'rgba(0,116,255,0.08)' : 'rgba(0,116,255,0.03)',
+        boxShadow: hovered ? '0 0 18px rgba(0,116,255,0.18)' : '0 0 0px transparent',
+        cursor: 'zoom-in',
+        padding: 0,
+        overflow: 'hidden',
+        transition: 'border-color 0.2s, box-shadow 0.2s, background 0.2s',
+        display: 'block',
+      }}
+    >
+      <img
+        src={url}
+        alt="Team logo"
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          padding: 10,
+          display: 'block',
+          transition: 'opacity 0.2s',
+          opacity: hovered ? 0.65 : 1,
+        }}
+      />
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '0.3rem',
+        color: '#fff',
+        fontSize: '0.75rem',
+        fontWeight: 600,
+        letterSpacing: '0.5px',
+        opacity: hovered ? 1 : 0,
+        transition: 'opacity 0.2s',
+        pointerEvents: 'none',
+      }}>
+        <i className="fa-solid fa-magnifying-glass-plus" style={{ fontSize: '1rem' }} />
+        View
+      </div>
+    </button>
+  );
+}
+
+// ─── Logo lightbox overlay ────────────────────────────────────────────────────
+
+function LogoLightbox({ url, onClose }) {
+  return (
+    <>
+      <div
+        onClick={onClose}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0,0,0,0.88)',
+          zIndex: 400,
+          animation: 'lbFadeIn 0.18s ease',
+          backdropFilter: 'blur(4px)',
+        }}
+      />
+      <div
+        style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 401,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '1rem',
+          animation: 'lbPop 0.2s ease',
+        }}
+      >
+        <div style={{
+          background: '#0d0d0d',
+          border: '1px solid rgba(0,116,255,0.3)',
+          borderRadius: 16,
+          boxShadow: '0 0 60px rgba(0,116,255,0.15), 0 24px 48px rgba(0,0,0,0.7)',
+          padding: 24,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '1.25rem',
+          maxWidth: '90vw',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.1rem', letterSpacing: '1.5px', color: 'var(--tekky-blue)' }}>
+              Team Logo
+            </span>
+            <button
+              onClick={onClose}
+              aria-label="Close lightbox"
+              style={{
+                background: 'none',
+                border: '1px solid rgba(0,116,255,0.25)',
+                borderRadius: 6,
+                color: 'var(--muted)',
+                padding: '0.3rem 0.55rem',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                transition: 'all 0.15s',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.6)'; e.currentTarget.style.color = '#fff'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.25)'; e.currentTarget.style.color = 'var(--muted)'; }}
+            >
+              <i className="fa-solid fa-xmark" />
+            </button>
+          </div>
+          <img
+            src={url}
+            alt="Team logo full size"
+            style={{
+              maxWidth: 'min(480px, 80vw)',
+              maxHeight: 'min(480px, 70vh)',
+              objectFit: 'contain',
+              borderRadius: 8,
+              background: 'rgba(255,255,255,0.03)',
+              padding: 12,
+              display: 'block',
+            }}
+          />
+          <p style={{ fontSize: '0.75rem', color: 'var(--muted)', margin: 0 }}>
+            Click outside or press × to close
+          </p>
+        </div>
+      </div>
+    </>
+  );
+}
+
 // ─── Application detail drawer ────────────────────────────────────────────────
 
 function SectionLabel({ children }) {
@@ -251,7 +399,7 @@ function DetailRow({ label, value }) {
   );
 }
 
-function ApplicationDrawer({ app, onClose, onApprove, onReject, onWaitlist, onInterview, actionPending }) {
+function ApplicationDrawer({ app, onClose, onApprove, onReject, onWaitlist, onInterview, actionPending, onLogoClick }) {
   if (!app) return null;
 
   const allowedNextStatuses = ALLOWED_TRANSITIONS[app.status] ?? [];
@@ -362,6 +510,14 @@ function ApplicationDrawer({ app, onClose, onApprove, onReject, onWaitlist, onIn
             <>
               <DetailRow label="Team Name"   value={app.teamName}   />
               <DetailRow label="Roster Size" value={app.rosterSize} />
+              {app.logoUrl && (
+                <div style={{ marginBottom: '0.9rem' }}>
+                  <p style={{ fontSize: '0.7rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 0.6rem', fontWeight: 600 }}>
+                    Team Logo
+                  </p>
+                  <LogoThumbnail url={app.logoUrl} onClick={() => onLogoClick(app.logoUrl)} />
+                </div>
+              )}
             </>
           )}
 
@@ -436,6 +592,9 @@ export default function AdminClient() {
   // modal = { appId, status } when open, null when closed
   const [modal, setModal] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
+
+  // lightbox URL — null = closed
+  const [lightboxUrl, setLightboxUrl] = useState(null);
 
   // ── Fetch applications ─────────────────────────────────────────────────────
   const fetchApplications = useCallback(async () => {
@@ -687,7 +846,12 @@ export default function AdminClient() {
         onWaitlist={handleWaitlist}
         onInterview={handleInterview}
         actionPending={actionPending}
+        onLogoClick={setLightboxUrl}
       />
+
+      {lightboxUrl && (
+        <LogoLightbox url={lightboxUrl} onClose={() => setLightboxUrl(null)} />
+      )}
 
       {/* Status update modal (waitlist / interview) */}
       {modal && (
@@ -714,6 +878,14 @@ export default function AdminClient() {
         }
         @keyframes modalPop {
           from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
+          to   { opacity: 1; transform: translate(-50%, -50%) scale(1);    }
+        }
+        @keyframes lbFadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        @keyframes lbPop {
+          from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
           to   { opacity: 1; transform: translate(-50%, -50%) scale(1);    }
         }
       `}</style>
