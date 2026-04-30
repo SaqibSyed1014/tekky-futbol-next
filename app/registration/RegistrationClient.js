@@ -94,7 +94,7 @@ function PasswordInput({ id, name, value, onChange, placeholder, disabled, requi
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export default function RegistrationClient({ submissionEnabled = true }) {
+export default function RegistrationClient() {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState(INITIAL_FORM);
   const [logoFile, setLogoFile] = useState(null);
@@ -138,17 +138,11 @@ export default function RegistrationClient({ submissionEnabled = true }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    // ── M1 gate: form is visible but submission is disabled ──────────────────
-    if (!submissionEnabled) {
-      setSubmitError('Registration is not open yet. Check back soon!');
-      return;
-    }
-
     setSubmitting(true);
     setSubmitError('');
 
-    // Build the application payload — no hardcoded values
+    // Build the application payload
+
     const payload = {
       applicationType: form.registrationType,
       name:              form.name,
@@ -201,25 +195,6 @@ export default function RegistrationClient({ submissionEnabled = true }) {
         style={{ width: '100%', maxWidth: 800, margin: '3rem auto 5rem', padding: '0 1.25rem', textAlign: 'center' }}
       >
         <GlowDivider />
-
-        {/* Coming-soon banner — visible only when submission is disabled */}
-        {/*{!submissionEnabled && (*/}
-        {/*  <div style={{*/}
-        {/*    background: 'rgba(0,116,255,0.08)',*/}
-        {/*    border: '1px solid rgba(0,116,255,0.35)',*/}
-        {/*    borderRadius: 10,*/}
-        {/*    padding: '0.85rem 1.2rem',*/}
-        {/*    color: 'var(--tekky-blue)',*/}
-        {/*    fontSize: '0.92rem',*/}
-        {/*    margin: '1.5rem 0',*/}
-        {/*    display: 'flex',*/}
-        {/*    alignItems: 'center',*/}
-        {/*    gap: '0.6rem',*/}
-        {/*  }}>*/}
-        {/*    <i className="fa-solid fa-clock" />*/}
-        {/*    Registration is not open yet — applications will open soon. You can preview the form below.*/}
-        {/*  </div>*/}
-        {/*)}*/}
 
         <section id="mensRegistration">
           <form onSubmit={handleSubmit} style={{ marginBottom: '1rem' }}>

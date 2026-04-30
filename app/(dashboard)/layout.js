@@ -5,13 +5,11 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import Image from "next/image";
-import { MILESTONE_2_ENABLED } from '@/constants/features';
-
 // ─── Nav config ──────────────────────────────────────────────────────────────
 
 const ADMIN_NAV = [
   { href: '/admin',              icon: 'fa-solid fa-house',        label: 'Home'         },
-  ...(MILESTONE_2_ENABLED ? [{ href: '/admin/applications', icon: 'fa-solid fa-file-lines', label: 'Applications' }] : []),
+  { href: '/admin/applications', icon: 'fa-solid fa-file-lines',   label: 'Applications' },
 ];
 
 const PLAYER_NAV = [

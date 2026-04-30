@@ -2,7 +2,12 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { getApplications, approveApplication, rejectApplication } from '@/services/adminApi';
+import {
+  getApplications,
+  approveApplication,
+  rejectApplication,
+  updateApplicationStatus,
+} from '@/services/adminApi';
 import {
   APPLICATION_STATUS,
   STATUS_LABEL,
@@ -11,7 +16,15 @@ import {
   ITEMS_PER_PAGE,
 } from '@/constants/admin';
 
-// ─── Sub-components ──────────────────────────────────────────────────────────
+// ─── Allowed transitions (mirrors backend state machine) ─────────────────────
+
+const ALLOWED_TRANSITIONS = {
+  [APPLICATION_STATUS.PENDING]:   [APPLICATION_STATUS.APPROVED, APPLICATION_STATUS.REJECTED, APPLICATION_STATUS.WAITLIST, APPLICATION_STATUS.INTERVIEW],
+  [APPLICATION_STATUS.INTERVIEW]: [APPLICATION_STATUS.APPROVED, APPLICATION_STATUS.REJECTED, APPLICATION_STATUS.WAITLIST],
+  [APPLICATION_STATUS.WAITLIST]:  [APPLICATION_STATUS.APPROVED, APPLICATION_STATUS.REJECTED, APPLICATION_STATUS.INTERVIEW],
+};
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
 
 function StatusBadge({ status }) {
   const colors = STATUS_COLOR[status] ?? STATUS_COLOR[APPLICATION_STATUS.PENDING];
@@ -81,6 +94,130 @@ function FilterTab({ label, active, onClick }) {
   );
 }
 
+// ─── Status update modal (for waitlist / interview) ───────────────────────────
+
+function StatusModal({ targetStatus, onConfirm, onCancel, loading }) {
+  const [note, setNote] = useState('');
+  const color = STATUS_COLOR[targetStatus]?.text ?? 'var(--tekky-blue)';
+  const label = STATUS_LABEL[targetStatus] ?? targetStatus;
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        onClick={onCancel}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0,0,0,0.7)',
+          zIndex: 300,
+          animation: 'drawerFadeIn 0.15s ease',
+        }}
+      />
+
+      {/* Modal */}
+      <div style={{
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 440,
+        maxWidth: 'calc(100vw - 2rem)',
+        background: '#0a0a0a',
+        border: `1px solid ${color}44`,
+        borderRadius: 12,
+        boxShadow: `0 0 40px rgba(0,0,0,0.8), 0 0 20px ${color}18`,
+        zIndex: 301,
+        padding: '1.75rem',
+        animation: 'modalPop 0.2s ease',
+      }}>
+
+        {/* Header */}
+        <div style={{ marginBottom: '1.25rem' }}>
+          <h3 style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: '1.4rem',
+            letterSpacing: '1px',
+            color,
+            margin: 0,
+          }}>
+            Move to {label}
+          </h3>
+          <p style={{ color: 'var(--muted)', fontSize: '0.82rem', margin: '0.3rem 0 0' }}>
+            Add an optional note that will be visible to the applicant.
+          </p>
+        </div>
+
+        {/* Note textarea */}
+        <textarea
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          placeholder={`Note for ${label} status (optional)…`}
+          rows={4}
+          style={{
+            width: '100%',
+            background: 'rgba(255,255,255,0.04)',
+            border: '1px solid rgba(255,255,255,0.12)',
+            borderRadius: 8,
+            color: 'var(--fg)',
+            fontSize: '0.9rem',
+            padding: '0.7rem 0.9rem',
+            resize: 'vertical',
+            fontFamily: 'inherit',
+            outline: 'none',
+            boxSizing: 'border-box',
+          }}
+          onFocus={(e) => { e.currentTarget.style.borderColor = `${color}66`; }}
+          onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
+          autoFocus
+        />
+
+        {/* Actions */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1.25rem' }}>
+          <button
+            onClick={onCancel}
+            disabled={loading}
+            style={{
+              padding: '0.45rem 1.1rem',
+              borderRadius: 6,
+              border: '1px solid rgba(255,255,255,0.15)',
+              background: 'transparent',
+              color: 'var(--muted)',
+              fontSize: '0.88rem',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              fontFamily: 'inherit',
+              opacity: loading ? 0.5 : 1,
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => onConfirm(note)}
+            disabled={loading}
+            style={{
+              padding: '0.45rem 1.2rem',
+              borderRadius: 6,
+              border: `1px solid ${color}`,
+              background: `${color}18`,
+              color,
+              fontSize: '0.88rem',
+              fontWeight: 600,
+              cursor: loading ? 'not-allowed' : 'pointer',
+              fontFamily: 'inherit',
+              opacity: loading ? 0.5 : 1,
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = `${color}30`; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = `${color}18`; }}
+          >
+            {loading ? 'Saving…' : `Confirm ${label}`}
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
 // ─── Application detail drawer ────────────────────────────────────────────────
 
 function SectionLabel({ children }) {
@@ -114,10 +251,11 @@ function DetailRow({ label, value }) {
   );
 }
 
-function ApplicationDrawer({ app, onClose, onApprove, onReject, actionPending }) {
+function ApplicationDrawer({ app, onClose, onApprove, onReject, onWaitlist, onInterview, actionPending }) {
   if (!app) return null;
 
-  const isPending = app.status === APPLICATION_STATUS.PENDING;
+  const allowedNextStatuses = ALLOWED_TRANSITIONS[app.status] ?? [];
+  const canAct = allowedNextStatuses.length > 0;
   const busy = Boolean(actionPending[app.id]);
   const date = app.createdAt
     ? new Date(app.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
@@ -243,21 +381,36 @@ function ApplicationDrawer({ app, onClose, onApprove, onReject, actionPending })
 
         </div>
 
-        {/* Footer actions — only for pending */}
-        {isPending && (
+        {/* Footer actions — shown for any non-terminal status */}
+        {canAct && (
           <div style={{
             padding: '1rem 1.5rem',
             borderTop: '1px solid rgba(0,116,255,0.15)',
             display: 'flex',
-            gap: '0.75rem',
+            gap: '0.5rem',
+            flexWrap: 'wrap',
             flexShrink: 0,
           }}>
-            <ActionButton onClick={() => onApprove(app.id)} disabled={busy} color="#00c864">
-              {actionPending[app.id] === 'approving' ? 'Approving…' : '✓ Approve'}
-            </ActionButton>
-            <ActionButton onClick={() => onReject(app.id)} disabled={busy} color="#ff3c3c">
-              {actionPending[app.id] === 'rejecting' ? 'Rejecting…' : '✕ Reject'}
-            </ActionButton>
+            {allowedNextStatuses.includes(APPLICATION_STATUS.APPROVED) && (
+              <ActionButton onClick={() => onApprove(app.id)} disabled={busy} color="#00c864">
+                {actionPending[app.id] === 'approving' ? 'Approving…' : '✓ Approve'}
+              </ActionButton>
+            )}
+            {allowedNextStatuses.includes(APPLICATION_STATUS.REJECTED) && (
+              <ActionButton onClick={() => onReject(app.id)} disabled={busy} color="#ff3c3c">
+                {actionPending[app.id] === 'rejecting' ? 'Rejecting…' : '✕ Reject'}
+              </ActionButton>
+            )}
+            {allowedNextStatuses.includes(APPLICATION_STATUS.WAITLIST) && (
+              <ActionButton onClick={() => onWaitlist(app.id)} disabled={busy} color="#a064ff">
+                {actionPending[app.id] === 'waitlisting' ? 'Saving…' : '⏳ Waitlist'}
+              </ActionButton>
+            )}
+            {allowedNextStatuses.includes(APPLICATION_STATUS.INTERVIEW) && (
+              <ActionButton onClick={() => onInterview(app.id)} disabled={busy} color="#00c8ff">
+                {actionPending[app.id] === 'interviewing' ? 'Saving…' : '💬 Interview'}
+              </ActionButton>
+            )}
           </div>
         )}
       </div>
@@ -280,6 +433,10 @@ export default function AdminClient() {
   const [actionErrors, setActionErrors] = useState({});
   const [viewingApp, setViewingApp] = useState(null);
 
+  // modal = { appId, status } when open, null when closed
+  const [modal, setModal] = useState(null);
+  const [modalLoading, setModalLoading] = useState(false);
+
   // ── Fetch applications ─────────────────────────────────────────────────────
   const fetchApplications = useCallback(async () => {
     setLoading(true);
@@ -301,14 +458,19 @@ export default function AdminClient() {
 
   useEffect(() => { setPage(1); }, [statusFilter]);
 
-  // ── Approve / Reject ───────────────────────────────────────────────────────
+  // ── Helpers: update local state after a successful action ──────────────────
+  function applyUpdate(id, updated) {
+    setApplications((prev) => prev.map((a) => (a.id === id ? updated : a)));
+    setViewingApp((prev) => (prev?.id === id ? updated : prev));
+  }
+
+  // ── Approve ────────────────────────────────────────────────────────────────
   async function handleApprove(id) {
     setActionPending((p) => ({ ...p, [id]: 'approving' }));
     setActionErrors((e) => { const n = { ...e }; delete n[id]; return n; });
     try {
       const updated = await approveApplication(id);
-      setApplications((prev) => prev.map((a) => (a.id === id ? updated : a)));
-      setViewingApp((prev) => (prev?.id === id ? updated : prev));
+      applyUpdate(id, updated);
     } catch (err) {
       setActionErrors((e) => ({ ...e, [id]: err.message || 'Approve failed.' }));
     } finally {
@@ -316,17 +478,41 @@ export default function AdminClient() {
     }
   }
 
+  // ── Reject ─────────────────────────────────────────────────────────────────
   async function handleReject(id) {
     setActionPending((p) => ({ ...p, [id]: 'rejecting' }));
     setActionErrors((e) => { const n = { ...e }; delete n[id]; return n; });
     try {
       const updated = await rejectApplication(id);
-      setApplications((prev) => prev.map((a) => (a.id === id ? updated : a)));
-      setViewingApp((prev) => (prev?.id === id ? updated : prev));
+      applyUpdate(id, updated);
     } catch (err) {
       setActionErrors((e) => ({ ...e, [id]: err.message || 'Reject failed.' }));
     } finally {
       setActionPending((p) => { const n = { ...p }; delete n[id]; return n; });
+    }
+  }
+
+  // ── Open modal for waitlist / interview ────────────────────────────────────
+  function handleWaitlist(id)  { setModal({ appId: id, status: APPLICATION_STATUS.WAITLIST  }); }
+  function handleInterview(id) { setModal({ appId: id, status: APPLICATION_STATUS.INTERVIEW }); }
+
+  // ── Confirm modal action ───────────────────────────────────────────────────
+  async function handleModalConfirm(note) {
+    const { appId, status } = modal;
+    const pendingKey = status === APPLICATION_STATUS.WAITLIST ? 'waitlisting' : 'interviewing';
+
+    setModalLoading(true);
+    setActionPending((p) => ({ ...p, [appId]: pendingKey }));
+    setActionErrors((e) => { const n = { ...e }; delete n[appId]; return n; });
+    try {
+      const updated = await updateApplicationStatus(appId, status, note);
+      applyUpdate(appId, updated);
+      setModal(null);
+    } catch (err) {
+      setActionErrors((e) => ({ ...e, [appId]: err.message || 'Update failed.' }));
+    } finally {
+      setModalLoading(false);
+      setActionPending((p) => { const n = { ...p }; delete n[appId]; return n; });
     }
   }
 
@@ -434,7 +620,7 @@ export default function AdminClient() {
                             View
                           </ActionButton>
 
-                          {/* Approve / Reject — pending only */}
+                          {/* Approve / Reject — pending only (quick inline actions) */}
                           {app.status === APPLICATION_STATUS.PENDING && (
                             <>
                               <ActionButton
@@ -498,8 +684,20 @@ export default function AdminClient() {
         onClose={() => setViewingApp(null)}
         onApprove={handleApprove}
         onReject={handleReject}
+        onWaitlist={handleWaitlist}
+        onInterview={handleInterview}
         actionPending={actionPending}
       />
+
+      {/* Status update modal (waitlist / interview) */}
+      {modal && (
+        <StatusModal
+          targetStatus={modal.status}
+          onConfirm={handleModalConfirm}
+          onCancel={() => setModal(null)}
+          loading={modalLoading}
+        />
+      )}
 
       <style>{`
         @keyframes pulse {
@@ -513,6 +711,10 @@ export default function AdminClient() {
         @keyframes drawerFadeIn {
           from { opacity: 0; }
           to   { opacity: 1; }
+        }
+        @keyframes modalPop {
+          from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
+          to   { opacity: 1; transform: translate(-50%, -50%) scale(1);    }
         }
       `}</style>
     </div>

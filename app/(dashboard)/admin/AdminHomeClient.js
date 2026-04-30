@@ -145,20 +145,20 @@ export default function AdminHomeClient({ user }) {
       <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(0,116,255,0.3), transparent)', marginBottom: '2rem' }} />
 
       {/* Quick actions */}
-      {/*<div style={{ marginBottom: '1rem' }}>*/}
-      {/*  <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.1rem', color: 'var(--muted)', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 1rem' }}>*/}
-      {/*    Quick Actions*/}
-      {/*  </h3>*/}
-      {/*  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>*/}
-      {/*    <ActionCard*/}
-      {/*      href="/admin/applications"*/}
-      {/*      icon="fa-solid fa-file-lines"*/}
-      {/*      title="Review Applications"*/}
-      {/*      description={loading ? 'Loading…' : `${stats.pending} application${stats.pending !== 1 ? 's' : ''} waiting for review`}*/}
-      {/*      color="var(--tekky-blue)"*/}
-      {/*    />*/}
-      {/*  </div>*/}
-      {/*</div>*/}
+      <div style={{ marginBottom: '1rem' }}>
+        <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.1rem', color: 'var(--muted)', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 1rem' }}>
+          Quick Actions
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
+          <ActionCard
+            href="/admin/applications"
+            icon="fa-solid fa-file-lines"
+            title="Review Applications"
+            description={loading ? 'Loading…' : `${stats.pending} application${stats.pending !== 1 ? 's' : ''} waiting for review`}
+            color="var(--tekky-blue)"
+          />
+        </div>
+      </div>
     </div>
   );
 }
