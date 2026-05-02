@@ -10,16 +10,20 @@ import Image from "next/image";
 const ADMIN_NAV = [
   { href: '/admin',              icon: 'fa-solid fa-house',        label: 'Home'         },
   { href: '/admin/applications', icon: 'fa-solid fa-file-lines',   label: 'Applications' },
+  { href: '/admin/profile',      icon: 'fa-solid fa-user',         label: 'My Profile'   },
 ];
 
 const PLAYER_NAV = [
-  { href: '/user', icon: 'fa-solid fa-house', label: 'Home' },
+  { href: '/user',         icon: 'fa-solid fa-house', label: 'Home'       },
+  { href: '/user/profile', icon: 'fa-solid fa-user',  label: 'My Profile' },
 ];
 
 const PAGE_TITLES = {
   '/admin':              'Dashboard',
   '/admin/applications': 'Applications',
+  '/admin/profile':      'My Profile',
   '/user':               'Dashboard',
+  '/user/profile':       'My Profile',
 };
 
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
@@ -193,6 +197,7 @@ function Sidebar({ role, isCaptain, sidebarOpen, onClose }) {
 
 function Topbar({ user, onMenuToggle }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropRef = useRef(null);
@@ -329,7 +334,14 @@ function Topbar({ user, onMenuToggle }) {
 
             {/* Menu items */}
             <div style={{ padding: '0.4rem 0' }}>
-              <DropdownItem icon="fa-solid fa-user" label="My Profile" onClick={() => setDropdownOpen(false)} disabled />
+              <DropdownItem
+                icon="fa-solid fa-user"
+                label="My Profile"
+                onClick={() => {
+                  setDropdownOpen(false);
+                  router.push(user?.role === 'admin' ? '/admin/profile' : '/user/profile');
+                }}
+              />
               <div style={{ height: 1, background: 'rgba(0,116,255,0.1)', margin: '0.3rem 0' }} />
               <DropdownItem
                 icon="fa-solid fa-right-from-bracket"
@@ -390,12 +402,14 @@ export default function DashboardLayout({ children }) {
       router.replace('/login');
       return;
     }
-    // Prevent admin accessing /user/* and player accessing /admin/*
-    if (pathname.startsWith('/admin') && user.role !== 'admin') {
-      router.replace('/user');
+    // Only admins can access the dashboard right now.
+    // Player dashboard is temporarily disabled — redirect players to home.
+    if (user.role !== 'admin') {
+      router.replace('/');
       return;
     }
-    if (pathname.startsWith('/user') && user.role === 'admin') {
+    // Prevent admin from accidentally landing on player routes
+    if (pathname.startsWith('/user')) {
       router.replace('/admin');
     }
   }, [user, loading, pathname, router]);

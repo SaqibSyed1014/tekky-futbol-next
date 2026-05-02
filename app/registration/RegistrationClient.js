@@ -551,7 +551,22 @@ export default function RegistrationClient() {
                   Your application has been received and is under review. Selected players and teams
                   will be contacted directly with next steps, payment instructions, and onboarding details.
                 </p>
-                <Link className="cta" href="/login" style={{ marginRight: '1rem' }}>Login to Your Account</Link>
+                <div style={{
+                  background: 'rgba(0,116,255,0.07)',
+                  border: '1px solid rgba(0,116,255,0.3)',
+                  borderRadius: 10,
+                  padding: '1rem 1.25rem',
+                  color: 'var(--muted)',
+                  fontSize: '0.9rem',
+                  marginBottom: '1.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                }}>
+                  <i className="fa-solid fa-clock" style={{ color: 'var(--tekky-blue)' }} />
+                  The player dashboard is coming soon. We&#39;ll reach out when it&#39;s ready for you.
+                </div>
+                <Link className="cta" href="/">Back to Home</Link>
               </div>
             )}
 
