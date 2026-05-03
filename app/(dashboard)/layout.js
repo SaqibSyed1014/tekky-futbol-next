@@ -10,12 +10,10 @@ import Image from "next/image";
 const ADMIN_NAV = [
   { href: '/admin',              icon: 'fa-solid fa-house',        label: 'Home'         },
   { href: '/admin/applications', icon: 'fa-solid fa-file-lines',   label: 'Applications' },
-  { href: '/admin/profile',      icon: 'fa-solid fa-user',         label: 'My Profile'   },
 ];
 
 const PLAYER_NAV = [
   { href: '/user',         icon: 'fa-solid fa-house', label: 'Home'       },
-  { href: '/user/profile', icon: 'fa-solid fa-user',  label: 'My Profile' },
 ];
 
 const PAGE_TITLES = {
