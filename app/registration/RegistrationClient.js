@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 
-const LIVE_DOMAINS = ['localhost', 'www.tekkyfutbol.net'];
+const LIVE_DOMAINS = ['tekkyfutbol.net', 'www.tekkyfutbol.net'];
 const isLiveDomain = typeof window !== 'undefined' && LIVE_DOMAINS.includes(window.location.hostname);
 import GlowDivider from '@/components/ui/GlowDivider';
 import { submitApplication } from '@/services/applicationsApi';
