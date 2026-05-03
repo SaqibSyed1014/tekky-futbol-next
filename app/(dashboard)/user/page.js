@@ -38,7 +38,6 @@ export default function UserDashboard() {
           The player dashboard is currently under development.
           Your application is being reviewed and we&#39;ll notify you when the dashboard is live.
         </p>
-        <Link className="cta" href="/">Back to Home</Link>
       </div>
     </div>
   );

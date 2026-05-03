@@ -138,7 +138,6 @@ function LogoUploadZone({ file, preview, onSelect, onRemove }) {
         onChange={handleInputChange}
         style={{ display: 'none' }}
         tabIndex={-1}
-        required={true}
       />
 
       {!file ? (
