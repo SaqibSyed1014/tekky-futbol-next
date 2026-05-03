@@ -574,7 +574,10 @@ export default function RegistrationClient() {
                   <i className="fa-solid fa-clock" style={{ color: 'var(--tekky-blue)' }} />
                   The player dashboard is coming soon. We&#39;ll reach out when it&#39;s ready for you.
                 </div>
-                <Link className="cta" href="/">Back to Home</Link>
+                <div className="sec-cta">
+                  <Link className="cta" href="/">Back to Home</Link>
+                  <Link className="cta" href="/login">Login</Link>
+                </div>
               </div>
             )}
 
