@@ -22,7 +22,7 @@ export function getApplications({ status = '', page = 1, limit = ITEMS_PER_PAGE 
 /**
  * PATCH /applications/:id/approve
  *
- * @param {string|number} id
+ * @param {string} id
  * @returns {Promise<object>}  Updated application record
  */
 export function approveApplication(id) {
@@ -32,10 +32,26 @@ export function approveApplication(id) {
 /**
  * PATCH /applications/:id/reject
  *
- * @param {string|number} id
+ * @param {string} id
  * @param {string} [reason]  Optional rejection note
  * @returns {Promise<object>}  Updated application record
  */
 export function rejectApplication(id, reason = '') {
   return api.patch(`/applications/${id}/reject/`, { reason });
+}
+
+/**
+ * PATCH /admin/applications/:id
+ * Generic status update — used for waitlist and interview transitions
+ * which require an optional admin note.
+ *
+ * @param {string} id
+ * @param {string} status    Target status: 'waitlist' | 'interview'
+ * @param {string} [adminNotes]  Optional note stored on the application
+ * @returns {Promise<object>}  Updated application record
+ */
+export function updateApplicationStatus(id, status, adminNotes = '') {
+  const body = { status };
+  if (adminNotes.trim()) body.admin_notes = adminNotes.trim();
+  return api.patch(`/admin/applications/${id}/`, body);
 }

@@ -15,6 +15,7 @@ export default function LoginClient() {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [localError, setLocalError] = useState('');
+  const [comingSoon, setComingSoon] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -24,10 +25,12 @@ export default function LoginClient() {
 
     try {
       const loggedInUser = await login({ email, password });
-      router.push(loggedInUser?.role === 'admin' ? '/admin' : '/user');
+      if (loggedInUser?.role === 'admin') {
+        router.push('/admin');
+      } else {
+        setComingSoon(true);
+      }
     } catch (err) {
-      // error is already set in AuthContext; mirror it locally so it shows
-      // even if the component re-renders before context propagates
       setLocalError(err.message || 'Login failed. Please try again.');
     } finally {
       setSubmitting(false);
@@ -49,7 +52,29 @@ export default function LoginClient() {
       <main style={{ maxWidth: 480, margin: '2.8rem auto 5rem', padding: '0 1.25rem' }}>
         <GlowDivider />
 
-        <section style={{ margin: '2.5rem 0' }}>
+        {comingSoon && (
+          <section style={{ margin: '2.5rem 0', textAlign: 'center' }}>
+            <div style={{
+              background: 'rgba(0,0,0,0.45)',
+              border: '1px solid rgba(0,116,255,0.4)',
+              borderRadius: 16,
+              padding: '2.5rem 2rem',
+              boxShadow: '0 0 25px rgba(0,116,255,0.15)',
+            }}>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚽</div>
+              <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", color: 'var(--tekky-blue)', fontSize: '2rem', marginBottom: '0.75rem', letterSpacing: '1.5px' }}>
+                Player Dashboard Coming Soon
+              </h2>
+              <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                Your account has been created and your application is under review.
+                The player dashboard is not yet available — we&#39;ll notify you when it launches.
+              </p>
+              <Link className="cta" href="/">Back to Home</Link>
+            </div>
+          </section>
+        )}
+
+        {!comingSoon && <section style={{ margin: '2.5rem 0' }}>
           <form
             onSubmit={handleSubmit}
             style={{
@@ -160,7 +185,7 @@ export default function LoginClient() {
               </Link>
             </span>
           </div>
-        </section>
+        </section>}
 
         <GlowDivider />
 

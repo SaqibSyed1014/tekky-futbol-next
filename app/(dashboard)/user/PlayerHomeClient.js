@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getMyApplications } from '@/services/applicationsApi';
-import { MILESTONE_2_ENABLED } from '@/constants/features';
 
 // ─── Status badge ────────────────────────────────────────────────────────────
 
@@ -104,6 +103,16 @@ function AppCard({ app }) {
           Your application was not approved this time.{app.admin_notes ? '' : ' Feel free to apply again next season.'}
         </p>
       )}
+      {app.status === 'waitlist' && (
+        <p style={{ marginTop: '1rem', fontSize: '0.82rem', color: '#a064ff', borderTop: '1px solid rgba(160,100,255,0.15)', paddingTop: '0.8rem' }}>
+          You&apos;re on the waitlist. We&apos;ll reach out if a spot opens up.{app.admin_notes ? '' : ' Stay tuned.'}
+        </p>
+      )}
+      {app.status === 'interview' && (
+        <p style={{ marginTop: '1rem', fontSize: '0.82rem', color: '#00c8ff', borderTop: '1px solid rgba(0,200,255,0.15)', paddingTop: '0.8rem' }}>
+          You&apos;ve been selected for an interview. Check your email for scheduling details.
+        </p>
+      )}
     </div>
   );
 }
@@ -129,7 +138,6 @@ export default function PlayerHomeClient({ user }) {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!MILESTONE_2_ENABLED) { setLoading(false); return; }
     getMyApplications()
       .then((res) => setApplications(res.results ?? []))
       .catch((err) => setError(err.message || 'Failed to load your applications.'))
@@ -151,75 +159,70 @@ export default function PlayerHomeClient({ user }) {
           Welcome, {user?.name || 'Player'} 👋
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginTop: '0.35rem' }}>
-          {MILESTONE_2_ENABLED ? 'Track your league application status below.' : 'Your account is set up and ready to go.'}
+          Track your league application status below.
         </p>
       </div>
 
-      {/* ── Milestone 2 features — hidden until MILESTONE_2_ENABLED = true ── */}
-      {MILESTONE_2_ENABLED && (
-        <>
-          {/* Error */}
-          {error && (
-            <div role="alert" style={{ background: 'rgba(255,60,60,0.1)', border: '1px solid rgba(255,60,60,0.35)', borderRadius: 8, padding: '0.8rem 1rem', color: '#ff6b6b', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
-              {error}
-            </div>
-          )}
+      {/* Error */}
+      {error && (
+        <div role="alert" style={{ background: 'rgba(255,60,60,0.1)', border: '1px solid rgba(255,60,60,0.35)', borderRadius: 8, padding: '0.8rem 1rem', color: '#ff6b6b', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+          {error}
+        </div>
+      )}
 
-          {/* Loading */}
-          {loading && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {[1, 2].map((i) => (
-                <div key={i} style={{ height: 140, borderRadius: 12, background: 'rgba(0,116,255,0.05)', border: '1px solid rgba(0,116,255,0.1)', animation: 'playerPulse 1.5s ease-in-out infinite' }} />
-              ))}
-            </div>
-          )}
+      {/* Loading */}
+      {loading && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          {[1, 2].map((i) => (
+            <div key={i} style={{ height: 140, borderRadius: 12, background: 'rgba(0,116,255,0.05)', border: '1px solid rgba(0,116,255,0.1)', animation: 'playerPulse 1.5s ease-in-out infinite' }} />
+          ))}
+        </div>
+      )}
 
-          {/* Applications */}
-          {!loading && !error && (
-            applications.length === 0 ? (
-              <div style={{
-                background: '#000',
-                border: '1px dashed rgba(0,116,255,0.3)',
-                borderRadius: 12,
-                padding: '3rem 2rem',
-                textAlign: 'center',
-              }}>
-                <i className="fa-solid fa-inbox" style={{ fontSize: '2.5rem', color: 'rgba(0,116,255,0.3)', marginBottom: '1rem', display: 'block' }} />
-                <p style={{ color: 'var(--muted)', marginBottom: '1.2rem' }}>
-                  You haven&apos;t submitted an application yet.
-                </p>
-                <Link
-                  href="/registration"
-                  style={{
-                    display: 'inline-block',
-                    padding: '0.6rem 1.4rem',
-                    border: '2px solid var(--tekky-blue)',
-                    borderRadius: 40,
-                    color: '#fff',
-                    fontFamily: "'Bebas Neue', sans-serif",
-                    letterSpacing: '1px',
-                    boxShadow: '0 0 12px var(--tekky-blue)',
-                    transition: '0.2s',
-                    textDecoration: 'none',
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--tekky-blue)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
-                >
-                  Apply Now
-                </Link>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <p style={{ color: 'var(--muted)', fontSize: '0.82rem', marginBottom: '0.25rem' }}>
-                  {applications.length} application{applications.length !== 1 ? 's' : ''} found
-                </p>
-                {applications.map((app) => (
-                  <AppCard key={app.id} app={app} />
-                ))}
-              </div>
-            )
-          )}
-        </>
+      {/* Applications */}
+      {!loading && !error && (
+        applications.length === 0 ? (
+          <div style={{
+            background: '#000',
+            border: '1px dashed rgba(0,116,255,0.3)',
+            borderRadius: 12,
+            padding: '3rem 2rem',
+            textAlign: 'center',
+          }}>
+            <i className="fa-solid fa-inbox" style={{ fontSize: '2.5rem', color: 'rgba(0,116,255,0.3)', marginBottom: '1rem', display: 'block' }} />
+            <p style={{ color: 'var(--muted)', marginBottom: '1.2rem' }}>
+              You haven&apos;t submitted an application yet.
+            </p>
+            <Link
+              href="/registration"
+              style={{
+                display: 'inline-block',
+                padding: '0.6rem 1.4rem',
+                border: '2px solid var(--tekky-blue)',
+                borderRadius: 40,
+                color: '#fff',
+                fontFamily: "'Bebas Neue', sans-serif",
+                letterSpacing: '1px',
+                boxShadow: '0 0 12px var(--tekky-blue)',
+                transition: '0.2s',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--tekky-blue)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+            >
+              Apply Now
+            </Link>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <p style={{ color: 'var(--muted)', fontSize: '0.82rem', marginBottom: '0.25rem' }}>
+              {applications.length} application{applications.length !== 1 ? 's' : ''} found
+            </p>
+            {applications.map((app) => (
+              <AppCard key={app.id} app={app} />
+            ))}
+          </div>
+        )
       )}
 
       <style>{`
