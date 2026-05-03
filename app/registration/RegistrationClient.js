@@ -2,6 +2,9 @@
 
 import { useState, useRef } from 'react';
 import Link from 'next/link';
+
+const LIVE_DOMAINS = ['tekkyfutbol.net', 'www.tekkyfutbol.net'];
+const isLiveDomain = typeof window !== 'undefined' && LIVE_DOMAINS.includes(window.location.hostname);
 import GlowDivider from '@/components/ui/GlowDivider';
 import { submitApplication } from '@/services/applicationsApi';
 import { ApiError } from '@/services/api';
@@ -323,6 +326,10 @@ export default function RegistrationClient() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (isLiveDomain) {
+      setSubmitError('Registration is not open yet. Stay tuned for updates.');
+      return;
+    }
     setSubmitting(true);
     setSubmitError('');
 
@@ -445,10 +452,12 @@ export default function RegistrationClient() {
                 )}
 
                 <button type="button" className="cta" onClick={nextStep}>Next</button>
-                <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: 'var(--text-muted, #aaa)' }}>
-                  Already registered?{' '}
-                  <Link href="/login" style={{ color: 'var(--tekky-blue)', textDecoration: 'underline' }}>Login here</Link>
-                </p>
+                {!isLiveDomain && (
+                  <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: 'var(--text-muted, #aaa)' }}>
+                    Already registered?{' '}
+                    <Link href="/login" style={{ color: 'var(--tekky-blue)', textDecoration: 'underline' }}>Login here</Link>
+                  </p>
+                )}
               </div>
             )}
 
@@ -565,7 +574,10 @@ export default function RegistrationClient() {
                   <i className="fa-solid fa-clock" style={{ color: 'var(--tekky-blue)' }} />
                   The player dashboard is coming soon. We&#39;ll reach out when it&#39;s ready for you.
                 </div>
-                <Link className="cta" href="/">Back to Home</Link>
+                <div className="sec-cta">
+                  <Link className="cta" href="/">Back to Home</Link>
+                  <Link className="cta" href="/login">Login</Link>
+                </div>
               </div>
             )}
 

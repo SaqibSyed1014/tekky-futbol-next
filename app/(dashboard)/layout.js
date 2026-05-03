@@ -400,14 +400,13 @@ export default function DashboardLayout({ children }) {
       router.replace('/login');
       return;
     }
-    // Only admins can access the dashboard right now.
-    // Player dashboard is temporarily disabled — redirect players to home.
-    if (user.role !== 'admin') {
-      router.replace('/');
+    // Block players from accessing admin routes
+    if (user.role !== 'admin' && pathname.startsWith('/admin')) {
+      router.replace('/user');
       return;
     }
-    // Prevent admin from accidentally landing on player routes
-    if (pathname.startsWith('/user')) {
+    // Block admins from accessing player routes
+    if (user.role === 'admin' && pathname.startsWith('/user')) {
       router.replace('/admin');
     }
   }, [user, loading, pathname, router]);
