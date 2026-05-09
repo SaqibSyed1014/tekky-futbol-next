@@ -283,6 +283,7 @@ function LogoUploadZone({ file, preview, onSelect, onRemove }) {
 export default function RegistrationClient() {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState(INITIAL_FORM);
+  const [submittedType, setSubmittedType] = useState(''); // persists after form reset
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -358,6 +359,7 @@ export default function RegistrationClient() {
 
     try {
       await submitApplication(payload, logoFile);
+      setSubmittedType(form.registrationType); // capture before reset
       setStep(TOTAL_STEPS);
       setForm(INITIAL_FORM);
       setLogoFile(null);
@@ -559,21 +561,23 @@ export default function RegistrationClient() {
                   Your application has been received and is under review. Selected players and teams
                   will be contacted directly with next steps, payment instructions, and onboarding details.
                 </p>
-                <div style={{
-                  background: 'rgba(0,116,255,0.07)',
-                  border: '1px solid rgba(0,116,255,0.3)',
-                  borderRadius: 10,
-                  padding: '1rem 1.25rem',
-                  color: 'var(--muted)',
-                  fontSize: '0.9rem',
-                  marginBottom: '1.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.6rem',
-                }}>
-                  <i className="fa-solid fa-clock" style={{ color: 'var(--tekky-blue)' }} />
-                  The player dashboard is coming soon. We&#39;ll reach out when it&#39;s ready for you.
-                </div>
+                {submittedType !== APPLICATION_TYPE.FULL_TEAM && (
+                  <div style={{
+                    background: 'rgba(0,116,255,0.07)',
+                    border: '1px solid rgba(0,116,255,0.3)',
+                    borderRadius: 10,
+                    padding: '1rem 1.25rem',
+                    color: 'var(--muted)',
+                    fontSize: '0.9rem',
+                    marginBottom: '1.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.6rem',
+                  }}>
+                    <i className="fa-solid fa-clock" style={{ color: 'var(--tekky-blue)' }} />
+                    The player dashboard is coming soon. We&#39;ll reach out when it&#39;s ready for you.
+                  </div>
+                )}
                 <div className="sec-cta">
                   <Link className="cta" href="/">Back to Home</Link>
                   <Link className="cta" href="/login">Login</Link>

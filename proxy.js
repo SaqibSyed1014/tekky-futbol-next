@@ -12,6 +12,13 @@ import { NextResponse } from 'next/server';
 
 const DASHBOARD_PREFIXES = ['/admin', '/user'];
 
+/**
+ * Pages that require auth-awareness but must remain accessible to BOTH
+ * logged-in and logged-out users (they render different content per state).
+ * e.g. /register?invite=<token>, /join/<token>
+ */
+const AUTH_AWARE_PREFIXES = ['/register', '/join'];
+
 /** Decode JWT payload without verifying signature (routing only, not a security check). */
 function decodeToken(token) {
   try {
@@ -26,14 +33,16 @@ export function proxy(request) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('tf_token')?.value;
 
-  const isDashboard = DASHBOARD_PREFIXES.some((p) => pathname.startsWith(p));
-  const isPublic = !isDashboard;
+  const isDashboard  = DASHBOARD_PREFIXES.some((p) => pathname.startsWith(p));
+  const isAuthAware  = AUTH_AWARE_PREFIXES.some((p) => pathname.startsWith(p));
+  const isPublic     = !isDashboard && !isAuthAware;
 
   // ── Not logged in ──────────────────────────────────────────────────────────
   if (!token) {
     if (isDashboard) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
+    // Auth-aware and public pages are always accessible when logged out
     return NextResponse.next();
   }
 
@@ -52,7 +61,13 @@ export function proxy(request) {
   const role = payload.role;
   const homeDashboard = role === 'admin' ? '/admin' : '/user';
 
-  // Redirect logged-in users away from all public pages (incl. /login, /registration)
+  // Auth-aware pages (/register, /join) — always pass through, the page itself
+  // renders the right content based on whether the user is logged in.
+  if (isAuthAware) {
+    return NextResponse.next();
+  }
+
+  // Redirect logged-in users away from regular public pages (e.g. /login, /registration)
   if (isPublic) {
     return NextResponse.redirect(new URL(homeDashboard, request.url));
   }
