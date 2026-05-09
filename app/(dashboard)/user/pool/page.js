@@ -18,5 +18,5 @@ export default function CaptainPoolPage() {
 
   if (loading || !user || user.role !== 'player' || !user.is_captain) return null;
 
-  return <CaptainDashboardClient user={user} defaultSection="pool" />;
+  return <CaptainDashboardClient user={user} defaultSection="pool" soloSection />;
 }

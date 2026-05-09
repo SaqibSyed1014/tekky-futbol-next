@@ -22,7 +22,6 @@ const PLAYER_NAV = [
 const CAPTAIN_NAV = [
   { href: '/user',         icon: 'fa-solid fa-house',         label: 'Home'        },
   { href: '/user/roster',  icon: 'fa-solid fa-users',         label: 'My Roster'   },
-  { href: '/user/invites', icon: 'fa-solid fa-paper-plane',   label: 'Invitations' },
   { href: '/user/pool',    icon: 'fa-solid fa-magnifying-glass', label: 'Find Players' },
 ];
 
