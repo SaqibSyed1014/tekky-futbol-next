@@ -2,9 +2,6 @@
 
 import { useState, useRef } from 'react';
 import Link from 'next/link';
-
-const LIVE_DOMAINS = ['tekkyfutbol.net', 'www.tekkyfutbol.net'];
-const isLiveDomain = typeof window !== 'undefined' && LIVE_DOMAINS.includes(window.location.hostname);
 import GlowDivider from '@/components/ui/GlowDivider';
 import { submitApplication } from '@/services/applicationsApi';
 import { ApiError } from '@/services/api';
@@ -16,6 +13,9 @@ import {
   MAX_LOGO_SIZE_KB,
   TOTAL_STEPS,
 } from '@/constants/registration';
+
+const LIVE_DOMAINS = ['tekkyfutbol.net', 'www.tekkyfutbol.net'];
+const isLiveDomain = typeof window !== 'undefined' && LIVE_DOMAINS.includes(window.location.hostname);
 
 const INITIAL_FORM = {
   name: '',
