@@ -488,7 +488,27 @@ export default function RegistrationClient() {
                     <input id="reg-teamName" type="text" name="teamName" value={form.teamName} onChange={handleChange} required />
 
                     <label htmlFor="reg-rosterSize">Estimated Roster Size</label>
-                    <input id="reg-rosterSize" type="number" name="rosterSize" min="1" max="20" value={form.rosterSize} onChange={handleChange} required />
+                    <input
+                      id="reg-rosterSize"
+                      type="number"
+                      name="rosterSize"
+                      min="9"
+                      max="11"
+                      value={form.rosterSize}
+                      onChange={handleChange}
+                      required
+                      onInput={(e) => {
+                        const v = Number(e.target.value);
+                        if (e.target.value && (v < 9 || v > 11)) {
+                          e.target.setCustomValidity('Roster size must be between 9 and 11 players.');
+                        } else {
+                          e.target.setCustomValidity('');
+                        }
+                      }}
+                    />
+                    <p style={{ margin: '-0.4rem 0 0.6rem', fontSize: '0.78rem', color: 'var(--muted)' }}>
+                      Min 9 · Max 11 players
+                    </p>
 
                     <LogoUploadZone
                       file={logoFile}
