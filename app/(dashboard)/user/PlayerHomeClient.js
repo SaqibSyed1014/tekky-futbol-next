@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { getMyApplications } from '@/services/applicationsApi';
+import { getMyMembership } from '@/services/teamsApi';
 
 // ─── Status badge ────────────────────────────────────────────────────────────
 
@@ -130,18 +132,126 @@ function Detail({ label, value, capitalize }) {
   );
 }
 
+// ─── Team card (shown when player is on a team) ───────────────────────────────
+
+const MEMBERSHIP_STYLE = {
+  pending_admin: { bg: 'rgba(255,180,0,0.12)', border: 'rgba(255,180,0,0.4)', text: '#ffb400', label: 'Pending Admin Approval', icon: 'fa-solid fa-clock' },
+  approved:      { bg: 'rgba(0,200,100,0.12)', border: 'rgba(0,200,100,0.4)', text: '#00c864', label: 'Approved',               icon: 'fa-solid fa-circle-check' },
+};
+
+function TeamCard({ membership, teammates }) {
+  const s = MEMBERSHIP_STYLE[membership.membershipBucket] ?? MEMBERSHIP_STYLE.pending_admin;
+  return (
+    <div style={{
+      background: '#000', border: '1px solid rgba(0,116,255,0.25)',
+      borderRadius: 12, padding: '1.4rem 1.5rem',
+      boxShadow: '0 0 20px rgba(0,116,255,0.08)', marginBottom: '2rem',
+    }}>
+      {/* Team header */}
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', marginBottom: '1rem', flexWrap: 'wrap' }}>
+        {membership.teamLogoUrl ? (
+          <img
+            src={membership.teamLogoUrl}
+            alt="Team logo"
+            style={{ width: 60, height: 60, objectFit: 'contain', borderRadius: 8, border: '1px solid rgba(0,116,255,0.2)', padding: 4, flexShrink: 0 }}
+          />
+        ) : (
+          <div style={{ width: 60, height: 60, borderRadius: 8, border: '1px solid rgba(0,116,255,0.15)', background: 'rgba(0,116,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <i className="fa-solid fa-shield-halved" style={{ color: 'rgba(0,116,255,0.4)', fontSize: '1.5rem' }} />
+          </div>
+        )}
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '0.3rem' }}>
+            <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', margin: 0, letterSpacing: '1px' }}>
+              {membership.teamName}
+            </h3>
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
+              padding: '0.2rem 0.6rem', borderRadius: 40, fontSize: '0.75rem', fontWeight: 600,
+              background: membership.teamStatus === 'official' ? 'rgba(0,200,100,0.1)' : 'rgba(255,180,0,0.1)',
+              border: `1px solid ${membership.teamStatus === 'official' ? 'rgba(0,200,100,0.35)' : 'rgba(255,180,0,0.35)'}`,
+              color: membership.teamStatus === 'official' ? '#00c864' : '#ffb400',
+            }}>
+              {membership.teamStatus === 'official' ? 'Official' : 'Forming'}
+            </span>
+          </div>
+          {/* Own membership status */}
+          <span style={{
+            display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+            padding: '0.25rem 0.7rem', borderRadius: 40, fontSize: '0.8rem', fontWeight: 600,
+            background: s.bg, border: `1px solid ${s.border}`, color: s.text,
+          }}>
+            <i className={s.icon} style={{ fontSize: '0.72rem' }} />
+            Your Status: {s.label}
+          </span>
+        </div>
+      </div>
+
+      {membership.membershipBucket === 'pending_admin' && (
+        <p style={{
+          fontSize: '0.82rem', color: '#ffb400',
+          background: 'rgba(255,180,0,0.07)', border: '1px solid rgba(255,180,0,0.2)',
+          borderRadius: 6, padding: '0.6rem 0.8rem', margin: '0 0 1rem',
+        }}>
+          <i className="fa-solid fa-circle-info" style={{ marginRight: '0.4rem' }} />
+          You&apos;ve joined the team! An admin will review and approve your membership shortly.
+        </p>
+      )}
+
+      {/* Teammates */}
+      {teammates.length > 0 && (
+        <>
+          <p style={{ fontSize: '0.72rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, margin: '0 0 0.6rem' }}>
+            Teammates ({teammates.length})
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+            {teammates.map((t) => (
+              <div key={t.id} style={{
+                background: 'rgba(0,116,255,0.06)',
+                border: '1px solid rgba(0,116,255,0.15)',
+                borderRadius: 8, padding: '0.4rem 0.75rem',
+                fontSize: '0.85rem', color: 'var(--fg)',
+              }}>
+                <span style={{ fontWeight: 600 }}>{t.name || t.email}</span>
+                {t.division && (
+                  <span style={{ marginLeft: '0.4rem', fontSize: '0.75rem', color: 'var(--muted)', textTransform: 'capitalize' }}>
+                    · {t.division}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 export default function PlayerHomeClient({ user }) {
-  const [applications, setApplications] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const searchParams = useSearchParams();
+  const justJoined  = searchParams?.get('joined') === '1';
+
+  const [applications,  setApplications]  = useState([]);
+  const [membership,    setMembership]    = useState(null);   // null = not on a team
+  const [teammates,     setTeammates]     = useState([]);
+  const [loading,       setLoading]       = useState(true);
+  const [error,         setError]         = useState('');
 
   useEffect(() => {
-    getMyApplications()
-      .then((res) => setApplications(res.results ?? []))
-      .catch((err) => setError(err.message || 'Failed to load your applications.'))
-      .finally(() => setLoading(false));
+    Promise.all([
+      getMyApplications().catch(() => ({ results: [] })),
+      getMyMembership().catch(() => null),
+    ]).then(([appRes, membershipRes]) => {
+      setApplications(appRes?.results ?? []);
+      if (membershipRes) {
+        setMembership(membershipRes.membership);
+        setTeammates(membershipRes.teammates ?? []);
+      }
+    }).catch((err) => {
+      setError(err.message || 'Failed to load dashboard data.');
+    }).finally(() => setLoading(false));
   }, []);
 
   return (
@@ -159,9 +269,21 @@ export default function PlayerHomeClient({ user }) {
           Welcome, {user?.name || 'Player'} 👋
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginTop: '0.35rem' }}>
-          Track your league application status below.
+          {membership ? 'Your team and application status.' : 'Track your league application status below.'}
         </p>
       </div>
+
+      {/* Join success banner */}
+      {justJoined && (
+        <div style={{
+          background: 'rgba(0,200,100,0.1)', border: '1px solid rgba(0,200,100,0.35)',
+          borderRadius: 8, padding: '0.8rem 1rem', color: '#00c864',
+          marginBottom: '1.5rem', fontSize: '0.9rem', display: 'flex', gap: '0.6rem', alignItems: 'center',
+        }}>
+          <i className="fa-solid fa-circle-check" />
+          You&apos;ve successfully joined the team! Your membership is pending admin approval.
+        </div>
+      )}
 
       {/* Error */}
       {error && (
@@ -177,6 +299,11 @@ export default function PlayerHomeClient({ user }) {
             <div key={i} style={{ height: 140, borderRadius: 12, background: 'rgba(0,116,255,0.05)', border: '1px solid rgba(0,116,255,0.1)', animation: 'playerPulse 1.5s ease-in-out infinite' }} />
           ))}
         </div>
+      )}
+
+      {/* Team card — shown when player has a committed membership */}
+      {!loading && membership && (
+        <TeamCard membership={membership} teammates={teammates} />
       )}
 
       {/* Applications */}

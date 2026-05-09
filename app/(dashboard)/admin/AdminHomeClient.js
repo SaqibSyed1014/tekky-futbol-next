@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { getApplications } from '@/services/adminApi';
+import { getApplications, getAdminMemberships, getAdminTeams } from '@/services/adminApi';
 
 // ─── Stat card ───────────────────────────────────────────────────────────────
 
@@ -82,23 +82,30 @@ function ActionCard({ href, icon, title, description, color }) {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 export default function AdminHomeClient({ user }) {
-  const [stats, setStats] = useState({ total: 0, pending: 0, approved: 0, rejected: 0 });
+  const [stats, setStats] = useState({
+    total: 0, pending: 0, approved: 0, rejected: 0,
+    pendingMemberships: 0, totalTeams: 0,
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [totalRes, pendingRes, approvedRes, rejectedRes] = await Promise.all([
+        const [totalRes, pendingRes, approvedRes, rejectedRes, membershipsRes, teamsRes] = await Promise.all([
           getApplications({ limit: 1 }),
           getApplications({ status: 'pending',  limit: 1 }),
           getApplications({ status: 'approved', limit: 1 }),
           getApplications({ status: 'rejected', limit: 1 }),
+          getAdminMemberships({ status: 'pending', page: 1 }),
+          getAdminTeams({ page: 1 }),
         ]);
         setStats({
-          total:    totalRes.total,
-          pending:  pendingRes.total,
-          approved: approvedRes.total,
-          rejected: rejectedRes.total,
+          total:              totalRes.total    ?? totalRes.count    ?? 0,
+          pending:            pendingRes.total  ?? pendingRes.count  ?? 0,
+          approved:           approvedRes.total ?? approvedRes.count ?? 0,
+          rejected:           rejectedRes.total ?? rejectedRes.count ?? 0,
+          pendingMemberships: membershipsRes.count ?? 0,
+          totalTeams:         teamsRes.count    ?? 0,
         });
       } catch {
         // Non-critical — leave zeros
@@ -135,10 +142,12 @@ export default function AdminHomeClient({ user }) {
         gap: '1rem',
         marginBottom: '2.5rem',
       }}>
-        <StatCard label="Total Applications" value={stats.total}    icon="fa-solid fa-layer-group"    color="#0074ff" loading={loading} />
-        <StatCard label="Pending Review"      value={stats.pending}  icon="fa-solid fa-clock"           color="#ffb400" loading={loading} />
-        <StatCard label="Approved"            value={stats.approved} icon="fa-solid fa-circle-check"   color="#00c864" loading={loading} />
-        <StatCard label="Rejected"            value={stats.rejected} icon="fa-solid fa-circle-xmark"   color="#ff3c3c" loading={loading} />
+        <StatCard label="Total Applications"    value={stats.total}              icon="fa-solid fa-layer-group"      color="#0074ff" loading={loading} />
+        <StatCard label="Pending Applications" value={stats.pending}             icon="fa-solid fa-clock"            color="#ffb400" loading={loading} />
+        <StatCard label="Approved Players"     value={stats.approved}            icon="fa-solid fa-circle-check"     color="#00c864" loading={loading} />
+        <StatCard label="Rejected"             value={stats.rejected}            icon="fa-solid fa-circle-xmark"     color="#ff3c3c" loading={loading} />
+        <StatCard label="Teams"                value={stats.totalTeams}          icon="fa-solid fa-shield-halved"    color="#a78bfa" loading={loading} />
+        <StatCard label="Pending Memberships"  value={stats.pendingMemberships}  icon="fa-solid fa-user-clock"       color="#f97316" loading={loading} />
       </div>
 
       {/* Section divider */}
@@ -156,6 +165,20 @@ export default function AdminHomeClient({ user }) {
             title="Review Applications"
             description={loading ? 'Loading…' : `${stats.pending} application${stats.pending !== 1 ? 's' : ''} waiting for review`}
             color="var(--tekky-blue)"
+          />
+          <ActionCard
+            href="/admin/memberships"
+            icon="fa-solid fa-user-clock"
+            title="Approve Memberships"
+            description={loading ? 'Loading…' : `${stats.pendingMemberships} membership${stats.pendingMemberships !== 1 ? 's' : ''} pending admin approval`}
+            color="#f97316"
+          />
+          <ActionCard
+            href="/admin/teams"
+            icon="fa-solid fa-shield-halved"
+            title="Manage Teams"
+            description={loading ? 'Loading…' : `${stats.totalTeams} team${stats.totalTeams !== 1 ? 's' : ''} registered in the league`}
+            color="#a78bfa"
           />
         </div>
       </div>
