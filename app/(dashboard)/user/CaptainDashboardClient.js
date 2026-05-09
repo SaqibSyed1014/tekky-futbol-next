@@ -492,7 +492,7 @@ function FreeAgentPool() {
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
-export default function CaptainDashboardClient({ user, defaultSection }) {
+export default function CaptainDashboardClient({ user, defaultSection, soloSection = false }) {
   const [team, setTeam]           = useState(null);
   const [roster, setRoster]       = useState(null);
   const [loadingTeam, setLoadingTeam] = useState(true);
@@ -572,127 +572,131 @@ export default function CaptainDashboardClient({ user, defaultSection }) {
         </div>
       )}
 
-      {loadingTeam ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <Skeleton h={120} />
-          <Skeleton h={80} />
-          <Skeleton h={200} />
-        </div>
-      ) : team && (
+      {!soloSection && (
         <>
-          {/* ── Team card ─────────────────────────────────────────── */}
-          <Card style={{ marginBottom: '1.5rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-            {/* Logo */}
-            {team.logo_url ? (
-              <img
-                src={team.logo_url}
-                alt="Team logo"
-                style={{
-                  width: 80, height: 80, objectFit: 'contain',
-                  borderRadius: 10, border: '1px solid rgba(0,116,255,0.25)',
-                  background: 'rgba(0,116,255,0.04)', padding: 6, flexShrink: 0,
-                }}
-              />
-            ) : (
-              <div style={{
-                width: 80, height: 80, borderRadius: 10,
-                border: '1px solid rgba(0,116,255,0.2)',
-                background: 'rgba(0,116,255,0.05)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexShrink: 0,
-              }}>
-                <i className="fa-solid fa-shield-halved" style={{ fontSize: '2rem', color: 'rgba(0,116,255,0.4)' }} />
-              </div>
-            )}
-
-            {/* Team info */}
-            <div style={{ flex: 1, minWidth: 200 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
-                <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.6rem', margin: 0, letterSpacing: '1px' }}>
-                  {team.name}
-                </h3>
-                <StatusBadge status={team.status} />
-              </div>
-              {team.description && (
-                <p style={{ color: 'var(--muted)', fontSize: '0.85rem', margin: '0 0 0.8rem', lineHeight: 1.5 }}>
-                  {team.description}
-                </p>
-              )}
-              <RosterProgress approved={team.playerCount} max={team.max_players} />
+          {loadingTeam ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <Skeleton h={120} />
+              <Skeleton h={80} />
+              <Skeleton h={200} />
             </div>
+          ) : team && (
+            <>
+              {/* ── Team card ─────────────────────────────────────────── */}
+              <Card style={{ marginBottom: '1.5rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+                {/* Logo */}
+                {team.logo_url ? (
+                  <img
+                    src={team.logo_url}
+                    alt="Team logo"
+                    style={{
+                      width: 80, height: 80, objectFit: 'contain',
+                      borderRadius: 10, border: '1px solid rgba(0,116,255,0.25)',
+                      background: 'rgba(0,116,255,0.04)', padding: 6, flexShrink: 0,
+                    }}
+                  />
+                ) : (
+                  <div style={{
+                    width: 80, height: 80, borderRadius: 10,
+                    border: '1px solid rgba(0,116,255,0.2)',
+                    background: 'rgba(0,116,255,0.05)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0,
+                  }}>
+                    <i className="fa-solid fa-shield-halved" style={{ fontSize: '2rem', color: 'rgba(0,116,255,0.4)' }} />
+                  </div>
+                )}
 
-            {/* Summary stats */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', minWidth: 130 }}>
-              {[
-                { label: 'Approved',   value: team.playerCount,  color: '#00c864' },
-                { label: 'Pending',    value: team.pendingCount,  color: '#ffb400' },
-                { label: 'Slots Left', value: team.remainingSlots, color: 'var(--tekky-blue)' },
-              ].map(({ label, value, color }) => (
-                <div key={label} style={{
-                  background: 'rgba(0,116,255,0.04)',
-                  border: '1px solid rgba(0,116,255,0.12)',
-                  borderRadius: 8, padding: '0.5rem 0.75rem',
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem',
-                }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
-                    {label}
-                  </span>
-                  <span style={{ fontSize: '1.1rem', fontFamily: "'Bebas Neue', sans-serif", color, letterSpacing: '0.5px' }}>
-                    {value}
-                  </span>
+                {/* Team info */}
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+                    <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.6rem', margin: 0, letterSpacing: '1px' }}>
+                      {team.name}
+                    </h3>
+                    <StatusBadge status={team.status} />
+                  </div>
+                  {team.description && (
+                    <p style={{ color: 'var(--muted)', fontSize: '0.85rem', margin: '0 0 0.8rem', lineHeight: 1.5 }}>
+                      {team.description}
+                    </p>
+                  )}
+                  <RosterProgress approved={team.playerCount} max={team.max_players} />
                 </div>
-              ))}
-            </div>
-          </Card>
 
-          {/* ── Roster ────────────────────────────────────────────── */}
-          {roster && (
-            <div ref={rosterRef}>
-            <Card style={{ marginBottom: '1.5rem' }}>
-              <SectionTitle>Roster</SectionTitle>
+                {/* Summary stats */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', minWidth: 130 }}>
+                  {[
+                    { label: 'Approved',   value: team.playerCount,  color: '#00c864' },
+                    { label: 'Pending',    value: team.pendingCount,  color: '#ffb400' },
+                    { label: 'Slots Left', value: team.remainingSlots, color: 'var(--tekky-blue)' },
+                  ].map(({ label, value, color }) => (
+                    <div key={label} style={{
+                      background: 'rgba(0,116,255,0.04)',
+                      border: '1px solid rgba(0,116,255,0.12)',
+                      borderRadius: 8, padding: '0.5rem 0.75rem',
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem',
+                    }}>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
+                        {label}
+                      </span>
+                      <span style={{ fontSize: '1.1rem', fontFamily: "'Bebas Neue', sans-serif", color, letterSpacing: '0.5px' }}>
+                        {value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
 
-              {removeErr && (
-                <p style={{ color: '#ff6b6b', fontSize: '0.85rem', marginBottom: '0.75rem' }}>{removeErr}</p>
+              {/* ── Roster ────────────────────────────────────────────── */}
+              {roster && (
+                <div ref={rosterRef}>
+                  <Card style={{ marginBottom: '1.5rem' }}>
+                    <SectionTitle>Roster</SectionTitle>
+
+                    {removeErr && (
+                      <p style={{ color: '#ff6b6b', fontSize: '0.85rem', marginBottom: '0.75rem' }}>{removeErr}</p>
+                    )}
+
+                    {roster.approved.count === 0 && roster.pending_admin.count === 0 && roster.invited.count === 0 ? (
+                      <p style={{ color: 'var(--muted)', fontSize: '0.9rem', textAlign: 'center', padding: '1.5rem 0' }}>
+                        No players yet. Use the invite link or free agent pool below.
+                      </p>
+                    ) : (
+                      <>
+                        <RosterTable
+                          title="Approved"
+                          rows={roster.approved.results}
+                          bucketColor="#00c864"
+                          showRemove
+                          onRemove={handleRemove}
+                          removingId={removingId}
+                        />
+                        <RosterTable
+                          title="Pending Admin Approval"
+                          rows={roster.pending_admin.results}
+                          bucketColor="#ffb400"
+                          showRemove={false}
+                        />
+                        <RosterTable
+                          title="Invited (Awaiting Response)"
+                          rows={roster.invited.results}
+                          bucketColor="#0074ff"
+                          showRemove={false}
+                        />
+                      </>
+                    )}
+                  </Card>
+                </div>
               )}
-
-              {roster.approved.count === 0 && roster.pending_admin.count === 0 && roster.invited.count === 0 ? (
-                <p style={{ color: 'var(--muted)', fontSize: '0.9rem', textAlign: 'center', padding: '1.5rem 0' }}>
-                  No players yet. Use the invite link or free agent pool below.
-                </p>
-              ) : (
-                <>
-                  <RosterTable
-                    title="Approved"
-                    rows={roster.approved.results}
-                    bucketColor="#00c864"
-                    showRemove
-                    onRemove={handleRemove}
-                    removingId={removingId}
-                  />
-                  <RosterTable
-                    title="Pending Admin Approval"
-                    rows={roster.pending_admin.results}
-                    bucketColor="#ffb400"
-                    showRemove={false}
-                  />
-                  <RosterTable
-                    title="Invited (Awaiting Response)"
-                    rows={roster.invited.results}
-                    bucketColor="#0074ff"
-                    showRemove={false}
-                  />
-                </>
-              )}
-            </Card>
-            </div>
+            </>
           )}
+
+          {/* ── Invite link ───────────────────────────────────────────── */}
+          <div ref={invitesRef} style={{ marginBottom: '1.5rem' }}>
+            <InviteLinkPanel />
+          </div>
         </>
       )}
-
-      {/* ── Invite link ───────────────────────────────────────────── */}
-      <div ref={invitesRef} style={{ marginBottom: '1.5rem' }}>
-        <InviteLinkPanel />
-      </div>
 
       {/* ── Free agent pool ───────────────────────────────────────── */}
       <div ref={poolRef}>
