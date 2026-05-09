@@ -506,9 +506,9 @@ export default function RegistrationClient() {
                         }
                       }}
                     />
-                    <p style={{ margin: '-0.4rem 0 0.6rem', fontSize: '0.78rem', color: 'var(--muted)' }}>
-                      Min 9 · Max 11 players
-                    </p>
+                    {/*<p style={{ margin: '-0.4rem 0 0.6rem', fontSize: '0.78rem', color: 'var(--muted)' }}>*/}
+                    {/*  Min 9 · Max 11 players*/}
+                    {/*</p>*/}
 
                     <LogoUploadZone
                       file={logoFile}
