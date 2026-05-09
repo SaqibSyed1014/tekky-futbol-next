@@ -55,3 +55,40 @@ export function updateApplicationStatus(id, status, adminNotes = '') {
   if (adminNotes.trim()) body.admin_notes = adminNotes.trim();
   return api.patch(`/admin/applications/${id}/`, body);
 }
+
+// ─── Memberships ─────────────────────────────────────────────────────────────
+
+/**
+ * GET /admin/memberships/
+ * @param {{ status?: 'pending'|'approved'|'all', team?: string, page?: number }} params
+ */
+export function getAdminMemberships({ status = 'pending', team = '', page = 1 } = {}) {
+  const q = new URLSearchParams({ status, page });
+  if (team) q.set('team', team);
+  return api.get(`/admin/memberships/?${q}`);
+}
+
+/**
+ * POST /admin/memberships/:id  { action: 'approve' | 'reject' }
+ * @param {string} id
+ * @param {'approve'|'reject'} action
+ * @param {string} [adminNotes]
+ */
+export function actOnMembership(id, action, adminNotes = '') {
+  const body = { action };
+  if (adminNotes.trim()) body.admin_notes = adminNotes.trim();
+  return api.post(`/admin/memberships/${id}/`, body);
+}
+
+// ─── Teams ───────────────────────────────────────────────────────────────────
+
+/**
+ * GET /admin/teams/
+ * @param {{ status?: 'forming'|'official'|'', search?: string, page?: number }} params
+ */
+export function getAdminTeams({ status = '', search = '', page = 1 } = {}) {
+  const q = new URLSearchParams({ page });
+  if (status) q.set('status', status);
+  if (search) q.set('search', search);
+  return api.get(`/admin/teams/?${q}`);
+}

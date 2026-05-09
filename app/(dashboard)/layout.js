@@ -8,20 +8,35 @@ import Image from "next/image";
 // ─── Nav config ──────────────────────────────────────────────────────────────
 
 const ADMIN_NAV = [
-  { href: '/admin',              icon: 'fa-solid fa-house',        label: 'Home'         },
-  { href: '/admin/applications', icon: 'fa-solid fa-file-lines',   label: 'Applications' },
+  { href: '/admin',                icon: 'fa-solid fa-house',          label: 'Home'         },
+  { href: '/admin/applications',   icon: 'fa-solid fa-file-lines',     label: 'Applications' },
+  { href: '/admin/teams',          icon: 'fa-solid fa-shield-halved',  label: 'Teams'        },
+  { href: '/admin/memberships',    icon: 'fa-solid fa-users',          label: 'Memberships'  },
 ];
 
 const PLAYER_NAV = [
   { href: '/user',         icon: 'fa-solid fa-house', label: 'Home'       },
 ];
 
+// Captain shares the /user route but also gets a roster nav link
+const CAPTAIN_NAV = [
+  { href: '/user',         icon: 'fa-solid fa-house',         label: 'Home'        },
+  { href: '/user/roster',  icon: 'fa-solid fa-users',         label: 'My Roster'   },
+  { href: '/user/invites', icon: 'fa-solid fa-paper-plane',   label: 'Invitations' },
+  { href: '/user/pool',    icon: 'fa-solid fa-magnifying-glass', label: 'Find Players' },
+];
+
 const PAGE_TITLES = {
-  '/admin':              'Dashboard',
-  '/admin/applications': 'Applications',
-  '/admin/profile':      'My Profile',
-  '/user':               'Dashboard',
-  '/user/profile':       'My Profile',
+  '/admin':                'Dashboard',
+  '/admin/applications':   'Applications',
+  '/admin/teams':          'Teams',
+  '/admin/memberships':    'Memberships',
+  '/admin/profile':        'My Profile',
+  '/user':                 'Dashboard',
+  '/user/roster':          'My Roster',
+  '/user/invites':         'Invitations',
+  '/user/pool':            'Find Players',
+  '/user/profile':         'My Profile',
 };
 
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
@@ -29,7 +44,7 @@ const PAGE_TITLES = {
 function Sidebar({ role, isCaptain, sidebarOpen, onClose }) {
   const pathname = usePathname();
   const { logout } = useAuth();
-  const navItems = role === 'admin' ? ADMIN_NAV : PLAYER_NAV;
+  const navItems = role === 'admin' ? ADMIN_NAV : isCaptain ? CAPTAIN_NAV : PLAYER_NAV;
 
   return (
     <>
