@@ -224,7 +224,7 @@ function RegisterForm({ team, token }) {
   const router = useRouter();
   const { login } = useAuth();
 
-  const [form, setForm] = useState({ name: '', email: '', password: '', password2: '', gender: '', phone: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', password2: '', gender: '', phone: '', preferredDivision: '' });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError]   = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
@@ -247,12 +247,13 @@ function RegisterForm({ team, token }) {
     setSubmitting(true);
     try {
       const res = await registerAndJoin(token, {
-        name:      form.name,
-        email:     form.email,
-        password:  form.password,
-        password2: form.password2,
-        gender:    form.gender || undefined,
-        phone:     form.phone  || undefined,
+        name:               form.name,
+        email:              form.email,
+        password:           form.password,
+        password2:          form.password2,
+        gender:             form.gender             || undefined,
+        phone:              form.phone              || undefined,
+        preferred_division: form.preferredDivision  || undefined,
       });
       // Store the returned JWT and sync user state
       if (res.access) {
@@ -357,6 +358,21 @@ function RegisterForm({ team, token }) {
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other</option>
+          </select>
+        </Field>
+
+        <Field label="Preferred Division" required>
+          <select
+            value={form.preferredDivision} onChange={set('preferredDivision')} required
+            style={{
+              width: '100%', padding: '0.55rem 0.8rem',
+              background: '#0a0a0a', border: '1px solid rgba(0,116,255,0.25)', borderRadius: 7,
+              color: form.preferredDivision ? 'var(--fg)' : 'var(--muted)', fontSize: '0.9rem', fontFamily: 'inherit', outline: 'none', cursor: 'pointer',
+            }}
+          >
+            <option value="" disabled>Select division</option>
+            <option value="north">North</option>
+            <option value="south">South</option>
           </select>
         </Field>
 

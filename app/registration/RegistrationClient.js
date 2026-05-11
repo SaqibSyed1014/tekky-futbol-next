@@ -492,15 +492,15 @@ export default function RegistrationClient() {
                       id="reg-rosterSize"
                       type="number"
                       name="rosterSize"
-                      min="9"
+                      min="8"
                       max="11"
                       value={form.rosterSize}
                       onChange={handleChange}
                       required
                       onInput={(e) => {
                         const v = Number(e.target.value);
-                        if (e.target.value && (v < 9 || v > 11)) {
-                          e.target.setCustomValidity('Roster size must be between 9 and 11 players.');
+                        if (e.target.value && (v < 8 || v > 11)) {
+                          e.target.setCustomValidity('Roster size must be between 8 and 11 players.');
                         } else {
                           e.target.setCustomValidity('');
                         }
