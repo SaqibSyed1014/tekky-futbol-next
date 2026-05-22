@@ -74,6 +74,18 @@ function handleGlobalError(error) {
       }
     }
   }
+
+  // Waiver gate — backend returns {"error": "waiver_required"} on 403.
+  // Redirect to the waiver page so the user can sign before retrying.
+  if (
+    error.status === 403 &&
+    error.data?.error === 'waiver_required' &&
+    typeof window !== 'undefined' &&
+    !window.location.pathname.startsWith('/user/waiver')
+  ) {
+    window.location.href = '/user/waiver';
+  }
+
   throw error;
 }
 

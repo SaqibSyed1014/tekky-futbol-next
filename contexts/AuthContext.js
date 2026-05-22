@@ -66,8 +66,19 @@ export function AuthProvider({ children }) {
 
   const clearError = useCallback(() => setError(null), []);
 
+  /** Re-fetch /auth/me and update the user state — call after waiver signing, profile changes, etc. */
+  const refreshUser = useCallback(async () => {
+    try {
+      const u = await fetchMe();
+      setUser(u);
+      return u;
+    } catch {
+      return null;
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, loading, error, login, logout, clearError }}>
+    <AuthContext.Provider value={{ user, loading, error, login, logout, clearError, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
