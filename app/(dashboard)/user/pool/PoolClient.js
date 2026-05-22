@@ -83,6 +83,9 @@ function UnsignedState() {
 // Pool is visible; content placeholder until the API endpoint is built.
 
 function SignedState({ user }) {
+  // Only approved, non-captain players are discoverable in the pool.
+  const isInPool = !user.is_captain && user.profile?.status === 'approved';
+
   return (
     <div>
       {/* Page header */}
@@ -101,23 +104,26 @@ function SignedState({ user }) {
         </p>
       </div>
 
-      {/* Visibility badge */}
-      <div style={{
-        display:      'flex',
-        alignItems:   'center',
-        gap:          '0.65rem',
-        background:   'rgba(0,200,100,0.05)',
-        border:       '1px solid rgba(0,200,100,0.2)',
-        borderRadius: 8,
-        padding:      '0.75rem 1.1rem',
-        marginBottom: '1.75rem',
-        width:        'fit-content',
-      }}>
-        <i className="fa-solid fa-eye" style={{ color: '#00c864', fontSize: '0.9rem' }} />
-        <span style={{ fontSize: '0.82rem', color: '#00c864', fontWeight: 600 }}>
-          You&apos;re visible in the pool
-        </span>
-      </div>
+      {/* Visibility badge — only for approved non-captain players */}
+      {isInPool && (
+        <div style={{
+          display:      'flex',
+          alignItems:   'center',
+          gap:          '0.65rem',
+          background:   'rgba(0,200,100,0.05)',
+          border:       '1px solid rgba(0,200,100,0.2)',
+          borderRadius: 8,
+          padding:      '0.75rem 1.1rem',
+          marginBottom: '1.75rem',
+          width:        'fit-content',
+        }}>
+          <i className="fa-solid fa-eye" style={{ color: '#00c864', fontSize: '0.9rem' }} />
+          <span style={{ fontSize: '0.82rem', color: '#00c864', fontWeight: 600 }}>
+            You&apos;re visible in the pool
+          </span>
+        </div>
+      )}
+
 
       {/* Pool placeholder */}
       <div style={{
