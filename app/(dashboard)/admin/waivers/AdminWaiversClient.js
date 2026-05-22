@@ -104,14 +104,9 @@ function SignedTable({ rows }) {
         <tr>
           <Th>Name</Th>
           <Th>Email</Th>
-          <Th>Role</Th>
-          <Th>Printed Name</Th>
           <Th>Signed At</Th>
-          <Th>IP Address</Th>
-          <Th>Waiver Ver.</Th>
           <Th>Age Group</Th>
-          <Th>Guardian Name</Th>
-          <Th>Guardian Type</Th>
+          <Th>Actions</Th>
         </tr>
       </thead>
       <tbody>
@@ -119,22 +114,38 @@ function SignedTable({ rows }) {
           <tr key={row.id}>
             <Td>{row.user_name || '—'}</Td>
             <Td muted>{row.user_email}</Td>
-            <Td><RoleBadge role={row.user_role} isCaptain={row.is_captain} /></Td>
-            <Td>{row.is_minor ? '—' : (row.printed_name || '—')}</Td>
             <Td muted>
               {new Date(row.signed_at).toLocaleString('en-US', {
                 month: 'short', day: 'numeric', year: 'numeric',
                 hour: '2-digit', minute: '2-digit',
               })}
             </Td>
-            <Td muted>{row.ip_address || '—'}</Td>
-            <Td muted>{row.waiver_version}</Td>
             <Td><AgeBadge isMinor={row.is_minor} /></Td>
-            <Td muted>{row.is_minor ? (row.guardian_name_printed || '—') : '—'}</Td>
-            <Td muted>
-              {row.is_minor
-                ? (row.guardian_type === 'parent' ? 'Parent' : row.guardian_type === 'legal_guardian' ? 'Legal Guardian' : '—')
-                : '—'}
+            <Td>
+              <button
+                onClick={() => window.open(`/admin/waivers/${row.user_id}`, '_blank', 'noopener,noreferrer')}
+                style={{
+                  display:     'inline-flex',
+                  alignItems:  'center',
+                  gap:         '0.4rem',
+                  padding:     '0.35rem 0.8rem',
+                  background:  'rgba(0,116,255,0.1)',
+                  border:      '1px solid rgba(0,116,255,0.35)',
+                  borderRadius: 6,
+                  color:       'var(--tekky-blue)',
+                  fontSize:    '0.78rem',
+                  fontWeight:  600,
+                  whiteSpace:  'nowrap',
+                  cursor:      'pointer',
+                  fontFamily:  'inherit',
+                  transition:  'background 0.15s',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,116,255,0.2)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(0,116,255,0.1)'; }}
+              >
+                <i className="fa-solid fa-eye" style={{ fontSize: '0.72rem' }} />
+                View Waiver
+              </button>
             </Td>
           </tr>
         ))}

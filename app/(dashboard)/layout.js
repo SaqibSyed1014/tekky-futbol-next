@@ -17,7 +17,6 @@ const ADMIN_NAV = [
 
 const PLAYER_NAV = [
   { href: '/user',         icon: 'fa-solid fa-house',          label: 'Home'   },
-  { href: '/user/pool',    icon: 'fa-solid fa-users',          label: 'Pool'   },
   { href: '/user/waiver',  icon: 'fa-solid fa-file-signature', label: 'Waiver' },
 ];
 
@@ -454,6 +453,13 @@ export default function DashboardLayout({ children }) {
         <span className="spinner" style={{ width: 32, height: 32, borderWidth: 3 }} />
       </div>
     );
+  }
+
+  // Standalone mode: waiver viewer at /admin/waivers/[userId]
+  // Authenticated as admin (guard above), but no sidebar or topbar needed.
+  const isStandalone = /^\/admin\/waivers\/[^/]+$/.test(pathname);
+  if (isStandalone) {
+    return <>{children}</>;
   }
 
   return (

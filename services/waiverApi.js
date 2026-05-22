@@ -34,3 +34,11 @@ export const getAdminWaiverSigned = (params = {}) =>
  */
 export const getAdminWaiverUnsigned = (params = {}) =>
   api.get('/admin/waivers/unsigned/', { params });
+
+/**
+ * GET /api/v1/admin/waivers/<userId>/
+ * Admin-only: full waiver record for a single user.
+ * Used by the "View Waiver" feature to pre-fill the read-only form.
+ */
+export const getAdminWaiverDetail = (userId) =>
+  api.get(`/admin/waivers/${userId}/`);
