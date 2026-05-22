@@ -3,9 +3,9 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import PoolClient from './PoolClient';
+import WaiverSigningClient from './WaiverSigningClient';
 
-export default function PoolPage() {
+export default function WaiverPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -15,5 +15,5 @@ export default function PoolPage() {
   }, [user, loading, router]);
 
   if (loading || !user || user.role === 'admin') return null;
-  return <PoolClient user={user} />;
+  return <WaiverSigningClient />;
 }

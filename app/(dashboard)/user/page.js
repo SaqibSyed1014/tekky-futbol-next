@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import CaptainDashboardClient from './CaptainDashboardClient';
 import PlayerHomeClient from './PlayerHomeClient';
+import WaiverBanner from './WaiverBanner';
 
 export default function UserDashboard() {
   const { user, loading } = useAuth();
@@ -16,7 +17,16 @@ export default function UserDashboard() {
 
   if (loading || !user || user.role !== 'player') return null;
 
-  // Captains get the team management dashboard; regular players get their own view
-  if (user.is_captain) return <CaptainDashboardClient user={user} />;
-  return <PlayerHomeClient user={user} />;
+  return (
+    <div style={{ maxWidth: 760 }}>
+      {/* Waiver reminder — hidden once signed */}
+      {!user.waiver_signed && <WaiverBanner isCaptain={user.is_captain} />}
+
+      {/* Application history — shown to all players */}
+      <PlayerHomeClient user={user} />
+
+      {/* Captain-only tools section */}
+      {user.is_captain && <CaptainDashboardClient user={user} />}
+    </div>
+  );
 }
