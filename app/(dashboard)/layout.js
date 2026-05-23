@@ -8,21 +8,24 @@ import Image from "next/image";
 // ─── Nav config ──────────────────────────────────────────────────────────────
 
 const ADMIN_NAV = [
-  { href: '/admin',                icon: 'fa-solid fa-house',          label: 'Home'         },
-  { href: '/admin/applications',   icon: 'fa-solid fa-file-lines',     label: 'Applications' },
-  { href: '/admin/teams',          icon: 'fa-solid fa-shield-halved',  label: 'Teams'        },
-  { href: '/admin/memberships',    icon: 'fa-solid fa-users',          label: 'Memberships'  },
+  { href: '/admin',                icon: 'fa-solid fa-house',           label: 'Home'         },
+  { href: '/admin/applications',   icon: 'fa-solid fa-file-lines',      label: 'Applications' },
+  { href: '/admin/teams',          icon: 'fa-solid fa-shield-halved',   label: 'Teams'        },
+  { href: '/admin/memberships',    icon: 'fa-solid fa-users',           label: 'Memberships'  },
+  { href: '/admin/waivers',        icon: 'fa-solid fa-file-signature',  label: 'Waivers'      },
 ];
 
 const PLAYER_NAV = [
-  { href: '/user',         icon: 'fa-solid fa-house', label: 'Home'       },
+  { href: '/user',         icon: 'fa-solid fa-house',          label: 'Home'   },
+  { href: '/user/waiver',  icon: 'fa-solid fa-file-signature', label: 'Waiver' },
 ];
 
-// Captain shares the /user route but also gets a roster nav link
+// Captain shares the /user route but also gets roster nav links
 const CAPTAIN_NAV = [
-  { href: '/user',         icon: 'fa-solid fa-house',         label: 'Home'        },
-  { href: '/user/roster',  icon: 'fa-solid fa-users',         label: 'My Roster'   },
+  { href: '/user',         icon: 'fa-solid fa-house',            label: 'Home'        },
+  { href: '/user/roster',  icon: 'fa-solid fa-users',            label: 'My Roster'   },
   { href: '/user/pool',    icon: 'fa-solid fa-magnifying-glass', label: 'Find Players' },
+  { href: '/user/waiver',  icon: 'fa-solid fa-file-signature',   label: 'Waiver'      },
 ];
 
 const PAGE_TITLES = {
@@ -30,17 +33,19 @@ const PAGE_TITLES = {
   '/admin/applications':   'Applications',
   '/admin/teams':          'Teams',
   '/admin/memberships':    'Memberships',
+  '/admin/waivers':        'Waivers',
   '/admin/profile':        'My Profile',
   '/user':                 'Dashboard',
   '/user/roster':          'My Roster',
   '/user/invites':         'Invitations',
   '/user/pool':            'Find Players',
+  '/user/waiver':          'Waiver',
   '/user/profile':         'My Profile',
 };
 
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
 
-function Sidebar({ role, isCaptain, sidebarOpen, onClose }) {
+function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
   const pathname = usePathname();
   const { logout } = useAuth();
   const navItems = role === 'admin' ? ADMIN_NAV : isCaptain ? CAPTAIN_NAV : PLAYER_NAV;
@@ -133,6 +138,8 @@ function Sidebar({ role, isCaptain, sidebarOpen, onClose }) {
         <div style={{ padding: '0.75rem 0.75rem', flex: 1 }}>
           {navItems.map((item) => {
             const active = pathname === item.href || (item.href !== '/admin' && item.href !== '/user' && pathname.startsWith(item.href));
+            const isWaiverGated = item.href === '/user/waiver' || item.href === '/user/pool';
+            const showWaiverBadge = isWaiverGated && role !== 'admin' && !waiverSigned;
             return (
               <Link
                 key={item.href}
@@ -145,20 +152,35 @@ function Sidebar({ role, isCaptain, sidebarOpen, onClose }) {
                   padding: '0.7rem 0.9rem',
                   borderRadius: 8,
                   marginBottom: '0.25rem',
-                  color: active ? '#fff' : 'var(--muted)',
-                  background: active ? 'rgba(0,116,255,0.18)' : 'transparent',
-                  border: `1px solid ${active ? 'rgba(0,116,255,0.4)' : 'transparent'}`,
+                  color: active ? '#fff' : showWaiverBadge ? '#ffb400' : 'var(--muted)',
+                  background: active ? 'rgba(0,116,255,0.18)' : showWaiverBadge ? 'rgba(255,180,0,0.06)' : 'transparent',
+                  border: `1px solid ${active ? 'rgba(0,116,255,0.4)' : showWaiverBadge ? 'rgba(255,180,0,0.25)' : 'transparent'}`,
                   textDecoration: 'none',
                   fontSize: '0.92rem',
-                  fontWeight: active ? 600 : 400,
+                  fontWeight: active || showWaiverBadge ? 600 : 400,
                   transition: 'all 0.15s',
                   boxShadow: active ? '0 0 10px rgba(0,116,255,0.15)' : 'none',
                 }}
                 onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(0,116,255,0.07)'; e.currentTarget.style.color = '#fff'; } }}
-                onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--muted)'; } }}
+                onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = showWaiverBadge ? 'rgba(255,180,0,0.06)' : 'transparent'; e.currentTarget.style.color = showWaiverBadge ? '#ffb400' : 'var(--muted)'; } }}
               >
-                <i className={item.icon} style={{ width: 18, textAlign: 'center', fontSize: '0.88rem', color: active ? 'var(--tekky-blue)' : 'inherit' }} />
+                <i className={item.icon} style={{ width: 18, textAlign: 'center', fontSize: '0.88rem', color: active ? 'var(--tekky-blue)' : showWaiverBadge ? '#ffb400' : 'inherit' }} />
                 {item.label}
+                {showWaiverBadge && (
+                  <span style={{
+                    marginLeft: 'auto',
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    background: '#ffb400',
+                    color: '#000',
+                    borderRadius: 20,
+                    padding: '0.1rem 0.45rem',
+                    letterSpacing: '0.3px',
+                    textTransform: 'uppercase',
+                  }}>
+                    Required
+                  </span>
+                )}
               </Link>
             );
           })}
@@ -433,9 +455,16 @@ export default function DashboardLayout({ children }) {
     );
   }
 
+  // Standalone mode: waiver viewer at /admin/waivers/[userId]
+  // Authenticated as admin (guard above), but no sidebar or topbar needed.
+  const isStandalone = /^\/admin\/waivers\/[^/]+$/.test(pathname);
+  if (isStandalone) {
+    return <>{children}</>;
+  }
+
   return (
     <>
-      <Sidebar role={user.role} isCaptain={user.is_captain} sidebarOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar role={user.role} isCaptain={user.is_captain} waiverSigned={!!user.waiver_signed} sidebarOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main area — offset by sidebar width on desktop */}
       <div className="db-main" style={{
