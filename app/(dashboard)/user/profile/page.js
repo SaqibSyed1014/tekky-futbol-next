@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import {
   updateUserInfo,
@@ -189,7 +189,8 @@ const TABS = [
 // ─── Personal Info Tab ────────────────────────────────────────────────────────
 
 function PersonalInfoTab({ user, onUpdated }) {
-  const profile = user?.profile;
+  const profile  = user?.profile;
+  const topRef   = useRef(null);
 
   const [name,      setName]      = useState(user?.name                  || '');
   const [phone,     setPhone]     = useState(user?.phone                 || '');
@@ -202,6 +203,10 @@ function PersonalInfoTab({ user, onUpdated }) {
   const [saving,  setSaving]  = useState(false);
   const [success, setSuccess] = useState('');
   const [error,   setError]   = useState('');
+
+  function scrollToTop() {
+    topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 
   async function handleSave(e) {
     e.preventDefault();
@@ -230,11 +235,12 @@ function PersonalInfoTab({ user, onUpdated }) {
       }
     } finally {
       setSaving(false);
+      scrollToTop();
     }
   }
 
   return (
-    <form onSubmit={handleSave}>
+    <form onSubmit={handleSave} ref={topRef}>
       <SuccessBanner msg={success} />
       <ErrorBanner   msg={error}   />
 
@@ -288,8 +294,6 @@ function PersonalInfoTab({ user, onUpdated }) {
                 <option value="">— select —</option>
                 <option value="north">North</option>
                 <option value="south">South</option>
-                <option value="east">East</option>
-                <option value="west">West</option>
               </Select>
             </FormField>
             <FormField label="Date of Birth">

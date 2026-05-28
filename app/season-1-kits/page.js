@@ -58,35 +58,35 @@ export default function Season1KitsPage() {
 
         <GlowDivider />
 
-        <section id="northKits" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2>North Division Kits</h2>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Teams competing in the North Division will select their kit from the options below.</p>
-          <div className="divisions-grid" style={{ marginTop: '1.5rem' }}>
-            {northKits.map((kit) => <KitCard key={kit.name} kit={kit} />)}
-          </div>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Secure your preferred kit early.</p>
-          <div className="sec-cta">
-            <Link className="cta" href="/registration">Register Your Team</Link>
-            <Link className="cta" href="/registration">Free Agent</Link>
-          </div>
-        </section>
+        {/*<section id="northKits" style={{ margin: '3rem 0', textAlign: 'center' }}>*/}
+        {/*  <h2>North Division Kits</h2>*/}
+        {/*  <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Teams competing in the North Division will select their kit from the options below.</p>*/}
+        {/*  <div className="divisions-grid" style={{ marginTop: '1.5rem' }}>*/}
+        {/*    {northKits.map((kit) => <KitCard key={kit.name} kit={kit} />)}*/}
+        {/*  </div>*/}
+        {/*  <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Secure your preferred kit early.</p>*/}
+        {/*  <div className="sec-cta">*/}
+        {/*    <Link className="cta" href="/registration">Register Your Team</Link>*/}
+        {/*    <Link className="cta" href="/registration">Free Agent</Link>*/}
+        {/*  </div>*/}
+        {/*</section>*/}
 
-        <GlowDivider />
+        {/*<GlowDivider />*/}
 
-        <section id="southKits" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2>South Division Kits</h2>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Teams competing in the South Division will select their kit from the options below.</p>
-          <div className="divisions-grid" style={{ marginTop: '1.5rem' }}>
-            {southKits.map((kit) => <KitCard key={kit.name} kit={kit} />)}
-          </div>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Availability will not last once selection begins.</p>
-          <div className="sec-cta">
-            <Link className="cta" href="/registration">Register Your Team</Link>
-            <Link className="cta" href="/registration">Free Agent</Link>
-          </div>
-        </section>
+        {/*<section id="southKits" style={{ margin: '3rem 0', textAlign: 'center' }}>*/}
+        {/*  <h2>South Division Kits</h2>*/}
+        {/*  <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Teams competing in the South Division will select their kit from the options below.</p>*/}
+        {/*  <div className="divisions-grid" style={{ marginTop: '1.5rem' }}>*/}
+        {/*    {southKits.map((kit) => <KitCard key={kit.name} kit={kit} />)}*/}
+        {/*  </div>*/}
+        {/*  <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Availability will not last once selection begins.</p>*/}
+        {/*  <div className="sec-cta">*/}
+        {/*    <Link className="cta" href="/registration">Register Your Team</Link>*/}
+        {/*    <Link className="cta" href="/registration">Free Agent</Link>*/}
+        {/*  </div>*/}
+        {/*</section>*/}
 
-        <GlowDivider />
+        {/*<GlowDivider />*/}
 
         <section style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2>One Team. One Kit.</h2>
