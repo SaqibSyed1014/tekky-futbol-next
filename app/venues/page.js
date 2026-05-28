@@ -21,26 +21,30 @@ export default function VenuesPage() {
         <GlowDivider />
 
         <section id="venues" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2>SKYLINE PITCH (planned)</h2>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Regular Season Home</p>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Chicago Skyline Pitch</p>
+          <h2>THE ATTRITION STAGE</h2>
+          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Regular Season Matchdays</p>
+          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Chicago-Area Venues (Planned)</p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            The TekkyFutbol regular season begins at Skyline Pitch, where the Attrition phase of the league unfolds.
+            The TekkyFutbol regular season unfolds during the Attrition stage — where teams build identity, earn points, and fight for postseason qualification.
           </p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            This venue hosts the weekly matchdays where teams build identity, earn points, and fight for postseason qualification.
+            Throughout the season, matchdays intentionally alternate between premium turf venues and futsal-style courts, forcing teams to adapt across different football environments while maintaining TekkyFutbol’s fast, technical style.
           </p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            Under the lights, the structure of the league sharpens creativity and rewards consistency.
+            On turf, the game rewards speed, transitions, and intensity.
           </p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            Matches rotate between turf and futsal-style surfaces, allowing the game to evolve across different environments while maintaining TekkyFutbol&#39;s fast, technical style.
+            On futsal courts, the game becomes tighter, faster, and more technical — demanding precision, intelligence, and quick decision-making under pressure.
+          </p>
+          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
+            Only the teams that consistently adapt, compete, and evolve across both environments earn the right to advance.
           </p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Expect</p>
           <ul className="bullet-list centered">
             <li>Fast-tempo matches</li>
-            <li>Alternating turf and futsal surfaces</li>
-            <li>High-intensity league play</li>
+            <li>Alternating turf and futsal-style surfaces</li>
+            <li>High-intensity league competition</li>
+            <li>Different environments that test complete teams</li>
             <li>A competitive atmosphere that rewards intelligence and flair</li>
           </ul>
         </section>
@@ -48,31 +52,53 @@ export default function VenuesPage() {
         <GlowDivider />
 
         <section id="stage" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2>THE POSTSEASON STAGE</h2>
+          <h2>THE DOMINION STAGE</h2>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Concrete Playoffs</p>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Harrison Park (planned)</p>
+          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Chicago Championship Venue (Planned)</p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             The TekkyFutbol postseason moves to true street concrete.
           </p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            At Harrison Park, the league shifts from the regular season&#39;s Attrition phase to the Dominion playoffs — where every moment carries weight.
+            The regular season’s Attrition phase gives way to Dominion — where every moment carries weight.
           </p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            The top teams from each division meet on a neutral concrete court to decide the champions.
+            Top teams meet at a neutral championship venue to decide who rises above the rest.
           </p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             Semifinals. Third Place. Final.
           </p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            Everything is decided on one defining championship day.
+            Everything is decided on one defining championship weekend.
           </p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Postseason Format</p>
           <ul className="bullet-list centered">
-            <li>Top 2 North Division qualify</li>
-            <li>Top 2 South Division qualify</li>
-            <li>Single elimination bracket</li>
+            <li>Top North teams qualify</li>
+            <li>Top South teams qualify</li>
+            <li>Single-elimination bracket</li>
             <li>Concrete playing surface</li>
-            <li>Weather backup: futsal venue</li>
+            <li>Weather backup venue</li>
+          </ul>
+        </section>
+
+        <GlowDivider />
+
+        <section style={{ margin: '3rem 0', textAlign: 'center' }}>
+          <h2>Festival Venue</h2>
+          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Festival Night (Planned)</p>
+          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
+            TekkyFutbol championship weekend extends beyond the court.
+          </p>
+          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
+            Music, streetwear, creators, food, supporters, and football culture come together for one closing-night experience.
+          </p>
+          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Planned Features</p>
+          <ul className="bullet-list centered">
+            <li>Live DJ/music</li>
+            <li>Streetwear & merch pop-ups</li>
+            <li>Food vendors</li>
+            <li>Creator/media content</li>
+            <li>Awards & celebration</li>
+            <li>Community atmosphere</li>
           </ul>
         </section>
 

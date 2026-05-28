@@ -4,21 +4,22 @@ import { useState } from 'react';
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 
-const weeks = Array.from({ length: 18 }, (_, i) => i + 1);
+const MATCHWEEKS = Array.from({ length: 16 }, (_, i) => ({ value: i + 1, label: `Matchweek ${i + 1}` }));
+const ALL_WEEKS  = [...MATCHWEEKS, { value: 17, label: 'Season Finale' }];
 
 export default function NextFixturesClient() {
   const [week, setWeek] = useState(1);
 
-  const weekLabel = week === 17 ? '17 (semis)' : String(week);
-  const showAll = week >= 1 && week <= 16;
-  const showSemis = week === 17;
-  const showFinal = week === 18;
+  const selected    = ALL_WEEKS.find((w) => w.value === week);
+  const headline    = selected?.label?.toUpperCase() ?? 'MATCHWEEK 1';
+  const isFinale    = week === 17;
+  const isMatchweek = week >= 1 && week <= 16;
 
   return (
     <>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
-          <h1>NEXT FIXTURES</h1>
+          <h1>{headline}</h1>
           <p className="tagline">For Ballers Who Create</p>
           <p className="subtext">See what&#39;s coming up next week across Tekky North and South.</p>
         </div>
@@ -41,102 +42,49 @@ export default function NextFixturesClient() {
               value={week}
               onChange={(e) => setWeek(Number(e.target.value))}
             >
-              {weeks.map((w) => (
-                <option key={w} value={w}>Week {w}</option>
+              {ALL_WEEKS.map((w) => (
+                <option key={w.value} value={w.value}>{w.label}</option>
               ))}
             </select>
           </div>
-          <h2>Matchweek {weekLabel}</h2>
         </section>
 
-        {showAll && (
-          <>
-            <section>
-              <h2>Tekky North</h2>
-              <div className="table-wrap">
-                <table>
-                  <thead>
-                    <tr><th>Venue</th><th>Match</th><th>Score</th><th>Week</th><th>Date</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td><td></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-
-            <GlowDivider />
-
-            <section>
-              <div className="table-wrap">
-                <h2>Tekky South</h2>
-                <table>
-                  <thead>
-                    <tr><th>Venue</th><th>Match</th><th>Score</th><th>Week</th><th>Date</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td><td></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          </>
-        )}
-
-        {showSemis && (
+        {isMatchweek && (
           <section>
             <div className="table-wrap">
               <table>
                 <thead>
-                  <tr><th>Venue</th><th>Match</th><th>Score</th><th>Week</th><th>Date</th></tr>
+                  <tr><th>Venue</th><th>Match</th><th>Time</th><th>Date</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td><td></td></tr>
-                  <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
                 </tbody>
               </table>
             </div>
           </section>
         )}
 
-        {showFinal && (
-          <>
-            <section>
-              <h2>Third Place</h2>
-              <div className="table-wrap">
-                <table>
-                  <thead>
-                    <tr><th>Venue</th><th>Match</th><th>Score</th><th>Week</th><th>Date</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td><td></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-
-            <GlowDivider />
-
-            <section>
-              <div className="table-wrap">
-                <h2>Championship</h2>
-                <table>
-                  <thead>
-                    <tr><th>Venue</th><th>Match</th><th>Score</th><th>Week</th><th>Date</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td><td></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          </>
+        {isFinale && (
+          <section>
+            <div className="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Venue</th><th>Match</th><th>Time</th><th>Date</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
         )}
 
         <GlowDivider />
