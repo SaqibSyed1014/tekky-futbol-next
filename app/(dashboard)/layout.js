@@ -16,16 +16,18 @@ const ADMIN_NAV = [
 ];
 
 const PLAYER_NAV = [
-  { href: '/user',         icon: 'fa-solid fa-house',          label: 'Home'   },
-  { href: '/user/waiver',  icon: 'fa-solid fa-file-signature', label: 'Waiver' },
+  { href: '/user',         icon: 'fa-solid fa-house',          label: 'Home'    },
+  { href: '/user/waiver',  icon: 'fa-solid fa-file-signature', label: 'Waiver'  },
+  { href: '/user/profile', icon: 'fa-solid fa-user',           label: 'Profile' },
 ];
 
 // Captain shares the /user route but also gets roster nav links
 const CAPTAIN_NAV = [
-  { href: '/user',         icon: 'fa-solid fa-house',            label: 'Home'        },
-  { href: '/user/roster',  icon: 'fa-solid fa-users',            label: 'My Roster'   },
+  { href: '/user',         icon: 'fa-solid fa-house',            label: 'Home'         },
+  { href: '/user/roster',  icon: 'fa-solid fa-users',            label: 'My Roster'    },
   { href: '/user/pool',    icon: 'fa-solid fa-magnifying-glass', label: 'Find Players' },
-  { href: '/user/waiver',  icon: 'fa-solid fa-file-signature',   label: 'Waiver'      },
+  { href: '/user/waiver',  icon: 'fa-solid fa-file-signature',   label: 'Waiver'       },
+  { href: '/user/profile', icon: 'fa-solid fa-user',             label: 'Profile'      },
 ];
 
 const PAGE_TITLES = {
