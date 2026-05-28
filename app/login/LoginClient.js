@@ -163,6 +163,11 @@ export default function LoginClient() {
                 Register here
               </Link>
             </span>
+            <span>
+              <Link href="/forgot-password" style={{ color: 'var(--muted)', fontWeight: 500 }}>
+                Forgot your password?
+              </Link>
+            </span>
           </div>
         </section>}
 
