@@ -52,7 +52,7 @@ export default function ScheduleClient() {
               <table>
                 <thead>
                   <tr>
-                    <th>Venue</th><th>Match</th><th>Time</th><th>Date</th>
+                    <th>Division</th><th>Match</th><th>Time</th><th>Date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -80,7 +80,7 @@ export default function ScheduleClient() {
                     <tr><th>Venue</th><th>Match</th><th>Score</th><th>Week</th><th>Date</th></tr>
                     </thead>
                     <tbody>
-                    <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td><td></td></tr>
+                    <tr><td></td><td></td><td></td><td></td><td></td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -96,7 +96,7 @@ export default function ScheduleClient() {
                     <tr><th>Venue</th><th>Match</th><th>Score</th><th>Week</th><th>Date</th></tr>
                     </thead>
                     <tbody>
-                    <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td><td></td></tr>
+                    <tr><td></td><td></td><td></td><td></td><td></td></tr>
                     </tbody>
                   </table>
                 </div>

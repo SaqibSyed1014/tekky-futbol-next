@@ -81,7 +81,7 @@ export default function WomenNextFixturesClient() {
                       <tr><th>Venue</th><th>Match</th><th>Score</th><th>Week</th><th>Date</th></tr>
                       </thead>
                       <tbody>
-                      <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td></td><td></td><td></td><td></td><td></td></tr>
                       </tbody>
                     </table>
                   </div>
@@ -97,7 +97,7 @@ export default function WomenNextFixturesClient() {
                       <tr><th>Venue</th><th>Match</th><th>Score</th><th>Week</th><th>Date</th></tr>
                       </thead>
                       <tbody>
-                      <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td></td><td></td><td></td><td></td><td></td></tr>
                       </tbody>
                     </table>
                   </div>
