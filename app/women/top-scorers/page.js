@@ -49,13 +49,13 @@ export default function WomenTopScorersPage() {
             {/*<h2>Tekky North</h2>*/}
             <table>
               <thead>
-              <tr><th>Rank</th><th>Venue</th><th>Player</th><th>Team</th><th>Goals</th><th>Matches</th></tr>
+              <tr><th>Rank</th><th>Division</th><th>Player</th><th>Team</th><th>Goals</th><th>Matches</th></tr>
               </thead>
               <tbody>
               {ranks.map((rank) => (
                   <tr key={rank}>
                     <td className="venue-cell">{rank}</td>
-                    <td className="venue-cell">{rank <= 4 ? "Tekky North" : "Tekky South"}</td>
+                    <td className="venue-cell"></td>
                     <td></td>
                     <td></td>
                     <td></td>

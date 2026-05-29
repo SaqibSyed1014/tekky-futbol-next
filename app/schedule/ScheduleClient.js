@@ -10,14 +10,11 @@ const ALL_WEEKS  = [...MATCHWEEKS, { value: 17, label: 'Season Finale' }];
 export default function ScheduleClient() {
   const [week, setWeek] = useState(1);
 
-  const selected = ALL_WEEKS.find((w) => w.value === week);
-  const headline = selected?.label?.toUpperCase() ?? 'MATCHWEEK 1';
-
   return (
     <>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
-          <h1>{headline}</h1>
+          <h1>2026 LEAGUE SCHEDULE</h1>
           <p className="tagline">For Ballers Who Create</p>
           <p className="subtext">The action this week — two venues, one flow.</p>
         </div>
