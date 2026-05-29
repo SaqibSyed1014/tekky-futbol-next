@@ -9,6 +9,8 @@ const ALL_WEEKS  = [...MATCHWEEKS, { value: 17, label: 'Season Finale' }];
 
 export default function WomenSchedulePage() {
   const [week, setWeek] = useState(1);
+  const showAll = week >= 1 && week <= 16;
+  const showFinal = week === 17;
 
   return (
       <>
@@ -44,27 +46,63 @@ export default function WomenSchedulePage() {
             </div>
           </section>
 
-          <section>
-            <div className="table-wrap">
-              <table>
-                <thead>
-                <tr>
-                  <th>Venue</th><th>Match</th><th>Time</th><th>Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
-                <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
-                <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
-                <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
-                <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
-                <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
-                <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
-                <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
+          {showAll && (
+            <section>
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                  <tr>
+                    <th>Venue</th><th>Match</th><th>Time</th><th>Date</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
+                  <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
+
+          {showFinal && (
+              <>
+                <section>
+                  <h2>Third Place</h2>
+                  <div className="table-wrap">
+                    <table>
+                      <thead>
+                      <tr><th>Venue</th><th>Match</th><th>Score</th><th>Week</th><th>Date</th></tr>
+                      </thead>
+                      <tbody>
+                      <tr><td className="venue-cell">Tekky North</td><td></td><td></td><td></td><td></td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <GlowDivider />
+
+                <section>
+                  <div className="table-wrap">
+                    <h2>Championship</h2>
+                    <table>
+                      <thead>
+                      <tr><th>Venue</th><th>Match</th><th>Score</th><th>Week</th><th>Date</th></tr>
+                      </thead>
+                      <tbody>
+                      <tr><td className="venue-cell">Tekky South</td><td></td><td></td><td></td><td></td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+              </>
+          )}
 
           <GlowDivider />
 
