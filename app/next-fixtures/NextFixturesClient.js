@@ -10,8 +10,6 @@ const ALL_WEEKS  = [...MATCHWEEKS, { value: 17, label: 'Season Finale' }];
 export default function NextFixturesClient() {
   const [week, setWeek] = useState(1);
 
-  const selected    = ALL_WEEKS.find((w) => w.value === week);
-  const headline    = selected?.label?.toUpperCase() ?? 'MATCHWEEK 1';
   const showFinal    = week === 17;
   const isMatchweek = week >= 1 && week <= 16;
 
@@ -19,7 +17,7 @@ export default function NextFixturesClient() {
     <>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
-          <h1>{headline}</h1>
+          <h1>Next Fixtures</h1>
           <p className="tagline">For Ballers Who Create</p>
           <p className="subtext">See what&#39;s coming up next week across Tekky North and South.</p>
         </div>
