@@ -28,8 +28,8 @@ export default function WomenResultsClient() {
           <GlowDivider />
 
           <div className="tabs">
-            <Link className="cta active" href="/results">Men</Link>
-            <Link className="cta" href="/women/results">Women</Link>
+            <Link className="cta" href="/results">Men</Link>
+            <Link className="cta active" href="/women/results">Women</Link>
           </div>
 
           <section id="results">
