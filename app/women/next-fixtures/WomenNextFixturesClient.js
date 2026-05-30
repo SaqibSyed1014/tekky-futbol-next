@@ -29,8 +29,8 @@ export default function WomenNextFixturesClient() {
           <GlowDivider />
 
           <div className="tabs">
-            <Link className="cta active" href="/next-fixtures">Men</Link>
-            <Link className="cta" href="/women/next-fixtures">Women</Link>
+            <Link className="cta" href="/next-fixtures">Men</Link>
+            <Link className="cta active" href="/women/next-fixtures">Women</Link>
           </div>
 
           <section>
