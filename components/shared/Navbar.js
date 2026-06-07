@@ -251,13 +251,16 @@ export default function Navbar() {
             </Dropdown>
 
             <li>
-              <Link href="/registration">Register</Link>
-            </li>
-            <li>
               <Link href="/season-finale">Finale</Link>
             </li>
             <li>
               <Link href="/contact">Contact</Link>
+            </li>
+            <li>
+              <Link href="/registration">Register</Link>
+            </li>
+            <li>
+              <Link href="/login">Login</Link>
             </li>
           </ul>
         </div>
