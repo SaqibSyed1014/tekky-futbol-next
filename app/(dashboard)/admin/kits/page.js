@@ -208,20 +208,20 @@ export default function AdminKitsPage() {
           </div>
         </div>
 
-        <a
-          href={getKitExportUrl()}
-          target="_blank"
-          rel="noreferrer"
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-            padding: '0.55rem 1.25rem', borderRadius: 8,
-            background: 'rgba(0,200,100,0.1)', border: '1px solid rgba(0,200,100,0.3)',
-            color: '#00c864', fontSize: '0.88rem', fontWeight: 600,
-            textDecoration: 'none', transition: 'all 0.15s',
-          }}
-        >
-          <i className="fa-solid fa-file-csv" /> Export CSV
-        </a>
+        {/*<a*/}
+        {/*  href={getKitExportUrl()}*/}
+        {/*  target="_blank"*/}
+        {/*  rel="noreferrer"*/}
+        {/*  style={{*/}
+        {/*    display: 'inline-flex', alignItems: 'center', gap: '0.5rem',*/}
+        {/*    padding: '0.55rem 1.25rem', borderRadius: 8,*/}
+        {/*    background: 'rgba(0,200,100,0.1)', border: '1px solid rgba(0,200,100,0.3)',*/}
+        {/*    color: '#00c864', fontSize: '0.88rem', fontWeight: 600,*/}
+        {/*    textDecoration: 'none', transition: 'all 0.15s',*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <i className="fa-solid fa-file-csv" /> Export CSV*/}
+        {/*</a>*/}
       </div>
 
       <Banner type="error">{error}</Banner>
