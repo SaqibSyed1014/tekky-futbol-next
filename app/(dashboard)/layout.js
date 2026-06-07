@@ -13,11 +13,13 @@ const ADMIN_NAV = [
   { href: '/admin/teams',          icon: 'fa-solid fa-shield-halved',   label: 'Teams'        },
   { href: '/admin/memberships',    icon: 'fa-solid fa-users',           label: 'Memberships'  },
   { href: '/admin/waivers',        icon: 'fa-solid fa-file-signature',  label: 'Waivers'      },
+  { href: '/admin/kits',           icon: 'fa-solid fa-shirt',           label: 'Kits'         },
 ];
 
 const PLAYER_NAV = [
   { href: '/user',        icon: 'fa-solid fa-house',          label: 'Home'   },
   { href: '/user/waiver', icon: 'fa-solid fa-file-signature', label: 'Waiver' },
+  { href: '/user/kit',    icon: 'fa-solid fa-shirt',          label: 'Kit'    },
 ];
 
 // Captain shares the /user route but also gets roster nav links
@@ -26,6 +28,7 @@ const CAPTAIN_NAV = [
   { href: '/user/roster',  icon: 'fa-solid fa-users',            label: 'My Roster'    },
   { href: '/user/pool',    icon: 'fa-solid fa-magnifying-glass', label: 'Find Players' },
   { href: '/user/waiver',  icon: 'fa-solid fa-file-signature',   label: 'Waiver'       },
+  { href: '/user/kit',     icon: 'fa-solid fa-shirt',            label: 'Kit'          },
 ];
 
 const PAGE_TITLES = {
@@ -35,12 +38,14 @@ const PAGE_TITLES = {
   '/admin/memberships':    'Memberships',
   '/admin/waivers':        'Waivers',
   '/admin/profile':        'My Profile',
+  '/admin/kits':           'Kit Orders',
   '/user':                 'Dashboard',
   '/user/roster':          'My Roster',
   '/user/invites':         'Invitations',
   '/user/pool':            'Find Players',
   '/user/waiver':          'Waiver',
   '/user/profile':         'My Profile',
+  '/user/kit':             'Kit Selection',
 };
 
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
