@@ -8,6 +8,7 @@ import {
   changePassword,
   deleteAccount,
 } from '@/services/userApi';
+import { submitProfileLink, submitTeamLink } from '@/services/profilesApi';
 import { useRouter } from 'next/navigation';
 
 // ─── Responsive styles ────────────────────────────────────────────────────────
@@ -182,6 +183,7 @@ function ErrorBanner({ msg }) {
 
 const TABS = [
   { key: 'info',     label: 'Personal Info', icon: 'fa-solid fa-id-card' },
+  { key: 'links',    label: 'Links',         icon: 'fa-solid fa-link'    },
   { key: 'security', label: 'Security',      icon: 'fa-solid fa-lock'    },
   { key: 'account',  label: 'Account',       icon: 'fa-solid fa-gear'    },
 ];
@@ -531,6 +533,147 @@ function AccountTab() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
+// ─── Links Tab ────────────────────────────────────────────────────────────────
+
+function LinksTab({ user, onUpdated }) {
+  const profile    = user?.profile;
+  const isCaptain  = user?.is_captain;
+
+  const STATUS_MAP = {
+    none:     { color: '#555',    label: 'Not submitted',   icon: 'fa-solid fa-circle-minus'  },
+    pending:  { color: '#ffb400', label: 'Pending approval',icon: 'fa-solid fa-clock'          },
+    approved: { color: '#00c864', label: 'Live on profile', icon: 'fa-solid fa-circle-check'  },
+    rejected: { color: '#ff6b6b', label: 'Rejected',        icon: 'fa-solid fa-circle-xmark'  },
+  };
+
+  // ── Personal profile link ──
+  const [pLink,    setPLink]    = useState(profile?.profile_link        || '');
+  const [pSaving,  setPSaving]  = useState(false);
+  const [pSuccess, setPSuccess] = useState('');
+  const [pError,   setPError]   = useState('');
+  const pStatus = profile?.profile_link_status || 'none';
+  const pStatusInfo = STATUS_MAP[pStatus];
+
+  async function handleProfileLink(e) {
+    e.preventDefault();
+    setPSaving(true); setPSuccess(''); setPError('');
+    try {
+      await submitProfileLink(pLink.trim() || null);
+      setPSuccess(pLink.trim() ? 'Link submitted for approval.' : 'Link cleared.');
+      if (onUpdated) onUpdated();
+    } catch (err) {
+      setPError(err?.message || 'Failed to submit link.');
+    } finally {
+      setPSaving(false);
+    }
+  }
+
+  // ── Team link (captain only) ──
+  const [tLink,    setTLink]    = useState('');
+  const [tSaving,  setTSaving]  = useState(false);
+  const [tSuccess, setTSuccess] = useState('');
+  const [tError,   setTError]   = useState('');
+
+  async function handleTeamLink(e) {
+    e.preventDefault();
+    setTSaving(true); setTSuccess(''); setTError('');
+    try {
+      await submitTeamLink(tLink.trim() || null);
+      setTSuccess(tLink.trim() ? 'Team link submitted for approval.' : 'Team link cleared.');
+    } catch (err) {
+      setTError(err?.message || 'Failed to submit team link.');
+    } finally {
+      setTSaving(false);
+    }
+  }
+
+  return (
+    <div>
+      {/* Personal profile link */}
+      <Card style={{ marginBottom: '1.5rem' }}>
+        <SectionHeading>Personal Profile Link</SectionHeading>
+        <p style={{ fontSize: '0.85rem', color: 'var(--muted)', marginBottom: '1rem', lineHeight: 1.6 }}>
+          Add a link to your highlight reel, social page, or any football-related content.
+          Once submitted, it will appear on your public profile after admin approval.
+        </p>
+        {pStatusInfo && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', fontSize: '0.85rem', color: pStatusInfo.color, fontWeight: 600 }}>
+            <i className={pStatusInfo.icon} />
+            Status: {pStatusInfo.label}
+          </div>
+        )}
+        {pStatus === 'approved' && profile?.profile_link && (
+          <div style={{ marginBottom: '1rem', padding: '0.6rem 0.9rem', background: 'rgba(0,200,100,0.08)', border: '1px solid rgba(0,200,100,0.25)', borderRadius: 8, fontSize: '0.83rem' }}>
+            <i className="fa-solid fa-circle-check" style={{ color: '#00c864', marginRight: '0.5rem' }} />
+            Live:{' '}
+            <a href={profile.profile_link} target="_blank" rel="noreferrer" style={{ color: 'var(--tekky-blue)' }}>
+              {profile.profile_link}
+            </a>
+          </div>
+        )}
+        <form onSubmit={handleProfileLink}>
+          {pSuccess && <div style={{ background: 'rgba(0,200,100,0.1)', border: '1px solid rgba(0,200,100,0.3)', borderRadius: 8, padding: '0.65rem 1rem', color: '#00c864', fontSize: '0.85rem', marginBottom: '1rem' }}><i className="fa-solid fa-circle-check" style={{ marginRight: '0.4rem' }} />{pSuccess}</div>}
+          {pError   && <div style={{ background: 'rgba(255,60,60,0.1)',  border: '1px solid rgba(255,60,60,0.3)',  borderRadius: 8, padding: '0.65rem 1rem', color: '#ff6b6b', fontSize: '0.85rem', marginBottom: '1rem' }}><i className="fa-solid fa-circle-xmark" style={{ marginRight: '0.4rem' }} />{pError}</div>}
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, marginBottom: '0.4rem' }}>
+              Profile URL
+            </label>
+            <input
+              type="url"
+              value={pLink}
+              onChange={(e) => setPLink(e.target.value)}
+              placeholder="https://youtube.com/your-highlights"
+              style={{ width: '100%', boxSizing: 'border-box' }}
+            />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.6rem' }}>
+            {pLink && (
+              <button type="button" onClick={() => { setPLink(''); }} style={{ padding: '0.55rem 1rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85rem' }}>
+                Clear
+              </button>
+            )}
+            <button type="submit" className="cta" disabled={pSaving} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.55rem 1.5rem' }}>
+              {pSaving ? <><span className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }} /> Submitting…</> : <><i className="fa-solid fa-paper-plane" /> Submit for Approval</>}
+            </button>
+          </div>
+        </form>
+      </Card>
+
+      {/* Team link (captain only) */}
+      {isCaptain && (
+        <Card>
+          <SectionHeading>Team Link</SectionHeading>
+          <p style={{ fontSize: '0.85rem', color: 'var(--muted)', marginBottom: '1rem', lineHeight: 1.6 }}>
+            Add a link to your team's Instagram, WhatsApp group, highlight channel, or any team-related page.
+            Once approved by admin, it will appear on all your players' public profiles.
+          </p>
+          <form onSubmit={handleTeamLink}>
+            {tSuccess && <div style={{ background: 'rgba(0,200,100,0.1)', border: '1px solid rgba(0,200,100,0.3)', borderRadius: 8, padding: '0.65rem 1rem', color: '#00c864', fontSize: '0.85rem', marginBottom: '1rem' }}><i className="fa-solid fa-circle-check" style={{ marginRight: '0.4rem' }} />{tSuccess}</div>}
+            {tError   && <div style={{ background: 'rgba(255,60,60,0.1)',  border: '1px solid rgba(255,60,60,0.3)',  borderRadius: 8, padding: '0.65rem 1rem', color: '#ff6b6b', fontSize: '0.85rem', marginBottom: '1rem' }}><i className="fa-solid fa-circle-xmark" style={{ marginRight: '0.4rem' }} />{tError}</div>}
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, marginBottom: '0.4rem' }}>
+                Team URL
+              </label>
+              <input
+                type="url"
+                value={tLink}
+                onChange={(e) => setTLink(e.target.value)}
+                placeholder="https://instagram.com/yourteam"
+                style={{ width: '100%', boxSizing: 'border-box' }}
+              />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <button type="submit" className="cta" disabled={tSaving} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.55rem 1.5rem' }}>
+                {tSaving ? <><span className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }} /> Submitting…</> : <><i className="fa-solid fa-paper-plane" /> Submit for Approval</>}
+              </button>
+            </div>
+          </form>
+        </Card>
+      )}
+    </div>
+  );
+}
+
 export default function PlayerProfilePage() {
   const { user, loading, refreshUser } = useAuth();
   const [activeTab, setActiveTab] = useState('info');
@@ -618,6 +761,7 @@ export default function PlayerProfilePage() {
 
         {/* Tab content */}
         {activeTab === 'info'     && <PersonalInfoTab user={user} onUpdated={refreshUser} />}
+        {activeTab === 'links'    && <LinksTab user={user} onUpdated={refreshUser} />}
         {activeTab === 'security' && <SecurityTab />}
         {activeTab === 'account'  && <AccountTab />}
       </div>

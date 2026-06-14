@@ -12,6 +12,7 @@ const ADMIN_NAV = [
   { href: '/admin/applications',   icon: 'fa-solid fa-file-lines',      label: 'Applications' },
   { href: '/admin/teams',          icon: 'fa-solid fa-shield-halved',   label: 'Teams'        },
   { href: '/admin/memberships',    icon: 'fa-solid fa-users',           label: 'Memberships'  },
+  { href: '/admin/players',        icon: 'fa-solid fa-user-group',      label: 'Players'      },
   { href: '/admin/waivers',        icon: 'fa-solid fa-file-signature',  label: 'Waivers'      },
   { href: '/admin/kits',           icon: 'fa-solid fa-shirt',           label: 'Kits'         },
 ];
@@ -39,6 +40,7 @@ const PAGE_TITLES = {
   '/admin/waivers':        'Waivers',
   '/admin/profile':        'My Profile',
   '/admin/kits':           'Kit Orders',
+  '/admin/players':        'Players',
   '/user':                 'Dashboard',
   '/user/roster':          'My Roster',
   '/user/invites':         'Invitations',
