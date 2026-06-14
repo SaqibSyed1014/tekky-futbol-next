@@ -167,9 +167,10 @@ export default function PublicProfilePage() {
     );
   }
 
-  const hasUpcomingMatch = profile.upcoming_opponent || profile.upcoming_date;
-  const hasTeamStanding  = profile.team_rank != null || profile.team_wins || profile.team_losses || profile.team_draws;
-  const hasStats         = profile.goals || profile.assists || profile.matches_played || profile.mvps;
+  // Use !! to ensure boolean — avoids React rendering falsy numbers as text nodes
+  const hasStats         = !!(profile.goals || profile.assists || profile.matches_played || profile.mvps);
+  const hasUpcomingMatch = !!(profile.upcoming_opponent || profile.upcoming_date);
+  const hasTeamStanding  = !!(profile.team_rank != null || profile.team_wins || profile.team_losses || profile.team_draws);
 
   return (
     <>
@@ -181,6 +182,8 @@ export default function PublicProfilePage() {
         @keyframes buttonPulse { 0% { box-shadow: 0 0 10px var(--tekky-blue) } 100% { box-shadow: 0 0 25px var(--tekky-blue) } }
         .spinner { display: inline-block; width: 32px; height: 32px; border: 3px solid rgba(0,116,255,0.2); border-top-color: #0074ff; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        .profile-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        @media (max-width: 700px) { .profile-cards-grid { grid-template-columns: 1fr; } }
       `}</style>
 
       {/* ── Nav ── */}
@@ -232,25 +235,6 @@ export default function PublicProfilePage() {
             {profile.team_name ? ` — ${profile.team_name}` : ''}
           </p>
 
-          {/* Personal profile link button */}
-          {profile.profile_link && (
-            <a
-              href={profile.profile_link}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: 'inline-block', marginTop: '1rem',
-                padding: '0.65rem 1.5rem',
-                border: '2px solid var(--tekky-blue)', borderRadius: 40,
-                color: '#fff', textDecoration: 'none',
-                fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1px',
-                animation: 'buttonPulse 2s infinite alternate',
-              }}
-            >
-              <i className="fa-solid fa-arrow-up-right-from-square" style={{ marginRight: '0.5rem' }} />
-              My Profile Link
-            </a>
-          )}
         </div>
       </header>
 
@@ -261,22 +245,17 @@ export default function PublicProfilePage() {
         borderRadius: 4, boxShadow: '0 0 20px var(--tekky-blue)',
       }} />
 
-      {/* ── Cards grid ── */}
-      <main style={{
-        maxWidth: 1100, margin: '0 auto 5rem',
-        padding: '0 1.25rem',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: '2rem',
-      }}>
+      {/* ── Cards grid — always 2×2 on desktop ── */}
+      <main className="profile-cards-grid" style={{ maxWidth: 1100, margin: '0 auto 5rem', padding: '0 1.25rem' }}>
 
-        {/* Player Info */}
+        {/* Player Info — always shown */}
         <SectionCard title="Player Info">
-          <InfoRow label="Name"       value={fmt(profile.name)} />
-          <InfoRow label="Team"       value={fmt(profile.team_name)} />
-          <InfoRow label="Position"   value={fmt(profile.position)} />
-          <InfoRow label="Division"   value={profile.preferred_division ? profile.preferred_division.charAt(0).toUpperCase() + profile.preferred_division.slice(1) : '—'} />
-          <InfoRow label="Status"     value={profile.status ? profile.status.replace('_', ' ') : '—'} />
+          <InfoRow label="Name"     value={fmt(profile.name)} />
+          <InfoRow label="Team"     value={fmt(profile.team_name)} />
+          <InfoRow label="Division" value={profile.preferred_division ? profile.preferred_division.charAt(0).toUpperCase() + profile.preferred_division.slice(1) : '—'} />
+          {profile.number_on_kit != null && (
+            <InfoRow label="Jersey #" value={`#${profile.number_on_kit}`} />
+          )}
           {profile.instagram && (
             <InfoRow label="Instagram" value={
               <a href={`https://instagram.com/${profile.instagram.replace('@', '')}`} target="_blank" rel="noreferrer" style={{ color: 'var(--tekky-blue)' }}>
@@ -294,10 +273,30 @@ export default function PublicProfilePage() {
               </a>
             </p>
           )}
+          {profile.profile_link && (
+            <div style={{ marginTop: '1rem', paddingTop: '0.85rem', borderTop: '1px solid rgba(0,116,255,0.15)' }}>
+              <a
+                href={profile.profile_link}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+                  padding: '0.55rem 1.25rem',
+                  border: '2px solid var(--tekky-blue)', borderRadius: 40,
+                  color: '#fff', textDecoration: 'none',
+                  fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1px', fontSize: '0.95rem',
+                  animation: 'buttonPulse 2s infinite alternate',
+                }}
+              >
+                <i className="fa-solid fa-arrow-up-right-from-square" />
+                My Profile Link
+              </a>
+            </div>
+          )}
         </SectionCard>
 
-        {/* Stats Overview */}
-        {hasStats && (
+        {/* Stats Overview — only when at least one stat > 0 */}
+        {hasStats ? (
           <SectionCard title="Stats Overview">
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
               <StatCard value={profile.goals}          label="Goals" />
@@ -306,26 +305,28 @@ export default function PublicProfilePage() {
               <StatCard value={profile.mvps}           label="MVPs" />
             </div>
           </SectionCard>
-        )}
+        ) : null}
 
         {/* Upcoming Match */}
-        {hasUpcomingMatch && (
+        {hasUpcomingMatch ? (
           <SectionCard title="Upcoming Match">
-            <InfoRow label="Opponent"  value={fmt(profile.upcoming_opponent)} />
-            <InfoRow label="Date"      value={fmtDate(profile.upcoming_date)} />
-            <InfoRow label="Kickoff"   value={fmt(profile.upcoming_kickoff)} />
-            <InfoRow label="Location"  value={fmt(profile.upcoming_location)} />
+            <InfoRow label="Opponent" value={fmt(profile.upcoming_opponent)} />
+            <InfoRow label="Date"     value={fmtDate(profile.upcoming_date)} />
+            <InfoRow label="Kickoff"  value={fmt(profile.upcoming_kickoff)} />
+            <InfoRow label="Location" value={fmt(profile.upcoming_location)} />
           </SectionCard>
-        )}
+        ) : null}
 
         {/* Team Standing */}
-        {hasTeamStanding && (
+        {hasTeamStanding ? (
           <SectionCard title="Team Standing">
-            {profile.team_rank   && <InfoRow label="Rank"            value={`${profile.team_rank}${['st','nd','rd'][((profile.team_rank+90)%100-10)%10-1]||'th'}`} />}
+            {profile.team_rank != null && (
+              <InfoRow label="Rank" value={`${profile.team_rank}${['st','nd','rd'][((profile.team_rank+90)%100-10)%10-1]||'th'}`} />
+            )}
             <InfoRow label="Record"          value={fmtRecord(profile.team_wins, profile.team_losses, profile.team_draws)} />
-            <InfoRow label="Goal Difference" value={profile.team_goal_difference > 0 ? `+${profile.team_goal_difference}` : profile.team_goal_difference} />
+            <InfoRow label="Goal Difference" value={profile.team_goal_difference > 0 ? `+${profile.team_goal_difference}` : `${profile.team_goal_difference}`} />
           </SectionCard>
-        )}
+        ) : null}
 
       </main>
 
