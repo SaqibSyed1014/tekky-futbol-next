@@ -77,22 +77,40 @@ function CopyUrlButton({ url }) {
   );
 }
 
+// ─── Stats modal helpers — defined at module level to prevent focus loss ───────
+// IMPORTANT: these must NOT be defined inside StatsModal. Defining components
+// inside another component causes React to treat them as new types on every
+// render, unmounting/remounting inputs and losing focus after each keystroke.
+
+const MODAL_INPUT_STYLE = { width: '100%', boxSizing: 'border-box', marginBottom: 0 };
+
+function ModalField({ label, children }) {
+  return (
+    <div style={{ marginBottom: '0.85rem' }}>
+      <label style={{ display: 'block', fontSize: '0.73rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, marginBottom: '0.3rem' }}>
+        {label}
+      </label>
+      {children}
+    </div>
+  );
+}
+
 // ─── Stats edit modal ─────────────────────────────────────────────────────────
 
 function StatsModal({ player, onClose, onSaved }) {
   const [form, setForm] = useState({
-    goals:              player.goals ?? 0,
-    assists:            player.assists ?? 0,
-    matches_played:     player.matches_played ?? 0,
-    mvps:               player.mvps ?? 0,
-    upcoming_opponent:  player.upcoming_opponent ?? '',
-    upcoming_date:      player.upcoming_date ?? '',
-    upcoming_kickoff:   player.upcoming_kickoff ?? '',
-    upcoming_location:  player.upcoming_location ?? '',
-    team_rank:          player.team_rank ?? '',
-    team_wins:          player.team_wins ?? 0,
-    team_losses:        player.team_losses ?? 0,
-    team_draws:         player.team_draws ?? 0,
+    goals:                player.goals ?? 0,
+    assists:              player.assists ?? 0,
+    matches_played:       player.matches_played ?? 0,
+    mvps:                 player.mvps ?? 0,
+    upcoming_opponent:    player.upcoming_opponent ?? '',
+    upcoming_date:        player.upcoming_date ?? '',
+    upcoming_kickoff:     player.upcoming_kickoff ?? '',
+    upcoming_location:    player.upcoming_location ?? '',
+    team_rank:            player.team_rank ?? '',
+    team_wins:            player.team_wins ?? 0,
+    team_losses:          player.team_losses ?? 0,
+    team_draws:           player.team_draws ?? 0,
     team_goal_difference: player.team_goal_difference ?? 0,
   });
   const [saving, setSaving] = useState(false);
@@ -125,21 +143,6 @@ function StatsModal({ player, onClose, onSaved }) {
     }
   }
 
-  const inputStyle = { width: '100%', boxSizing: 'border-box', marginBottom: 0 };
-
-  function Field({ label, children }) {
-    return (
-      <div style={{ marginBottom: '0.85rem' }}>
-        <label style={{ display: 'block', fontSize: '0.73rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, marginBottom: '0.3rem' }}>{label}</label>
-        {children}
-      </div>
-    );
-  }
-
-  function NumInput({ k, min = 0 }) {
-    return <input type="number" min={min} value={form[k]} onChange={(e) => set(k, e.target.value)} style={inputStyle} />;
-  }
-
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
       <div style={{ background: '#0a0a0a', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 14, padding: '2rem', maxWidth: 580, width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 0 60px rgba(0,0,0,0.8)' }}>
@@ -157,29 +160,55 @@ function StatsModal({ player, onClose, onSaved }) {
           {/* Stats */}
           <p style={{ fontSize: '0.75rem', color: 'var(--tekky-blue)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, marginBottom: '0.75rem' }}>Stats Overview</p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 1.25rem' }}>
-            <Field label="Goals"><NumInput k="goals" /></Field>
-            <Field label="Assists"><NumInput k="assists" /></Field>
-            <Field label="Matches Played"><NumInput k="matches_played" /></Field>
-            <Field label="MVPs"><NumInput k="mvps" /></Field>
+            <ModalField label="Goals">
+              <input type="number" min={0} value={form.goals} onChange={(e) => set('goals', e.target.value)} style={MODAL_INPUT_STYLE} />
+            </ModalField>
+            <ModalField label="Assists">
+              <input type="number" min={0} value={form.assists} onChange={(e) => set('assists', e.target.value)} style={MODAL_INPUT_STYLE} />
+            </ModalField>
+            <ModalField label="Matches Played">
+              <input type="number" min={0} value={form.matches_played} onChange={(e) => set('matches_played', e.target.value)} style={MODAL_INPUT_STYLE} />
+            </ModalField>
+            <ModalField label="MVPs">
+              <input type="number" min={0} value={form.mvps} onChange={(e) => set('mvps', e.target.value)} style={MODAL_INPUT_STYLE} />
+            </ModalField>
           </div>
 
           {/* Upcoming Match */}
           <p style={{ fontSize: '0.75rem', color: 'var(--tekky-blue)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, margin: '1rem 0 0.75rem' }}>Upcoming Match</p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 1.25rem' }}>
-            <Field label="Opponent"><input type="text" value={form.upcoming_opponent} onChange={(e) => set('upcoming_opponent', e.target.value)} placeholder="e.g. Street Runners" style={inputStyle} /></Field>
-            <Field label="Date"><input type="date" value={form.upcoming_date} onChange={(e) => set('upcoming_date', e.target.value)} style={inputStyle} /></Field>
-            <Field label="Kickoff Time"><input type="text" value={form.upcoming_kickoff} onChange={(e) => set('upcoming_kickoff', e.target.value)} placeholder="e.g. 7:00 PM" style={inputStyle} /></Field>
-            <Field label="Location"><input type="text" value={form.upcoming_location} onChange={(e) => set('upcoming_location', e.target.value)} placeholder="e.g. Tekky Arena Pitch 3" style={inputStyle} /></Field>
+            <ModalField label="Opponent">
+              <input type="text" value={form.upcoming_opponent} onChange={(e) => set('upcoming_opponent', e.target.value)} placeholder="e.g. Street Runners" style={MODAL_INPUT_STYLE} />
+            </ModalField>
+            <ModalField label="Date">
+              <input type="date" value={form.upcoming_date} onChange={(e) => set('upcoming_date', e.target.value)} style={MODAL_INPUT_STYLE} />
+            </ModalField>
+            <ModalField label="Kickoff Time">
+              <input type="text" value={form.upcoming_kickoff} onChange={(e) => set('upcoming_kickoff', e.target.value)} placeholder="e.g. 7:00 PM" style={MODAL_INPUT_STYLE} />
+            </ModalField>
+            <ModalField label="Location">
+              <input type="text" value={form.upcoming_location} onChange={(e) => set('upcoming_location', e.target.value)} placeholder="e.g. Tekky Arena Pitch 3" style={MODAL_INPUT_STYLE} />
+            </ModalField>
           </div>
 
           {/* Team Standing */}
           <p style={{ fontSize: '0.75rem', color: 'var(--tekky-blue)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, margin: '1rem 0 0.75rem' }}>Team Standing</p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 1.25rem' }}>
-            <Field label="Rank"><input type="number" min={1} value={form.team_rank} onChange={(e) => set('team_rank', e.target.value)} placeholder="e.g. 2" style={inputStyle} /></Field>
-            <Field label="Goal Difference"><input type="number" value={form.team_goal_difference} onChange={(e) => set('team_goal_difference', e.target.value)} style={inputStyle} /></Field>
-            <Field label="Wins"><NumInput k="team_wins" /></Field>
-            <Field label="Losses"><NumInput k="team_losses" /></Field>
-            <Field label="Draws"><NumInput k="team_draws" /></Field>
+            <ModalField label="Rank">
+              <input type="number" min={1} value={form.team_rank} onChange={(e) => set('team_rank', e.target.value)} placeholder="e.g. 2" style={MODAL_INPUT_STYLE} />
+            </ModalField>
+            <ModalField label="Goal Difference">
+              <input type="number" value={form.team_goal_difference} onChange={(e) => set('team_goal_difference', e.target.value)} style={MODAL_INPUT_STYLE} />
+            </ModalField>
+            <ModalField label="Wins">
+              <input type="number" min={0} value={form.team_wins} onChange={(e) => set('team_wins', e.target.value)} style={MODAL_INPUT_STYLE} />
+            </ModalField>
+            <ModalField label="Losses">
+              <input type="number" min={0} value={form.team_losses} onChange={(e) => set('team_losses', e.target.value)} style={MODAL_INPUT_STYLE} />
+            </ModalField>
+            <ModalField label="Draws">
+              <input type="number" min={0} value={form.team_draws} onChange={(e) => set('team_draws', e.target.value)} style={MODAL_INPUT_STYLE} />
+            </ModalField>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1.25rem' }}>
@@ -295,7 +324,7 @@ export default function AdminPlayersPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && load()}
-            style={{ width: '100%', boxSizing: 'border-box', paddingLeft: '2.2rem' }}
+            style={{ width: '100%', boxSizing: 'border-box', marginBottom: 0, paddingLeft: '2.2rem' }}
           />
         </div>
         <button onClick={load} className="cta" style={{ padding: '0.55rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem' }}>

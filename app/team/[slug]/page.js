@@ -280,15 +280,6 @@ export default function PublicTeamProfilePage() {
               {team.description}
             </p>
           )}
-          <p style={{ marginTop: '0.75rem' }}>
-            <Link
-              href={`/profile/${team.captain_user_id}`}
-              style={{ color: '#0074ff', textDecoration: 'none', fontSize: '0.88rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
-            >
-              <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.75rem' }} />
-              Captain's Profile
-            </Link>
-          </p>
         </SectionCard>
 
         {/* Roster */}
