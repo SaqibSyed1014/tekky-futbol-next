@@ -533,11 +533,64 @@ function AccountTab() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
+// ─── Copy URL widget ─────────────────────────────────────────────────────────
+
+function CopyableUrl({ label, url }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch { /* ignore */ }
+  }
+
+  return (
+    <div style={{ marginBottom: '1.5rem', padding: '1rem 1.25rem', background: 'rgba(0,116,255,0.06)', border: '1px solid rgba(0,116,255,0.25)', borderRadius: 10 }}>
+      <p style={{ fontSize: '0.73rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, marginBottom: '0.5rem' }}>
+        {label}
+      </p>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <a
+          href={url}
+          target="_blank"
+          rel="noreferrer"
+          style={{ color: 'var(--tekky-blue)', fontSize: '0.85rem', wordBreak: 'break-all', flex: 1, textDecoration: 'none' }}
+        >
+          {url}
+        </a>
+        <button
+          onClick={handleCopy}
+          style={{
+            flexShrink: 0,
+            display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+            padding: '0.35rem 0.85rem', borderRadius: 6,
+            background: copied ? 'rgba(0,200,100,0.12)' : 'rgba(0,116,255,0.1)',
+            border: `1px solid ${copied ? 'rgba(0,200,100,0.35)' : 'rgba(0,116,255,0.3)'}`,
+            color: copied ? '#00c864' : 'var(--tekky-blue)',
+            fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+            transition: 'all 0.15s',
+          }}
+        >
+          <i className={copied ? 'fa-solid fa-check' : 'fa-solid fa-copy'} />
+          {copied ? 'Copied!' : 'Copy'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── Links Tab ────────────────────────────────────────────────────────────────
 
 function LinksTab({ user, onUpdated }) {
   const profile    = user?.profile;
   const isCaptain  = user?.is_captain;
+
+  // Construct public URLs client-side (window.location.origin is env-agnostic)
+  const origin        = typeof window !== 'undefined' ? window.location.origin : '';
+  const playerUrl     = profile?.is_public  ? `${origin}/profile/${user?.id}` : null;
+  const teamUrl       = profile?.team_slug  ? `${origin}/team/${profile.team_slug}` : null;
 
   const STATUS_MAP = {
     none:     { color: '#555',    label: 'Not submitted',   icon: 'fa-solid fa-circle-minus'  },
@@ -589,6 +642,20 @@ function LinksTab({ user, onUpdated }) {
 
   return (
     <div>
+      {/* ── Public URLs (copy section) ── */}
+      {playerUrl && (
+        <CopyableUrl label="Your Public Profile URL" url={playerUrl} />
+      )}
+      {isCaptain && teamUrl && (
+        <CopyableUrl label="Your Team's Public URL" url={teamUrl} />
+      )}
+      {!playerUrl && (
+        <div style={{ marginBottom: '1.5rem', padding: '0.85rem 1.1rem', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, fontSize: '0.85rem', color: 'var(--muted)' }}>
+          <i className="fa-solid fa-lock" style={{ marginRight: '0.5rem', color: '#555' }} />
+          Your public profile URL will appear here once you are confirmed on a team.
+        </div>
+      )}
+
       {/* Personal profile link */}
       <Card style={{ marginBottom: '1.5rem' }}>
         <SectionHeading>Personal Profile Link</SectionHeading>

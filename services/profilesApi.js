@@ -9,6 +9,13 @@ import api from '@/services/api';
 export const getPublicProfile = (userId) =>
   api.get(`/profiles/${userId}/`);
 
+/**
+ * GET /api/v1/teams/public/<slug>/
+ * Public team profile. Includes roster, kit slug, and approved team link.
+ */
+export const getPublicTeamProfile = (slug) =>
+  api.get(`/teams/public/${slug}/`);
+
 // ─── Player ───────────────────────────────────────────────────────────────────
 
 /**
