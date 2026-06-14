@@ -230,16 +230,17 @@ function StatsModal({ player, onClose, onSaved }) {
 export default function AdminPlayersPage() {
   const { user, loading: authLoading } = useAuth();
 
-  const [players,    setPlayers]    = useState([]);
-  const [loading,    setLoading]    = useState(true);
-  const [error,      setError]      = useState('');
-  const [search,     setSearch]     = useState('');
-  const [editPlayer, setEditPlayer] = useState(null);
-  const [linkMsg,    setLinkMsg]    = useState('');
-  const [linkErr,    setLinkErr]    = useState('');
+  const [players,      setPlayers]      = useState([]);
+  const [initialLoad,  setInitialLoad]  = useState(true);  // first fetch only
+  const [tableLoading, setTableLoading] = useState(false);  // subsequent fetches
+  const [error,        setError]        = useState('');
+  const [search,       setSearch]       = useState('');
+  const [editPlayer,   setEditPlayer]   = useState(null);
+  const [linkMsg,      setLinkMsg]      = useState('');
+  const [linkErr,      setLinkErr]      = useState('');
 
-  const load = useCallback(async () => {
-    setLoading(true);
+  const load = useCallback(async ({ silent = false } = {}) => {
+    if (!silent) setTableLoading(true);
     setError('');
     try {
       const data = await getAdminPlayers({ search });
@@ -247,7 +248,8 @@ export default function AdminPlayersPage() {
     } catch {
       setError('Failed to load players.');
     } finally {
-      setLoading(false);
+      setTableLoading(false);
+      setInitialLoad(false);
     }
   }, [search]);
 
@@ -260,13 +262,14 @@ export default function AdminPlayersPage() {
     try {
       await reviewProfileLink(playerId, action);
       setLinkMsg(`Profile link ${action}d successfully.`);
-      load();
+      load({ silent: true });
     } catch {
       setLinkErr(`Failed to ${action} link.`);
     }
   }
 
-  if (authLoading || loading) {
+  // Only block the entire page on the very first load
+  if (authLoading || initialLoad) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 200 }}>
         <span className="spinner" style={{ width: 32, height: 32, borderWidth: 3 }} />
@@ -335,18 +338,29 @@ export default function AdminPlayersPage() {
       <Banner type="error">{error}</Banner>
 
       {/* ── Players table ── */}
-      {players.length === 0 ? (
+      {players.length === 0 && !tableLoading ? (
         <div style={{ background: '#000', border: '1px solid rgba(0,116,255,0.2)', borderRadius: 12, padding: '3rem', textAlign: 'center' }}>
           <i className="fa-solid fa-users" style={{ fontSize: '2.5rem', color: 'var(--muted)', marginBottom: '1rem', display: 'block' }} />
           <p style={{ color: 'var(--muted)' }}>No players found.</p>
         </div>
       ) : (
-        <div style={{ background: '#000', border: '1px solid rgba(0,116,255,0.2)', borderRadius: 12, overflow: 'hidden' }}>
+        <div style={{ background: '#000', border: '1px solid rgba(0,116,255,0.2)', borderRadius: 12, overflow: 'hidden', position: 'relative' }}>
+          {/* Table-level loading — keeps filters visible */}
+          {tableLoading && (
+            <div style={{
+              position: 'absolute', inset: 0, zIndex: 10,
+              background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(2px)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              borderRadius: 12,
+            }}>
+              <span className="spinner" style={{ width: 28, height: 28, borderWidth: 3 }} />
+            </div>
+          )}
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid rgba(0,116,255,0.15)' }}>
-                  {['Player', 'Team', 'Visibility', 'Goals', 'Assists', 'Matches', 'MVPs', 'Profile Link', 'Public URL', 'Actions'].map((h) => (
+                  {['Player', 'Team', 'Visibility', 'Profile Link', 'Public URL', 'Actions'].map((h) => (
                     <th key={h} style={{ padding: '0.65rem 1rem', textAlign: 'left', color: 'var(--muted)', fontWeight: 600, fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.4px', whiteSpace: 'nowrap' }}>
                       {h}
                     </th>
@@ -359,7 +373,6 @@ export default function AdminPlayersPage() {
                     <td style={{ padding: '0.75rem 1rem', whiteSpace: 'nowrap' }}>
                       <div style={{ fontWeight: 600, color: '#fff' }}>{p.name || '—'}</div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>{p.email}</div>
-                      {p.is_captain && <span style={{ fontSize: '0.65rem', color: '#f0b429', fontWeight: 700 }}>CAPTAIN</span>}
                     </td>
                     <td style={{ padding: '0.75rem 1rem', color: p.team_name ? '#fff' : 'var(--muted)', whiteSpace: 'nowrap' }}>
                       {p.team_name || '—'}
@@ -367,10 +380,6 @@ export default function AdminPlayersPage() {
                     <td style={{ padding: '0.75rem 1rem' }}>
                       <PublicBadge isPublic={p.is_public} />
                     </td>
-                    <td style={{ padding: '0.75rem 1rem', color: '#fff', textAlign: 'center' }}>{p.goals}</td>
-                    <td style={{ padding: '0.75rem 1rem', color: '#fff', textAlign: 'center' }}>{p.assists}</td>
-                    <td style={{ padding: '0.75rem 1rem', color: '#fff', textAlign: 'center' }}>{p.matches_played}</td>
-                    <td style={{ padding: '0.75rem 1rem', color: '#fff', textAlign: 'center' }}>{p.mvps}</td>
                     <td style={{ padding: '0.75rem 1rem' }}>
                       <LinkStatusBadge status={p.profile_link_status} />
                     </td>
