@@ -14,7 +14,7 @@ function fmt(val, fallback = '—') {
 
 function fmtDate(val) {
   if (!val) return '—';
-  return new Date(val).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+  return new Date(val).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 function fmtRecord(wins, losses, draws) {
@@ -186,25 +186,9 @@ export default function PublicProfilePage() {
         @media (max-width: 700px) { .profile-cards-grid { grid-template-columns: 1fr; } }
       `}</style>
 
-      {/* ── Nav ── */}
-      <nav style={{
-        position: 'fixed', top: 0, left: 0, width: '100%',
-        display: 'flex', alignItems: 'center', gap: '1rem',
-        padding: '0.9rem 1.25rem',
-        background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(0,116,255,0.2)', zIndex: 100,
-      }}>
-        <Link href="/" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', letterSpacing: '2px', color: 'var(--tekky-blue)', textShadow: '0 0 10px var(--tekky-blue)' }}>
-          TekkyFutbol
-        </Link>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: '1rem', fontFamily: "'Bebas Neue', sans-serif" }}>
-          <Link href="/" style={{ color: '#fff', textDecoration: 'none', letterSpacing: '1px' }}>Home</Link>
-        </div>
-      </nav>
-
       {/* ── Hero ── */}
       <header style={{
-        position: 'relative', minHeight: '52vh',
+        position: 'relative', minHeight: '50vh',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         textAlign: 'center', paddingTop: '6.5rem',
         background: 'radial-gradient(60% 50% at 50% 35%, rgba(0,116,255,0.3), rgba(0,0,0,0.95) 60%)',
