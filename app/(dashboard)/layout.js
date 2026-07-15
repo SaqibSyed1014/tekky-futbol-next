@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import Image from "next/image";
+import { initiatePayment } from '@/services/paymentsApi';
 // ─── Nav config ──────────────────────────────────────────────────────────────
 
 const ADMIN_NAV = [
@@ -15,12 +16,14 @@ const ADMIN_NAV = [
   { href: '/admin/players',        icon: 'fa-solid fa-user-group',      label: 'Players'      },
   { href: '/admin/waivers',        icon: 'fa-solid fa-file-signature',  label: 'Waivers'      },
   { href: '/admin/kits',           icon: 'fa-solid fa-shirt',           label: 'Kits'         },
+  { href: '/admin/payments',       icon: 'fa-solid fa-dollar-sign',     label: 'Payments'     },
 ];
 
 const PLAYER_NAV = [
-  { href: '/user',        icon: 'fa-solid fa-house',          label: 'Home'   },
-  { href: '/user/waiver', icon: 'fa-solid fa-file-signature', label: 'Waiver' },
-  { href: '/user/kit',    icon: 'fa-solid fa-shirt',          label: 'Kit'    },
+  { href: '/user',         icon: 'fa-solid fa-house',          label: 'Home'    },
+  { href: '/user/waiver',  icon: 'fa-solid fa-file-signature', label: 'Waiver'  },
+  { href: '/user/kit',     icon: 'fa-solid fa-shirt',          label: 'Kit'     },
+  { href: '/user/payment', icon: 'fa-solid fa-credit-card',    label: 'Payment' },
 ];
 
 // Captain shares the /user route but also gets roster nav links
@@ -30,6 +33,7 @@ const CAPTAIN_NAV = [
   { href: '/user/pool',    icon: 'fa-solid fa-magnifying-glass', label: 'Find Players' },
   { href: '/user/waiver',  icon: 'fa-solid fa-file-signature',   label: 'Waiver'       },
   { href: '/user/kit',     icon: 'fa-solid fa-shirt',            label: 'Kit'          },
+  { href: '/user/payment', icon: 'fa-solid fa-credit-card',      label: 'Payment'      },
 ];
 
 const PAGE_TITLES = {
@@ -41,6 +45,7 @@ const PAGE_TITLES = {
   '/admin/profile':        'My Profile',
   '/admin/kits':           'Kit Orders',
   '/admin/players':        'Players',
+  '/admin/payments':       'Payments',
   '/user':                 'Dashboard',
   '/user/roster':          'My Roster',
   '/user/invites':         'Invitations',
@@ -48,6 +53,7 @@ const PAGE_TITLES = {
   '/user/waiver':          'Waiver',
   '/user/profile':         'My Profile',
   '/user/kit':             'Kit Selection',
+  '/user/payment':         'Registration Fee',
 };
 
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
@@ -428,6 +434,131 @@ function DropdownItem({ icon, label, onClick, danger = false, disabled = false }
   );
 }
 
+// ─── Payment prompt modal ─────────────────────────────────────────────────────
+
+function PaymentPrompt({ onDismiss }) {
+  const [paying, setPaying] = useState(false);
+  const [error, setError]   = useState('');
+
+  async function handlePay() {
+    setError('');
+    setPaying(true);
+    try {
+      const formData = await initiatePayment();
+      const { hpp_url, ...fields } = formData;
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = hpp_url;
+      Object.entries(fields).forEach(([key, val]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = val;
+        form.appendChild(input);
+      });
+      document.body.appendChild(form);
+      form.submit();
+    } catch (err) {
+      setError(err?.message || 'Something went wrong. Please try again.');
+      setPaying(false);
+    }
+  }
+
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 200,
+      background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: '1rem',
+    }}>
+      <div style={{
+        background: '#0a0a0a', border: '1px solid rgba(0,116,255,0.35)',
+        borderRadius: 16, padding: '2rem', maxWidth: 420, width: '100%',
+        boxShadow: '0 0 40px rgba(0,116,255,0.2)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
+          <div style={{
+            width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
+            background: 'rgba(0,116,255,0.1)', border: '1px solid rgba(0,116,255,0.3)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <i className="fa-solid fa-dollar-sign" style={{ color: '#0074ff', fontSize: '1.1rem' }} />
+          </div>
+          <div>
+            <h3 style={{ color: '#fff', fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.3rem', letterSpacing: '1px', margin: 0 }}>
+              Registration Fee Due
+            </h3>
+            <p style={{ color: 'var(--muted)', fontSize: '0.8rem', margin: 0 }}>
+              Complete your registration to continue
+            </p>
+          </div>
+        </div>
+
+        <div style={{
+          background: 'rgba(0,116,255,0.05)', border: '1px solid rgba(0,116,255,0.12)',
+          borderRadius: 8, padding: '1rem 1.25rem', marginBottom: '1.25rem',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        }}>
+          <span style={{ color: '#b6c2d3', fontSize: '0.88rem' }}>Registration Fee</span>
+          <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', color: '#fff', letterSpacing: '1px' }}>
+            $700.00
+          </span>
+        </div>
+
+        <p style={{ color: '#b6c2d3', fontSize: '0.83rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+          Your waiver has been signed. A one-time registration fee of <strong style={{ color: '#fff' }}>$700</strong> is
+          required to complete your registration. You will be redirected to Bank of America's
+          secure payment page.
+        </p>
+
+        {error && (
+          <div style={{
+            padding: '0.65rem 0.9rem', borderRadius: 8, marginBottom: '1rem',
+            background: 'rgba(255,60,60,0.08)', border: '1px solid rgba(255,60,60,0.25)',
+            color: '#ff6b6b', fontSize: '0.82rem',
+          }}>
+            <i className="fa-solid fa-circle-xmark" style={{ marginRight: '0.45rem' }} />
+            {error}
+          </div>
+        )}
+
+        <button
+          onClick={handlePay}
+          disabled={paying}
+          style={{
+            width: '100%', padding: '0.85rem',
+            background: paying ? 'rgba(0,116,255,0.3)' : 'rgba(0,116,255,0.15)',
+            border: '2px solid rgba(0,116,255,0.6)',
+            borderRadius: 8, color: '#fff', fontSize: '0.92rem', fontWeight: 700,
+            cursor: paying ? 'not-allowed' : 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+            marginBottom: '0.65rem', fontFamily: 'inherit',
+          }}
+        >
+          {paying ? (
+            <><span className="spinner" style={{ width: 16, height: 16, borderWidth: 2 }} /> Redirecting to Bank…</>
+          ) : (
+            <><i className="fa-solid fa-credit-card" /> Pay $700.00 Now</>
+          )}
+        </button>
+
+        <button
+          onClick={onDismiss}
+          disabled={paying}
+          style={{
+            width: '100%', padding: '0.65rem',
+            background: 'transparent', border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 8, color: 'var(--muted)', fontSize: '0.85rem',
+            cursor: paying ? 'not-allowed' : 'pointer', fontFamily: 'inherit',
+          }}
+        >
+          Remind Me Later
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main layout ─────────────────────────────────────────────────────────────
 
 export default function DashboardLayout({ children }) {
@@ -435,6 +566,7 @@ export default function DashboardLayout({ children }) {
   const pathname = usePathname();
   const { user, loading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showPaymentPrompt, setShowPaymentPrompt] = useState(false);
 
   // Auth + role guard (client-side safety net — middleware handles the fast path)
   useEffect(() => {
@@ -454,6 +586,15 @@ export default function DashboardLayout({ children }) {
     }
   }, [user, loading, pathname, router]);
 
+  // Show payment prompt when waiver is signed but fee not yet paid
+  useEffect(() => {
+    if (!user || user.role === 'admin') return;
+    const needsPayment = user.waiver_signed && user.payment_status !== 'paid';
+    // Don't show the prompt if already on the payment page
+    const onPaymentPage = pathname === '/user/payment';
+    setShowPaymentPrompt(needsPayment && !onPaymentPage);
+  }, [user, pathname]);
+
   if (loading || !user) {
     return (
       <div style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -471,6 +612,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <>
+      {showPaymentPrompt && <PaymentPrompt onDismiss={() => setShowPaymentPrompt(false)} />}
       <Sidebar role={user.role} isCaptain={user.is_captain} waiverSigned={!!user.waiver_signed} sidebarOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main area — offset by sidebar width on desktop */}
