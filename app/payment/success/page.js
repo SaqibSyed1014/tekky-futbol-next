@@ -8,9 +8,16 @@ export default function PaymentSuccessPage() {
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
+    console.log('[payment/success] checking payment status...');
     getMyPayment()
-      .then((d) => setStatus(d?.payment?.status ?? null))
-      .catch(() => {});
+      .then((d) => {
+        console.log('[payment/success] getMyPayment response:', d);
+        setStatus(d?.payment?.status ?? null);
+      })
+      .catch((err) => {
+        console.error('[payment/success] getMyPayment error:', err);
+        setStatus(null);
+      });
   }, []);
 
   return (
