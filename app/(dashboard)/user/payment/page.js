@@ -61,23 +61,8 @@ export default function UserPaymentPage() {
     setError('');
     setPaying(true);
     try {
-      const formData = await initiatePayment();
-      const { hpp_url, ...fields } = formData;
-
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = hpp_url;
-
-      Object.entries(fields).forEach(([key, val]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = val;
-        form.appendChild(input);
-      });
-
-      document.body.appendChild(form);
-      form.submit();
+      const data = await initiatePayment();
+      window.location.href = data.checkout_url;
     } catch (err) {
       setError(err?.message || 'Failed to initiate payment. Please try again.');
       setPaying(false);
@@ -191,7 +176,7 @@ export default function UserPaymentPage() {
             }}
           >
             {paying ? (
-              <><span className="spinner" style={{ width: 16, height: 16, borderWidth: 2 }} /> Redirecting to Bank…</>
+              <><span className="spinner" style={{ width: 16, height: 16, borderWidth: 2 }} /> Redirecting to Stripe…</>
             ) : (
               <><i className="fa-solid fa-credit-card" /> Pay $700.00</>
             )}
@@ -201,7 +186,7 @@ export default function UserPaymentPage() {
 
       {/* Info note */}
       <p style={{ fontSize: '0.8rem', color: '#555', lineHeight: 1.6 }}>
-        Payments are processed securely by Bank of America. You will be redirected to their
+        Payments are processed securely by Stripe. You will be redirected to their
         hosted payment page to complete your transaction.
       </p>
     </div>
