@@ -60,10 +60,13 @@ export default function UserPaymentPage() {
   async function handlePay() {
     setError('');
     setPaying(true);
+    console.log('[payment] Pay button clicked');
     try {
       const data = await initiatePayment();
+      console.log('[payment] checkout_url:', data?.checkout_url);
       window.location.href = data.checkout_url;
     } catch (err) {
+      console.error('[payment] initiatePayment error:', err);
       setError(err?.message || 'Failed to initiate payment. Please try again.');
       setPaying(false);
     }
