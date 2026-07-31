@@ -64,10 +64,11 @@ function handleGlobalError(error) {
   // (i.e. a valid session expired mid-use). Skip if they're on /login — that's
   // just a wrong-password attempt, not an expired session.
   if (error.status === 401) {
-    const isOnLoginPage =
-      typeof window !== 'undefined' &&
-      window.location.pathname.startsWith('/login');
-    if (!isOnLoginPage && auth.getToken()) {
+    const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+    const isPublicPage =
+      pathname.startsWith('/login') ||
+      pathname.startsWith('/payment/');
+    if (!isPublicPage && auth.getToken()) {
       auth.clearToken();
       if (typeof window !== 'undefined') {
         window.location.href = '/login';

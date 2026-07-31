@@ -10,7 +10,7 @@ export default function PaymentSuccessPage() {
   useEffect(() => {
     getMyPayment()
       .then((d) => setStatus(d?.payment?.status ?? null))
-      .catch(() => {});
+      .catch(() => setStatus(null));
   }, []);
 
   return (

@@ -78,7 +78,7 @@ export default function UserPaymentPage() {
   }
 
   const cfg = payment ? STATUS_CONFIG[payment.status] : null;
-  const canPay = !payment || payment.status === 'failed' || payment.status === 'cancelled';
+  const canPay = !payment || payment.status === 'failed' || payment.status === 'cancelled' || payment.status === 'pending';
   const waiversigned = !!user?.waiver_signed;
 
   return (
