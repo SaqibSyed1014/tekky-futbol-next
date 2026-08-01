@@ -444,20 +444,8 @@ function PaymentPrompt({ onDismiss }) {
     setError('');
     setPaying(true);
     try {
-      const formData = await initiatePayment();
-      const { hpp_url, ...fields } = formData;
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = hpp_url;
-      Object.entries(fields).forEach(([key, val]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = val;
-        form.appendChild(input);
-      });
-      document.body.appendChild(form);
-      form.submit();
+      const data = await initiatePayment();
+      window.location.href = data.checkout_url;
     } catch (err) {
       setError(err?.message || 'Something went wrong. Please try again.');
       setPaying(false);
@@ -507,7 +495,7 @@ function PaymentPrompt({ onDismiss }) {
 
         <p style={{ color: '#b6c2d3', fontSize: '0.83rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
           Your waiver has been signed. A one-time registration fee of <strong style={{ color: '#fff' }}>$700</strong> is
-          required to complete your registration. You will be redirected to Bank of America's
+          required to complete your registration. You will be redirected to Stripe's
           secure payment page.
         </p>
 
