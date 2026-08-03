@@ -97,16 +97,17 @@ function PasswordInput({ id, name, value, onChange, placeholder, disabled, requi
 
 // ─── Logo upload zone ─────────────────────────────────────────────────────────
 
-function LogoUploadZone({ file, preview, onSelect, onRemove }) {
+function LogoUploadZone({ file, preview, onSelect, onRemove, error, onSizeError }) {
   const inputRef = useRef(null);
   const [dragOver, setDragOver] = useState(false);
 
   function processFile(f) {
     if (!f) return;
     if (f.size / 1024 > MAX_LOGO_SIZE_KB) {
-      alert(`Please upload a file smaller than ${MAX_LOGO_SIZE_KB / 1000} MB`);
+      onSizeError(`File is too large. Please upload an image under ${MAX_LOGO_SIZE_KB / 1000} MB.`);
       return;
     }
+    onSizeError('');
     const url = URL.createObjectURL(f);
     onSelect(f, url);
   }
@@ -246,7 +247,7 @@ function LogoUploadZone({ file, preview, onSelect, onRemove }) {
               </button>
               <button
                 type="button"
-                onClick={onRemove}
+                onClick={() => { onSizeError(''); onRemove(); }}
                 style={{
                   fontSize: '0.78rem',
                   padding: '0.3rem 0.75rem',
@@ -271,6 +272,13 @@ function LogoUploadZone({ file, preview, onSelect, onRemove }) {
         </div>
       )}
 
+      {error && (
+        <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: '#ff6b6b', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+          <i className="fa-solid fa-circle-xmark" />
+          {error}
+        </div>
+      )}
+
       <div style={{ fontSize: '0.74rem', color: 'var(--muted)', marginTop: '0.5rem', lineHeight: 1.5 }}>
         By uploading, you confirm you own the rights to this logo. <br/>TekkyFutbol reserves the right to reject any infringing branding.
       </div>
@@ -289,6 +297,7 @@ export default function RegistrationClient() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [logoError, setLogoError] = useState('');
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
@@ -310,6 +319,16 @@ export default function RegistrationClient() {
       return;
     }
     setPasswordError('');
+
+    // Logo required for full team on step 2
+    if (step === 2 && form.registrationType === APPLICATION_TYPE.FULL_TEAM) {
+      if (!logoFile) {
+        setLogoError('Please upload a team logo to continue.');
+        return;
+      }
+      if (logoError) return; // size error already showing
+    }
+
     setStep((s) => Math.min(s + 1, TOTAL_STEPS));
   }
 
@@ -513,8 +532,10 @@ export default function RegistrationClient() {
                     <LogoUploadZone
                       file={logoFile}
                       preview={logoPreview}
-                      onSelect={(file, preview) => { setLogoFile(file); setLogoPreview(preview); }}
+                      onSelect={(file, preview) => { setLogoFile(file); setLogoPreview(preview); setLogoError(''); }}
                       onRemove={() => { setLogoFile(null); setLogoPreview(null); }}
+                      error={logoError}
+                      onSizeError={setLogoError}
                     />
                   </div>
                 )}
