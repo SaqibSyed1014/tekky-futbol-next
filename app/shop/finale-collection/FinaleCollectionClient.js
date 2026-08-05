@@ -5,6 +5,7 @@ import { useState } from 'react';
 import GlowDivider from '@/components/ui/GlowDivider';
 import Modal from '@/components/ui/Modal';
 import { SignupForm } from '@/components/ui/SignUpForm';
+import { initiateShopCheckout } from '@/services/shopApi';
 
 const finaleProducts = [
   { img: '/images/shop/finale-hoodie.webp', name: 'FINALE Heavyweight HOODIE', sub: 'Season 01 Finale Drop', price: '$80' },
@@ -18,6 +19,26 @@ export default function FinaleCollectionClient() {
   const [earlyAccessSuccess, setEarlyAccessSuccess] = useState(false);
   const [updatesOpen, setUpdatesOpen] = useState(false);
   const [updatesSuccess, setUpdatesSuccess] = useState(false);
+  const [buying, setBuying] = useState(null);
+  const [buyError, setBuyError] = useState('');
+
+  async function handleBuy(product) {
+    setBuying(product.name);
+    setBuyError('');
+    try {
+      const data = await initiateShopCheckout({
+        name: product.name,
+        description: product.sub,
+        image_url: `${window.location.origin}${product.img}`,
+        amount: parseFloat(product.price.replace('$', '')),
+        cancel_url: window.location.href,
+      });
+      window.location.href = data.checkout_url;
+    } catch {
+      setBuying(null);
+      setBuyError('Something went wrong. Please try again.');
+    }
+  }
 
   return (
     <>
@@ -45,10 +66,19 @@ export default function FinaleCollectionClient() {
                 <h3>{p.name}</h3>
                 <span className="muted">{p.sub}</span>
                 <p className="price">{p.price}</p>
-                <button className="cta" onClick={() => setEarlyAccessOpen(true)}>Notify Me at Drop</button>
+                <button
+                  className="cta"
+                  onClick={() => handleBuy(p)}
+                  disabled={buying === p.name}
+                >
+                  {buying === p.name ? 'Processing…' : 'Buy Now'}
+                </button>
               </div>
             ))}
           </div>
+          {buyError && (
+            <p style={{ color: '#ff6b6b', marginTop: '1.25rem', fontSize: '0.9rem' }}>{buyError}</p>
+          )}
         </section>
 
         <GlowDivider />
