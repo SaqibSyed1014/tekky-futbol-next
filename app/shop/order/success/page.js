@@ -32,7 +32,7 @@ export default function ShopOrderSuccessPage() {
         </h1>
 
         <p style={{ color: '#b6c2d3', fontSize: '1rem', maxWidth: 420, lineHeight: 1.7, marginBottom: '0.5rem' }}>
-          Your purchase went through. A receipt has been sent to your email by Stripe.
+          Your purchase went through. A confirmation email has been sent to the address you entered at checkout.
         </p>
         <p style={{ color: '#7a8a9e', fontSize: '0.9rem', maxWidth: 420, lineHeight: 1.7 }}>
           Thank you for repping TekkyFutbol.
