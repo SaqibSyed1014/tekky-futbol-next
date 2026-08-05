@@ -6,6 +6,8 @@ import GlowDivider from '@/components/ui/GlowDivider';
 import Modal from '@/components/ui/Modal';
 import { SignupForm } from '@/components/ui/SignUpForm';
 import { initiateShopCheckout } from '@/services/shopApi';
+import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
+import CheckoutCancelledBanner from '@/components/ui/CheckoutCancelledBanner';
 
 const northProducts = [
   { img: '/images/shop/north-hoodie.webp', name: 'North Division Heavyweight Hoodie', sub: 'Season 01 North Drop', price: '$80' },
@@ -21,6 +23,7 @@ export default function NorthDivisionClient() {
   const [updatesSuccess, setUpdatesSuccess] = useState(false);
   const [buying, setBuying] = useState(null);
   const [buyError, setBuyError] = useState('');
+  const { cancelled, dismiss } = useCheckoutCancelled();
 
   async function handleBuy(product) {
     setBuying(product.name);
@@ -31,12 +34,16 @@ export default function NorthDivisionClient() {
         description: product.sub,
         image_url: `${window.location.origin}${product.img}`,
         amount: parseFloat(product.price.replace('$', '')),
-        cancel_url: window.location.href,
+        cancel_url: `${window.location.origin}${window.location.pathname}?checkout=cancelled`,
       });
       window.location.href = data.checkout_url;
-    } catch {
+    } catch (err) {
       setBuying(null);
-      setBuyError('Something went wrong. Please try again.');
+      if (!err || err.status === 0) {
+        setBuyError('Network error — please check your connection and try again.');
+      } else {
+        setBuyError(err.message || 'Something went wrong. Please try again.');
+      }
     }
   }
 
@@ -54,6 +61,8 @@ export default function NorthDivisionClient() {
 
       <main style={{ maxWidth: 1080, margin: '2.8rem auto 4rem', padding: '0 1.25rem', textAlign: 'center' }}>
         <GlowDivider />
+
+        {cancelled && <CheckoutCancelledBanner onDismiss={dismiss} />}
 
           <section style={{margin: '3rem 0', textAlign: 'center'}}>
               <h2>NORTH DIVISION COLLECTION</h2>

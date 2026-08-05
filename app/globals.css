@@ -504,6 +504,7 @@ button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
   pointer-events: none;
+  animation: none;
 }
 
 /* ===== UTILITY ===== */
@@ -552,11 +553,17 @@ ul.custom-list.bottom-space {
   }
 
   h1 {
+    font-size: 2.6rem;
     text-shadow: 0 0 8px var(--tekky-blue);
   }
 
   h2 {
     text-shadow: 0 0 2px var(--tekky-blue);
+  }
+
+  .main-heading {
+    font-size: 2rem;
+    margin: 0.5rem 0 1rem;
   }
 
   .logo.logo-mobile {
@@ -891,8 +898,22 @@ tr:hover {
 }
 
 @media (max-width: 480px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .main-heading {
+    font-size: 1.7rem;
+  }
+
   .grid.two-columns {
     grid-template-columns: 1fr;
+  }
+
+  .card .cta {
+    width: calc(100% - 1rem);
+    margin: 0.5rem auto;
+    display: block;
   }
 }
 
