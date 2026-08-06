@@ -34,6 +34,7 @@ export default function SignatureDropsClient() {
         image_url: `${window.location.origin}/images/logo.webp`,
         amount: parseFloat(product.price.replace('$', '')),
         cancel_url: `${window.location.origin}${window.location.pathname}?checkout=cancelled`,
+        return_path: window.location.pathname,
       });
       window.location.href = data.checkout_url;
     } catch (err) {

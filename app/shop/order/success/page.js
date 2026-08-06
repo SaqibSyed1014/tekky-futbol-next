@@ -2,7 +2,10 @@ import Link from 'next/link';
 
 export const metadata = { title: 'Order Confirmed | TekkyFutbol' };
 
-export default function ShopOrderSuccessPage() {
+export default function ShopOrderSuccessPage({ searchParams }) {
+  const from = searchParams?.from ?? '';
+  const backHref = from.startsWith('/shop') ? from : '/shop';
+
   return (
     <>
       <style>{`
@@ -39,7 +42,7 @@ export default function ShopOrderSuccessPage() {
         </p>
 
         <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <Link href="/shop" style={{
+          <Link href={backHref} style={{
             display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
             padding: '0.7rem 1.75rem',
             background: 'rgba(0,116,255,0.12)',

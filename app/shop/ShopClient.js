@@ -114,6 +114,7 @@ export default function ShopClient() {
         image_url: `${window.location.origin}${imgPath}`,
         amount: parseFloat(product.price.replace('$', '')),
         cancel_url: `${window.location.origin}${window.location.pathname}?checkout=cancelled`,
+        return_path: window.location.pathname,
       });
       window.location.href = data.checkout_url;
     } catch (err) {
