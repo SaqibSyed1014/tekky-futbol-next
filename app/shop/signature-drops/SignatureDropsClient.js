@@ -25,6 +25,7 @@ export default function SignatureDropsClient() {
   const { cancelled, dismiss } = useCheckoutCancelled();
 
   async function handleBuy(product) {
+    sessionStorage.setItem('shopReturnPath', window.location.pathname);
     setBuying(product.name);
     setBuyError('');
     try {

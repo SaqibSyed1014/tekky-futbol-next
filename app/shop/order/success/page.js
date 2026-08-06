@@ -1,10 +1,18 @@
+'use client';
+
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
-export const metadata = { title: 'Order Confirmed | TekkyFutbol' };
+export default function ShopOrderSuccessPage() {
+  const [backHref, setBackHref] = useState('/shop');
 
-export default function ShopOrderSuccessPage({ searchParams }) {
-  const from = searchParams?.from ?? '';
-  const backHref = from.startsWith('/shop') ? from : '/shop';
+  useEffect(() => {
+    const stored = sessionStorage.getItem('shopReturnPath');
+    if (stored && stored.startsWith('/shop')) {
+      setBackHref(stored);
+      sessionStorage.removeItem('shopReturnPath');
+    }
+  }, []);
 
   return (
     <>

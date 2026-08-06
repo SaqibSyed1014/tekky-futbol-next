@@ -105,6 +105,7 @@ export default function ShopClient() {
   const { cancelled, dismiss } = useCheckoutCancelled();
 
   async function handleBuy(product, imgPath) {
+    sessionStorage.setItem('shopReturnPath', window.location.pathname);
     setBuying(product.name);
     setBuyError('');
     try {
