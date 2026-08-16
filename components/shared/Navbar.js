@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import Modal from '../ui/Modal';
 import { useWeb3Form } from '../ui/useWeb3Form';
+import { useCart } from '@/contexts/CartContext';
 
 /* ─── tiny sub-component: dropdown chevron ─── */
 function ChevronDown() {
@@ -67,6 +68,24 @@ function SignupForm({ accessKey, buttonLabel, onSuccess, activeFormId, successFo
         )}
       </button>
     </form>
+  );
+}
+
+function CartNavButton() {
+  const { itemCount, openCart, hydrated } = useCart();
+
+  return (
+    <button
+      type="button"
+      className="cart-nav-btn"
+      onClick={openCart}
+      aria-label={`Open cart${itemCount ? `, ${itemCount} items` : ''}`}
+    >
+      <i className="fa-solid fa-cart-shopping" aria-hidden="true" />
+      {hydrated && itemCount > 0 && (
+        <span className="cart-badge">{itemCount > 99 ? '99+' : itemCount}</span>
+      )}
+    </button>
   );
 }
 
@@ -148,13 +167,15 @@ export default function Navbar() {
           <Image src="/images/logo.webp" alt="TekkyFutbol Logo" width={70} height={70} />
         </Link>
 
-        {/* hamburger */}
-        <button
-          type="button"
-          className={`menu-toggler${menuOpen ? ' active' : ''}`}
-          onClick={toggleMenu}
-          aria-label="Toggle navigation"
-        >
+        {/* hamburger + cart */}
+        <div className="nav-actions">
+          <CartNavButton />
+          <button
+            type="button"
+            className={`menu-toggler${menuOpen ? ' active' : ''}`}
+            onClick={toggleMenu}
+            aria-label="Toggle navigation"
+          >
           {/* open icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -184,7 +205,8 @@ export default function Navbar() {
             <path d="M18 6 6 18" />
             <path d="m6 6 12 12" />
           </svg>
-        </button>
+          </button>
+        </div>
 
         {/* nav links */}
         <div className={`nav-links${menuOpen ? ' active' : ''}`}>
@@ -255,6 +277,9 @@ export default function Navbar() {
             </li>
             <li>
               <Link href="/contact">Contact</Link>
+            </li>
+            <li className="cart-nav-desktop">
+              <CartNavButton />
             </li>
             <li>
               <Link href="/registration">Register</Link>
