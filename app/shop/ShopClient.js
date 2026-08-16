@@ -5,7 +5,7 @@ import Image from 'next/image';
 import GlowDivider from '@/components/ui/GlowDivider';
 import Modal from '@/components/ui/Modal';
 import { useWeb3Form } from '@/components/ui/useWeb3Form';
-import { initiateShopCheckout } from '@/services/shopApi';
+import ShopProductActions from '@/components/shop/ShopProductActions';
 import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import CheckoutCancelledBanner from '@/components/ui/CheckoutCancelledBanner';
 
@@ -62,71 +62,39 @@ const signatureProducts = [
   { name: 'Finale Button-Up Jersey', sub: 'Designed once. Released once.', price: '$100' },
 ];
 
-function ProductGrid({ products, buying, buyError, onBuy, hasImg = true }) {
+function ProductGrid({ products, hasImg = true }) {
   return (
-    <>
-      <div className="grid">
-        {products.map((p) => (
-          <div className="card" key={p.name}>
-            <div className={`img-placeholder ${hasImg ? 'real' : 'show'}`}>
-              <Image
-                src={hasImg ? p.img : '/images/logo.webp'}
-                alt={p.name}
-                width={300}
-                height={200}
-                style={hasImg ? { width: '100%', height: 'auto' } : undefined}
-              />
-            </div>
-            <h3>{p.name}</h3>
-            <span className="muted">{p.sub}</span>
-            <p className="price">{p.price}</p>
-            <button
-              className="cta"
-              onClick={() => onBuy(p, hasImg ? p.img : '/images/logo.webp')}
-              disabled={buying === p.name}
-            >
-              {buying === p.name ? 'Processing…' : 'Buy Now'}
-            </button>
+    <div className="grid">
+      {products.map((p) => (
+        <div className="card" key={p.name}>
+          <div className={`img-placeholder ${hasImg ? 'real' : 'show'}`}>
+            <Image
+              src={hasImg ? p.img : '/images/logo.webp'}
+              alt={p.name}
+              width={300}
+              height={200}
+              style={hasImg ? { width: '100%', height: 'auto' } : undefined}
+            />
           </div>
-        ))}
-      </div>
-      {buyError && (
-        <p style={{ color: '#ff6b6b', marginTop: '1.25rem', fontSize: '0.9rem' }}>{buyError}</p>
-      )}
-    </>
+          <h3>{p.name}</h3>
+          <span className="muted">{p.sub}</span>
+          <p className="price">{p.price}</p>
+          <ShopProductActions
+            name={p.name}
+            sub={p.sub}
+            price={p.price}
+            image={hasImg ? p.img : '/images/logo.webp'}
+          />
+        </div>
+      ))}
+    </div>
   );
 }
 
 export default function ShopClient() {
   const [updatesOpen, setUpdatesOpen] = useState(false);
   const [updatesSuccess, setUpdatesSuccess] = useState(false);
-  const [buying, setBuying] = useState(null);
-  const [buyError, setBuyError] = useState('');
   const { cancelled, dismiss } = useCheckoutCancelled();
-
-  async function handleBuy(product, imgPath) {
-    sessionStorage.setItem('shopReturnPath', window.location.pathname);
-    setBuying(product.name);
-    setBuyError('');
-    try {
-      const data = await initiateShopCheckout({
-        name: product.name,
-        description: product.sub,
-        image_url: `${window.location.origin}${imgPath}`,
-        amount: parseFloat(product.price.replace('$', '')),
-        cancel_url: `${window.location.origin}${window.location.pathname}?checkout=cancelled`,
-        return_path: window.location.pathname,
-      });
-      window.location.href = data.checkout_url;
-    } catch (err) {
-      setBuying(null);
-      if (!err || err.status === 0) {
-        setBuyError('Network error — please check your connection and try again.');
-      } else {
-        setBuyError(err.message || 'Something went wrong. Please try again.');
-      }
-    }
-  }
 
   return (
     <>
@@ -147,7 +115,7 @@ export default function ShopClient() {
           <h2 className="main-heading">SEASON 01 DIVISION DROPS</h2>
           <h2>FINALE COLLECTION</h2>
           <p className="subtext">Worn by those who reach the final stage. Championship energy only. Limited release.</p>
-          <ProductGrid products={finaleProducts} buying={buying} buyError={buyError} onBuy={handleBuy} />
+          <ProductGrid products={finaleProducts} />
         </section>
 
         <GlowDivider />
@@ -155,7 +123,7 @@ export default function ShopClient() {
         <section id="north" style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2>NORTH DIVISION COLLECTION</h2>
           <p className="subtext">Control. Precision. Composure. Built for structured football under the lights.</p>
-          <ProductGrid products={northProducts} buying={buying} buyError={buyError} onBuy={handleBuy} />
+          <ProductGrid products={northProducts} />
         </section>
 
         <GlowDivider />
@@ -163,7 +131,7 @@ export default function ShopClient() {
         <section id="south" style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2>SOUTH DIVISION COLLECTION</h2>
           <p className="subtext">Intensity. Rhythm. Expression. Built for players who create under pressure.</p>
-          <ProductGrid products={southProducts} buying={buying} buyError={buyError} onBuy={handleBuy} />
+          <ProductGrid products={southProducts} />
         </section>
 
         <GlowDivider />
@@ -181,19 +149,15 @@ export default function ShopClient() {
                 <h3>{p.name}</h3>
                 <span className="muted">{p.sub}</span>
                 <p className="price">{p.price}</p>
-                <button
-                  className="cta"
-                  onClick={() => handleBuy(p, '/images/logo.webp')}
-                  disabled={buying === p.name}
-                >
-                  {buying === p.name ? 'Processing…' : 'Buy Now'}
-                </button>
+                <ShopProductActions
+                  name={p.name}
+                  sub={p.sub}
+                  price={p.price}
+                  image="/images/logo.webp"
+                />
               </div>
             ))}
           </div>
-          {buyError && (
-            <p style={{ color: '#ff6b6b', marginTop: '1.25rem', fontSize: '0.9rem' }}>{buyError}</p>
-          )}
         </section>
 
         <GlowDivider />

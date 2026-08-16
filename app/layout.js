@@ -1,6 +1,8 @@
 import './globals.css';
 import PublicShell from '@/components/shared/PublicShell';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { CartProvider } from '@/contexts/CartContext';
+import CartDrawer from '@/components/shop/CartDrawer';
 
 export const metadata = {
   title: 'TekkyFutbol',
@@ -30,9 +32,12 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <AuthProvider>
-          <PublicShell>
-            {children}
-          </PublicShell>
+          <CartProvider>
+            <PublicShell>
+              {children}
+            </PublicShell>
+            <CartDrawer />
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

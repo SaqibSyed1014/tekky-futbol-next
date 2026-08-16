@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useCart } from '@/contexts/CartContext';
 
 export default function ShopOrderSuccessPage() {
   const [backHref, setBackHref] = useState('/shop');
+  const { clearCart } = useCart();
 
   useEffect(() => {
     const stored = sessionStorage.getItem('shopReturnPath');
@@ -12,7 +14,8 @@ export default function ShopOrderSuccessPage() {
       setBackHref(stored);
       sessionStorage.removeItem('shopReturnPath');
     }
-  }, []);
+    clearCart();
+  }, [clearCart]);
 
   return (
     <>

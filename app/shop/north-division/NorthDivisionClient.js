@@ -5,7 +5,7 @@ import { useState } from 'react';
 import GlowDivider from '@/components/ui/GlowDivider';
 import Modal from '@/components/ui/Modal';
 import { SignupForm } from '@/components/ui/SignUpForm';
-import { initiateShopCheckout } from '@/services/shopApi';
+import ShopProductActions from '@/components/shop/ShopProductActions';
 import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import CheckoutCancelledBanner from '@/components/ui/CheckoutCancelledBanner';
 
@@ -21,33 +21,7 @@ export default function NorthDivisionClient() {
   const [earlyAccessSuccess, setEarlyAccessSuccess] = useState(false);
   const [updatesOpen, setUpdatesOpen] = useState(false);
   const [updatesSuccess, setUpdatesSuccess] = useState(false);
-  const [buying, setBuying] = useState(null);
-  const [buyError, setBuyError] = useState('');
   const { cancelled, dismiss } = useCheckoutCancelled();
-
-  async function handleBuy(product) {
-    sessionStorage.setItem('shopReturnPath', window.location.pathname);
-    setBuying(product.name);
-    setBuyError('');
-    try {
-      const data = await initiateShopCheckout({
-        name: product.name,
-        description: product.sub,
-        image_url: `${window.location.origin}${product.img}`,
-        amount: parseFloat(product.price.replace('$', '')),
-        cancel_url: `${window.location.origin}${window.location.pathname}?checkout=cancelled`,
-        return_path: window.location.pathname,
-      });
-      window.location.href = data.checkout_url;
-    } catch (err) {
-      setBuying(null);
-      if (!err || err.status === 0) {
-        setBuyError('Network error — please check your connection and try again.');
-      } else {
-        setBuyError(err.message || 'Something went wrong. Please try again.');
-      }
-    }
-  }
 
   return (
     <>
@@ -80,19 +54,15 @@ export default function NorthDivisionClient() {
                           <h3>{p.name}</h3>
                           <span className="muted">{p.sub}</span>
                           <p className="price">{p.price}</p>
-                          <button
-                            className="cta"
-                            onClick={() => handleBuy(p)}
-                            disabled={buying === p.name}
-                          >
-                            {buying === p.name ? 'Processing…' : 'Buy Now'}
-                          </button>
+                          <ShopProductActions
+                            name={p.name}
+                            sub={p.sub}
+                            price={p.price}
+                            image={p.img}
+                          />
                       </div>
                   ))}
               </div>
-              {buyError && (
-                <p style={{ color: '#ff6b6b', marginTop: '1.25rem', fontSize: '0.9rem' }}>{buyError}</p>
-              )}
           </section>
 
           <GlowDivider/>
