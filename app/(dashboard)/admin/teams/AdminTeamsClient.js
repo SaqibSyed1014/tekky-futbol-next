@@ -133,50 +133,37 @@ export default function AdminTeamsClient() {
             No teams found{statusFilter ? ` with status "${statusFilter}"` : ''}.
           </p>
         ) : (
-          <div className="ad-panel" style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className="ad-panel ad-table-wrap">
+            <table className="ad-table">
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(0,116,255,0.3)' }}>
+                <tr>
                   {['Team', 'Captain', 'Status', 'Roster', 'Pending', 'Registered', 'Actions'].map((h) => (
-                    <th key={h} style={{
-                      textAlign: 'left', padding: '0.55rem 0.8rem',
-                      color: 'var(--tekky-blue)', fontFamily: 'var(--ad-display)',
-                      fontSize: '0.9rem', letterSpacing: '0.5px', whiteSpace: 'nowrap',
-                    }}>
-                      {h}
-                    </th>
+                    <th key={h} className={h === 'Actions' ? 'ad-table__col-actions' : undefined}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {teams.map((t) => (
-                  <tr
-                    key={t.id}
-                    style={{ borderBottom: '1px solid rgba(0,116,255,0.08)', transition: 'background 0.12s' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,116,255,0.04)'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
-                  >
-                    <td style={{ padding: '0.7rem 0.8rem', fontWeight: 700, color: 'var(--fg)', fontSize: '0.92rem' }}>
-                      {t.name}
+                  <tr key={t.id}>
+                    <td><span className="ad-table__name">{t.name}</span></td>
+                    <td>
+                      <div className="ad-table__name">{t.captainName || '—'}</div>
+                      <div className="ad-table__meta">{t.captainEmail}</div>
                     </td>
-                    <td style={{ padding: '0.7rem 0.8rem' }}>
-                      <p style={{ margin: 0, fontSize: '0.88rem', color: 'var(--fg)' }}>{t.captainName || '—'}</p>
-                      <p style={{ margin: 0, fontSize: '0.76rem', color: 'var(--muted)' }}>{t.captainEmail}</p>
-                    </td>
-                    <td style={{ padding: '0.7rem 0.8rem' }}>
+                    <td>
                       <StatusBadge status={t.status} />
                     </td>
-                    <td style={{ padding: '0.7rem 0.8rem' }}>
+                    <td>
                       <RosterBar approved={t.playerCount} max={t.max_players} />
                     </td>
-                    <td style={{ padding: '0.7rem 0.8rem', color: t.pendingCount > 0 ? '#ffb400' : 'var(--muted)', fontWeight: t.pendingCount > 0 ? 700 : 400, fontSize: '0.9rem' }}>
+                    <td className={t.pendingCount > 0 ? 'ad-table__warn' : 'ad-table__empty'}>
                       {t.pendingCount > 0 ? `${t.pendingCount} pending` : '—'}
                     </td>
-                    <td style={{ padding: '0.7rem 0.8rem', color: 'var(--muted)', fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
+                    <td className="ad-table__date">
                       {t.created_at ? new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'}
                     </td>
-                    <td style={{ padding: '0.7rem 0.8rem' }}>
-                      {t.pendingCount > 0 && (
+                    <td className="ad-table__col-actions">
+                      {t.pendingCount > 0 ? (
                         <Link
                           href={`/admin/memberships?team=${t.id}`}
                           style={{
@@ -191,6 +178,8 @@ export default function AdminTeamsClient() {
                         >
                           Review ({t.pendingCount})
                         </Link>
+                      ) : (
+                        <span className="ad-table__empty">—</span>
                       )}
                     </td>
                   </tr>

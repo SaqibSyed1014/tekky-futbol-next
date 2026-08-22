@@ -271,65 +271,39 @@ export default function AdminMembershipsClient() {
             No {statusFilter !== 'all' ? statusFilter : ''} memberships found{teamFilter ? ' for this team' : ''}.
           </p>
         ) : (
-          <div className="ad-panel" style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className="ad-panel ad-table-wrap">
+            <table className="ad-table">
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(0,116,255,0.3)' }}>
+                <tr>
                   {['Player', 'Team', 'Captain', 'Status', 'Via', 'Joined', 'Actions'].map((h) => (
-                    <th key={h} style={{
-                      textAlign: 'left', padding: '0.55rem 0.8rem',
-                      color: 'var(--tekky-blue)', fontFamily: 'var(--ad-display)',
-                      fontSize: '0.9rem', letterSpacing: '0.5px', whiteSpace: 'nowrap',
-                    }}>
-                      {h}
-                    </th>
+                    <th key={h} className={h === 'Actions' ? 'ad-table__col-actions' : undefined}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {memberships.map((m) => (
-                  <tr
-                    key={m.id}
-                    style={{ borderBottom: '1px solid rgba(0,116,255,0.08)', transition: 'background 0.12s' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,116,255,0.04)'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
-                  >
-                    {/* Player */}
-                    <td style={{ padding: '0.7rem 0.8rem' }}>
-                      <p style={{ margin: 0, fontSize: '0.9rem', fontWeight: 700, color: 'var(--fg)' }}>{m.playerName || '—'}</p>
-                      <p style={{ margin: 0, fontSize: '0.76rem', color: 'var(--muted)' }}>{m.playerEmail}</p>
+                  <tr key={m.id}>
+                    <td>
+                      <div className="ad-table__name">{m.playerName || '—'}</div>
+                      <div className="ad-table__meta">{m.playerEmail}</div>
                     </td>
-
-                    {/* Team */}
-                    <td style={{ padding: '0.7rem 0.8rem' }}>
-                      <p style={{ margin: 0, fontSize: '0.88rem', fontWeight: 600, color: 'var(--fg)' }}>{m.teamName || '—'}</p>
-                      <p style={{ margin: 0, fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', fontFamily: 'monospace' }}>{m.teamId?.slice(0, 8)}…</p>
+                    <td>
+                      <div className="ad-table__name">{m.teamName || '—'}</div>
+                      <div className="ad-table__meta" style={{ fontFamily: 'monospace' }}>{m.teamId?.slice(0, 8)}…</div>
                     </td>
-
-                    {/* Captain */}
-                    <td style={{ padding: '0.7rem 0.8rem', fontSize: '0.82rem', color: 'var(--muted)' }}>
-                      {m.captainEmail || '—'}
-                    </td>
-
-                    {/* Status */}
-                    <td style={{ padding: '0.7rem 0.8rem' }}>
+                    <td className="ad-table__muted">{m.captainEmail || '—'}</td>
+                    <td>
                       <StatusBadge bucket={m.membershipBucket} />
                     </td>
-
-                    {/* Via (invite type) */}
-                    <td style={{ padding: '0.7rem 0.8rem' }}>
+                    <td>
                       <InviteTypeBadge type={m.inviteType} />
                     </td>
-
-                    {/* Joined at */}
-                    <td style={{ padding: '0.7rem 0.8rem', color: 'var(--muted)', fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
+                    <td className="ad-table__date">
                       {m.joinedAt ? new Date(m.joinedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'}
                     </td>
-
-                    {/* Actions */}
-                    <td style={{ padding: '0.7rem 0.8rem' }}>
+                    <td className="ad-table__col-actions">
                       {m.membershipBucket === 'pending_admin' ? (
-                        <div style={{ display: 'flex', gap: '0.4rem' }}>
+                        <div className="ad-table__actions">
                           <ActionButton
                             label="Approve"
                             color="#00c864"
@@ -344,7 +318,7 @@ export default function AdminMembershipsClient() {
                           />
                         </div>
                       ) : (
-                        <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.2)' }}>—</span>
+                        <span className="ad-table__empty">—</span>
                       )}
                     </td>
                   </tr>

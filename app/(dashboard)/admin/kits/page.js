@@ -96,49 +96,40 @@ function TeamKitCard({ entry }) {
 
       {/* Orders table */}
       {expanded && (
-        <div style={{ overflowX: 'auto' }}>
+        <div className="ad-table-wrap">
           {entry.orders.length === 0 ? (
             <p style={{ padding: '1rem 1.25rem', color: 'var(--muted)', fontSize: '0.88rem', margin: 0 }}>
               No size orders submitted yet.
             </p>
           ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+            <table className="ad-table">
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(0,116,255,0.1)' }}>
+                <tr>
                   {['Player', 'Jersey', 'Shorts', 'Socks', 'Name on Kit', 'Number'].map((h) => (
-                    <th key={h} style={{
-                      padding: '0.6rem 1rem', textAlign: 'left',
-                      color: 'var(--muted)', fontWeight: 600, fontSize: '0.75rem',
-                      textTransform: 'uppercase', letterSpacing: '0.4px', whiteSpace: 'nowrap',
-                    }}>
-                      {h}
-                    </th>
+                    <th key={h}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {entry.orders.map((order) => (
-                  <tr
-                    key={order.id}
-                    style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
-                  >
-                    <td style={{ padding: '0.65rem 1rem', color: '#fff', whiteSpace: 'nowrap' }}>
-                      <div style={{ fontWeight: 500 }}>{order.userName || '—'}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>{order.userEmail}</div>
+                  <tr key={order.id}>
+                    <td>
+                      <div className="ad-table__name">{order.userName || '—'}</div>
+                      <div className="ad-table__meta">{order.userEmail}</div>
                     </td>
-                    <td style={{ padding: '0.65rem 1rem' }}>
+                    <td>
                       <SizeBadge label="J" value={order.jersey_size} />
                     </td>
-                    <td style={{ padding: '0.65rem 1rem' }}>
+                    <td>
                       <SizeBadge label="Sh" value={order.shorts_size} />
                     </td>
-                    <td style={{ padding: '0.65rem 1rem' }}>
+                    <td>
                       <SizeBadge label="So" value={order.socks_size} />
                     </td>
-                    <td style={{ padding: '0.65rem 1rem', color: order.name_on_kit ? '#fff' : 'var(--muted)' }}>
+                    <td className={order.name_on_kit ? 'ad-table__name' : 'ad-table__empty'}>
                       {order.name_on_kit || '—'}
                     </td>
-                    <td style={{ padding: '0.65rem 1rem', color: order.number_on_kit != null ? '#fff' : 'var(--muted)', fontWeight: order.number_on_kit != null ? 700 : 400 }}>
+                    <td className={order.number_on_kit != null ? 'ad-table__num' : 'ad-table__empty'}>
                       {order.number_on_kit != null ? `#${order.number_on_kit}` : '—'}
                     </td>
                   </tr>

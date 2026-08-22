@@ -14,37 +14,25 @@ const TABS = [
 
 function Table({ children }) {
   return (
-    <div style={{ overflowX: 'auto' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
-        {children}
-      </table>
+    <div className="ad-table-wrap">
+      <table className="ad-table">{children}</table>
     </div>
   );
 }
 
-function Th({ children }) {
-  return (
-    <th style={{
-      textAlign: 'left', padding: '0.65rem 1rem',
-      borderBottom: '1px solid rgba(0,116,255,0.2)',
-      color: 'var(--muted)', fontWeight: 600,
-      fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px',
-      whiteSpace: 'nowrap',
-    }}>
-      {children}
-    </th>
-  );
+function Th({ children, actions }) {
+  return <th className={actions ? 'ad-table__col-actions' : undefined}>{children}</th>;
 }
 
-function Td({ children, muted }) {
+function Td({ children, muted, date, actions, name }) {
+  const cls = [
+    muted && 'ad-table__muted',
+    date && 'ad-table__date',
+    actions && 'ad-table__col-actions',
+  ].filter(Boolean).join(' ');
   return (
-    <td style={{
-      padding: '0.7rem 1rem',
-      borderBottom: '1px solid rgba(0,116,255,0.08)',
-      color: muted ? 'var(--muted)' : 'var(--fg)',
-      verticalAlign: 'middle',
-    }}>
-      {children}
+    <td className={cls || undefined}>
+      {name ? <span className="ad-table__name">{children}</span> : children}
     </td>
   );
 }
@@ -108,22 +96,22 @@ function SignedTable({ rows }) {
           <Th>Email</Th>
           <Th>Signed At</Th>
           <Th>Age Group</Th>
-          <Th>Actions</Th>
+          <Th actions>Actions</Th>
         </tr>
       </thead>
       <tbody>
         {rows.map((row) => (
           <tr key={row.id}>
-            <Td>{row.user_name || '—'}</Td>
+            <Td name>{row.user_name || '—'}</Td>
             <Td muted>{row.user_email}</Td>
-            <Td muted>
+            <Td date>
               {new Date(row.signed_at).toLocaleString('en-US', {
                 month: 'short', day: 'numeric', year: 'numeric',
                 hour: '2-digit', minute: '2-digit',
               })}
             </Td>
             <Td><AgeBadge isMinor={row.is_minor} /></Td>
-            <Td>
+            <Td actions>
               <button
                 onClick={() => window.open(`/admin/waivers/${row.user_id}`, '_blank', 'noopener,noreferrer')}
                 style={{
@@ -173,10 +161,10 @@ function UnsignedTable({ rows }) {
       <tbody>
         {rows.map((row) => (
           <tr key={row.id}>
-            <Td>{row.name || '—'}</Td>
+            <Td name>{row.name || '—'}</Td>
             <Td muted>{row.email}</Td>
             <Td><RoleBadge role={row.role} isCaptain={row.is_captain} /></Td>
-            <Td muted>
+            <Td date>
               {new Date(row.created_at).toLocaleString('en-US', {
                 month: 'short', day: 'numeric', year: 'numeric',
               })}

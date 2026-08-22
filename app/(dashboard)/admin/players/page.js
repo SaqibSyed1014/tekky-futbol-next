@@ -345,37 +345,35 @@ export default function AdminPlayersPage() {
               <span className="spinner" style={{ width: 28, height: 28, borderWidth: 3 }} />
             </div>
           )}
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+          <div className="ad-table-wrap">
+            <table className="ad-table">
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(0,116,255,0.15)' }}>
+                <tr>
                   {['Player', 'Team', 'Visibility', 'Profile Link', 'Public URL', 'Actions'].map((h) => (
-                    <th key={h} style={{ padding: '0.65rem 1rem', textAlign: 'left', color: 'var(--muted)', fontWeight: 600, fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.4px', whiteSpace: 'nowrap' }}>
-                      {h}
-                    </th>
+                    <th key={h} className={h === 'Actions' ? 'ad-table__col-actions' : undefined}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {players.map((p) => (
-                  <tr key={p.user_id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                    <td style={{ padding: '0.75rem 1rem', whiteSpace: 'nowrap' }}>
-                      <div style={{ fontWeight: 600, color: '#fff' }}>{p.name || '—'}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>{p.email}</div>
+                  <tr key={p.user_id}>
+                    <td>
+                      <div className="ad-table__name">{p.name || '—'}</div>
+                      <div className="ad-table__meta">{p.email}</div>
                     </td>
-                    <td style={{ padding: '0.75rem 1rem', color: p.team_name ? '#fff' : 'var(--muted)', whiteSpace: 'nowrap' }}>
+                    <td className={p.team_name ? 'ad-table__name' : 'ad-table__empty'}>
                       {p.team_name || '—'}
                     </td>
-                    <td style={{ padding: '0.75rem 1rem' }}>
+                    <td>
                       <PublicBadge isPublic={p.is_public} />
                     </td>
-                    <td style={{ padding: '0.75rem 1rem' }}>
+                    <td>
                       <StatusBadge status={p.profile_link_status} />
                     </td>
-                    <td style={{ padding: '0.75rem 1rem', minWidth: 180 }}>
+                    <td>
                       <CopyUrlButton url={p.public_url} />
                     </td>
-                    <td style={{ padding: '0.75rem 1rem', whiteSpace: 'nowrap' }}>
+                    <td className="ad-table__col-actions">
                       <button
                         onClick={() => setEditPlayer(p)}
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', padding: '0.35rem 0.9rem', borderRadius: 6, background: 'rgba(0,116,255,0.1)', border: '1px solid rgba(0,116,255,0.3)', color: 'var(--tekky-blue)', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Fragment } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import {
   getApplications,
@@ -709,48 +709,38 @@ export default function AdminClient() {
             No applications found{statusFilter ? ` with status "${STATUS_LABEL[statusFilter]}"` : ''}.
           </p>
         ) : (
-          <div className="ad-panel" style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className="ad-panel ad-table-wrap">
+            <table className="ad-table">
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(0,116,255,0.3)' }}>
+                <tr>
                   {['Name', 'Email', 'Type', 'Division', 'Status', 'Submitted', 'Actions'].map((h) => (
-                    <th key={h} style={{ textAlign: 'left', padding: '0.6rem 0.8rem', color: 'var(--tekky-blue)', fontFamily: 'var(--ad-display)', fontSize: '0.95rem', letterSpacing: '0.5px', whiteSpace: 'nowrap' }}>
-                      {h}
-                    </th>
+                    <th key={h} className={h === 'Actions' ? 'ad-table__col-actions' : undefined}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {applications.map((app) => (
-                  <>
-                    <tr
-                      key={app.id}
-                      style={{ borderBottom: '1px solid rgba(0,116,255,0.1)', transition: 'background 0.15s' }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,116,255,0.05)'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
-                    >
-                      <td style={{ padding: '0.75rem 0.8rem', color: 'var(--fg)', fontWeight: 600 }}>{app.name}</td>
-                      <td style={{ padding: '0.75rem 0.8rem', color: 'var(--muted)', fontSize: '0.88rem' }}>{app.email}</td>
-                      <td style={{ padding: '0.75rem 0.8rem', color: 'var(--muted)', fontSize: '0.88rem', textTransform: 'capitalize' }}>
+                  <Fragment key={app.id}>
+                    <tr>
+                      <td><span className="ad-table__name">{app.name}</span></td>
+                      <td className="ad-table__muted">{app.email}</td>
+                      <td className="ad-table__muted" style={{ textTransform: 'capitalize' }}>
                         {app.applicationType?.replace('_', ' ')}
                       </td>
-                      <td style={{ padding: '0.75rem 0.8rem', color: 'var(--muted)', fontSize: '0.88rem', textTransform: 'capitalize' }}>
+                      <td className="ad-table__muted" style={{ textTransform: 'capitalize' }}>
                         {app.preferredDivision}
                       </td>
-                      <td style={{ padding: '0.75rem 0.8rem' }}>
+                      <td>
                         <StatusBadge status={app.status} />
                       </td>
-                      <td style={{ padding: '0.75rem 0.8rem', color: 'var(--muted)', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>
+                      <td className="ad-table__date">
                         {app.createdAt ? new Date(app.createdAt).toLocaleDateString() : '—'}
                       </td>
-                      <td style={{ padding: '0.75rem 0.8rem' }}>
-                        <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'nowrap' }}>
-                          {/* View — always visible */}
+                      <td className="ad-table__col-actions">
+                        <div className="ad-table__actions">
                           <ActionButton onClick={() => setViewingApp(app)} color="var(--tekky-blue)">
                             View
                           </ActionButton>
-
-                          {/* Approve / Reject — pending only (quick inline actions) */}
                           {app.status === APPLICATION_STATUS.PENDING && (
                             <>
                               <ActionButton
@@ -773,13 +763,11 @@ export default function AdminClient() {
                       </td>
                     </tr>
                     {actionErrors[app.id] && (
-                      <tr key={`${app.id}-err`}>
-                        <td colSpan={7} style={{ padding: '0 0.8rem 0.5rem', color: '#ff6b6b', fontSize: '0.82rem' }}>
-                          {actionErrors[app.id]}
-                        </td>
+                      <tr className="ad-table__error">
+                        <td colSpan={7}>{actionErrors[app.id]}</td>
                       </tr>
                     )}
-                  </>
+                  </Fragment>
                 ))}
               </tbody>
             </table>

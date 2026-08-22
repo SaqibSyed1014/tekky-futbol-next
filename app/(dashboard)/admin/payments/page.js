@@ -124,40 +124,30 @@ export default function AdminPaymentsPage() {
             No payment records found.
           </p>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+          <div className="ad-table-wrap">
+            <table className="ad-table">
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(0,116,255,0.1)' }}>
+                <tr>
                   {['Player', 'Role', 'Amount', 'Status', 'Paid On'].map((h) => (
-                    <th key={h} style={{
-                      padding: '0.65rem 1rem', textAlign: 'left',
-                      color: 'var(--muted)', fontWeight: 600, fontSize: '0.75rem',
-                      textTransform: 'uppercase', letterSpacing: '0.4px', whiteSpace: 'nowrap',
-                    }}>
-                      {h}
-                    </th>
+                    <th key={h}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {payments.map((p) => (
-                  <tr key={p.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                    <td style={{ padding: '0.7rem 1rem', whiteSpace: 'nowrap' }}>
-                      <div style={{ fontWeight: 500, color: '#fff' }}>{p.user_name || '—'}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>{p.user_email}</div>
+                  <tr key={p.id}>
+                    <td>
+                      <div className="ad-table__name">{p.user_name || '—'}</div>
+                      <div className="ad-table__meta">{p.user_email}</div>
                     </td>
-                    <td style={{ padding: '0.7rem 1rem', color: p.is_captain ? '#f0b429' : '#b6c2d3', fontSize: '0.8rem', fontWeight: 600 }}>
+                    <td className={`ad-table__role ${p.is_captain ? 'ad-table__role--captain' : 'ad-table__role--player'}`}>
                       {p.is_captain ? 'Captain' : 'Player'}
                     </td>
-                    <td style={{ padding: '0.7rem 1rem', color: '#fff', fontFamily: 'var(--ad-display)', fontSize: '1rem', letterSpacing: '0.5px' }}>
-                      ${p.amount}
-                    </td>
-                    <td style={{ padding: '0.7rem 1rem' }}>
+                    <td className="ad-table__num">${p.amount}</td>
+                    <td>
                       <StatusBadge status={p.status} />
                     </td>
-                    <td style={{ padding: '0.7rem 1rem', color: '#b6c2d3', fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
-                      {fmtDate(p.paid_at)}
-                    </td>
+                    <td className="ad-table__date">{fmtDate(p.paid_at)}</td>
                   </tr>
                 ))}
               </tbody>
