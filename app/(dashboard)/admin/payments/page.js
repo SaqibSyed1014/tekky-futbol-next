@@ -5,26 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { getAdminPayments } from '@/services/paymentsApi';
 import { AdminLoader, AdminStarsDivider } from '@/components/admin/ChicagoStar';
 import StatCard from '@/components/admin/StatCard';
-
-const STATUS_STYLES = {
-  paid:      { color: '#00c864', bg: 'rgba(0,200,100,0.1)',    border: 'rgba(0,200,100,0.3)',    label: 'Paid'      },
-  pending:   { color: '#ffb400', bg: 'rgba(255,180,0,0.1)',    border: 'rgba(255,180,0,0.3)',    label: 'Pending'   },
-  failed:    { color: '#ff6b6b', bg: 'rgba(255,60,60,0.1)',    border: 'rgba(255,60,60,0.3)',    label: 'Failed'    },
-  cancelled: { color: '#888',    bg: 'rgba(128,128,128,0.1)',  border: 'rgba(128,128,128,0.3)', label: 'Cancelled' },
-};
-
-function StatusBadge({ status }) {
-  const s = STATUS_STYLES[status] || STATUS_STYLES.pending;
-  return (
-    <span style={{
-      fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.3px',
-      padding: '0.15rem 0.55rem', borderRadius: 4,
-      background: s.bg, border: `1px solid ${s.border}`, color: s.color,
-    }}>
-      {s.label}
-    </span>
-  );
-}
+import StatusBadge from '@/components/admin/StatusBadge';
 
 function fmtDate(val) {
   if (!val) return '—';

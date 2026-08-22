@@ -8,6 +8,7 @@ import {
   reviewProfileLink,
 } from '@/services/profilesApi';
 import { AdminLoader, AdminStarsDivider } from '@/components/admin/ChicagoStar';
+import StatusBadge from '@/components/admin/StatusBadge';
 
 // ─── Shared primitives ────────────────────────────────────────────────────────
 
@@ -20,21 +21,6 @@ function Banner({ type, children }) {
     <div style={{ background: s.bg, border: `1px solid ${s.border}`, borderRadius: 8, padding: '0.75rem 1rem', color: s.color, fontSize: '0.88rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
       <i className={s.icon} /><span>{children}</span>
     </div>
-  );
-}
-
-function LinkStatusBadge({ status }) {
-  const map = {
-    none:     { color: '#555',    bg: 'rgba(255,255,255,0.04)', label: 'None' },
-    pending:  { color: '#ffb400', bg: 'rgba(255,180,0,0.1)',   label: 'Pending' },
-    approved: { color: '#00c864', bg: 'rgba(0,200,100,0.1)',   label: 'Approved' },
-    rejected: { color: '#ff6b6b', bg: 'rgba(255,60,60,0.1)',   label: 'Rejected' },
-  };
-  const s = map[status] || map.none;
-  return (
-    <span style={{ fontSize: '0.72rem', fontWeight: 700, padding: '0.15rem 0.5rem', borderRadius: 4, background: s.bg, color: s.color, border: `1px solid ${s.color}40` }}>
-      {s.label}
-    </span>
   );
 }
 
@@ -384,7 +370,7 @@ export default function AdminPlayersPage() {
                       <PublicBadge isPublic={p.is_public} />
                     </td>
                     <td style={{ padding: '0.75rem 1rem' }}>
-                      <LinkStatusBadge status={p.profile_link_status} />
+                      <StatusBadge status={p.profile_link_status} />
                     </td>
                     <td style={{ padding: '0.75rem 1rem', minWidth: 180 }}>
                       <CopyUrlButton url={p.public_url} />

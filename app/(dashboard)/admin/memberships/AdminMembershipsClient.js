@@ -4,29 +4,11 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getAdminMemberships, actOnMembership } from '@/services/adminApi';
 import { AdminStarsDivider } from '@/components/admin/ChicagoStar';
+import StatusBadge from '@/components/admin/StatusBadge';
 
 const ITEMS_PER_PAGE = 20;
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
-
-function StatusBadge({ bucket }) {
-  const map = {
-    approved:      { bg: 'rgba(0,200,100,0.12)',  border: 'rgba(0,200,100,0.4)',  text: '#00c864', label: 'Approved'       },
-    pending_admin: { bg: 'rgba(255,180,0,0.12)',   border: 'rgba(255,180,0,0.4)',  text: '#ffb400', label: 'Pending'        },
-    invited:       { bg: 'rgba(0,116,255,0.10)',   border: 'rgba(0,116,255,0.3)',  text: '#0074ff', label: 'Invited'        },
-  };
-  const s = map[bucket] ?? map.invited;
-  return (
-    <span style={{
-      display: 'inline-block', padding: '0.22rem 0.65rem', borderRadius: 40,
-      fontSize: '0.8rem', fontWeight: 600,
-      background: s.bg, border: `1px solid ${s.border}`, color: s.text,
-      whiteSpace: 'nowrap',
-    }}>
-      {s.label}
-    </span>
-  );
-}
 
 function InviteTypeBadge({ type }) {
   const label = type === 'link' ? 'Link' : type === 'direct' ? 'Direct' : type ?? '—';

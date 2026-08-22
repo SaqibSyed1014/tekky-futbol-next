@@ -4,24 +4,9 @@ import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { getAdminTeams } from '@/services/adminApi';
 import { AdminStarsDivider } from '@/components/admin/ChicagoStar';
+import StatusBadge from '@/components/admin/StatusBadge';
 
 const ITEMS_PER_PAGE = 20;
-
-function StatusBadge({ status }) {
-  const s = status === 'official'
-    ? { bg: 'rgba(0,200,100,0.12)', border: 'rgba(0,200,100,0.4)', text: '#00c864', label: 'Official' }
-    : { bg: 'rgba(255,180,0,0.12)',  border: 'rgba(255,180,0,0.4)',  text: '#ffb400', label: 'Forming'  };
-  return (
-    <span style={{
-      display: 'inline-block', padding: '0.22rem 0.65rem', borderRadius: 40,
-      fontSize: '0.8rem', fontWeight: 600,
-      background: s.bg, border: `1px solid ${s.border}`, color: s.text,
-      whiteSpace: 'nowrap',
-    }}>
-      {s.label}
-    </span>
-  );
-}
 
 function RosterBar({ approved, max }) {
   const pct = max > 0 ? Math.min(100, (approved / max) * 100) : 0;

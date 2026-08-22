@@ -16,6 +16,7 @@ import {
   ITEMS_PER_PAGE,
 } from '@/constants/admin';
 import { AdminStarsDivider } from '@/components/admin/ChicagoStar';
+import StatusBadge from '@/components/admin/StatusBadge';
 
 // ─── Allowed transitions (mirrors backend state machine) ─────────────────────
 
@@ -26,25 +27,6 @@ const ALLOWED_TRANSITIONS = {
 };
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
-
-function StatusBadge({ status }) {
-  const colors = STATUS_COLOR[status] ?? STATUS_COLOR[APPLICATION_STATUS.PENDING];
-  return (
-    <span style={{
-      display: 'inline-block',
-      padding: '0.25rem 0.75rem',
-      borderRadius: 40,
-      fontSize: '0.8rem',
-      fontWeight: 600,
-      background: colors.bg,
-      border: `1px solid ${colors.border}`,
-      color: colors.text,
-      whiteSpace: 'nowrap',
-    }}>
-      {STATUS_LABEL[status] ?? status}
-    </span>
-  );
-}
 
 function ActionButton({ onClick, disabled, color, children }) {
   return (
