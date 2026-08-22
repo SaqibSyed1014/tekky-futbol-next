@@ -163,6 +163,9 @@
 }
 
 .ad-nav-link {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -172,7 +175,7 @@
   color: var(--ad-muted);
   text-decoration: none;
   font-size: 0.9rem;
-  transition: background var(--ad-ease), color var(--ad-ease), border-color var(--ad-ease);
+  transition: color var(--ad-ease), border-color var(--ad-ease), background var(--ad-ease);
   border: 1px solid transparent;
 }
 
@@ -183,19 +186,32 @@
 
 .ad-nav-link.is-active {
   color: #fff;
-  background: rgba(0, 116, 255, 0.12);
-  border-color: var(--ad-line-blue);
   font-weight: 600;
-}
-
-.ad-nav-link.is-active i {
-  color: var(--ad-blue);
+  border-color: rgba(0, 116, 255, 0.38);
+  background: linear-gradient(
+    115deg,
+    rgba(10, 42, 110, 0.55) 0%,
+    rgba(0, 116, 255, 0.38) 42%,
+    rgba(77, 163, 255, 0.16) 100%
+  );
 }
 
 .ad-nav-link i {
-  width: 18px;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  font-size: 0.86rem;
+  font-size: 0.78rem;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.ad-nav-link.is-active i {
+  color: #fff;
+  background: linear-gradient(145deg, #4da3ff, #0074ff 55%, #0a2a6e);
+  box-shadow: 0 0 12px rgba(0, 116, 255, 0.4);
 }
 
 .ad-logout-wrap {
@@ -897,6 +913,74 @@
   font-size: 0.68rem;
   border: 1px solid rgba(197, 204, 214, 0.18);
   padding: 0.12rem 0.4rem;
+}
+
+.ad-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  color: var(--ad-status-fg);
+  border: 1px solid var(--ad-status-border);
+  background: var(--ad-status-bg);
+}
+
+.ad-status__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  color: var(--ad-status-fg);
+  background: none;
+  box-shadow: none;
+}
+
+.ad-status--pending {
+  --ad-status-fg: #ffb400;
+  --ad-status-border: rgba(255, 180, 0, 0.32);
+  --ad-status-bg: linear-gradient(135deg, rgba(255, 180, 0, 0.18), rgba(230, 122, 46, 0.05));
+}
+
+.ad-status--success {
+  --ad-status-fg: #00c864;
+  --ad-status-border: rgba(0, 200, 100, 0.32);
+  --ad-status-bg: linear-gradient(135deg, rgba(0, 200, 100, 0.18), rgba(0, 140, 80, 0.05));
+}
+
+.ad-status--danger {
+  --ad-status-fg: #ff6b6b;
+  --ad-status-border: rgba(255, 60, 60, 0.32);
+  --ad-status-bg: linear-gradient(135deg, rgba(255, 60, 60, 0.16), rgba(180, 30, 30, 0.05));
+}
+
+.ad-status--violet {
+  --ad-status-fg: #c084ff;
+  --ad-status-border: rgba(160, 100, 255, 0.35);
+  --ad-status-bg: linear-gradient(135deg, rgba(160, 100, 255, 0.18), rgba(90, 40, 180, 0.06));
+}
+
+.ad-status--cyan {
+  --ad-status-fg: #00c8ff;
+  --ad-status-border: rgba(0, 200, 255, 0.32);
+  --ad-status-bg: linear-gradient(135deg, rgba(0, 200, 255, 0.16), rgba(0, 100, 160, 0.05));
+}
+
+.ad-status--blue {
+  --ad-status-fg: #4da3ff;
+  --ad-status-border: rgba(0, 116, 255, 0.35);
+  --ad-status-bg: linear-gradient(135deg, rgba(0, 116, 255, 0.18), rgba(10, 42, 110, 0.08));
+}
+
+.ad-status--muted {
+  --ad-status-fg: #9aa3b2;
+  --ad-status-border: rgba(154, 163, 178, 0.28);
+  --ad-status-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
 }
 
 @keyframes adDropIn {
