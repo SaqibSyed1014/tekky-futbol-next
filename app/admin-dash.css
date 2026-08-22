@@ -215,7 +215,7 @@
 }
 
 .ad-logout-wrap {
-  padding: 0.7rem;
+  padding: 0.45rem 0.7rem;
   border-top: 1px solid var(--ad-line);
 }
 
@@ -592,7 +592,7 @@
   color: var(--ad-muted);
   letter-spacing: 1.4px;
   text-transform: uppercase;
-  margin: 0;
+  margin: .5rem 0 0;
   font-weight: 600;
 }
 
