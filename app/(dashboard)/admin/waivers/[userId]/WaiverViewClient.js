@@ -117,7 +117,7 @@ const S = {
     opacity:      0.85,
   },
   sectionHead: {
-    fontFamily:    "'Bebas Neue', sans-serif",
+    fontFamily:    'var(--ad-display)',
     fontSize:      '0.95rem',
     color:         'var(--tekky-blue)',
     letterSpacing: '1.5px',
@@ -227,13 +227,13 @@ export default function WaiverViewClient({ userId }) {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
           <Image src="/images/logo.webp" alt="TekkyFutbol Logo" width={70} height={70} />
           <p style={{
-            fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem',
+            fontFamily: 'var(--ad-impact)', fontSize: '1.4rem',
             letterSpacing: '3px', color: 'var(--fg)', margin: '0.5rem 0 0.25rem', textAlign: 'center',
           }}>
             TekkyFutbol
           </p>
           <p style={{
-            fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.1rem',
+            fontFamily: 'var(--ad-display)', fontSize: '1.1rem',
             letterSpacing: '2px', color: 'var(--muted)', margin: 0,
           }}>
             Participant Waiver &amp; Release — Signed Copy

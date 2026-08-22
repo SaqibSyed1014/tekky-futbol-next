@@ -6,6 +6,15 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import Image from "next/image";
 import { initiatePayment } from '@/services/paymentsApi';
+import ChicagoStar, { AdminStarCrop } from '@/components/admin/ChicagoStar';
+import { adminFontVars } from '@/components/admin/adminFonts';
+import '../admin-dash.css';
+
+function getAdminTone(pathname) {
+  if (pathname === '/admin') return 'home';
+  if (pathname.startsWith('/admin/kits') || pathname.startsWith('/admin/payments')) return 'shop';
+  return 'league';
+}
 // ─── Nav config ──────────────────────────────────────────────────────────────
 
 const ADMIN_NAV = [
@@ -62,10 +71,10 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
   const pathname = usePathname();
   const { logout } = useAuth();
   const navItems = role === 'admin' ? ADMIN_NAV : isCaptain ? CAPTAIN_NAV : PLAYER_NAV;
+  const isAdmin = role === 'admin';
 
   return (
     <>
-      {/* Mobile backdrop */}
       {sidebarOpen && (
         <div
           onClick={onClose}
@@ -73,15 +82,14 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
             display: 'none',
             position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)',
             zIndex: 40,
-            // shown via media query class below
           }}
           className="sidebar-backdrop"
         />
       )}
 
       <aside
-        className={`db-sidebar${sidebarOpen ? ' open' : ''}`}
-        style={{
+        className={`db-sidebar${sidebarOpen ? ' open' : ''}${isAdmin ? ' ad-sidebar' : ''}`}
+        style={isAdmin ? undefined : {
           width: 240,
           minHeight: '100vh',
           background: '#000',
@@ -96,19 +104,19 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
           transition: 'transform 0.25s ease',
         }}
       >
-        {/* Brand */}
-        <div style={{
+        <div className={isAdmin ? 'ad-brand' : undefined} style={isAdmin ? undefined : {
           padding: '.5rem .75rem',
           borderBottom: '1px solid rgba(0,116,255,0.15)',
           display: 'flex',
           alignItems: 'center',
           gap: '0.1rem',
         }}>
-          <Image src="/images/logo.webp" alt="TekkyFutbol Logo" width={70} height={70} />
+          <Image src="/images/logo.webp" alt="TekkyFutbol Logo" width={55} height={55} />
           <div
-            style={{
+            className={isAdmin ? 'ad-brand__name' : undefined}
+            style={isAdmin ? undefined : {
               fontFamily: "'Bebas Neue', sans-serif",
-              color: 'var(--tekky-blue)',
+              color: 'white',
               fontSize: '1.6rem',
               letterSpacing: '2px',
               textShadow: '0 0 10px var(--tekky-blue)',
@@ -120,15 +128,15 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
           </div>
         </div>
 
-        {/* Role badge */}
-        <div style={{ padding: '1.5rem 1.5rem 0.5rem' }}>
-          {(() => {
-            const isAdmin   = role === 'admin';
-            const isCap     = !isAdmin && isCaptain;
-            const color     = isAdmin ? 'var(--tekky-blue)' : isCap ? '#f0b429' : '#00c864';
-            const bg        = isAdmin ? 'rgba(0,116,255,0.1)' : isCap ? 'rgba(240,180,41,0.1)' : 'rgba(0,200,100,0.1)';
-            const border    = isAdmin ? 'rgba(0,116,255,0.3)' : isCap ? 'rgba(240,180,41,0.3)' : 'rgba(0,200,100,0.3)';
-            const label     = isAdmin ? 'Admin' : isCap ? 'Captain' : 'Player';
+        <div className={isAdmin ? 'ad-role-wrap' : undefined} style={isAdmin ? undefined : { padding: '1.5rem 1.5rem 0.5rem' }}>
+          {isAdmin ? (
+            <span className="ad-role">Admin</span>
+          ) : (() => {
+            const isCap     = isCaptain;
+            const color     = isCap ? '#f0b429' : '#00c864';
+            const bg        = isCap ? 'rgba(240,180,41,0.1)' : 'rgba(0,200,100,0.1)';
+            const border    = isCap ? 'rgba(240,180,41,0.3)' : 'rgba(0,200,100,0.3)';
+            const label     = isCap ? 'Captain' : 'Player';
             return (
               <span style={{
                 fontSize: '1rem',
@@ -147,12 +155,24 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
           })()}
         </div>
 
-        {/* Nav links */}
-        <div style={{ padding: '0.75rem 0.75rem', flex: 1 }}>
+        <div className={isAdmin ? 'ad-nav' : undefined} style={isAdmin ? undefined : { padding: '0.75rem 0.75rem', flex: 1 }}>
           {navItems.map((item) => {
             const active = pathname === item.href || (item.href !== '/admin' && item.href !== '/user' && pathname.startsWith(item.href));
             const isWaiverGated = item.href === '/user/waiver' || item.href === '/user/pool';
             const showWaiverBadge = isWaiverGated && role !== 'admin' && !waiverSigned;
+            if (isAdmin) {
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onClose}
+                  className={`ad-nav-link${active ? ' is-active' : ''}`}
+                >
+                  <i className={item.icon} />
+                  {item.label}
+                </Link>
+              );
+            }
             return (
               <Link
                 key={item.href}
@@ -199,11 +219,11 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
           })}
         </div>
 
-        {/* Logout button — pinned to bottom */}
-        <div style={{ padding: '0.75rem', borderTop: '1px solid rgba(0,116,255,0.15)' }}>
+        <div className={isAdmin ? 'ad-logout-wrap' : undefined} style={isAdmin ? undefined : { padding: '0.75rem', borderTop: '1px solid rgba(0,116,255,0.15)' }}>
           <button
             onClick={() => { onClose(); logout(); }}
-            style={{
+            className={isAdmin ? 'ad-logout' : undefined}
+            style={isAdmin ? undefined : {
               display: 'flex',
               alignItems: 'center',
               gap: '0.75rem',
@@ -219,18 +239,18 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
               fontFamily: 'inherit',
               textAlign: 'left',
             }}
-            onMouseEnter={(e) => {
+            onMouseEnter={isAdmin ? undefined : (e) => {
               e.currentTarget.style.background = 'rgba(255,60,60,0.08)';
               e.currentTarget.style.color = '#ff6b6b';
               e.currentTarget.style.borderColor = 'rgba(255,60,60,0.2)';
             }}
-            onMouseLeave={(e) => {
+            onMouseLeave={isAdmin ? undefined : (e) => {
               e.currentTarget.style.background = 'transparent';
               e.currentTarget.style.color = 'var(--muted)';
               e.currentTarget.style.borderColor = 'transparent';
             }}
           >
-            <i className="fa-solid fa-right-from-bracket" style={{ width: 18, textAlign: 'center', fontSize: '0.88rem' }} />
+            <i className="fa-solid fa-right-from-bracket" style={isAdmin ? undefined : { width: 18, textAlign: 'center', fontSize: '0.88rem' }} />
             Logout
           </button>
         </div>
@@ -263,8 +283,12 @@ function Topbar({ user, onMenuToggle }) {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
+  const isAdmin = user?.role === 'admin';
+
   return (
-    <header style={{
+    <header
+      className={isAdmin ? 'ad-topbar' : undefined}
+      style={isAdmin ? undefined : {
       height: 87,
       display: 'flex',
       alignItems: 'center',
@@ -277,14 +301,13 @@ function Topbar({ user, onMenuToggle }) {
       top: 0,
       zIndex: 30,
     }}>
-      {/* Left: hamburger (mobile) + page title */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
+      <div className={isAdmin ? 'ad-topbar__left' : undefined} style={isAdmin ? undefined : { display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
         <button
-          className="db-hamburger"
+          className={`db-hamburger${isAdmin ? ' ad-hamburger' : ''}`}
           onClick={onMenuToggle}
           aria-label="Toggle menu"
-          style={{
-            display: 'none', // shown via media query
+          style={isAdmin ? undefined : {
+            display: 'none',
             background: 'none',
             border: '1px solid rgba(0,116,255,0.3)',
             borderRadius: 6,
@@ -297,7 +320,7 @@ function Topbar({ user, onMenuToggle }) {
           <i className="fa-solid fa-bars" />
         </button>
 
-        <h2 style={{
+        <h2 className={isAdmin ? 'ad-page-title' : undefined} style={isAdmin ? undefined : {
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: '1.75rem',
           color: 'var(--fg)',
@@ -309,12 +332,12 @@ function Topbar({ user, onMenuToggle }) {
         </h2>
       </div>
 
-      {/* Right: avatar + dropdown */}
       <div ref={dropRef} style={{ position: 'relative' }}>
         <button
           onClick={() => setDropdownOpen((v) => !v)}
           aria-label="User menu"
-          style={{
+          className={isAdmin ? `ad-user-btn${dropdownOpen ? ' is-open' : ''}` : undefined}
+          style={isAdmin ? undefined : {
             display: 'flex',
             alignItems: 'center',
             gap: '0.55rem',
@@ -325,11 +348,10 @@ function Topbar({ user, onMenuToggle }) {
             cursor: 'pointer',
             transition: 'border-color 0.15s',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.6)'; }}
-          onMouseLeave={(e) => { if (!dropdownOpen) e.currentTarget.style.borderColor = 'rgba(0,116,255,0.25)'; }}
+          onMouseEnter={isAdmin ? undefined : (e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.6)'; }}
+          onMouseLeave={isAdmin ? undefined : (e) => { if (!dropdownOpen) e.currentTarget.style.borderColor = 'rgba(0,116,255,0.25)'; }}
         >
-          {/* Avatar circle */}
-          <span style={{
+          <span className={isAdmin ? 'ad-avatar' : undefined} style={isAdmin ? undefined : {
             width: 32,
             height: 32,
             borderRadius: '50%',
@@ -345,7 +367,7 @@ function Topbar({ user, onMenuToggle }) {
           }}>
             {initial}
           </span>
-          <span style={{ color: 'var(--fg)', fontSize: '0.85rem', fontWeight: 500, maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <span className={isAdmin ? 'ad-user-name' : undefined} style={isAdmin ? undefined : { color: 'var(--fg)', fontSize: '0.85rem', fontWeight: 500, maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {user?.name || user?.email}
           </span>
           <i
@@ -356,7 +378,7 @@ function Topbar({ user, onMenuToggle }) {
 
         {/* Dropdown menu */}
         {dropdownOpen && (
-          <div style={{
+          <div className={isAdmin ? 'ad-menu' : undefined} style={isAdmin ? undefined : {
             position: 'absolute',
             right: 0,
             top: 'calc(100% + 8px)',
@@ -369,8 +391,7 @@ function Topbar({ user, onMenuToggle }) {
             zIndex: 100,
             animation: 'dbDropIn 0.15s ease',
           }}>
-            {/* User info header */}
-            <div style={{ padding: '0.8rem 1rem', borderBottom: '1px solid rgba(0,116,255,0.12)' }}>
+            <div className={isAdmin ? 'ad-menu__meta' : undefined} style={isAdmin ? undefined : { padding: '0.8rem 1rem', borderBottom: '1px solid rgba(0,116,255,0.12)' }}>
               <p style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--fg)', margin: 0 }}>
                 {user?.name || 'User'}
               </p>
@@ -382,6 +403,7 @@ function Topbar({ user, onMenuToggle }) {
             {/* Menu items */}
             <div style={{ padding: '0.4rem 0' }}>
               <DropdownItem
+                admin={isAdmin}
                 icon="fa-solid fa-user"
                 label="My Profile"
                 onClick={() => {
@@ -391,6 +413,7 @@ function Topbar({ user, onMenuToggle }) {
               />
               <div style={{ height: 1, background: 'rgba(0,116,255,0.1)', margin: '0.3rem 0' }} />
               <DropdownItem
+                admin={isAdmin}
                 icon="fa-solid fa-right-from-bracket"
                 label="Logout"
                 danger
@@ -404,11 +427,12 @@ function Topbar({ user, onMenuToggle }) {
   );
 }
 
-function DropdownItem({ icon, label, onClick, danger = false, disabled = false }) {
+function DropdownItem({ icon, label, onClick, danger = false, disabled = false, admin = false }) {
   return (
     <button
       onClick={disabled ? undefined : onClick}
-      style={{
+      className={admin ? `ad-menu__item${danger ? ' is-danger' : ''}` : undefined}
+      style={admin ? undefined : {
         display: 'flex',
         alignItems: 'center',
         gap: '0.65rem',
@@ -424,8 +448,8 @@ function DropdownItem({ icon, label, onClick, danger = false, disabled = false }
         transition: 'background 0.12s',
         fontFamily: 'inherit',
       }}
-      onMouseEnter={(e) => { if (!disabled) e.currentTarget.style.background = danger ? 'rgba(255,60,60,0.08)' : 'rgba(0,116,255,0.08)'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = 'none'; }}
+      onMouseEnter={admin ? undefined : (e) => { if (!disabled) e.currentTarget.style.background = danger ? 'rgba(255,60,60,0.08)' : 'rgba(0,116,255,0.08)'; }}
+      onMouseLeave={admin ? undefined : (e) => { e.currentTarget.style.background = 'none'; }}
     >
       <i className={icon} style={{ width: 16, textAlign: 'center', fontSize: '0.82rem' }} />
       {label}
@@ -594,28 +618,45 @@ export default function DashboardLayout({ children }) {
   // Standalone mode: waiver viewer at /admin/waivers/[userId]
   // Authenticated as admin (guard above), but no sidebar or topbar needed.
   const isStandalone = /^\/admin\/waivers\/[^/]+$/.test(pathname);
+  const isAdmin = user.role === 'admin';
+  const adminTone = getAdminTone(pathname);
+
   if (isStandalone) {
-    return <>{children}</>;
+    return <div className={`admin-dash admin-dash--league ${adminFontVars}`}>{children}</div>;
   }
 
   return (
-    <>
+    <div className={isAdmin ? `admin-dash admin-dash--${adminTone} ${adminFontVars}` : undefined}>
       {showPaymentPrompt && <PaymentPrompt onDismiss={() => setShowPaymentPrompt(false)} />}
       <Sidebar role={user.role} isCaptain={user.is_captain} waiverSigned={!!user.waiver_signed} sidebarOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Main area — offset by sidebar width on desktop */}
-      <div className="db-main" style={{
+      <div
+        className={isAdmin ? 'db-main ad-main' : 'db-main'}
+        style={isAdmin ? undefined : {
         marginLeft: 240,
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         background: '#030303',
       }}>
+        {isAdmin && <AdminStarCrop variant={adminTone === 'shop' ? 'silver' : 'ghost'} size={adminTone === 'home' ? 200 : 260} />}
         <Topbar user={user} onMenuToggle={() => setSidebarOpen((v) => !v)} />
 
-        <main style={{ flex: 1, padding: '2rem 2rem 3rem', maxWidth: 1280 }}>
+        <main className={isAdmin ? 'ad-content' : undefined} style={isAdmin ? undefined : { flex: 1, padding: '2rem 2rem 3rem', maxWidth: 1280 }}>
           {children}
         </main>
+
+        {isAdmin && (
+          <footer className="ad-foot">
+            <div className="ad-divider__stars" aria-hidden="true">
+              <ChicagoStar size={10} variant="official" />
+              <ChicagoStar size={10} variant="official" />
+              <ChicagoStar size={10} variant="official" />
+              <ChicagoStar size={10} variant="official" />
+            </div>
+            <span className="ad-foot__mark">TekkyFutbol · Chicago</span>
+          </footer>
+        )}
       </div>
 
       <style>{`
@@ -642,6 +683,6 @@ export default function DashboardLayout({ children }) {
           }
         }
       `}</style>
-    </>
+    </div>
   );
 }

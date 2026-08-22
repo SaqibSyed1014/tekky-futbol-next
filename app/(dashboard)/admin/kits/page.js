@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
-import { getAdminKits, getKitExportUrl } from '@/services/kitsApi';
+import { getAdminKits } from '@/services/kitsApi';
+import { AdminLoader, AdminStarsDivider } from '@/components/admin/ChicagoStar';
+import StatCard from '@/components/admin/StatCard';
 
 function Banner({ type, children }) {
   const styles = {
@@ -46,13 +48,7 @@ function TeamKitCard({ entry }) {
   const completedOrders = entry.orders?.length ?? 0;
 
   return (
-    <div style={{
-      background: '#000',
-      border: '1px solid rgba(0,116,255,0.2)',
-      borderRadius: 12,
-      marginBottom: '1.25rem',
-      overflow: 'hidden',
-    }}>
+    <div className="ad-panel" style={{ marginBottom: '1.25rem' }}>
       {/* Header */}
       <div
         onClick={() => setExpanded((v) => !v)}
@@ -178,59 +174,38 @@ export default function AdminKitsPage() {
   }, [authLoading, user]);
 
   if (authLoading || loading) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 200 }}>
-        <span className="spinner" style={{ width: 32, height: 32, borderWidth: 3 }} />
-      </div>
-    );
+    return <AdminLoader />;
   }
 
   const totalOrders = entries.reduce((sum, e) => sum + (e.orders?.length ?? 0), 0);
+  const lockedCount = entries.filter((e) => e.is_locked).length;
 
   return (
-    <div style={{ maxWidth: 900 }}>
-      {/* Top bar */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.75rem' }}>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          <div style={{
-            background: 'rgba(0,116,255,0.08)', border: '1px solid rgba(0,116,255,0.2)',
-            borderRadius: 8, padding: '0.5rem 1rem', fontSize: '0.85rem',
-          }}>
-            <span style={{ color: 'var(--muted)' }}>Teams: </span>
-            <strong style={{ color: '#fff' }}>{entries.length}</strong>
-          </div>
-          <div style={{
-            background: 'rgba(0,116,255,0.08)', border: '1px solid rgba(0,116,255,0.2)',
-            borderRadius: 8, padding: '0.5rem 1rem', fontSize: '0.85rem',
-          }}>
-            <span style={{ color: 'var(--muted)' }}>Total orders: </span>
-            <strong style={{ color: '#fff' }}>{totalOrders}</strong>
-          </div>
-        </div>
+    <div className="ad-page" style={{ maxWidth: 900 }}>
+      <div
+        className="ad-photo-rail"
+        style={{ backgroundImage: "url('/images/Hoodie.webp')" }}
+      >
+        <span className="ad-photo-rail__label">Kit lock · size pipeline <span className="ad-stencil">Merch</span></span>
+      </div>
 
-        {/*<a*/}
-        {/*  href={getKitExportUrl()}*/}
-        {/*  target="_blank"*/}
-        {/*  rel="noreferrer"*/}
-        {/*  style={{*/}
-        {/*    display: 'inline-flex', alignItems: 'center', gap: '0.5rem',*/}
-        {/*    padding: '0.55rem 1.25rem', borderRadius: 8,*/}
-        {/*    background: 'rgba(0,200,100,0.1)', border: '1px solid rgba(0,200,100,0.3)',*/}
-        {/*    color: '#00c864', fontSize: '0.88rem', fontWeight: 600,*/}
-        {/*    textDecoration: 'none', transition: 'all 0.15s',*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <i className="fa-solid fa-file-csv" /> Export CSV*/}
-        {/*</a>*/}
+      <div className="ad-page-head">
+        <p className="ad-kicker">Shopping</p>
+        <h1 className="ad-title">Kit Orders</h1>
+        <p className="ad-sub">Team selections, lock status, and submitted sizes.</p>
+      </div>
+      <AdminStarsDivider />
+
+      <div className="ad-stats">
+        <StatCard label="Teams" value={entries.length} icon="fa-solid fa-shield-halved" />
+        <StatCard label="Total Orders" value={totalOrders} icon="fa-solid fa-shirt" />
+        <StatCard label="Locked" value={lockedCount} icon="fa-solid fa-lock" />
       </div>
 
       <Banner type="error">{error}</Banner>
 
       {entries.length === 0 ? (
-        <div style={{
-          background: '#000', border: '1px solid rgba(0,116,255,0.2)',
-          borderRadius: 12, padding: '3rem', textAlign: 'center',
-        }}>
+        <div className="ad-panel ad-empty">
           <i className="fa-solid fa-shirt" style={{ fontSize: '2.5rem', color: 'var(--muted)', marginBottom: '1rem', display: 'block' }} />
           <p style={{ color: 'var(--muted)', fontSize: '0.95rem', margin: 0 }}>
             No kit selections have been made yet.

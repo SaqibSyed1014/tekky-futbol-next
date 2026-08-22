@@ -3,83 +3,20 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getApplications, getAdminMemberships, getAdminTeams } from '@/services/adminApi';
+import { AdminStarsDivider, AdminStarCrop } from '@/components/admin/ChicagoStar';
+import StatCard from '@/components/admin/StatCard';
 
-// ─── Stat card ───────────────────────────────────────────────────────────────
-
-function StatCard({ label, value, icon, color, loading }) {
+function ActionCard({ href, icon, title, description }) {
   return (
-    <div style={{
-      background: '#000',
-      border: `1px solid ${color}33`,
-      borderRadius: 12,
-      padding: '1.4rem 1.6rem',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '1.1rem',
-      boxShadow: `0 0 20px ${color}14`,
-      transition: 'box-shadow 0.2s, transform 0.2s',
-    }}
-      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = `0 0 28px ${color}30`; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = `0 0 20px ${color}14`; e.currentTarget.style.transform = 'translateY(0)'; }}
-    >
-      <div style={{
-        width: 48,
-        height: 48,
-        borderRadius: 10,
-        background: `${color}18`,
-        border: `1px solid ${color}40`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-      }}>
-        <i className={icon} style={{ color, fontSize: '1.2rem' }} />
+    <Link href={href} className="ad-card">
+      <div className="ad-card__title">
+        <i className={icon} />
+        {title}
       </div>
-      <div>
-        <p style={{ fontSize: '0.78rem', color: 'var(--muted)', letterSpacing: '0.5px', textTransform: 'uppercase', margin: 0, fontWeight: 600 }}>
-          {label}
-        </p>
-        <p style={{ fontSize: '2rem', fontFamily: "'Bebas Neue', sans-serif", color: '#fff', margin: '0.1rem 0 0', letterSpacing: '1px', lineHeight: 1 }}>
-          {loading ? '—' : value}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-// ─── Quick action card ────────────────────────────────────────────────────────
-
-function ActionCard({ href, icon, title, description, color }) {
-  return (
-    <Link
-      href={href}
-      style={{
-        display: 'block',
-        background: '#000',
-        border: '1px solid rgba(0,116,255,0.2)',
-        borderRadius: 12,
-        padding: '1.2rem 1.4rem',
-        textDecoration: 'none',
-        transition: 'all 0.2s',
-        boxShadow: '0 0 14px rgba(0,116,255,0.08)',
-      }}
-      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.5)'; e.currentTarget.style.boxShadow = '0 0 22px rgba(0,116,255,0.2)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.2)'; e.currentTarget.style.boxShadow = '0 0 14px rgba(0,116,255,0.08)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', marginBottom: '0.5rem' }}>
-        <i className={icon} style={{ color: color || 'var(--tekky-blue)', fontSize: '1rem' }} />
-        <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.1rem', color: '#fff', letterSpacing: '0.5px' }}>
-          {title}
-        </span>
-      </div>
-      <p style={{ color: 'var(--muted)', fontSize: '0.82rem', margin: 0, lineHeight: 1.5 }}>
-        {description}
-      </p>
+      <p>{description}</p>
     </Link>
   );
 }
-
-// ─── Main ─────────────────────────────────────────────────────────────────────
 
 export default function AdminHomeClient({ user }) {
   const [stats, setStats] = useState({
@@ -117,70 +54,54 @@ export default function AdminHomeClient({ user }) {
   }, []);
 
   return (
-    <div>
-      {/* Welcome */}
-      <div style={{ marginBottom: '2rem' }}>
-        <h2 style={{
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: '1.8rem',
-          color: 'var(--fg)',
-          margin: 0,
-          textShadow: 'none',
-          letterSpacing: '1px',
-        }}>
-          Welcome back, {user?.name || 'Admin'} 👋
-        </h2>
-        <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginTop: '0.35rem' }}>
-          Here&apos;s an overview of the league applications.
-        </p>
-      </div>
-
-      {/* Stats grid */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-        gap: '1rem',
-        marginBottom: '2.5rem',
-      }}>
-        <StatCard label="Total Applications"    value={stats.total}              icon="fa-solid fa-layer-group"      color="#0074ff" loading={loading} />
-        <StatCard label="Pending Applications" value={stats.pending}             icon="fa-solid fa-clock"            color="#ffb400" loading={loading} />
-        <StatCard label="Approved Players"     value={stats.approved}            icon="fa-solid fa-circle-check"     color="#00c864" loading={loading} />
-        <StatCard label="Rejected"             value={stats.rejected}            icon="fa-solid fa-circle-xmark"     color="#ff3c3c" loading={loading} />
-        <StatCard label="Teams"                value={stats.totalTeams}          icon="fa-solid fa-shield-halved"    color="#a78bfa" loading={loading} />
-        <StatCard label="Pending Memberships"  value={stats.pendingMemberships}  icon="fa-solid fa-user-clock"       color="#f97316" loading={loading} />
-      </div>
-
-      {/* Section divider */}
-      <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(0,116,255,0.3), transparent)', marginBottom: '2rem' }} />
-
-      {/* Quick actions */}
-      <div style={{ marginBottom: '1rem' }}>
-        <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.1rem', color: 'var(--muted)', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 1rem' }}>
-          Quick Actions
-        </h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
-          <ActionCard
-            href="/admin/applications"
-            icon="fa-solid fa-file-lines"
-            title="Review Applications"
-            description={loading ? 'Loading…' : `${stats.pending} application${stats.pending !== 1 ? 's' : ''} waiting for review`}
-            color="var(--tekky-blue)"
-          />
-          <ActionCard
-            href="/admin/memberships"
-            icon="fa-solid fa-user-clock"
-            title="Approve Memberships"
-            description={loading ? 'Loading…' : `${stats.pendingMemberships} membership${stats.pendingMemberships !== 1 ? 's' : ''} pending admin approval`}
-            color="#f97316"
-          />
-          <ActionCard
-            href="/admin/teams"
-            icon="fa-solid fa-shield-halved"
-            title="Manage Teams"
-            description={loading ? 'Loading…' : `${stats.totalTeams} team${stats.totalTeams !== 1 ? 's' : ''} registered in the league`}
-            color="#a78bfa"
-          />
+    <div className="ad-page">
+      <div className="ad-hero">
+        <div className="ad-hero__copy">
+          <p className="ad-kicker">Operations</p>
+          <h2 className="ad-title">Welcome back, {user?.name || 'Admin'}</h2>
+          <p className="ad-sub">
+            League applications, memberships, and team status — a clean read of the pipeline.
+          </p>
         </div>
+        <div
+          className="ad-hero__media"
+          style={{ backgroundImage: "url('/images/hero-bg.webp')" }}
+        >
+          <AdminStarCrop variant="official" size={150} />
+        </div>
+      </div>
+
+      <div className="ad-stats">
+        <StatCard label="Total Applications"    value={stats.total}              icon="fa-solid fa-layer-group"      loading={loading} />
+        <StatCard label="Pending Applications" value={stats.pending}             icon="fa-solid fa-clock"            loading={loading} />
+        <StatCard label="Approved Players"     value={stats.approved}            icon="fa-solid fa-circle-check"     loading={loading} />
+        <StatCard label="Rejected"             value={stats.rejected}            icon="fa-solid fa-circle-xmark"     loading={loading} />
+        <StatCard label="Teams"                value={stats.totalTeams}          icon="fa-solid fa-shield-halved"    loading={loading} />
+        <StatCard label="Pending Memberships"  value={stats.pendingMemberships}  icon="fa-solid fa-user-clock"       loading={loading} />
+      </div>
+
+      <AdminStarsDivider />
+
+      <p className="ad-section-label">Quick Actions</p>
+      <div className="ad-card-grid">
+        <ActionCard
+          href="/admin/applications"
+          icon="fa-solid fa-file-lines"
+          title="Review Applications"
+          description={loading ? 'Loading…' : `${stats.pending} application${stats.pending !== 1 ? 's' : ''} waiting for review`}
+        />
+        <ActionCard
+          href="/admin/memberships"
+          icon="fa-solid fa-user-clock"
+          title="Approve Memberships"
+          description={loading ? 'Loading…' : `${stats.pendingMemberships} membership${stats.pendingMemberships !== 1 ? 's' : ''} pending admin approval`}
+        />
+        <ActionCard
+          href="/admin/teams"
+          icon="fa-solid fa-shield-halved"
+          title="Manage Teams"
+          description={loading ? 'Loading…' : `${stats.totalTeams} team${stats.totalTeams !== 1 ? 's' : ''} registered in the league`}
+        />
       </div>
     </div>
   );

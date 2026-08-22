@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { fetchMyProfile } from '@/services/userApi';
+import { AdminLoader } from '@/components/admin/ChicagoStar';
 
 function SectionHeading({ children }) {
   return (
     <h3 style={{
-      fontFamily: "'Bebas Neue', sans-serif",
+      fontFamily: 'var(--ad-impact)',
       fontSize: '1.15rem',
       letterSpacing: '1.5px',
       color: 'var(--tekky-blue)',
@@ -35,14 +36,7 @@ function InfoField({ label, value }) {
 
 function Card({ children, style }) {
   return (
-    <div style={{
-      background: '#000',
-      border: '1px solid rgba(0,116,255,0.2)',
-      borderRadius: 12,
-      padding: '1.5rem',
-      boxShadow: '0 0 20px rgba(0,116,255,0.05)',
-      ...style,
-    }}>
+    <div className="ad-panel" style={{ padding: '1.5rem', ...style }}>
       {children}
     </div>
   );
@@ -61,11 +55,7 @@ export default function AdminProfilePage() {
   }, []);
 
   if (loading) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 200 }}>
-        <span className="spinner" style={{ width: 32, height: 32, borderWidth: 3 }} />
-      </div>
-    );
+    return <AdminLoader />;
   }
 
   if (error) {
@@ -79,7 +69,11 @@ export default function AdminProfilePage() {
   const initial = (profile?.name || profile?.email || '?')[0].toUpperCase();
 
   return (
-    <div style={{ maxWidth: 560 }}>
+    <div className="ad-page" style={{ maxWidth: 560 }}>
+      <div className="ad-page-head">
+        <p className="ad-kicker">Account</p>
+        <h1 className="ad-title">My Profile</h1>
+      </div>
 
       {/* Profile header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '2rem' }}>
@@ -91,7 +85,7 @@ export default function AdminProfilePage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontFamily: "'Bebas Neue', sans-serif",
+          fontFamily: 'var(--ad-display)',
           fontSize: '1.8rem',
           color: '#fff',
           boxShadow: '0 0 20px rgba(0,116,255,0.35)',
@@ -100,12 +94,12 @@ export default function AdminProfilePage() {
           {initial}
         </div>
         <div>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.6rem', margin: '0 0 0.3rem', letterSpacing: '1px' }}>
+          <h2 style={{ fontFamily: 'var(--ad-impact)', fontSize: '1.6rem', margin: '0 0 0.3rem', letterSpacing: '1px' }}>
             {profile?.name || profile?.email}
           </h2>
           <span style={{
             fontSize: '0.8rem',
-            fontFamily: "'Bebas Neue', sans-serif",
+            fontFamily: 'var(--ad-display)',
             letterSpacing: '1.2px',
             color: 'var(--tekky-blue)',
             background: 'rgba(0,116,255,0.1)',

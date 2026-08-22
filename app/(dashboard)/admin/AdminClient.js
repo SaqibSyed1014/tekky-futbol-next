@@ -15,6 +15,7 @@ import {
   STATUS_FILTERS,
   ITEMS_PER_PAGE,
 } from '@/constants/admin';
+import { AdminStarsDivider } from '@/components/admin/ChicagoStar';
 
 // ─── Allowed transitions (mirrors backend state machine) ─────────────────────
 
@@ -74,20 +75,9 @@ function ActionButton({ onClick, disabled, color, children }) {
 function FilterTab({ label, active, onClick }) {
   return (
     <button
+      type="button"
       onClick={onClick}
-      style={{
-        padding: '0.45rem 1.1rem',
-        borderRadius: 40,
-        border: '1px solid',
-        borderColor: active ? 'var(--tekky-blue)' : 'rgba(0,116,255,0.25)',
-        background: active ? 'rgba(0,116,255,0.15)' : 'transparent',
-        color: active ? 'var(--tekky-blue)' : 'var(--muted)',
-        fontFamily: "'Bebas Neue', sans-serif",
-        fontSize: '0.95rem',
-        letterSpacing: '0.5px',
-        cursor: 'pointer',
-        transition: 'all 0.2s',
-      }}
+      className={`ad-pill${active ? ' is-active' : ''}`}
     >
       {label}
     </button>
@@ -135,7 +125,7 @@ function StatusModal({ targetStatus, onConfirm, onCancel, loading }) {
         {/* Header */}
         <div style={{ marginBottom: '1.25rem' }}>
           <h3 style={{
-            fontFamily: "'Bebas Neue', sans-serif",
+            fontFamily: 'var(--ad-impact)',
             fontSize: '1.4rem',
             letterSpacing: '1px',
             color,
@@ -322,7 +312,7 @@ function LogoLightbox({ url, onClose }) {
           maxWidth: '90vw',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-            <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.1rem', letterSpacing: '1.5px', color: 'var(--tekky-blue)' }}>
+            <span style={{ fontFamily: 'var(--ad-display)', fontSize: '1.1rem', letterSpacing: '1.5px', color: 'var(--tekky-blue)' }}>
               Team Logo
             </span>
             <button
@@ -371,7 +361,7 @@ function LogoLightbox({ url, onClose }) {
 function SectionLabel({ children }) {
   return (
     <p style={{
-      fontFamily: "'Bebas Neue', sans-serif",
+      fontFamily: 'var(--ad-impact)',
       fontSize: '1.2rem',
       letterSpacing: '1.5px',
       color: 'var(--tekky-blue)',
@@ -450,7 +440,7 @@ function ApplicationDrawer({ app, onClose, onApprove, onReject, onWaitlist, onIn
           flexShrink: 0,
         }}>
           <div>
-            <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', margin: 0, letterSpacing: '1px' }}>
+            <h3 style={{ fontFamily: 'var(--ad-impact)', fontSize: '1.4rem', margin: 0, letterSpacing: '1px' }}>
               Application Detail
             </h3>
             <p style={{ color: 'var(--muted)', fontSize: '0.75rem', margin: '0.15rem 0 0' }}>
@@ -482,7 +472,7 @@ function ApplicationDrawer({ app, onClose, onApprove, onReject, onWaitlist, onIn
           <StatusBadge status={app.status} />
           <span style={{
             fontSize: '1rem',
-            fontFamily: "'Bebas Neue', sans-serif",
+            fontFamily: 'var(--ad-display)',
             letterSpacing: '1px',
             color: 'var(--tekky-blue)',
             background: 'rgba(0,116,255,0.1)',
@@ -681,20 +671,18 @@ export default function AdminClient() {
   if (authLoading || !user) return null;
 
   return (
-    <div style={{ maxWidth: 1200 }}>
+    <div className="ad-page" style={{ maxWidth: 1200 }}>
 
-      {/* Header */}
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2.4rem', marginBottom: '0.25rem' }}>
-          Applications
-        </h1>
-        <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>
+      <div className="ad-page-head">
+        <p className="ad-kicker">League</p>
+        <h1 className="ad-title">Applications</h1>
+        <p className="ad-sub">
           {loading ? 'Loading…' : `${total} total application${total !== 1 ? 's' : ''}`}
         </p>
       </div>
+      <AdminStarsDivider />
 
-      {/* Filter tabs */}
-      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+      <div className="ad-toolbar">
         {STATUS_FILTERS.map((f) => (
           <FilterTab
             key={f.value}
@@ -704,8 +692,9 @@ export default function AdminClient() {
           />
         ))}
         <button
+          type="button"
           onClick={fetchApplications}
-          style={{ display: "flex", alignItems: "center", gap: "10px", marginLeft: 'auto', background: 'none', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 6, padding: '0.45rem 0.9rem', color: 'var(--muted)', cursor: 'pointer', fontSize: '0.82rem', fontFamily: 'inherit' }}
+          className="ad-btn ad-btn--ghost"
         >
           <svg width="25px" height="25px" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 19c-3.6 0 -6.5 -2.9 -6.5 -6.5 0 -1.6 0.6 -3.1 1.65 -4.3l0.75 0.65C7.5 9.85 7 11.15 7 12.5c0 3.05 2.45 5.5 5.5 5.5 0.8 0 1.55 -0.15 2.3 -0.5l0.4 0.9Q13.925 19 12.5 19" fill="currentColor"/><path d="m17.35 16.85 -0.75 -0.65c0.9 -1 1.4 -2.3 1.4 -3.65 0 -3.05 -2.45 -5.5 -5.5 -5.5 -0.8 0 -1.55 0.15 -2.3 0.5l-0.4 -0.9q1.275 -0.6 2.7 -0.6c3.6 0 6.5 2.9 6.5 6.5 0 1.55 -0.6 3.1 -1.65 4.3" fill="currentColor"/><path d="M9 12h-1v-3h-3v-1h4z" fill="currentColor"/><path d="M20 17h-4v-4h1v3h3z" fill="currentColor"/></svg>
           Refresh
@@ -726,7 +715,7 @@ export default function AdminClient() {
       {loading && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} style={{ height: 56, borderRadius: 8, background: 'rgba(0,116,255,0.06)', border: '1px solid rgba(0,116,255,0.1)', animation: 'pulse 1.5s ease-in-out infinite' }} />
+            <div key={i} className="ad-skel" />
           ))}
         </div>
       )}
@@ -738,12 +727,12 @@ export default function AdminClient() {
             No applications found{statusFilter ? ` with status "${STATUS_LABEL[statusFilter]}"` : ''}.
           </p>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
+          <div className="ad-panel" style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid rgba(0,116,255,0.3)' }}>
                   {['Name', 'Email', 'Type', 'Division', 'Status', 'Submitted', 'Actions'].map((h) => (
-                    <th key={h} style={{ textAlign: 'left', padding: '0.6rem 0.8rem', color: 'var(--tekky-blue)', fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.95rem', letterSpacing: '0.5px', whiteSpace: 'nowrap' }}>
+                    <th key={h} style={{ textAlign: 'left', padding: '0.6rem 0.8rem', color: 'var(--tekky-blue)', fontFamily: 'var(--ad-display)', fontSize: '0.95rem', letterSpacing: '0.5px', whiteSpace: 'nowrap' }}>
                       {h}
                     </th>
                   ))}
@@ -818,7 +807,7 @@ export default function AdminClient() {
 
       {/* Pagination */}
       {!loading && totalPages > 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.75rem', marginTop: '2rem' }}>
+        <div className="ad-pager">
           <button
             onClick={() => setPage((p) => Math.max(p - 1, 1))}
             disabled={page === 1}

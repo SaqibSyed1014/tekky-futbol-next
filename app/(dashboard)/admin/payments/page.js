@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getAdminPayments } from '@/services/paymentsApi';
+import { AdminLoader, AdminStarsDivider } from '@/components/admin/ChicagoStar';
+import StatCard from '@/components/admin/StatCard';
 
 const STATUS_STYLES = {
   paid:      { color: '#00c864', bg: 'rgba(0,200,100,0.1)',    border: 'rgba(0,200,100,0.3)',    label: 'Paid'      },
@@ -73,54 +75,41 @@ export default function AdminPaymentsPage() {
   }
 
   if (authLoading || initialLoad) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 200 }}>
-        <span className="spinner" style={{ width: 32, height: 32, borderWidth: 3 }} />
-      </div>
-    );
+    return <AdminLoader />;
   }
 
   const paidCount    = payments.filter((p) => p.status === 'paid').length;
   const pendingCount = payments.filter((p) => p.status === 'pending').length;
 
   return (
-    <div style={{ maxWidth: 900 }}>
-
-      {/* Summary stats */}
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-        {[
-          { label: 'Total Records', value: count,        color: '#0074ff' },
-          { label: 'Paid',          value: paidCount,    color: '#00c864' },
-          { label: 'Pending',       value: pendingCount, color: '#ffb400' },
-        ].map((s) => (
-          <div key={s.label} style={{
-            flex: '1 1 140px',
-            background: '#000', border: '1px solid rgba(0,116,255,0.2)',
-            borderRadius: 10, padding: '1rem 1.25rem',
-          }}>
-            <div style={{ fontSize: '1.6rem', fontFamily: "'Bebas Neue', sans-serif", color: s.color, letterSpacing: '1px' }}>
-              {s.value}
-            </div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.4px' }}>
-              {s.label}
-            </div>
-          </div>
-        ))}
+    <div className="ad-page" style={{ maxWidth: 900 }}>
+      <div
+        className="ad-photo-rail"
+        style={{ backgroundImage: "url('/images/Jersey.webp')" }}
+      >
+        <span className="ad-photo-rail__label">Checkout pipeline <span className="ad-stencil">Fee</span></span>
       </div>
 
-      {/* Filter row */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+      <div className="ad-page-head">
+        <p className="ad-kicker">Shopping</p>
+        <h1 className="ad-title">Payments</h1>
+        <p className="ad-sub">Registration fees across the league — paid, pending, and failed.</p>
+      </div>
+      <AdminStarsDivider />
+
+      <div className="ad-stats">
+        <StatCard label="Total Records" value={count} icon="fa-solid fa-layer-group" />
+        <StatCard label="Paid" value={paidCount} icon="fa-solid fa-circle-check" />
+        <StatCard label="Pending" value={pendingCount} icon="fa-solid fa-clock" />
+      </div>
+
+      <div className="ad-toolbar">
         {FILTER_OPTIONS.map((opt) => (
           <button
+            type="button"
             key={opt.value}
             onClick={() => handleFilter(opt.value)}
-            style={{
-              padding: '0.35rem 0.9rem', borderRadius: 6, fontSize: '0.82rem', fontWeight: 600,
-              cursor: 'pointer', fontFamily: 'inherit',
-              background: statusFilter === opt.value ? 'rgba(0,116,255,0.18)' : 'transparent',
-              border: `1px solid ${statusFilter === opt.value ? 'rgba(0,116,255,0.5)' : 'rgba(255,255,255,0.1)'}`,
-              color: statusFilter === opt.value ? '#fff' : 'var(--muted)',
-            }}
+            className={`ad-pill${statusFilter === opt.value ? ' is-active' : ''}`}
           >
             {opt.label}
           </button>
@@ -139,7 +128,7 @@ export default function AdminPaymentsPage() {
       )}
 
       {/* Table */}
-      <div style={{ position: 'relative', background: '#000', border: '1px solid rgba(0,116,255,0.2)', borderRadius: 12, overflow: 'hidden' }}>
+      <div className="ad-panel" style={{ position: 'relative' }}>
         {tableLoading && (
           <div style={{
             position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)',
@@ -179,7 +168,7 @@ export default function AdminPaymentsPage() {
                     <td style={{ padding: '0.7rem 1rem', color: p.is_captain ? '#f0b429' : '#b6c2d3', fontSize: '0.8rem', fontWeight: 600 }}>
                       {p.is_captain ? 'Captain' : 'Player'}
                     </td>
-                    <td style={{ padding: '0.7rem 1rem', color: '#fff', fontFamily: "'Bebas Neue', sans-serif", fontSize: '1rem', letterSpacing: '0.5px' }}>
+                    <td style={{ padding: '0.7rem 1rem', color: '#fff', fontFamily: 'var(--ad-display)', fontSize: '1rem', letterSpacing: '0.5px' }}>
                       ${p.amount}
                     </td>
                     <td style={{ padding: '0.7rem 1rem' }}>

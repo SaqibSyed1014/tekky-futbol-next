@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getAdminMemberships, actOnMembership } from '@/services/adminApi';
+import { AdminStarsDivider } from '@/components/admin/ChicagoStar';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -44,18 +45,7 @@ function InviteTypeBadge({ type }) {
 
 function FilterTab({ label, active, onClick }) {
   return (
-    <button
-      onClick={onClick}
-      style={{
-        padding: '0.4rem 1rem', borderRadius: 40,
-        border: `1px solid ${active ? 'var(--tekky-blue)' : 'rgba(0,116,255,0.25)'}`,
-        background: active ? 'rgba(0,116,255,0.15)' : 'transparent',
-        color: active ? 'var(--tekky-blue)' : 'var(--muted)',
-        fontFamily: "'Bebas Neue', sans-serif",
-        fontSize: '0.9rem', letterSpacing: '0.5px',
-        cursor: 'pointer', transition: 'all 0.15s',
-      }}
-    >
+    <button type="button" onClick={onClick} className={`ad-pill${active ? ' is-active' : ''}`}>
       {label}
     </button>
   );
@@ -106,7 +96,7 @@ function ConfirmModal({ membership, action, onConfirm, onCancel, loading }) {
         maxWidth: 420, width: '100%',
         boxShadow: `0 0 40px ${color}20`,
       }}>
-        <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', color, margin: '0 0 0.75rem', letterSpacing: '1px' }}>
+        <h3 style={{ fontFamily: 'var(--ad-impact)', fontSize: '1.4rem', color, margin: '0 0 0.75rem', letterSpacing: '1px' }}>
           {verb} Membership
         </h3>
         <p style={{ color: 'var(--muted)', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
@@ -221,19 +211,17 @@ export default function AdminMembershipsClient() {
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 
   return (
-    <div style={{ maxWidth: 1200 }}>
-      {/* Header */}
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2.4rem', marginBottom: '0.25rem' }}>
-          Memberships
-        </h1>
-        <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>
+    <div className="ad-page" style={{ maxWidth: 1200 }}>
+      <div className="ad-page-head">
+        <p className="ad-kicker">League</p>
+        <h1 className="ad-title">Memberships</h1>
+        <p className="ad-sub">
           {loading ? 'Loading…' : `${total} membership${total !== 1 ? 's' : ''} found`}
         </p>
       </div>
+      <AdminStarsDivider />
 
-      {/* Controls */}
-      <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+      <div className="ad-toolbar">
         {/* Status filter tabs */}
         <div style={{ display: 'flex', gap: '0.4rem' }}>
           {[
@@ -270,13 +258,9 @@ export default function AdminMembershipsClient() {
         )}
 
         <button
+          type="button"
           onClick={fetchMemberships}
-          style={{
-            marginLeft: 'auto', background: 'none',
-            border: '1px solid rgba(0,116,255,0.3)', borderRadius: 6,
-            padding: '0.45rem 0.9rem', color: 'var(--muted)',
-            cursor: 'pointer', fontSize: '0.82rem', fontFamily: 'inherit',
-          }}
+          className="ad-btn ad-btn--ghost"
         >
           <i className="fa-solid fa-rotate-right" style={{ marginRight: '0.4rem' }} />Refresh
         </button>
@@ -293,7 +277,7 @@ export default function AdminMembershipsClient() {
       {loading && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} style={{ height: 52, borderRadius: 8, background: 'rgba(0,116,255,0.06)', border: '1px solid rgba(0,116,255,0.1)', animation: 'pulse 1.5s ease-in-out infinite' }} />
+            <div key={i} className="ad-skel" />
           ))}
         </div>
       )}
@@ -305,14 +289,14 @@ export default function AdminMembershipsClient() {
             No {statusFilter !== 'all' ? statusFilter : ''} memberships found{teamFilter ? ' for this team' : ''}.
           </p>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
+          <div className="ad-panel" style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid rgba(0,116,255,0.3)' }}>
                   {['Player', 'Team', 'Captain', 'Status', 'Via', 'Joined', 'Actions'].map((h) => (
                     <th key={h} style={{
                       textAlign: 'left', padding: '0.55rem 0.8rem',
-                      color: 'var(--tekky-blue)', fontFamily: "'Bebas Neue', sans-serif",
+                      color: 'var(--tekky-blue)', fontFamily: 'var(--ad-display)',
                       fontSize: '0.9rem', letterSpacing: '0.5px', whiteSpace: 'nowrap',
                     }}>
                       {h}
@@ -391,7 +375,7 @@ export default function AdminMembershipsClient() {
 
       {/* Pagination */}
       {!loading && totalPages > 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '0.6rem', marginTop: '2rem', alignItems: 'center' }}>
+        <div className="ad-pager">
           <button onClick={() => setPage((p) => Math.max(p - 1, 1))} disabled={page === 1}
             style={{ background: 'none', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 6, padding: '0.4rem 0.9rem', color: page === 1 ? 'var(--muted)' : 'var(--fg)', cursor: page === 1 ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}>
             ← Prev

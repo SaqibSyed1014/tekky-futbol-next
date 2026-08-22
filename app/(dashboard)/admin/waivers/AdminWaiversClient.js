@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { getAdminWaiverSigned, getAdminWaiverUnsigned } from '@/services/waiverApi';
+import { AdminStarsDivider } from '@/components/admin/ChicagoStar';
+import StatCard from '@/components/admin/StatCard';
 
 const TABS = [
   { key: 'signed',   label: 'Signed',   icon: 'fa-solid fa-circle-check' },
@@ -52,7 +54,7 @@ function RoleBadge({ role, isCaptain }) {
   const color = role === 'admin' ? '#0074ff' : isCaptain ? '#f0b429' : '#00c864';
   return (
     <span style={{
-      fontSize: '0.7rem', fontWeight: 700, fontFamily: "'Bebas Neue', sans-serif",
+      fontSize: '0.7rem', fontWeight: 700, fontFamily: 'var(--ad-display)',
       letterSpacing: '1px', color,
       background: `${color}15`,
       border: `1px solid ${color}40`,
@@ -85,7 +87,7 @@ function AgeBadge({ isMinor }) {
   const color = isMinor ? '#f0b429' : '#00c864';
   return (
     <span style={{
-      fontSize: '0.7rem', fontWeight: 700, fontFamily: "'Bebas Neue', sans-serif",
+      fontSize: '0.7rem', fontWeight: 700, fontFamily: 'var(--ad-display)',
       letterSpacing: '1px', color,
       background: `${color}15`,
       border: `1px solid ${color}40`,
@@ -232,53 +234,38 @@ export default function AdminWaiversClient() {
   useEffect(() => { loadData(roleFilter); }, [loadData, roleFilter]);
 
   return (
-    <div style={{ maxWidth: 1100 }}>
+    <div className="ad-page" style={{ maxWidth: 1100 }}>
 
-      {/* Header */}
-      <div style={{ marginBottom: '1.75rem' }}>
-        <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.8rem', color: 'var(--fg)', margin: 0, letterSpacing: '1px' }}>
-          Waivers
-        </h2>
-        <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginTop: '0.35rem' }}>
+      <div className="ad-page-head">
+        <p className="ad-kicker">League</p>
+        <h2 className="ad-title">Waivers</h2>
+        <p className="ad-sub">
           Track which players and captains have signed the participant waiver.
         </p>
       </div>
+      <AdminStarsDivider />
 
       {/* Stats */}
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-        <StatCard label="Signed" value={signedTotal} color="#00c864" icon="fa-solid fa-circle-check" />
-        <StatCard label="Unsigned" value={unsignedTotal} color="#ffb400" icon="fa-solid fa-circle-xmark" />
+      <div className="ad-stats">
+        <StatCard label="Signed" value={signedTotal} icon="fa-solid fa-circle-check" />
+        <StatCard label="Unsigned" value={unsignedTotal} icon="fa-solid fa-circle-xmark" />
         <StatCard
           label="Completion"
           value={signedTotal + unsignedTotal > 0 ? `${Math.round((signedTotal / (signedTotal + unsignedTotal)) * 100)}%` : '—'}
-          color="#0074ff"
           icon="fa-solid fa-chart-pie"
         />
       </div>
 
       {/* Role filter pills */}
-      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+      <div className="ad-toolbar">
         {ROLE_FILTERS.map((f) => {
           const active = roleFilter === f.key;
           return (
             <button
+              type="button"
               key={f.key}
               onClick={() => setRoleFilter(f.key)}
-              style={{
-                display:      'inline-flex',
-                alignItems:   'center',
-                gap:          '0.4rem',
-                padding:      '0.45rem 1rem',
-                background:   active ? 'rgba(0,116,255,0.15)' : 'rgba(255,255,255,0.04)',
-                border:       `1px solid ${active ? 'rgba(0,116,255,0.5)' : 'rgba(255,255,255,0.1)'}`,
-                borderRadius: 20,
-                color:        active ? '#e2e8f3' : 'var(--muted)',
-                fontSize:     '0.8rem',
-                fontWeight:   active ? 600 : 400,
-                cursor:       'pointer',
-                fontFamily:   'inherit',
-                transition:   'all 0.15s',
-              }}
+              className={`ad-pill${active ? ' is-active' : ''}`}
             >
               <i className={f.icon} style={{ fontSize: '0.72rem' }} />
               {f.label}
@@ -298,12 +285,7 @@ export default function AdminWaiversClient() {
       )}
 
       {/* Tabs */}
-      <div style={{
-        background: '#0a0a0a',
-        border: '1px solid rgba(0,116,255,0.2)',
-        borderRadius: 12,
-        overflow: 'hidden',
-      }}>
+      <div className="ad-panel">
         <div style={{ display: 'flex', borderBottom: '1px solid rgba(0,116,255,0.15)' }}>
           {TABS.map((tab) => {
             const active = activeTab === tab.key;
@@ -350,36 +332,6 @@ export default function AdminWaiversClient() {
             <UnsignedTable rows={unsigned} />
           )}
         </div>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({ label, value, color, icon }) {
-  return (
-    <div style={{
-      background: '#0a0a0a',
-      border: `1px solid ${color}25`,
-      borderRadius: 10,
-      padding: '1rem 1.4rem',
-      display: 'flex', alignItems: 'center', gap: '1rem',
-      minWidth: 160,
-    }}>
-      <div style={{
-        width: 40, height: 40, borderRadius: 10,
-        background: `${color}15`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        flexShrink: 0,
-      }}>
-        <i className={icon} style={{ color, fontSize: '1.1rem' }} />
-      </div>
-      <div>
-        <p style={{ margin: 0, fontSize: '1.5rem', fontFamily: "'Bebas Neue', sans-serif", color, letterSpacing: '0.5px' }}>
-          {value}
-        </p>
-        <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.4px', fontWeight: 600 }}>
-          {label}
-        </p>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import {
   updatePlayerStats,
   reviewProfileLink,
 } from '@/services/profilesApi';
+import { AdminLoader, AdminStarsDivider } from '@/components/admin/ChicagoStar';
 
 // ─── Shared primitives ────────────────────────────────────────────────────────
 
@@ -148,7 +149,7 @@ function StatsModal({ player, onClose, onSaved }) {
       <div style={{ background: '#0a0a0a', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 14, padding: '2rem', maxWidth: 580, width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 0 60px rgba(0,0,0,0.8)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
           <div>
-            <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.3rem', letterSpacing: '1.5px', margin: 0 }}>Edit Stats</h3>
+            <h3 style={{ fontFamily: 'var(--ad-impact)', fontSize: '1.3rem', letterSpacing: '1.5px', margin: 0 }}>Edit Stats</h3>
             <p style={{ color: 'var(--muted)', fontSize: '0.82rem', margin: '0.2rem 0 0' }}>{player.name || player.email}</p>
           </div>
           <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '1.1rem' }}><i className="fa-solid fa-xmark" /></button>
@@ -270,17 +271,19 @@ export default function AdminPlayersPage() {
 
   // Only block the entire page on the very first load
   if (authLoading || initialLoad) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 200 }}>
-        <span className="spinner" style={{ width: 32, height: 32, borderWidth: 3 }} />
-      </div>
-    );
+    return <AdminLoader />;
   }
 
   const pendingLinks = players.filter((p) => p.profile_link_status === 'pending');
 
   return (
-    <div style={{ maxWidth: 1100 }}>
+    <div className="ad-page" style={{ maxWidth: 1100 }}>
+      <div className="ad-page-head">
+        <p className="ad-kicker">League</p>
+        <h1 className="ad-title">Players</h1>
+        <p className="ad-sub">Search the roster, review profile links, and update match stats.</p>
+      </div>
+      <AdminStarsDivider />
       {editPlayer && (
         <StatsModal
           player={editPlayer}
@@ -292,7 +295,7 @@ export default function AdminPlayersPage() {
       {/* ── Pending link approvals ── */}
       {pendingLinks.length > 0 && (
         <div style={{ background: '#000', border: '1px solid rgba(255,180,0,0.3)', borderRadius: 12, padding: '1.25rem 1.5rem', marginBottom: '1.5rem' }}>
-          <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1rem', letterSpacing: '1.5px', color: '#ffb400', margin: '0 0 1rem' }}>
+          <h3 style={{ fontFamily: 'var(--ad-impact)', fontSize: '1rem', letterSpacing: '1.5px', color: '#ffb400', margin: '0 0 1rem' }}>
             <i className="fa-solid fa-clock" style={{ marginRight: '0.5rem' }} />
             Pending Profile Links ({pendingLinks.length})
           </h3>
@@ -344,7 +347,7 @@ export default function AdminPlayersPage() {
           <p style={{ color: 'var(--muted)' }}>No players found.</p>
         </div>
       ) : (
-        <div style={{ background: '#000', border: '1px solid rgba(0,116,255,0.2)', borderRadius: 12, overflow: 'hidden', position: 'relative' }}>
+        <div className="ad-panel" style={{ position: 'relative' }}>
           {/* Table-level loading — keeps filters visible */}
           {tableLoading && (
             <div style={{
