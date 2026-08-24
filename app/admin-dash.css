@@ -648,10 +648,7 @@
 }
 
 .ad-stat {
-  --kpi-x: 50%;
-  --kpi-y: 50%;
   position: relative;
-  isolation: isolate;
   overflow: hidden;
   min-height: 148px;
   padding: 3.15rem 1.3rem 1.15rem;
@@ -1176,9 +1173,12 @@
 .ad-modal__actions {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 0.75rem;
   margin-top: 1.25rem;
 }
+
+.ad-modal__actions button{ height: 42px; }
 
 .ad-modal__close {
   background: none;

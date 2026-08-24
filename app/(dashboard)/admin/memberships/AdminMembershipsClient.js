@@ -64,55 +64,32 @@ function ConfirmModal({ membership, action, onConfirm, onCancel, loading }) {
   const verb  = isApprove ? 'Approve' : 'Reject';
 
   return (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 1000,
-      background: 'rgba(0,0,0,0.75)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: '1.5rem',
-    }}>
-      <div style={{
-        background: '#0a0a0a',
-        border: `1px solid ${color}40`,
-        borderRadius: 14,
-        padding: '2rem',
-        maxWidth: 420, width: '100%',
-        boxShadow: `0 0 40px ${color}20`,
-      }}>
-        <h3 style={{ fontFamily: 'var(--ad-impact)', fontSize: '1.4rem', color, margin: '0 0 0.75rem', letterSpacing: '1px' }}>
+    <div className="ad-overlay ad-overlay--center" onClick={onCancel}>
+      <div className="ad-modal" onClick={(e) => e.stopPropagation()}>
+        <h3 className="ad-modal__title" style={{ color, marginBottom: '0.75rem' }}>
           {verb} Membership
         </h3>
-        <p style={{ color: 'var(--muted)', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
+        <p style={{ color: 'var(--ad-muted)', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
           {isApprove
-            ? <>Approve <strong style={{ color: 'var(--fg)' }}>{membership.playerName}</strong> to join <strong style={{ color: 'var(--fg)' }}>{membership.teamName}</strong>? They will be added to the official roster.</>
-            : <>Reject <strong style={{ color: 'var(--fg)' }}>{membership.playerName}</strong>'s request to join <strong style={{ color: 'var(--fg)' }}>{membership.teamName}</strong>? This will remove their pending membership.</>
+            ? <>Approve <strong style={{ color: 'var(--ad-fg)' }}>{membership.playerName}</strong> to join <strong style={{ color: 'var(--ad-fg)' }}>{membership.teamName}</strong>? They will be added to the official roster.</>
+            : <>Reject <strong style={{ color: 'var(--ad-fg)' }}>{membership.playerName}</strong>'s request to join <strong style={{ color: 'var(--ad-fg)' }}>{membership.teamName}</strong>? This will remove their pending membership.</>
           }
         </p>
-        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
-          <button
-            onClick={onCancel}
-            disabled={loading}
-            style={{
-              padding: '0.55rem 1.2rem', borderRadius: 7,
-              border: '1px solid rgba(255,255,255,0.15)', background: 'transparent',
-              color: 'var(--muted)', fontSize: '0.9rem', cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
-          >
+        <div className="ad-modal__actions">
+          <button type="button" className="ad-btn" onClick={onCancel} disabled={loading}>
             Cancel
           </button>
           <button
+            type="button"
+            className="ad-btn"
             onClick={onConfirm}
             disabled={loading}
             style={{
-              padding: '0.55rem 1.4rem', borderRadius: 7,
-              border: `1px solid ${color}`, background: `${color}20`,
-              color, fontSize: '0.9rem', fontWeight: 700,
-              cursor: loading ? 'not-allowed' : 'pointer',
-              opacity: loading ? 0.6 : 1, fontFamily: 'inherit',
-              transition: 'background 0.15s',
+              borderColor: color,
+              background: `${color}20`,
+              color,
+              fontWeight: 700,
             }}
-            onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = `${color}35`; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = `${color}20`; }}
           >
             {loading ? 'Processing…' : verb}
           </button>

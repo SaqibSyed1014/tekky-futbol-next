@@ -74,119 +74,51 @@ function StatusModal({ targetStatus, onConfirm, onCancel, loading }) {
   const label = STATUS_LABEL[targetStatus] ?? targetStatus;
 
   return (
-    <>
-      {/* Backdrop */}
-      <div
-        onClick={onCancel}
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(0,0,0,0.7)',
-          zIndex: 300,
-          animation: 'drawerFadeIn 0.15s ease',
-        }}
-      />
-
-      {/* Modal */}
-      <div style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 440,
-        maxWidth: 'calc(100vw - 2rem)',
-        background: '#0a0a0a',
-        border: `1px solid ${color}44`,
-        borderRadius: 12,
-        boxShadow: `0 0 40px rgba(0,0,0,0.8), 0 0 20px ${color}18`,
-        zIndex: 301,
-        padding: '1.75rem',
-        animation: 'modalPop 0.2s ease',
-      }}>
-
-        {/* Header */}
+    <div className="ad-overlay ad-overlay--center" onClick={onCancel}>
+      <div className="ad-modal" onClick={(e) => e.stopPropagation()}>
         <div style={{ marginBottom: '1.25rem' }}>
-          <h3 style={{
-            fontFamily: 'var(--ad-impact)',
-            fontSize: '1.4rem',
-            letterSpacing: '1px',
-            color,
-            margin: 0,
-          }}>
+          <h3 className="ad-modal__title" style={{ color }}>
             Move to {label}
           </h3>
-          <p style={{ color: 'var(--muted)', fontSize: '0.82rem', margin: '0.3rem 0 0' }}>
+          <p className="ad-modal__sub">
             Add an optional note that will be visible to the applicant.
           </p>
         </div>
 
-        {/* Note textarea */}
         <textarea
           value={note}
           onChange={(e) => setNote(e.target.value)}
           placeholder={`Note for ${label} status (optional)…`}
           rows={4}
-          style={{
-            width: '100%',
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.12)',
-            borderRadius: 8,
-            color: 'var(--fg)',
-            fontSize: '0.9rem',
-            padding: '0.7rem 0.9rem',
-            resize: 'vertical',
-            fontFamily: 'inherit',
-            outline: 'none',
-            boxSizing: 'border-box',
-          }}
-          onFocus={(e) => { e.currentTarget.style.borderColor = `${color}66`; }}
-          onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
           autoFocus
         />
 
-        {/* Actions */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1.25rem' }}>
+        <div className="ad-modal__actions">
           <button
+            type="button"
+            className="ad-btn"
             onClick={onCancel}
             disabled={loading}
-            style={{
-              padding: '0.45rem 1.1rem',
-              borderRadius: 6,
-              border: '1px solid rgba(255,255,255,0.15)',
-              background: 'transparent',
-              color: 'var(--muted)',
-              fontSize: '0.88rem',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              fontFamily: 'inherit',
-              opacity: loading ? 0.5 : 1,
-            }}
           >
             Cancel
           </button>
           <button
+            type="button"
             onClick={() => onConfirm(note)}
             disabled={loading}
+            className="ad-btn"
             style={{
-              padding: '0.45rem 1.2rem',
-              borderRadius: 6,
-              border: `1px solid ${color}`,
+              borderColor: color,
               background: `${color}18`,
               color,
-              fontSize: '0.88rem',
               fontWeight: 600,
-              cursor: loading ? 'not-allowed' : 'pointer',
-              fontFamily: 'inherit',
-              opacity: loading ? 0.5 : 1,
-              transition: 'background 0.2s',
             }}
-            onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = `${color}30`; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = `${color}18`; }}
           >
             {loading ? 'Saving…' : `Confirm ${label}`}
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -255,106 +187,37 @@ function LogoThumbnail({ url, onClick }) {
 
 function LogoLightbox({ url, onClose }) {
   return (
-    <>
-      <div
-        onClick={onClose}
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(0,0,0,0.88)',
-          zIndex: 400,
-          animation: 'lbFadeIn 0.18s ease',
-          backdropFilter: 'blur(4px)',
-        }}
-      />
-      <div
-        style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 401,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '1rem',
-          animation: 'lbPop 0.2s ease',
-        }}
-      >
-        <div style={{
-          background: '#0d0d0d',
-          border: '1px solid rgba(0,116,255,0.3)',
-          borderRadius: 16,
-          boxShadow: '0 0 60px rgba(0,116,255,0.15), 0 24px 48px rgba(0,0,0,0.7)',
-          padding: 24,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '1.25rem',
-          maxWidth: '90vw',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-            <span style={{ fontFamily: 'var(--ad-display)', fontSize: '1.1rem', letterSpacing: '1.5px', color: 'var(--tekky-blue)' }}>
-              Team Logo
-            </span>
-            <button
-              onClick={onClose}
-              aria-label="Close lightbox"
-              style={{
-                background: 'none',
-                border: '1px solid rgba(0,116,255,0.25)',
-                borderRadius: 6,
-                color: 'var(--muted)',
-                padding: '0.3rem 0.55rem',
-                cursor: 'pointer',
-                fontSize: '0.85rem',
-                transition: 'all 0.15s',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.6)'; e.currentTarget.style.color = '#fff'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.25)'; e.currentTarget.style.color = 'var(--muted)'; }}
-            >
-              <i className="fa-solid fa-xmark" />
-            </button>
-          </div>
-          <img
-            src={url}
-            alt="Team logo full size"
-            style={{
-              maxWidth: 'min(480px, 80vw)',
-              maxHeight: 'min(480px, 70vh)',
-              objectFit: 'contain',
-              borderRadius: 8,
-              background: 'rgba(255,255,255,0.03)',
-              padding: 12,
-              display: 'block',
-            }}
-          />
-          <p style={{ fontSize: '0.75rem', color: 'var(--muted)', margin: 0 }}>
-            Click outside or press × to close
-          </p>
+    <div className="ad-overlay ad-overlay--center" onClick={onClose}>
+      <div className="ad-modal" onClick={(e) => e.stopPropagation()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.25rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+          <span className="ad-modal__title" style={{ fontSize: '1.1rem' }}>Team Logo</span>
+          <button type="button" className="ad-modal__close" onClick={onClose} aria-label="Close lightbox">
+            <i className="fa-solid fa-xmark" />
+          </button>
         </div>
+        <img
+          src={url}
+          alt="Team logo full size"
+          style={{
+            maxWidth: 'min(480px, 80vw)',
+            maxHeight: 'min(480px, 70vh)',
+            objectFit: 'contain',
+            borderRadius: 8,
+            background: '#f4f7fc',
+            padding: 12,
+            display: 'block',
+          }}
+        />
+        <p className="ad-modal__sub" style={{ margin: 0 }}>Click outside or press × to close</p>
       </div>
-    </>
+    </div>
   );
 }
 
 // ─── Application detail drawer ────────────────────────────────────────────────
 
 function SectionLabel({ children }) {
-  return (
-    <p style={{
-      fontFamily: 'var(--ad-impact)',
-      fontSize: '1.2rem',
-      letterSpacing: '1.5px',
-      color: 'var(--tekky-blue)',
-      textTransform: 'uppercase',
-      margin: '1.4rem 0 0.6rem',
-      borderBottom: '1px solid rgba(0,116,255,0.15)',
-      paddingBottom: '0.35rem',
-    }}>
-      {children}
-    </p>
-  );
+  return <p className="ad-drawer__label">{children}</p>;
 }
 
 function DetailRow({ label, value }) {
@@ -383,82 +246,28 @@ function ApplicationDrawer({ app, onClose, onApprove, onReject, onWaitlist, onIn
 
   return (
     <>
-      {/* Backdrop */}
-      <div
-        onClick={onClose}
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(0,0,0,0.65)',
-          zIndex: 200,
-          animation: 'drawerFadeIn 0.2s ease',
-        }}
-      />
+      <div className="ad-overlay" onClick={onClose} />
 
-      {/* Panel */}
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        width: 420,
-        maxWidth: '100vw',
-        background: '#0a0a0a',
-        borderLeft: '1px solid rgba(0,116,255,0.25)',
-        boxShadow: '-8px 0 40px rgba(0,0,0,0.7)',
-        zIndex: 201,
-        display: 'flex',
-        flexDirection: 'column',
-        animation: 'drawerSlideIn 0.25s ease',
-      }}>
-
-        {/* Header */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '1.25rem 1.5rem',
-          borderBottom: '1px solid rgba(0,116,255,0.15)',
-          flexShrink: 0,
-        }}>
+      <div className="ad-drawer">
+        <div className="ad-drawer__head">
           <div>
-            <h3 style={{ fontFamily: 'var(--ad-impact)', fontSize: '1.4rem', margin: 0, letterSpacing: '1px' }}>
-              Application Detail
-            </h3>
-            <p style={{ color: 'var(--muted)', fontSize: '0.75rem', margin: '0.15rem 0 0' }}>
-              Submitted {date}
-            </p>
+            <h3>Application Detail</h3>
+            <p>Submitted {date}</p>
           </div>
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            style={{
-              background: 'none',
-              border: '1px solid rgba(0,116,255,0.25)',
-              borderRadius: 6,
-              color: 'var(--muted)',
-              padding: '0.35rem 0.6rem',
-              cursor: 'pointer',
-              fontSize: '0.9rem',
-              transition: 'all 0.15s',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.6)'; e.currentTarget.style.color = '#fff'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.25)'; e.currentTarget.style.color = 'var(--muted)'; }}
-          >
+          <button type="button" className="ad-drawer__close" onClick={onClose} aria-label="Close">
             <i className="fa-solid fa-xmark" />
           </button>
         </div>
 
-        {/* Status + type row */}
-        <div style={{ padding: '0.85rem 1.5rem', borderBottom: '1px solid rgba(0,116,255,0.1)', flexShrink: 0, display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div className="ad-drawer__meta">
           <StatusBadge status={app.status} />
           <span style={{
-            fontSize: '1rem',
+            fontSize: '0.85rem',
             fontFamily: 'var(--ad-display)',
             letterSpacing: '1px',
-            color: 'var(--tekky-blue)',
-            background: 'rgba(0,116,255,0.1)',
-            border: '1px solid rgba(0,116,255,0.25)',
+            color: 'var(--ad-blue)',
+            background: 'rgba(21,83,209,0.08)',
+            border: '1px solid var(--ad-line-blue)',
             borderRadius: 4,
             padding: '0.15rem 0.5rem',
           }}>
@@ -466,8 +275,7 @@ function ApplicationDrawer({ app, onClose, onApprove, onReject, onWaitlist, onIn
           </span>
         </div>
 
-        {/* Scrollable body */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '0.5rem 1.5rem 1.5rem' }}>
+        <div className="ad-drawer__body">
 
           <SectionLabel>Personal Info</SectionLabel>
           <DetailRow label="Full Name" value={app.name} />
@@ -511,14 +319,7 @@ function ApplicationDrawer({ app, onClose, onApprove, onReject, onWaitlist, onIn
 
         {/* Footer actions — shown for any non-terminal status */}
         {canAct && (
-          <div style={{
-            padding: '1rem 1.5rem',
-            borderTop: '1px solid rgba(0,116,255,0.15)',
-            display: 'flex',
-            gap: '0.5rem',
-            flexWrap: 'wrap',
-            flexShrink: 0,
-          }}>
+          <div className="ad-drawer__foot">
             {allowedNextStatuses.includes(APPLICATION_STATUS.APPROVED) && (
               <ActionButton onClick={() => onApprove(app.id)} disabled={busy} color="#00c864">
                 {actionPending[app.id] === 'approving' ? 'Approving…' : '✓ Approve'}

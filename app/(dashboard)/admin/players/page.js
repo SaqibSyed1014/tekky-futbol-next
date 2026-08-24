@@ -131,14 +131,16 @@ function StatsModal({ player, onClose, onSaved }) {
   }
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
-      <div style={{ background: '#0a0a0a', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 14, padding: '2rem', maxWidth: 580, width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 0 60px rgba(0,0,0,0.8)' }}>
+    <div className="ad-overlay ad-overlay--center" onClick={onClose}>
+      <div className="ad-modal ad-modal--wide" onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
           <div>
-            <h3 style={{ fontFamily: 'var(--ad-impact)', fontSize: '1.3rem', letterSpacing: '1.5px', margin: 0 }}>Edit Stats</h3>
-            <p style={{ color: 'var(--muted)', fontSize: '0.82rem', margin: '0.2rem 0 0' }}>{player.name || player.email}</p>
+            <h3 className="ad-modal__title">Edit Stats</h3>
+            <p className="ad-modal__sub">{player.name || player.email}</p>
           </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '1.1rem' }}><i className="fa-solid fa-xmark" /></button>
+          <button type="button" className="ad-modal__close" onClick={onClose} aria-label="Close">
+            <i className="fa-solid fa-xmark" />
+          </button>
         </div>
 
         <Banner type="error">{error}</Banner>
@@ -198,11 +200,11 @@ function StatsModal({ player, onClose, onSaved }) {
             </ModalField>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1.25rem' }}>
-            <button type="button" onClick={onClose} disabled={saving} style={{ padding: '0.6rem 1.25rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.88rem' }}>
+          <div className="ad-modal__actions">
+            <button type="button" className="ad-btn" style={{ height: "42px" }} onClick={onClose} disabled={saving}>
               Cancel
             </button>
-            <button type="submit" className="cta" disabled={saving} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 1.5rem' }}>
+            <button type="submit" className="cta " disabled={saving} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0 1.5rem' }}>
               {saving ? <><span className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }} /> Saving…</> : <><i className="fa-solid fa-floppy-disk" /> Save Stats</>}
             </button>
           </div>

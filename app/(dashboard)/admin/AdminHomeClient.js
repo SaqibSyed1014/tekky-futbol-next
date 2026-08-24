@@ -67,7 +67,7 @@ export default function AdminHomeClient({ user }) {
           className="ad-hero__media"
           style={{ backgroundImage: "url('/images/hero-bg.webp')" }}
         >
-          <AdminStarCrop variant="official" size={150} />
+          {/*<AdminStarCrop size={150} />*/}
         </div>
       </div>
 
