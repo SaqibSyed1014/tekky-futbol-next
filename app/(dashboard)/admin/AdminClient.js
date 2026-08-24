@@ -477,10 +477,10 @@ export default function AdminClient() {
         <button
           type="button"
           onClick={fetchApplications}
-          className="ad-btn ad-btn--ghost"
+          className="cta ad-btn--ghost"
+          style={{ padding: '0.55rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem' }}
         >
-          <svg width="25px" height="25px" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 19c-3.6 0 -6.5 -2.9 -6.5 -6.5 0 -1.6 0.6 -3.1 1.65 -4.3l0.75 0.65C7.5 9.85 7 11.15 7 12.5c0 3.05 2.45 5.5 5.5 5.5 0.8 0 1.55 -0.15 2.3 -0.5l0.4 0.9Q13.925 19 12.5 19" fill="currentColor"/><path d="m17.35 16.85 -0.75 -0.65c0.9 -1 1.4 -2.3 1.4 -3.65 0 -3.05 -2.45 -5.5 -5.5 -5.5 -0.8 0 -1.55 0.15 -2.3 0.5l-0.4 -0.9q1.275 -0.6 2.7 -0.6c3.6 0 6.5 2.9 6.5 6.5 0 1.55 -0.6 3.1 -1.65 4.3" fill="currentColor"/><path d="M9 12h-1v-3h-3v-1h4z" fill="currentColor"/><path d="M20 17h-4v-4h1v3h3z" fill="currentColor"/></svg>
-          Refresh
+          <i className="fa-solid fa-rotate-right" /> Refresh
         </button>
       </div>
 

@@ -5,7 +5,7 @@
   --ad-blue-deep: #0c2f8c;
   --ad-navy: #071536;
   --ad-cyan: #5ec8ff;
-  --ad-canvas: #eef2f7;
+  --ad-canvas: #d7e4fb;
   --ad-card: #ffffff;
   --ad-black: #071018;
   --ad-fg: #1a2744;
@@ -28,7 +28,7 @@
   --fg: #1a2744;
   --muted: #5e6b82;
   --tekky-blue: #1553d1;
-  --bg: #eef2f7;
+  --bg: #d7e4fb;
   color: var(--ad-fg);
   background: var(--ad-canvas);
   font-family: var(--ad-body);
@@ -220,6 +220,7 @@
   background: linear-gradient(180deg, #1e6cf0, #1553d1);
   border-color: transparent;
   color: #fff;
+  margin: 0;
 }
 
 .admin-dash .cta:hover {
@@ -387,8 +388,9 @@
   display: flex;
   flex-direction: column;
   background:
-    radial-gradient(720px 340px at 100% 0%, rgba(21, 83, 209, 0.07), transparent 55%),
-    linear-gradient(180deg, #f6f8fb 0%, #e8edf5 100%);
+    radial-gradient(900px 420px at 0% 0%, rgba(30, 93, 232, 0.28), transparent 52%),
+    radial-gradient(720px 360px at 100% 0%, rgba(12, 47, 140, 0.16), transparent 50%),
+    linear-gradient(180deg, #d4e3fb 0%, #c3d6f7 55%, #b7cef4 100%);
   position: relative;
 }
 
@@ -415,8 +417,9 @@
 
 .admin-dash--shop .ad-main {
   background:
-    radial-gradient(680px 320px at 100% 8%, rgba(7, 21, 54, 0.06), transparent 52%),
-    linear-gradient(180deg, #f3f5f9 0%, #e4e9f2 100%);
+    radial-gradient(900px 420px at 0% 0%, rgba(30, 93, 232, 0.24), transparent 52%),
+    radial-gradient(680px 320px at 100% 8%, rgba(7, 21, 54, 0.12), transparent 50%),
+    linear-gradient(180deg, #d0e0f8 0%, #b9cff3 100%);
 }
 
 .ad-content {
@@ -434,7 +437,7 @@
   justify-content: space-between;
   padding: 0 1.5rem;
   border-bottom: 1px solid var(--ad-line);
-  background: linear-gradient(180deg, #ffffff 0%, #f4f7fb 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(219, 232, 252, 0.94) 100%);
   backdrop-filter: blur(14px);
   position: sticky;
   top: 0;
@@ -1023,9 +1026,9 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(12, 47, 140, 0.2), rgba(7, 21, 54, 0.62)),
+    linear-gradient(180deg, rgba(12, 47, 140, 0.28), rgba(7, 21, 54, 0.78)),
     var(--ad-grain);
-  opacity: 0.9;
+  opacity: 0.92;
 }
 
 .ad-photo-rail__label {

@@ -219,9 +219,10 @@ export default function AdminMembershipsClient() {
         <button
           type="button"
           onClick={fetchMemberships}
-          className="ad-btn ad-btn--ghost"
+          className="cta ad-btn--ghost"
+          style={{ padding: '0.55rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem' }}
         >
-          <i className="fa-solid fa-rotate-right" style={{ marginRight: '0.4rem' }} />Refresh
+          <i className="fa-solid fa-rotate-right" /> Refresh
         </button>
       </div>
 
