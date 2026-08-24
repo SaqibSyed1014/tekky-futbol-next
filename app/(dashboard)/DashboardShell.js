@@ -268,7 +268,7 @@ function Topbar({ user, onMenuToggle }) {
   const dropRef = useRef(null);
 
   const pageTitle = PAGE_TITLES[pathname] ?? 'Dashboard';
-  const initial = (user?.name || user?.email || '?')[0].toUpperCase();
+  const initial = String(user?.name || user?.email || '?').charAt(0).toUpperCase() || '?';
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -605,28 +605,45 @@ export default function DashboardLayout({ children }) {
     setShowPaymentPrompt(needsPayment && !onPaymentPage);
   }, [user, pathname]);
 
-  if (loading || !user) {
+  const waiting = loading || !user;
+  // Standalone mode: waiver viewer at /admin/waivers/[userId]
+  // Authenticated as admin (guard above), but no sidebar or topbar needed.
+  const isStandalone = /^\/admin\/waivers\/[^/]+$/.test(pathname);
+  const isAdmin = user?.role === 'admin';
+  const adminTone = getAdminTone(pathname);
+
+  const bootScreen = waiting ? (
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        background: '#000',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <span className="spinner" style={{ width: 32, height: 32, borderWidth: 3, margin: 0 }} />
+    </div>
+  ) : null;
+
+  if (isStandalone) {
     return (
-      <div style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <span className="spinner" style={{ width: 32, height: 32, borderWidth: 3 }} />
+      <div className="admin-dash admin-dash--league">
+        {bootScreen}
+        {children}
       </div>
     );
   }
 
-  // Standalone mode: waiver viewer at /admin/waivers/[userId]
-  // Authenticated as admin (guard above), but no sidebar or topbar needed.
-  const isStandalone = /^\/admin\/waivers\/[^/]+$/.test(pathname);
-  const isAdmin = user.role === 'admin';
-  const adminTone = getAdminTone(pathname);
-
-  if (isStandalone) {
-    return <div className="admin-dash admin-dash--league">{children}</div>;
-  }
-
   return (
     <div className={isAdmin ? `admin-dash admin-dash--${adminTone}` : undefined}>
-      {showPaymentPrompt && <PaymentPrompt onDismiss={() => setShowPaymentPrompt(false)} />}
-      <Sidebar role={user.role} isCaptain={user.is_captain} waiverSigned={!!user.waiver_signed} sidebarOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      {bootScreen}
+      {user && showPaymentPrompt && <PaymentPrompt onDismiss={() => setShowPaymentPrompt(false)} />}
+      {user && (
+        <Sidebar role={user.role} isCaptain={user.is_captain} waiverSigned={!!user.waiver_signed} sidebarOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      )}
 
       <div
         className={isAdmin ? 'db-main ad-main' : 'db-main'}
@@ -637,8 +654,8 @@ export default function DashboardLayout({ children }) {
         flexDirection: 'column',
         background: '#030303',
       }}>
-        {isAdmin && <AdminStarCrop variant={adminTone === 'shop' ? 'silver' : 'ghost'} size={adminTone === 'home' ? 200 : 260} />}
-        <Topbar user={user} onMenuToggle={() => setSidebarOpen((v) => !v)} />
+        {isAdmin && <AdminStarCrop size={adminTone === 'home' ? 200 : 260} />}
+        {user && <Topbar user={user} onMenuToggle={() => setSidebarOpen((v) => !v)} />}
 
         <main className={isAdmin ? 'ad-content' : undefined} style={isAdmin ? undefined : { flex: 1, padding: '2rem 2rem 3rem', maxWidth: 1280 }}>
           {children}

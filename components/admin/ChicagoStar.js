@@ -2,8 +2,8 @@ const VARIANTS = {
   official: { fill: '#0a3d91', stroke: '#e67a2e' },
   silver: { fill: '#c5ccd6', stroke: '#8b93a0' },
   blue: { fill: '#0074ff', stroke: '#4da3ff' },
-  ghost: { fill: 'rgba(0,116,255,0.12)', stroke: 'rgba(0,116,255,0.45)' },
-  ink: { fill: '#111318', stroke: '#2a2e38' },
+  ghost: { fill: 'rgba(21,83,209,0.14)', stroke: 'rgba(12,47,140,0.4)' },
+  ink: { fill: '#071536', stroke: '#1553d1' },
 };
 
 /** Six-point Chicago star. Official: blue field, orange border. */
@@ -45,10 +45,10 @@ export function AdminStarsDivider() {
   );
 }
 
-export function AdminStarCrop({ variant = 'ghost', size = 220, className = '' }) {
+export function AdminStarCrop({ size = 220, className = '' }) {
   return (
     <span className={`ad-star-crop ${className}`.trim()} aria-hidden="true">
-      <ChicagoStar size={size} variant={variant} />
+      <ChicagoStar size={size} variant="official" />
     </span>
   );
 }

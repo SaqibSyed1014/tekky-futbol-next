@@ -29,16 +29,39 @@ export function AuthProvider({ children }) {
   // Also re-syncs the token to the cookie — needed for the proxy route guard
   // which can only read cookies (not localStorage).
   useEffect(() => {
+    let cancelled = false;
     const existingToken = auth.getToken();
-    if (existingToken) {
-      // Re-write the cookie so the proxy sees it even after a hard refresh
-      // or if the user logged in before cookie-syncing was added.
-      auth.setToken(existingToken);
+    if (!existingToken) {
+      // Drop a leftover cookie so the proxy cannot bounce /login ↔ /admin.
+      auth.clearToken();
+      setLoading(false);
+      return;
     }
+    // Re-write the cookie so the proxy sees it even after a hard refresh
+    // or if the user logged in before cookie-syncing was added.
+    auth.setToken(existingToken);
+
+    const timeout = setTimeout(() => {
+      if (!cancelled) setLoading(false);
+    }, 12000);
+
     fetchMe()
-      .then((u) => setUser(u))
-      .catch(() => setUser(null))
-      .finally(() => setLoading(false));
+      .then((u) => {
+        if (cancelled) return;
+        setUser(u?.role ? u : u?.user ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setUser(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+        clearTimeout(timeout);
+      });
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeout);
+    };
   }, []);
 
   const login = useCallback(async (credentials) => {

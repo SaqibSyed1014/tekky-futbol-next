@@ -35,8 +35,23 @@ export class ApiError extends Error {
 const TOKEN_KEY = 'tf_token';
 const COOKIE_MAX_AGE = 7 * 24 * 60 * 60; // 7 days — matches JWT refresh lifetime
 
+function readCookieToken() {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(new RegExp(`(?:^|; )${TOKEN_KEY}=([^;]*)`));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
 export const auth = {
-  getToken: () => (typeof window !== 'undefined' ? localStorage.getItem(TOKEN_KEY) : null),
+  getToken: () => {
+    if (typeof window === 'undefined') return null;
+    const fromStorage = localStorage.getItem(TOKEN_KEY);
+    if (fromStorage) return fromStorage;
+    // Cookie can outlive localStorage (cleared site data, Safari ITP). Restore it
+    // so /auth/me still runs instead of bouncing /admin ↔ /login on a black screen.
+    const fromCookie = readCookieToken();
+    if (fromCookie) localStorage.setItem(TOKEN_KEY, fromCookie);
+    return fromCookie;
+  },
 
   setToken: (token) => {
     if (typeof window === 'undefined') return;

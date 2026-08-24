@@ -3,6 +3,7 @@ import PublicShell from '@/components/shared/PublicShell';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { CartProvider } from '@/contexts/CartContext';
 import CartDrawer from '@/components/shop/CartDrawer';
+import ChunkErrorRecovery from '@/components/shared/ChunkErrorRecovery';
 
 export const metadata = {
   title: 'TekkyFutbol',
@@ -33,6 +34,7 @@ export default function RootLayout({ children }) {
       <body suppressHydrationWarning>
         <AuthProvider>
           <CartProvider>
+            <ChunkErrorRecovery />
             <PublicShell>
               {children}
             </PublicShell>
