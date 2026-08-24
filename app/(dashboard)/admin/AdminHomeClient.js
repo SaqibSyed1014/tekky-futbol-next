@@ -6,13 +6,10 @@ import { getApplications, getAdminMemberships, getAdminTeams } from '@/services/
 import { AdminStarsDivider, AdminStarCrop } from '@/components/admin/ChicagoStar';
 import StatCard from '@/components/admin/StatCard';
 
-function ActionCard({ href, icon, title, description }) {
+function ActionCard({ href, title, description }) {
   return (
     <Link href={href} className="ad-card">
-      <div className="ad-card__title">
-        <i className={icon} />
-        {title}
-      </div>
+      <div className="ad-card__title">{title}</div>
       <p>{description}</p>
     </Link>
   );
