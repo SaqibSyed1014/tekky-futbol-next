@@ -44,7 +44,7 @@ const CAPTAIN_NAV = [
 ];
 
 const PAGE_TITLES = {
-  '/admin':                'Dashboard',
+  '/admin':                'Home',
   '/admin/applications':   'Applications',
   '/admin/teams':          'Teams',
   '/admin/memberships':    'Memberships',
@@ -318,16 +318,24 @@ function Topbar({ user, onMenuToggle }) {
           <i className="fa-solid fa-bars" />
         </button>
 
-        <h2 className={isAdmin ? 'ad-page-title' : undefined} style={isAdmin ? undefined : {
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: '1.75rem',
-          color: 'var(--fg)',
-          letterSpacing: '1px',
-          textShadow: 'none',
-          margin: 0,
-        }}>
-          {pageTitle}
-        </h2>
+        {isAdmin ? (
+          <div className="ad-breadcrumb" aria-label="Breadcrumb">
+            <span className="ad-breadcrumb__root">Admin</span>
+            <i className="fa-solid fa-chevron-right ad-breadcrumb__sep" aria-hidden="true" />
+            <span className="ad-breadcrumb__current">{pageTitle}</span>
+          </div>
+        ) : (
+          <h2 style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: '1.75rem',
+            color: 'var(--fg)',
+            letterSpacing: '1px',
+            textShadow: 'none',
+            margin: 0,
+          }}>
+            {pageTitle}
+          </h2>
+        )}
       </div>
 
       <div ref={dropRef} style={{ position: 'relative' }}>

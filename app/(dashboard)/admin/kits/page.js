@@ -9,8 +9,8 @@ import StatCard from '@/components/admin/StatCard';
 
 function Banner({ type, children }) {
   const styles = {
-    error: { bg: 'rgba(214,69,69,0.08)', border: 'rgba(214,69,69,0.28)', color: '#d64545', icon: 'fa-solid fa-circle-xmark' },
-    info:  { bg: 'rgba(21,83,209,0.08)', border: 'rgba(21,83,209,0.22)', color: 'var(--ad-blue-deep)', icon: 'fa-solid fa-circle-info' },
+    error: { bg: 'rgba(255,60,60,0.12)', border: 'rgba(255,60,60,0.32)', color: '#ff6b6b', icon: 'fa-solid fa-circle-xmark' },
+    info:  { bg: 'rgba(61,139,255,0.12)', border: 'rgba(61,139,255,0.32)', color: '#7ab0ff', icon: 'fa-solid fa-circle-info' },
   };
   const s = styles[type] || styles.info;
   if (!children) return null;
@@ -32,12 +32,12 @@ function SizeBadge({ label, value }) {
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
       padding: '0.15rem 0.5rem',
-      background: 'rgba(21,83,209,0.08)',
-      border: '1px solid rgba(21,83,209,0.2)',
+      background: 'rgba(61,139,255,0.12)',
+      border: '1px solid rgba(61,139,255,0.28)',
       borderRadius: 4, fontSize: '0.75rem', color: 'var(--ad-fg)',
     }}>
       <span style={{ color: 'var(--ad-muted)', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{label}</span>
-      <strong style={{ color: 'var(--ad-blue-deep)' }}>{value}</strong>
+      <strong style={{ color: 'var(--ad-fg)' }}>{value}</strong>
     </span>
   );
 }
@@ -74,9 +74,9 @@ function TeamKitCard({ entry }) {
             <span style={{
               fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.3px',
               padding: '0.15rem 0.5rem', borderRadius: 4,
-              background: entry.is_locked ? 'rgba(10,138,74,0.1)' : 'rgba(196,125,0,0.1)',
-              border: `1px solid ${entry.is_locked ? 'rgba(10,138,74,0.28)' : 'rgba(196,125,0,0.28)'}`,
-              color: entry.is_locked ? '#0a8a4a' : '#c47d00',
+              background: entry.is_locked ? 'rgba(0,200,100,0.12)' : 'rgba(255,180,0,0.12)',
+              border: `1px solid ${entry.is_locked ? 'rgba(0,200,100,0.32)' : 'rgba(255,180,0,0.32)'}`,
+              color: entry.is_locked ? '#00c864' : '#ffb400',
             }}>
               <i className={`fa-solid ${entry.is_locked ? 'fa-lock' : 'fa-lock-open'}`} style={{ marginRight: '0.3rem', fontSize: '0.6rem' }} />
               {entry.is_locked ? 'Locked' : 'Not locked'}
