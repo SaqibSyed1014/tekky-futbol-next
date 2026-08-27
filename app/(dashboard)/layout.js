@@ -1,5 +1,6 @@
 import { adminFontVars } from '@/components/admin/adminFonts';
 import '../admin-dash.css';
+import '../dashboard-controls.css';
 import DashboardShell from './DashboardShell';
 
 export const dynamic = 'force-dynamic';

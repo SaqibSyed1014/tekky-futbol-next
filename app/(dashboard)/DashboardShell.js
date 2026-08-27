@@ -8,9 +8,12 @@ import Image from "next/image";
 import { initiatePayment } from '@/services/paymentsApi';
 import ChicagoStar, { AdminStarCrop } from '@/components/admin/ChicagoStar';
 
-function getAdminTone(pathname) {
-  if (pathname === '/admin') return 'home';
-  if (pathname.startsWith('/admin/kits') || pathname.startsWith('/admin/payments')) return 'shop';
+function getDashTone(pathname) {
+  if (pathname === '/admin' || pathname === '/user') return 'home';
+  if (
+    pathname.startsWith('/admin/kits') || pathname.startsWith('/admin/payments') ||
+    pathname.startsWith('/user/kit') || pathname.startsWith('/user/payment')
+  ) return 'shop';
   return 'league';
 }
 // ─── Nav config ──────────────────────────────────────────────────────────────
@@ -68,8 +71,10 @@ const PAGE_TITLES = {
 function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
   const pathname = usePathname();
   const { logout } = useAuth();
-  const navItems = role === 'admin' ? ADMIN_NAV : isCaptain ? CAPTAIN_NAV : PLAYER_NAV;
   const isAdmin = role === 'admin';
+  const navItems = isAdmin ? ADMIN_NAV : isCaptain ? CAPTAIN_NAV : PLAYER_NAV;
+  const roleLabel = isAdmin ? 'Admin' : isCaptain ? 'Captain' : 'Player';
+  const roleModifier = isAdmin ? '' : isCaptain ? ' ad-role--captain' : ' ad-role--player';
 
   return (
     <>
@@ -85,170 +90,39 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
         />
       )}
 
-      <aside
-        className={`db-sidebar${sidebarOpen ? ' open' : ''}${isAdmin ? ' ad-sidebar' : ''}`}
-        style={isAdmin ? undefined : {
-          width: 240,
-          minHeight: '100vh',
-          background: '#000',
-          borderRight: '1px solid rgba(0,116,255,0.2)',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          bottom: 0,
-          zIndex: 50,
-          transition: 'transform 0.25s ease',
-        }}
-      >
-        <div className={isAdmin ? 'ad-brand' : undefined} style={isAdmin ? undefined : {
-          padding: '.5rem .75rem',
-          borderBottom: '1px solid rgba(0,116,255,0.15)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.1rem',
-        }}>
+      <aside className={`db-sidebar ad-sidebar${sidebarOpen ? ' open' : ''}`}>
+        <div className="ad-brand">
           <Image src="/images/logo.webp" alt="TekkyFutbol Logo" width={55} height={55} />
-          <div
-            className={isAdmin ? 'ad-brand__name' : undefined}
-            style={isAdmin ? undefined : {
-              fontFamily: "'Bebas Neue', sans-serif",
-              color: 'white',
-              fontSize: '1.6rem',
-              letterSpacing: '2px',
-              textShadow: '0 0 10px var(--tekky-blue)',
-              textDecoration: 'none',
-              lineHeight: 1,
-            }}
-          >
-            TekkyFutbol
-          </div>
+          <div className="ad-brand__name">TekkyFutbol</div>
         </div>
 
-        <div className={isAdmin ? 'ad-role-wrap' : undefined} style={isAdmin ? undefined : { padding: '1.5rem 1.5rem 0.5rem' }}>
-          {isAdmin ? (
-            <span className="ad-role">Admin</span>
-          ) : (() => {
-            const isCap     = isCaptain;
-            const color     = isCap ? '#f0b429' : '#00c864';
-            const bg        = isCap ? 'rgba(240,180,41,0.1)' : 'rgba(0,200,100,0.1)';
-            const border    = isCap ? 'rgba(240,180,41,0.3)' : 'rgba(0,200,100,0.3)';
-            const label     = isCap ? 'Captain' : 'Player';
-            return (
-              <span style={{
-                fontSize: '1rem',
-                fontFamily: "'Bebas Neue', sans-serif",
-                letterSpacing: '1.5px',
-                color,
-                background: bg,
-                border: `1px solid ${border}`,
-                borderRadius: 4,
-                padding: '0.2rem 0.6rem',
-                textTransform: 'uppercase',
-              }}>
-                {label}
-              </span>
-            );
-          })()}
+        <div className="ad-role-wrap">
+          <span className={`ad-role${roleModifier}`}>{roleLabel}</span>
         </div>
 
-        <div className={isAdmin ? 'ad-nav' : undefined} style={isAdmin ? undefined : { padding: '0.75rem 0.75rem', flex: 1 }}>
+        <div className="ad-nav">
           {navItems.map((item) => {
             const active = pathname === item.href || (item.href !== '/admin' && item.href !== '/user' && pathname.startsWith(item.href));
             const isWaiverGated = item.href === '/user/waiver' || item.href === '/user/pool';
-            const showWaiverBadge = isWaiverGated && role !== 'admin' && !waiverSigned;
-            if (isAdmin) {
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={onClose}
-                  className={`ad-nav-link${active ? ' is-active' : ''}`}
-                >
-                  <i className={item.icon} />
-                  {item.label}
-                </Link>
-              );
-            }
+            const showWaiverBadge = isWaiverGated && !isAdmin && !waiverSigned;
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  padding: '0.7rem 0.9rem',
-                  borderRadius: 8,
-                  marginBottom: '0.25rem',
-                  color: active ? '#fff' : showWaiverBadge ? '#ffb400' : 'var(--muted)',
-                  background: active ? 'rgba(0,116,255,0.18)' : showWaiverBadge ? 'rgba(255,180,0,0.06)' : 'transparent',
-                  border: `1px solid ${active ? 'rgba(0,116,255,0.4)' : showWaiverBadge ? 'rgba(255,180,0,0.25)' : 'transparent'}`,
-                  textDecoration: 'none',
-                  fontSize: '0.92rem',
-                  fontWeight: active || showWaiverBadge ? 600 : 400,
-                  transition: 'all 0.15s',
-                  boxShadow: active ? '0 0 10px rgba(0,116,255,0.15)' : 'none',
-                }}
-                onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(0,116,255,0.07)'; e.currentTarget.style.color = '#fff'; } }}
-                onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = showWaiverBadge ? 'rgba(255,180,0,0.06)' : 'transparent'; e.currentTarget.style.color = showWaiverBadge ? '#ffb400' : 'var(--muted)'; } }}
+                className={`ad-nav-link${active ? ' is-active' : ''}${showWaiverBadge ? ' is-waiver-gated' : ''}`}
               >
-                <i className={item.icon} style={{ width: 18, textAlign: 'center', fontSize: '0.88rem', color: active ? 'var(--tekky-blue)' : showWaiverBadge ? '#ffb400' : 'inherit' }} />
+                <i className={item.icon} />
                 {item.label}
-                {showWaiverBadge && (
-                  <span style={{
-                    marginLeft: 'auto',
-                    fontSize: '0.65rem',
-                    fontWeight: 700,
-                    background: '#ffb400',
-                    color: '#000',
-                    borderRadius: 20,
-                    padding: '0.1rem 0.45rem',
-                    letterSpacing: '0.3px',
-                    textTransform: 'uppercase',
-                  }}>
-                    Required
-                  </span>
-                )}
+                {showWaiverBadge && <span className="ad-nav-link__badge">Required</span>}
               </Link>
             );
           })}
         </div>
 
-        <div className={isAdmin ? 'ad-logout-wrap' : undefined} style={isAdmin ? undefined : { padding: '0.75rem', borderTop: '1px solid rgba(0,116,255,0.15)' }}>
-          <button
-            onClick={() => { onClose(); logout(); }}
-            className={isAdmin ? 'ad-logout' : undefined}
-            style={isAdmin ? undefined : {
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              width: '100%',
-              padding: '0.7rem 0.9rem',
-              borderRadius: 8,
-              background: 'transparent',
-              border: '1px solid transparent',
-              color: 'var(--muted)',
-              fontSize: '0.92rem',
-              cursor: 'pointer',
-              transition: 'all 0.15s',
-              fontFamily: 'inherit',
-              textAlign: 'left',
-            }}
-            onMouseEnter={isAdmin ? undefined : (e) => {
-              e.currentTarget.style.background = 'rgba(255,60,60,0.08)';
-              e.currentTarget.style.color = '#ff6b6b';
-              e.currentTarget.style.borderColor = 'rgba(255,60,60,0.2)';
-            }}
-            onMouseLeave={isAdmin ? undefined : (e) => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.color = 'var(--muted)';
-              e.currentTarget.style.borderColor = 'transparent';
-            }}
-          >
-            <i className="fa-solid fa-right-from-bracket" style={isAdmin ? undefined : { width: 18, textAlign: 'center', fontSize: '0.88rem' }} />
+        <div className="ad-logout-wrap">
+          <button onClick={() => { onClose(); logout(); }} className="ad-logout">
+            <i className="fa-solid fa-right-from-bracket" />
             Logout
           </button>
         </div>
@@ -269,6 +143,8 @@ function Topbar({ user, onMenuToggle }) {
 
   const pageTitle = PAGE_TITLES[pathname] ?? 'Dashboard';
   const initial = String(user?.name || user?.email || '?').charAt(0).toUpperCase() || '?';
+  const isAdmin = user?.role === 'admin';
+  const breadcrumbRoot = isAdmin ? 'Admin' : user?.is_captain ? 'Captain' : 'Player';
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -281,181 +157,87 @@ function Topbar({ user, onMenuToggle }) {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const isAdmin = user?.role === 'admin';
-
   return (
-    <header
-      className={isAdmin ? 'ad-topbar' : undefined}
-      style={isAdmin ? undefined : {
-      height: 87,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: '0 1.5rem',
-      borderBottom: '1px solid rgba(0,116,255,0.15)',
-      background: 'rgba(0,0,0,0.85)',
-      backdropFilter: 'blur(10px)',
-      position: 'sticky',
-      top: 0,
-      zIndex: 30,
-    }}>
-      <div className={isAdmin ? 'ad-topbar__left' : undefined} style={isAdmin ? undefined : { display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
+    <header className="ad-topbar">
+      <div className="ad-topbar__left">
         <button
-          className={`db-hamburger${isAdmin ? ' ad-hamburger' : ''}`}
+          className="db-hamburger ad-hamburger"
           onClick={onMenuToggle}
           aria-label="Toggle menu"
-          style={isAdmin ? undefined : {
-            display: 'none',
-            background: 'none',
-            border: '1px solid rgba(0,116,255,0.3)',
-            borderRadius: 6,
-            color: 'var(--muted)',
-            padding: '0.3rem 0.55rem',
-            cursor: 'pointer',
-            fontSize: '0.95rem',
-          }}
         >
           <i className="fa-solid fa-bars" />
         </button>
 
-        {isAdmin ? (
-          <div className="ad-breadcrumb" aria-label="Breadcrumb">
-            <span className="ad-breadcrumb__root">Admin</span>
-            <i className="fa-solid fa-chevron-right ad-breadcrumb__sep" aria-hidden="true" />
-            <span className="ad-breadcrumb__current">{pageTitle}</span>
-          </div>
-        ) : (
-          <h2 style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '1.75rem',
-            color: 'var(--fg)',
-            letterSpacing: '1px',
-            textShadow: 'none',
-            margin: 0,
-          }}>
-            {pageTitle}
-          </h2>
-        )}
+        <div className="ad-breadcrumb" aria-label="Breadcrumb">
+          <span className="ad-breadcrumb__root">{breadcrumbRoot}</span>
+          <i className="fa-solid fa-chevron-right ad-breadcrumb__sep" aria-hidden="true" />
+          <span className="ad-breadcrumb__current">{pageTitle}</span>
+        </div>
       </div>
 
       <div ref={dropRef} style={{ position: 'relative' }}>
         <button
           onClick={() => setDropdownOpen((v) => !v)}
           aria-label="User menu"
-          className={isAdmin ? `ad-user-btn${dropdownOpen ? ' is-open' : ''}` : undefined}
-          style={isAdmin ? undefined : {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.55rem',
-            background: 'none',
-            border: '1px solid rgba(0,116,255,0.25)',
-            borderRadius: 40,
-            padding: '0.3rem 0.7rem 0.3rem 0.35rem',
-            cursor: 'pointer',
-            transition: 'border-color 0.15s',
-          }}
-          onMouseEnter={isAdmin ? undefined : (e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.6)'; }}
-          onMouseLeave={isAdmin ? undefined : (e) => { if (!dropdownOpen) e.currentTarget.style.borderColor = 'rgba(0,116,255,0.25)'; }}
+          aria-expanded={dropdownOpen}
+          className={`ad-user-btn${dropdownOpen ? ' is-open' : ''}`}
         >
-          <span className={isAdmin ? 'ad-avatar' : undefined} style={isAdmin ? undefined : {
-            width: 32,
-            height: 32,
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, var(--tekky-blue), #0044cc)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '1rem',
-            color: '#fff',
-            boxShadow: '0 0 8px rgba(0,116,255,0.4)',
-            flexShrink: 0,
-          }}>
-            {initial}
-          </span>
-          <span className={isAdmin ? 'ad-user-name' : undefined} style={isAdmin ? undefined : { color: 'var(--fg)', fontSize: '0.85rem', fontWeight: 500, maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {user?.name || user?.email}
-          </span>
+          <span className="ad-avatar">{initial}</span>
+          <span className="ad-user-name">{user?.name || user?.email}</span>
           <i
-            className={`fa-solid fa-chevron-${dropdownOpen ? 'up' : 'down'}`}
-            style={{ color: 'var(--muted)', fontSize: '0.7rem', transition: 'transform 0.2s' }}
+            className="fa-solid fa-chevron-down"
+            style={{
+              color: 'var(--muted)',
+              fontSize: '0.7rem',
+              transition: 'transform 280ms cubic-bezier(0.22, 1, 0.36, 1)',
+              transform: dropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+            }}
           />
         </button>
 
-        {/* Dropdown menu */}
-        {dropdownOpen && (
-          <div className={isAdmin ? 'ad-menu' : undefined} style={isAdmin ? undefined : {
-            position: 'absolute',
-            right: 0,
-            top: 'calc(100% + 8px)',
-            minWidth: 180,
-            background: '#0a0a0a',
-            border: '1px solid rgba(0,116,255,0.25)',
-            borderRadius: 10,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.6), 0 0 16px rgba(0,116,255,0.1)',
-            overflow: 'hidden',
-            zIndex: 100,
-            animation: 'dbDropIn 0.15s ease',
-          }}>
-            <div className={isAdmin ? 'ad-menu__meta' : undefined} style={isAdmin ? undefined : { padding: '0.8rem 1rem', borderBottom: '1px solid rgba(0,116,255,0.12)' }}>
-              <p style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--fg)', margin: 0 }}>
-                {user?.name || 'User'}
-              </p>
-              <p style={{ fontSize: '0.75rem', color: 'var(--muted)', margin: '0.2rem 0 0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {user?.email}
-              </p>
-            </div>
+        <div className={`ad-menu${dropdownOpen ? ' is-open' : ''}`} aria-hidden={!dropdownOpen}>
+          <div className="ad-menu__clip">
+            <div className="ad-menu__panel">
+              <div className="ad-menu__meta">
+                <p style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--fg)', margin: 0 }}>
+                  {user?.name || 'User'}
+                </p>
+                <p style={{ fontSize: '0.75rem', color: 'var(--muted)', margin: '0.2rem 0 0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {user?.email}
+                </p>
+              </div>
 
-            {/* Menu items */}
-            <div style={{ padding: '0.4rem 0' }}>
-              <DropdownItem
-                admin={isAdmin}
-                icon="fa-solid fa-user"
-                label="My Profile"
-                onClick={() => {
-                  setDropdownOpen(false);
-                  router.push(user?.role === 'admin' ? '/admin/profile' : '/user/profile');
-                }}
-              />
-              <div style={{ height: 1, background: 'rgba(0,116,255,0.1)', margin: '0.3rem 0' }} />
-              <DropdownItem
-                admin={isAdmin}
-                icon="fa-solid fa-right-from-bracket"
-                label="Logout"
-                danger
-                onClick={() => { setDropdownOpen(false); logout(); }}
-              />
+              <div style={{ padding: '0.4rem 0' }}>
+                <DropdownItem
+                  icon="fa-solid fa-user"
+                  label="My Profile"
+                  onClick={() => {
+                    setDropdownOpen(false);
+                    router.push(user?.role === 'admin' ? '/admin/profile' : '/user/profile');
+                  }}
+                />
+                <div style={{ height: 1, background: 'var(--ad-line)', margin: '0.3rem 0' }} />
+                <DropdownItem
+                  icon="fa-solid fa-right-from-bracket"
+                  label="Logout"
+                  danger
+                  onClick={() => { setDropdownOpen(false); logout(); }}
+                />
+              </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </header>
   );
 }
 
-function DropdownItem({ icon, label, onClick, danger = false, disabled = false, admin = false }) {
+function DropdownItem({ icon, label, onClick, danger = false, disabled = false }) {
   return (
     <button
       onClick={disabled ? undefined : onClick}
-      className={admin ? `ad-menu__item${danger ? ' is-danger' : ''}` : undefined}
-      style={admin ? undefined : {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.65rem',
-        width: '100%',
-        padding: '0.6rem 1rem',
-        background: 'none',
-        border: 'none',
-        color: disabled ? 'var(--muted)' : (danger ? '#ff6b6b' : 'var(--fg)'),
-        fontSize: '0.88rem',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        textAlign: 'left',
-        opacity: disabled ? 0.5 : 1,
-        transition: 'background 0.12s',
-        fontFamily: 'inherit',
-      }}
-      onMouseEnter={admin ? undefined : (e) => { if (!disabled) e.currentTarget.style.background = danger ? 'rgba(255,60,60,0.08)' : 'rgba(0,116,255,0.08)'; }}
-      onMouseLeave={admin ? undefined : (e) => { e.currentTarget.style.background = 'none'; }}
+      className={`ad-menu__item${danger ? ' is-danger' : ''}`}
+      disabled={disabled}
     >
       <i className={icon} style={{ width: 16, textAlign: 'center', fontSize: '0.82rem' }} />
       {label}
@@ -483,58 +265,41 @@ function PaymentPrompt({ onDismiss }) {
   }
 
   return (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 200,
-      background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: '1rem',
-    }}>
-      <div style={{
-        background: '#0a0a0a', border: '1px solid rgba(0,116,255,0.35)',
-        borderRadius: 16, padding: '2rem', maxWidth: 420, width: '100%',
-        boxShadow: '0 0 40px rgba(0,116,255,0.2)',
-      }}>
+    <div className="ad-overlay ad-overlay--center" style={{ zIndex: 4500 }}>
+      <div className="ad-modal">
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
           <div style={{
             width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-            background: 'rgba(0,116,255,0.1)', border: '1px solid rgba(0,116,255,0.3)',
+            background: 'rgba(61,139,255,0.14)', border: '1px solid rgba(61,139,255,0.35)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <i className="fa-solid fa-dollar-sign" style={{ color: '#0074ff', fontSize: '1.1rem' }} />
+            <i className="fa-solid fa-dollar-sign" style={{ color: 'var(--ad-electric)', fontSize: '1.1rem' }} />
           </div>
           <div>
-            <h3 style={{ color: '#fff', fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.3rem', letterSpacing: '1px', margin: 0 }}>
-              Registration Fee Due
-            </h3>
-            <p style={{ color: 'var(--muted)', fontSize: '0.8rem', margin: 0 }}>
-              Complete your registration to continue
-            </p>
+            <h3 className="ad-modal__title" style={{ fontSize: '1.3rem' }}>Registration Fee Due</h3>
+            <p className="ad-modal__sub">Complete your registration to continue</p>
           </div>
         </div>
 
         <div style={{
-          background: 'rgba(0,116,255,0.05)', border: '1px solid rgba(0,116,255,0.12)',
+          background: 'rgba(15, 23, 42, 0.55)', border: '1px solid var(--ad-line)',
           borderRadius: 8, padding: '1rem 1.25rem', marginBottom: '1.25rem',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
-          <span style={{ color: '#b6c2d3', fontSize: '0.88rem' }}>Registration Fee</span>
-          <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', color: '#fff', letterSpacing: '1px' }}>
+          <span style={{ color: 'var(--ad-muted)', fontSize: '0.88rem' }}>Registration Fee</span>
+          <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', color: 'var(--ad-fg)', letterSpacing: '1px' }}>
             $700.00
           </span>
         </div>
 
-        <p style={{ color: '#b6c2d3', fontSize: '0.83rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-          Your waiver has been signed. A one-time registration fee of <strong style={{ color: '#fff' }}>$700</strong> is
+        <p style={{ color: 'var(--ad-muted)', fontSize: '0.83rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+          Your waiver has been signed. A one-time registration fee of <strong style={{ color: 'var(--ad-fg)' }}>$700</strong> is
           required to complete your registration. You will be redirected to Stripe's
           secure payment page.
         </p>
 
         {error && (
-          <div style={{
-            padding: '0.65rem 0.9rem', borderRadius: 8, marginBottom: '1rem',
-            background: 'rgba(255,60,60,0.08)', border: '1px solid rgba(255,60,60,0.25)',
-            color: '#ff6b6b', fontSize: '0.82rem',
-          }}>
+          <div className="ad-alert ad-alert--error" style={{ display: 'flex', alignItems: 'center' }}>
             <i className="fa-solid fa-circle-xmark" style={{ marginRight: '0.45rem' }} />
             {error}
           </div>
@@ -543,15 +308,8 @@ function PaymentPrompt({ onDismiss }) {
         <button
           onClick={handlePay}
           disabled={paying}
-          style={{
-            width: '100%', padding: '0.85rem',
-            background: paying ? 'rgba(0,116,255,0.3)' : 'rgba(0,116,255,0.15)',
-            border: '2px solid rgba(0,116,255,0.6)',
-            borderRadius: 8, color: '#fff', fontSize: '0.92rem', fontWeight: 700,
-            cursor: paying ? 'not-allowed' : 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-            marginBottom: '0.65rem', fontFamily: 'inherit',
-          }}
+          className="cta"
+          style={{ width: '100%', padding: '0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginBottom: '0.65rem' }}
         >
           {paying ? (
             <><span className="spinner" style={{ width: 16, height: 16, borderWidth: 2 }} /> Redirecting to Bank…</>
@@ -563,12 +321,8 @@ function PaymentPrompt({ onDismiss }) {
         <button
           onClick={onDismiss}
           disabled={paying}
-          style={{
-            width: '100%', padding: '0.65rem',
-            background: 'transparent', border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 8, color: 'var(--muted)', fontSize: '0.85rem',
-            cursor: paying ? 'not-allowed' : 'pointer', fontFamily: 'inherit',
-          }}
+          className="ad-btn"
+          style={{ width: '100%', padding: '0.65rem', justifyContent: 'center' }}
         >
           Remind Me Later
         </button>
@@ -618,7 +372,7 @@ export default function DashboardLayout({ children }) {
   // Authenticated as admin (guard above), but no sidebar or topbar needed.
   const isStandalone = /^\/admin\/waivers\/[^/]+$/.test(pathname);
   const isAdmin = user?.role === 'admin';
-  const adminTone = getAdminTone(pathname);
+  const dashTone = getDashTone(pathname);
 
   const bootScreen = waiting ? (
     <div
@@ -626,7 +380,7 @@ export default function DashboardLayout({ children }) {
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        background: '#000',
+        background: 'linear-gradient(165deg, #071a45 0%, #0b2566 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -646,40 +400,30 @@ export default function DashboardLayout({ children }) {
   }
 
   return (
-    <div className={isAdmin ? `admin-dash admin-dash--${adminTone}` : undefined}>
+    <div className={`admin-dash admin-dash--${dashTone}`}>
       {bootScreen}
       {user && showPaymentPrompt && <PaymentPrompt onDismiss={() => setShowPaymentPrompt(false)} />}
       {user && (
         <Sidebar role={user.role} isCaptain={user.is_captain} waiverSigned={!!user.waiver_signed} sidebarOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       )}
 
-      <div
-        className={isAdmin ? 'db-main ad-main' : 'db-main'}
-        style={isAdmin ? undefined : {
-        marginLeft: 240,
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        background: '#030303',
-      }}>
-        {isAdmin && <AdminStarCrop size={adminTone === 'home' ? 200 : 260} />}
+      <div className="db-main ad-main">
+        <AdminStarCrop size={dashTone === 'home' ? 200 : 260} />
         {user && <Topbar user={user} onMenuToggle={() => setSidebarOpen((v) => !v)} />}
 
-        <main className={isAdmin ? 'ad-content' : undefined} style={isAdmin ? undefined : { flex: 1, padding: '2rem 2rem 3rem', maxWidth: 1280 }}>
+        <main className="ad-content">
           {children}
         </main>
 
-        {isAdmin && (
-          <footer className="ad-foot">
-            <div className="ad-divider__stars" aria-hidden="true">
-              <ChicagoStar size={10} variant="official" />
-              <ChicagoStar size={10} variant="official" />
-              <ChicagoStar size={10} variant="official" />
-              <ChicagoStar size={10} variant="official" />
-            </div>
-            <span className="ad-foot__mark">TekkyFutbol · Chicago</span>
-          </footer>
-        )}
+        <footer className="ad-foot">
+          <div className="ad-divider__stars" aria-hidden="true">
+            <ChicagoStar size={10} variant="official" />
+            <ChicagoStar size={10} variant="official" />
+            <ChicagoStar size={10} variant="official" />
+            <ChicagoStar size={10} variant="official" />
+          </div>
+          <span className="ad-foot__mark">TekkyFutbol · Chicago</span>
+        </footer>
       </div>
 
       <style>{`

@@ -6,6 +6,7 @@ import { getAdminPayments } from '@/services/paymentsApi';
 import { AdminLoader, AdminStarsDivider } from '@/components/admin/ChicagoStar';
 import StatCard from '@/components/admin/StatCard';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { PremiumSelect } from '@/components/dashboard/DashboardControls';
 
 function fmtDate(val) {
   if (!val) return '—';
@@ -85,16 +86,16 @@ export default function AdminPaymentsPage() {
       </div>
 
       <div className="ad-toolbar">
-        {FILTER_OPTIONS.map((opt) => (
-          <button
-            type="button"
-            key={opt.value}
-            onClick={() => handleFilter(opt.value)}
-            className={`ad-pill${statusFilter === opt.value ? ' is-active' : ''}`}
-          >
-            {opt.label}
-          </button>
-        ))}
+        <PremiumSelect
+          className="db-select--compact"
+          aria-label="Filter by payment status"
+          value={statusFilter}
+          onChange={(e) => handleFilter(e.target.value)}
+        >
+          {FILTER_OPTIONS.map((opt) => (
+            <option key={opt.value || 'all'} value={opt.value}>{opt.label}</option>
+          ))}
+        </PremiumSelect>
       </div>
 
       {error && (

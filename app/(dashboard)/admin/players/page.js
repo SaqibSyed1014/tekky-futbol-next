@@ -9,6 +9,7 @@ import {
 } from '@/services/profilesApi';
 import { AdminLoader, AdminStarsDivider } from '@/components/admin/ChicagoStar';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { PremiumInput, PremiumField } from '@/components/dashboard/DashboardControls';
 
 // ─── Shared primitives ────────────────────────────────────────────────────────
 
@@ -69,18 +70,7 @@ function CopyUrlButton({ url }) {
 // inside another component causes React to treat them as new types on every
 // render, unmounting/remounting inputs and losing focus after each keystroke.
 
-const MODAL_INPUT_STYLE = { width: '100%', boxSizing: 'border-box', marginBottom: 0 };
-
-function ModalField({ label, children }) {
-  return (
-    <div style={{ marginBottom: '0.85rem' }}>
-      <label style={{ display: 'block', fontSize: '0.73rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, marginBottom: '0.3rem' }}>
-        {label}
-      </label>
-      {children}
-    </div>
-  );
-}
+const ModalField = PremiumField;
 
 // ─── Stats edit modal ─────────────────────────────────────────────────────────
 
@@ -150,16 +140,16 @@ function StatsModal({ player, onClose, onSaved }) {
           <p style={{ fontSize: '0.75rem', color: 'var(--tekky-blue)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, marginBottom: '0.75rem' }}>Stats Overview</p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 1.25rem' }}>
             <ModalField label="Goals">
-              <input type="number" min={0} value={form.goals} onChange={(e) => set('goals', e.target.value)} style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="number" min={0} value={form.goals} onChange={(e) => set('goals', e.target.value)} />
             </ModalField>
             <ModalField label="Assists">
-              <input type="number" min={0} value={form.assists} onChange={(e) => set('assists', e.target.value)} style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="number" min={0} value={form.assists} onChange={(e) => set('assists', e.target.value)} />
             </ModalField>
             <ModalField label="Matches Played">
-              <input type="number" min={0} value={form.matches_played} onChange={(e) => set('matches_played', e.target.value)} style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="number" min={0} value={form.matches_played} onChange={(e) => set('matches_played', e.target.value)} />
             </ModalField>
             <ModalField label="MVPs">
-              <input type="number" min={0} value={form.mvps} onChange={(e) => set('mvps', e.target.value)} style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="number" min={0} value={form.mvps} onChange={(e) => set('mvps', e.target.value)} />
             </ModalField>
           </div>
 
@@ -167,16 +157,16 @@ function StatsModal({ player, onClose, onSaved }) {
           <p style={{ fontSize: '0.75rem', color: 'var(--tekky-blue)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, margin: '1rem 0 0.75rem' }}>Upcoming Match</p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 1.25rem' }}>
             <ModalField label="Opponent">
-              <input type="text" value={form.upcoming_opponent} onChange={(e) => set('upcoming_opponent', e.target.value)} placeholder="e.g. Street Runners" style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="text" value={form.upcoming_opponent} onChange={(e) => set('upcoming_opponent', e.target.value)} placeholder="e.g. Street Runners" />
             </ModalField>
             <ModalField label="Date">
-              <input type="date" value={form.upcoming_date} onChange={(e) => set('upcoming_date', e.target.value)} style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="date" value={form.upcoming_date} onChange={(e) => set('upcoming_date', e.target.value)} />
             </ModalField>
             <ModalField label="Kickoff Time">
-              <input type="text" value={form.upcoming_kickoff} onChange={(e) => set('upcoming_kickoff', e.target.value)} placeholder="e.g. 7:00 PM" style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="text" value={form.upcoming_kickoff} onChange={(e) => set('upcoming_kickoff', e.target.value)} placeholder="e.g. 7:00 PM" />
             </ModalField>
             <ModalField label="Location">
-              <input type="text" value={form.upcoming_location} onChange={(e) => set('upcoming_location', e.target.value)} placeholder="e.g. Tekky Arena Pitch 3" style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="text" value={form.upcoming_location} onChange={(e) => set('upcoming_location', e.target.value)} placeholder="e.g. Tekky Arena Pitch 3" />
             </ModalField>
           </div>
 
@@ -184,19 +174,19 @@ function StatsModal({ player, onClose, onSaved }) {
           <p style={{ fontSize: '0.75rem', color: 'var(--tekky-blue)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, margin: '1rem 0 0.75rem' }}>Team Standing</p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 1.25rem' }}>
             <ModalField label="Rank">
-              <input type="number" min={1} value={form.team_rank} onChange={(e) => set('team_rank', e.target.value)} placeholder="e.g. 2" style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="number" min={1} value={form.team_rank} onChange={(e) => set('team_rank', e.target.value)} placeholder="e.g. 2" />
             </ModalField>
             <ModalField label="Goal Difference">
-              <input type="number" value={form.team_goal_difference} onChange={(e) => set('team_goal_difference', e.target.value)} style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="number" value={form.team_goal_difference} onChange={(e) => set('team_goal_difference', e.target.value)} />
             </ModalField>
             <ModalField label="Wins">
-              <input type="number" min={0} value={form.team_wins} onChange={(e) => set('team_wins', e.target.value)} style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="number" min={0} value={form.team_wins} onChange={(e) => set('team_wins', e.target.value)} />
             </ModalField>
             <ModalField label="Losses">
-              <input type="number" min={0} value={form.team_losses} onChange={(e) => set('team_losses', e.target.value)} style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="number" min={0} value={form.team_losses} onChange={(e) => set('team_losses', e.target.value)} />
             </ModalField>
             <ModalField label="Draws">
-              <input type="number" min={0} value={form.team_draws} onChange={(e) => set('team_draws', e.target.value)} style={MODAL_INPUT_STYLE} />
+              <PremiumInput type="number" min={0} value={form.team_draws} onChange={(e) => set('team_draws', e.target.value)} />
             </ModalField>
           </div>
 
@@ -309,18 +299,16 @@ export default function AdminPlayersPage() {
       )}
 
       {/* ── Filters ── */}
-      <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center' }}>
-        <div style={{ position: 'relative', flex: 1, minWidth: 200 }}>
-          <i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)', fontSize: '0.8rem' }} />
-          <input
-            type="text"
-            placeholder="Search by name or email…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && load()}
-            style={{ width: '100%', boxSizing: 'border-box', marginBottom: 0, paddingLeft: '2.2rem' }}
-          />
-        </div>
+      <div className="ad-toolbar">
+        <PremiumInput
+          type="text"
+          icon="fa-solid fa-magnifying-glass"
+          placeholder="Search by name or email…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && load()}
+          style={{ flex: 1, minWidth: 200 }}
+        />
         <button onClick={load} className="cta" style={{ padding: '0.55rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem' }}>
           <i className="fa-solid fa-rotate-right" /> Refresh
         </button>

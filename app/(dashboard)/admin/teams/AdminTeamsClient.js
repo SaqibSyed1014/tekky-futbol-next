@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getAdminTeams } from '@/services/adminApi';
 import { AdminStarsDivider } from '@/components/admin/ChicagoStar';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { PremiumInput, PremiumSelect } from '@/components/dashboard/DashboardControls';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -23,14 +24,6 @@ function RosterBar({ approved, max }) {
         <div style={{ height: '100%', width: `${pct}%`, background: color, borderRadius: 999, transition: 'width 0.3s' }} />
       </div>
     </div>
-  );
-}
-
-function FilterTab({ label, active, onClick }) {
-  return (
-    <button type="button" onClick={onClick} className={`ad-pill${active ? ' is-active' : ''}`}>
-      {label}
-    </button>
   );
 }
 
@@ -74,31 +67,23 @@ export default function AdminTeamsClient() {
       <AdminStarsDivider />
 
       <div className="ad-toolbar">
-        {/* Status filters */}
-        <div style={{ display: 'flex', gap: '0.4rem' }}>
-          {[
-            { value: '',         label: 'All'      },
-            { value: 'forming',  label: 'Forming'  },
-            { value: 'official', label: 'Official' },
-          ].map((f) => (
-            <FilterTab key={f.value} label={f.label} active={statusFilter === f.value} onClick={() => setStatusFilter(f.value)} />
-          ))}
-        </div>
+        <PremiumSelect
+          className="db-select--compact"
+          aria-label="Filter by status"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+        >
+          <option value="">All statuses</option>
+          <option value="forming">Forming</option>
+          <option value="official">Official</option>
+        </PremiumSelect>
 
-        {/* Search */}
-        <input
+        <PremiumInput
+          icon="fa-solid fa-magnifying-glass"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search team name…"
-          style={{
-            padding: '0.45rem 0.8rem',
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(0,116,255,0.25)', borderRadius: 6,
-            color: 'var(--fg)', fontSize: '0.88rem', fontFamily: 'inherit', outline: 'none',
-            minWidth: 200,
-          }}
-          onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.6)'; }}
-          onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.25)'; }}
+          style={{ flex: 1, minWidth: 200 }}
         />
 
         <button

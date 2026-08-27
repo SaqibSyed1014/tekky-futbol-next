@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { getAdminMemberships, actOnMembership } from '@/services/adminApi';
 import { AdminStarsDivider } from '@/components/admin/ChicagoStar';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { PremiumInput, PremiumSelect } from '@/components/dashboard/DashboardControls';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -22,14 +23,6 @@ function InviteTypeBadge({ type }) {
     }}>
       {label}
     </span>
-  );
-}
-
-function FilterTab({ label, active, onClick }) {
-  return (
-    <button type="button" onClick={onClick} className={`ad-pill${active ? ' is-active' : ''}`}>
-      {label}
-    </button>
   );
 }
 
@@ -181,31 +174,23 @@ export default function AdminMembershipsClient() {
       <AdminStarsDivider />
 
       <div className="ad-toolbar">
-        {/* Status filter tabs */}
-        <div style={{ display: 'flex', gap: '0.4rem' }}>
-          {[
-            { value: 'pending',  label: 'Pending'  },
-            { value: 'approved', label: 'Approved' },
-            { value: 'all',      label: 'All'      },
-          ].map((f) => (
-            <FilterTab key={f.value} label={f.label} active={statusFilter === f.value} onClick={() => setStatusFilter(f.value)} />
-          ))}
-        </div>
+        <PremiumSelect
+          className="db-select--compact"
+          aria-label="Filter by membership status"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+        >
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="all">All</option>
+        </PremiumSelect>
 
-        {/* Team ID filter (pre-filled from URL) */}
-        <input
+        <PremiumInput
+          icon="fa-solid fa-magnifying-glass"
           value={teamFilter}
           onChange={(e) => setTeamFilter(e.target.value)}
           placeholder="Filter by Team ID…"
-          style={{
-            padding: '0.45rem 0.8rem',
-            background: 'rgba(255,255,255,0.04)',
-            border: `1px solid ${teamFilter ? 'rgba(0,116,255,0.6)' : 'rgba(0,116,255,0.25)'}`,
-            borderRadius: 6, color: 'var(--fg)', fontSize: '0.88rem',
-            fontFamily: 'inherit', outline: 'none', minWidth: 240,
-          }}
-          onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.6)'; }}
-          onBlur={(e) => { e.currentTarget.style.borderColor = teamFilter ? 'rgba(0,116,255,0.6)' : 'rgba(0,116,255,0.25)'; }}
+          style={{ flex: 1, minWidth: 220 }}
         />
         {teamFilter && (
           <button

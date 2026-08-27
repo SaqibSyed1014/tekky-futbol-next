@@ -3,6 +3,10 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getAdminWaiverDetail } from '@/services/waiverApi';
+import {
+  PremiumInput,
+  PremiumTextarea,
+} from '@/components/dashboard/DashboardControls';
 
 // ─── Clause text ──────────────────────────────────────────────────────────────
 
@@ -87,34 +91,12 @@ const S = {
     marginBottom:  '0.4rem',
   },
   input: {
-    width:        '100%',
-    padding:      '0.65rem 0.9rem',
-    background:   'rgba(255,255,255,0.03)',
-    border:       '1px solid rgba(0,116,255,0.2)',
-    borderRadius: 8,
-    color:        'var(--muted)',
-    fontSize:     '0.9rem',
-    fontFamily:   'inherit',
-    outline:      'none',
-    boxSizing:    'border-box',
-    lineHeight:   1.5,
-    cursor:       'default',
-    opacity:      0.85,
+    width: '100%',
   },
   inputSig: {
     width:        '100%',
-    padding:      '0.5rem 0.9rem',
-    background:   'rgba(0,116,255,0.04)',
-    border:       '1px solid rgba(0,116,255,0.35)',
-    borderRadius: 8,
-    color:        '#c8d8f8',
     fontSize:     '1.4rem',
     fontFamily:   "'Dancing Script', 'Brush Script MT', cursive",
-    outline:      'none',
-    boxSizing:    'border-box',
-    lineHeight:   1.5,
-    cursor:       'default',
-    opacity:      0.85,
   },
   sectionHead: {
     fontFamily:    'var(--ad-display)',
@@ -152,7 +134,7 @@ function Field({ label, value, fullWidth, signature }) {
   return (
     <div style={fullWidth ? { gridColumn: '1 / -1' } : {}}>
       <label style={S.label}>{label}</label>
-      <input readOnly disabled value={value || ''} style={signature ? S.inputSig : S.input} />
+      <PremiumInput readOnly disabled value={value || ''} className={signature ? 'is-signature' : undefined} />
     </div>
   );
 }
@@ -161,8 +143,7 @@ function FieldTA({ label, value }) {
   return (
     <div style={{ gridColumn: '1 / -1' }}>
       <label style={S.label}>{label}</label>
-      <textarea readOnly disabled value={value || ''} rows={3}
-        style={{ ...S.input, resize: 'none', width: '100%' }} />
+      <PremiumTextarea readOnly disabled value={value || ''} rows={3} />
     </div>
   );
 }

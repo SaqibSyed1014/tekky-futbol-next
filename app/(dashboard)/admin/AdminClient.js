@@ -17,6 +17,7 @@ import {
 } from '@/constants/admin';
 import { AdminStarsDivider } from '@/components/admin/ChicagoStar';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { PremiumTextarea, PremiumSelect } from '@/components/dashboard/DashboardControls';
 
 // ─── Allowed transitions (mirrors backend state machine) ─────────────────────
 
@@ -54,18 +55,6 @@ function ActionButton({ onClick, disabled, color, children }) {
   );
 }
 
-function FilterTab({ label, active, onClick }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`ad-pill${active ? ' is-active' : ''}`}
-    >
-      {label}
-    </button>
-  );
-}
-
 // ─── Status update modal (for waitlist / interview) ───────────────────────────
 
 function StatusModal({ targetStatus, onConfirm, onCancel, loading }) {
@@ -85,7 +74,7 @@ function StatusModal({ targetStatus, onConfirm, onCancel, loading }) {
           </p>
         </div>
 
-        <textarea
+        <PremiumTextarea
           value={note}
           onChange={(e) => setNote(e.target.value)}
           placeholder={`Note for ${label} status (optional)…`}
@@ -466,14 +455,16 @@ export default function AdminClient() {
       <AdminStarsDivider />
 
       <div className="ad-toolbar">
-        {STATUS_FILTERS.map((f) => (
-          <FilterTab
-            key={f.value}
-            label={f.label}
-            active={statusFilter === f.value}
-            onClick={() => setStatusFilter(f.value)}
-          />
-        ))}
+        <PremiumSelect
+          className="db-select--toolbar"
+          aria-label="Filter by status"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+        >
+          {STATUS_FILTERS.map((f) => (
+            <option key={f.value || 'all'} value={f.value}>{f.label}</option>
+          ))}
+        </PremiumSelect>
         <button
           type="button"
           onClick={fetchApplications}

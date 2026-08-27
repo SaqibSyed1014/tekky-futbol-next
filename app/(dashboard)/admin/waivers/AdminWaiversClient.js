@@ -255,7 +255,7 @@ export default function AdminWaiversClient() {
               onClick={() => setRoleFilter(f.key)}
               className={`ad-pill${active ? ' is-active' : ''}`}
             >
-              <i className={f.icon} style={{ fontSize: '0.72rem' }} />
+              <i className={f.icon} />
               {f.label}
             </button>
           );
