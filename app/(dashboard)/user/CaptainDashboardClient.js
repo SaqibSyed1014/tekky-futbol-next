@@ -11,6 +11,7 @@ import {
   revokeInvite,
   removePlayer,
 } from '@/services/teamsApi';
+import PremiumSelect, { PremiumInput } from '@/components/dashboard/DashboardControls';
 
 // ─── Shared primitives ────────────────────────────────────────────────────────
 
@@ -39,7 +40,7 @@ function SectionTitle({ children }) {
       fontFamily: "'Bebas Neue', sans-serif",
       fontSize: '1.1rem', letterSpacing: '1.5px',
       color: 'var(--tekky-blue)', textTransform: 'uppercase',
-      margin: '0 0 0.9rem', borderBottom: '1px solid rgba(0,116,255,0.15)',
+      margin: '0 0 0.9rem', borderBottom: '1px solid rgba(59,130,246,0.15)',
       paddingBottom: '0.35rem',
     }}>
       {children}
@@ -49,14 +50,7 @@ function SectionTitle({ children }) {
 
 function Card({ children, style }) {
   return (
-    <div style={{
-      background: '#000',
-      border: '1px solid rgba(0,116,255,0.2)',
-      borderRadius: 12,
-      padding: '1.4rem 1.5rem',
-      boxShadow: '0 0 16px rgba(0,116,255,0.06)',
-      ...style,
-    }}>
+    <div className="ad-panel" style={{ padding: '1.4rem 1.5rem', ...style }}>
       {children}
     </div>
   );
@@ -88,21 +82,15 @@ function Btn({ onClick, disabled, color = 'var(--tekky-blue)', children, small }
 
 function StatusBadge({ status }) {
   const map = {
-    forming:  { bg: 'rgba(255,180,0,0.12)',  border: 'rgba(255,180,0,0.4)',  text: '#ffb400', label: 'Forming'  },
-    official: { bg: 'rgba(0,200,100,0.12)',  border: 'rgba(0,200,100,0.4)', text: '#00c864', label: 'Official' },
-    pending:  { bg: 'rgba(255,180,0,0.12)',  border: 'rgba(255,180,0,0.4)',  text: '#ffb400', label: 'Pending Approval' },
-    approved: { bg: 'rgba(0,200,100,0.12)',  border: 'rgba(0,200,100,0.4)', text: '#00c864', label: 'Approved' },
-    invited:  { bg: 'rgba(0,116,255,0.12)',  border: 'rgba(0,116,255,0.4)', text: '#0074ff', label: 'Invited'  },
+    forming:  { cls: 'ad-status--pending', label: 'Forming'  },
+    official: { cls: 'ad-status--success', label: 'Official' },
+    pending:  { cls: 'ad-status--pending', label: 'Pending Approval' },
+    approved: { cls: 'ad-status--success', label: 'Approved' },
+    invited:  { cls: 'ad-status--blue',    label: 'Invited'  },
   };
   const s = map[status] ?? map.pending;
   return (
-    <span style={{
-      display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-      padding: '0.25rem 0.7rem', borderRadius: 40,
-      fontSize: '0.8rem', fontWeight: 600,
-      background: s.bg, border: `1px solid ${s.border}`, color: s.text,
-      whiteSpace: 'nowrap',
-    }}>
+    <span className={`ad-status ${s.cls}`}>
       {s.label}
     </span>
   );
@@ -112,8 +100,8 @@ function Skeleton({ h = 48 }) {
   return (
     <div style={{
       height: h, borderRadius: 8,
-      background: 'rgba(0,116,255,0.05)',
-      border: '1px solid rgba(0,116,255,0.1)',
+      background: 'rgba(59,130,246,0.05)',
+      border: '1px solid rgba(59,130,246,0.1)',
       animation: 'cpulse 1.5s ease-in-out infinite',
     }} />
   );
@@ -134,7 +122,7 @@ function RosterProgress({ approved, max }) {
           {approved}/{max}
         </span>
       </div>
-      <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 999, overflow: 'hidden' }}>
+      <div style={{ height: 6, background: 'var(--ad-line)', borderRadius: 999, overflow: 'hidden' }}>
         <div style={{
           height: '100%', width: `${pct}%`,
           background: color,
@@ -167,44 +155,32 @@ function RosterTable({ title, rows, bucketColor, onRemove, removingId, showRemov
           {title} ({rows.length})
         </span>
       </div>
-      <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <div className="ad-table-wrap">
+        <table className="ad-table">
           <thead>
-            <tr style={{ borderBottom: '1px solid rgba(0,116,255,0.15)' }}>
+            <tr>
               {['Name', 'Email', 'Division', 'Status', showRemove && 'Action'].filter(Boolean).map((h) => (
-                <th key={h} style={{
-                  textAlign: 'left', padding: '0.45rem 0.6rem',
-                  color: 'var(--muted)', fontSize: '0.72rem',
-                  fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '0.5px',
-                  whiteSpace: 'nowrap',
-                }}>
-                  {h}
-                </th>
+                <th key={h}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {rows.map((m) => (
-              <tr
-                key={m.id}
-                style={{ borderBottom: '1px solid rgba(0,116,255,0.07)', transition: 'background 0.12s' }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,116,255,0.04)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
-              >
-                <td style={{ padding: '0.6rem 0.6rem', color: 'var(--fg)', fontWeight: 600, fontSize: '0.9rem' }}>
+              <tr key={m.id}>
+                <td className="ad-table__name">
                   {m.name || '—'}
                 </td>
-                <td style={{ padding: '0.6rem 0.6rem', color: 'var(--muted)', fontSize: '0.85rem' }}>
+                <td className="ad-table__muted">
                   {m.email}
                 </td>
-                <td style={{ padding: '0.6rem 0.6rem', color: 'var(--muted)', fontSize: '0.85rem', textTransform: 'capitalize' }}>
+                <td className="ad-table__muted" style={{ textTransform: 'capitalize' }}>
                   {m.division || '—'}
                 </td>
-                <td style={{ padding: '0.6rem 0.6rem' }}>
+                <td>
                   <StatusBadge status={m.membershipBucket} />
                 </td>
                 {showRemove && (
-                  <td style={{ padding: '0.6rem 0.6rem' }}>
+                  <td>
                     <Btn
                       small
                       color="#ff3c3c"
@@ -276,13 +252,13 @@ function InviteLinkPanel() {
           {/* URL display */}
           <div style={{
             display: 'flex', alignItems: 'center', gap: '0.5rem',
-            background: 'rgba(0,116,255,0.06)',
-            border: '1px solid rgba(0,116,255,0.2)',
+            background: 'rgba(59,130,246,0.06)',
+            border: '1px solid rgba(59,130,246,0.2)',
             borderRadius: 8, padding: '0.6rem 0.9rem', marginBottom: '0.85rem',
             flexWrap: 'wrap',
           }}>
             <span style={{
-              flex: 1, fontSize: '0.8rem', color: '#aaa',
+              flex: 1, fontSize: '0.8rem', color: 'var(--ad-muted)',
               wordBreak: 'break-all', fontFamily: 'monospace',
             }}>
               {invite.inviteUrl}
@@ -364,35 +340,23 @@ function FreeAgentPool() {
 
       {/* Filters */}
       <div style={{ display: 'flex', gap: '0.6rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-        <input
+        <PremiumInput
+          icon="fa-solid fa-magnifying-glass"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by name or email…"
-          style={{
-            flex: 1, minWidth: 200, padding: '0.5rem 0.8rem',
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(0,116,255,0.25)', borderRadius: 6,
-            color: 'var(--fg)', fontSize: '0.88rem', fontFamily: 'inherit',
-            outline: 'none',
-          }}
-          onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.6)'; }}
-          onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0,116,255,0.25)'; }}
+          style={{ flex: 1, minWidth: 200 }}
         />
-        <select
+        <PremiumSelect
+          className="db-select--compact"
+          aria-label="Filter by division"
           value={division}
           onChange={(e) => setDivision(e.target.value)}
-          style={{
-            padding: '0.5rem 0.8rem',
-            background: '#0a0a0a',
-            border: '1px solid rgba(0,116,255,0.25)', borderRadius: 6,
-            color: division ? 'var(--fg)' : 'var(--muted)',
-            fontSize: '0.88rem', fontFamily: 'inherit', outline: 'none', cursor: 'pointer',
-          }}
         >
           <option value="">All divisions</option>
           <option value="north">North</option>
           <option value="south">South</option>
-        </select>
+        </PremiumSelect>
       </div>
 
       {/* Results */}
@@ -410,41 +374,30 @@ function FreeAgentPool() {
 
       {!loading && agents.length > 0 && (
         <>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className="ad-table-wrap">
+            <table className="ad-table">
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(0,116,255,0.15)' }}>
+                <tr>
                   {['Player', 'Division', 'Instagram', 'Action'].map((h) => (
-                    <th key={h} style={{
-                      textAlign: 'left', padding: '0.4rem 0.6rem',
-                      color: 'var(--muted)', fontSize: '0.72rem',
-                      fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '0.5px',
-                    }}>
-                      {h}
-                    </th>
+                    <th key={h}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {agents.map((a) => (
                   <>
-                    <tr
-                      key={a.userId}
-                      style={{ borderBottom: '1px solid rgba(0,116,255,0.07)', transition: 'background 0.12s' }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,116,255,0.04)'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
-                    >
-                      <td style={{ padding: '0.6rem 0.6rem' }}>
-                        <p style={{ margin: 0, fontWeight: 600, fontSize: '0.9rem', color: 'var(--fg)' }}>{a.name || '—'}</p>
-                        <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--muted)' }}>{a.email}</p>
+                    <tr key={a.userId}>
+                      <td>
+                        <div className="ad-table__name">{a.name || '—'}</div>
+                        <div className="ad-table__meta">{a.email}</div>
                       </td>
-                      <td style={{ padding: '0.6rem 0.6rem', color: 'var(--muted)', fontSize: '0.85rem', textTransform: 'capitalize' }}>
+                      <td className="ad-table__muted" style={{ textTransform: 'capitalize' }}>
                         {a.division || '—'}
                       </td>
-                      <td style={{ padding: '0.6rem 0.6rem', color: 'var(--muted)', fontSize: '0.85rem' }}>
+                      <td className="ad-table__muted">
                         {a.instagram ? `@${a.instagram}` : '—'}
                       </td>
-                      <td style={{ padding: '0.6rem 0.6rem' }}>
+                      <td>
                         {invited[a.userId] ? (
                           <span style={{ fontSize: '0.82rem', color: '#00c864' }}>
                             <i className="fa-solid fa-check" style={{ marginRight: '0.3rem' }} />Invited
@@ -462,8 +415,8 @@ function FreeAgentPool() {
                       </td>
                     </tr>
                     {errors[a.userId] && (
-                      <tr key={`${a.userId}-err`}>
-                        <td colSpan={4} style={{ padding: '0 0.6rem 0.4rem', color: '#ff6b6b', fontSize: '0.8rem' }}>
+                      <tr key={`${a.userId}-err`} className="ad-table__error">
+                        <td colSpan={4}>
                           {errors[a.userId]}
                         </td>
                       </tr>
@@ -563,11 +516,7 @@ export default function CaptainDashboardClient({ user, defaultSection, soloSecti
       </div>
 
       {error && (
-        <div role="alert" style={{
-          background: 'rgba(255,60,60,0.1)', border: '1px solid rgba(255,60,60,0.35)',
-          borderRadius: 8, padding: '0.8rem 1rem', color: '#ff6b6b',
-          marginBottom: '1.5rem', fontSize: '0.9rem',
-        }}>
+        <div role="alert" className="ad-alert ad-alert--error">
           {error}
         </div>
       )}
@@ -591,19 +540,19 @@ export default function CaptainDashboardClient({ user, defaultSection, soloSecti
                     alt="Team logo"
                     style={{
                       width: 80, height: 80, objectFit: 'contain',
-                      borderRadius: 10, border: '1px solid rgba(0,116,255,0.25)',
-                      background: 'rgba(0,116,255,0.04)', padding: 6, flexShrink: 0,
+                      borderRadius: 10, border: '1px solid rgba(59,130,246,0.25)',
+                      background: 'rgba(59,130,246,0.04)', padding: 6, flexShrink: 0,
                     }}
                   />
                 ) : (
                   <div style={{
                     width: 80, height: 80, borderRadius: 10,
-                    border: '1px solid rgba(0,116,255,0.2)',
-                    background: 'rgba(0,116,255,0.05)',
+                    border: '1px solid rgba(59,130,246,0.2)',
+                    background: 'rgba(59,130,246,0.05)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0,
                   }}>
-                    <i className="fa-solid fa-shield-halved" style={{ fontSize: '2rem', color: 'rgba(0,116,255,0.4)' }} />
+                    <i className="fa-solid fa-shield-halved" style={{ fontSize: '2rem', color: 'rgba(59,130,246,0.4)' }} />
                   </div>
                 )}
 
@@ -631,8 +580,8 @@ export default function CaptainDashboardClient({ user, defaultSection, soloSecti
                     { label: 'Slots Left', value: team.remainingSlots, color: 'var(--tekky-blue)' },
                   ].map(({ label, value, color }) => (
                     <div key={label} style={{
-                      background: 'rgba(0,116,255,0.04)',
-                      border: '1px solid rgba(0,116,255,0.12)',
+                      background: 'rgba(59,130,246,0.04)',
+                      border: '1px solid rgba(59,130,246,0.12)',
                       borderRadius: 8, padding: '0.5rem 0.75rem',
                       display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem',
                     }}>
@@ -680,7 +629,7 @@ export default function CaptainDashboardClient({ user, defaultSection, soloSecti
                         <RosterTable
                           title="Invited (Awaiting Response)"
                           rows={roster.invited.results}
-                          bucketColor="#0074ff"
+                          bucketColor="var(--ad-electric)"
                           showRemove={false}
                         />
                       </>

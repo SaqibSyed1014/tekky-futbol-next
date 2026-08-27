@@ -5,6 +5,10 @@ import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import { signWaiver, getWaiverStatus } from '@/services/waiverApi';
 import GlowDivider from '@/components/ui/GlowDivider';
+import {
+  PremiumInput,
+  PremiumTextarea,
+} from '@/components/dashboard/DashboardControls';
 
 // ─── Clause keys — all sent as true on submit ─────────────────────────────────
 
@@ -76,8 +80,8 @@ const CLAUSES = [
 const S = {
   // Card wrapper
   card: {
-    background:   'rgba(0,0,0,0.45)',
-    border:       '1px solid rgba(0,116,255,0.18)',
+    background:   'rgba(15, 23, 42, 0.65)',
+    border:       '1px solid rgba(59, 130, 246, 0.3)',
     borderRadius: 12,
     overflow:     'hidden',
     marginBottom: '1.5rem',
@@ -93,45 +97,15 @@ const S = {
 
   // Form inputs
   input: {
-    width:       '100%',
-    padding:     '0.65rem 0.9rem',
-    background:  'rgba(255,255,255,0.03)',
-    border:      '1px solid rgba(0,116,255,0.3)',
-    borderRadius: 8,
-    color:       '#e2e8f3',
-    fontSize:    '0.9rem',
-    fontFamily:  'inherit',
-    outline:     'none',
-    boxSizing:   'border-box',
-    lineHeight:  1.5,
+    width: '100%',
   },
   inputDisabled: {
-    width:       '100%',
-    padding:     '0.65rem 0.9rem',
-    background:  'rgba(255,255,255,0.03)',
-    border:      '1px solid rgba(0,116,255,0.3)',
-    borderRadius: 8,
-    color:       'var(--muted)',
-    fontSize:    '0.9rem',
-    fontFamily:  'inherit',
-    outline:     'none',
-    boxSizing:   'border-box',
-    lineHeight:  1.5,
-    cursor:      'default',
-    opacity:     0.7,
+    width: '100%',
   },
   inputSignature: {
     width:       '100%',
-    padding:     '0.5rem 0.9rem',
-    background:  'rgba(0,116,255,0.04)',
-    border:      '1px solid rgba(0,116,255,0.5)',
-    borderRadius: 8,
-    color:       '#c8d8f8',
     fontSize:    '1.4rem',
     fontFamily:  "'Dancing Script', 'Brush Script MT', cursive",
-    outline:     'none',
-    boxSizing:   'border-box',
-    lineHeight:  1.5,
   },
 
   // Field label
@@ -191,7 +165,7 @@ function AlreadySigned({ signedData }) {
   return (
     <div style={{ maxWidth: 580 }}>
       <div style={{
-        background:   'rgba(0,200,100,0.04)',
+        background:   'var(--ad-card-strong)',
         border:       '1px solid rgba(0,200,100,0.22)',
         borderRadius: 16,
         padding:      '3rem 2rem',
@@ -216,7 +190,7 @@ function AlreadySigned({ signedData }) {
           Waiver Signed
         </h2>
 
-        <p style={{ color: '#e2e8f3', fontSize: '1rem', margin: '0 0 0.3rem' }}>
+        <p style={{ color: 'var(--ad-silver)', fontSize: '1rem', margin: '0 0 0.3rem' }}>
           Signed by <strong>{displayName || '—'}</strong>
           {is_minor && (
             <span style={{ color: 'var(--muted)', fontSize: '0.85rem' }}> (parent/guardian)</span>
@@ -262,9 +236,9 @@ function RadioCard({ selected, onSelect, color = 'var(--tekky-blue)', children }
         flex:         '1 1 220px',
         padding:      '1rem 1.25rem',
         borderRadius: 10,
-        border:       `2px solid ${selected ? color : blue ? 'rgba(0,116,255,0.2)' : 'rgba(255,255,255,0.12)'}`,
+        border:       `2px solid ${selected ? color : blue ? 'rgba(61,139,255,0.2)' : 'rgba(255,255,255,0.12)'}`,
         background:   selected
-          ? (blue ? 'rgba(0,116,255,0.08)' : 'rgba(240,180,41,0.05)')
+          ? (blue ? 'rgba(61,139,255,0.08)' : 'rgba(240,180,41,0.05)')
           : 'transparent',
         cursor:     'pointer',
         transition: 'all 0.15s',
@@ -274,7 +248,7 @@ function RadioCard({ selected, onSelect, color = 'var(--tekky-blue)', children }
         {/* Radio dot */}
         <div style={{
           width: 20, height: 20, borderRadius: '50%', flexShrink: 0, marginTop: 2,
-          border:      `2px solid ${selected ? color : blue ? 'rgba(0,116,255,0.35)' : 'rgba(255,255,255,0.25)'}`,
+          border:      `2px solid ${selected ? color : blue ? 'rgba(61,139,255,0.35)' : 'rgba(255,255,255,0.25)'}`,
           background:  selected ? color : 'transparent',
           display:     'flex', alignItems: 'center', justifyContent: 'center',
           transition:  'all 0.15s',
@@ -455,7 +429,7 @@ export default function WaiverSigningClient() {
       }}>
         <i className="fa-solid fa-triangle-exclamation"
            style={{ color: '#ff6b6b', fontSize: '1rem', marginTop: 3, flexShrink: 0 }} />
-        <p style={{ margin: 0, fontSize: '0.875rem', color: '#e2e8f3', lineHeight: 1.7 }}>
+        <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--ad-silver)', lineHeight: 1.7 }}>
           <strong style={{ color: '#ff6b6b' }}>IMPORTANT!!! </strong>
           Please read this Release and Waiver of Liability Agreement (this &ldquo;Agreement&rdquo;) very carefully
           as it requires you to give up certain legal rights and claims which you may have.
@@ -478,72 +452,66 @@ export default function WaiverSigningClient() {
 
       {/* Participant info */}
       <div style={S.card}>
-        <div style={{ padding: '1rem 1.75rem 0.75rem', borderBottom: '1px solid rgba(0,116,255,0.12)' }}>
+        <div style={{ padding: '1rem 1.75rem 0.75rem', borderBottom: '1px solid rgba(61,139,255,0.12)' }}>
           <h3 style={S.sectionHead}>Participant Information</h3>
         </div>
         <div style={{ padding: '1.25rem 1.75rem 1.5rem' }}>
           <div style={S.grid}>
             <Field label="Participant Name">
-              <input type="text" value={user?.name || ''} readOnly disabled style={S.inputDisabled} />
+              <PremiumInput type="text" value={user?.name || ''} readOnly disabled />
             </Field>
             <Field label="D/O/B">
-              <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} style={S.input} />
+              <PremiumInput type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
             </Field>
 
             <Field label="Address" fullWidth>
-              <input
+              <PremiumInput
                 type="text" value={address} onChange={(e) => setAddress(e.target.value)}
-                placeholder="Street, City, State, ZIP" style={S.input}
-              />
+                placeholder="Street, City, State, ZIP" />
             </Field>
 
             <Field label="Age (if under 18)">
-              <input
+              <PremiumInput
                 type="text" readOnly disabled
                 value={(age !== null && age < 18) ? String(age) : ''}
-                placeholder="—" style={S.inputDisabled}
-              />
+                placeholder="—" />
             </Field>
             <Field label="Email">
-              <input type="email" value={user?.email || ''} readOnly disabled style={S.inputDisabled} />
+              <PremiumInput type="email" value={user?.email || ''} readOnly disabled />
             </Field>
 
             <Field label="Phone">
-              <input
+              <PremiumInput
                 type="tel" value={phone} onChange={(e) => setPhone(e.target.value)}
-                placeholder="(555) 555-5555" style={S.input}
-              />
+                placeholder="(555) 555-5555" />
             </Field>
 
             <Field label="Please list any current injuries or medical conditions:" fullWidth>
-              <textarea
+              <PremiumTextarea
                 value={medicalConditions} onChange={(e) => setMedicalConditions(e.target.value)}
                 placeholder="List any injuries or conditions, or write 'None'"
-                rows={3} style={{ ...S.input, resize: 'vertical', minHeight: 70 }}
+                rows={3}
               />
             </Field>
 
             <Field label="Emergency Contact">
-              <input
+              <PremiumInput
                 type="text" value={emergencyContactName}
                 onChange={(e) => setEmergencyContactName(e.target.value)}
-                placeholder="Full name" style={S.input}
-              />
+                placeholder="Full name" />
             </Field>
             <Field label="Relationship">
-              <input
+              <PremiumInput
                 type="text" value={emergencyContactRel}
                 onChange={(e) => setEmergencyContactRel(e.target.value)}
-                placeholder="e.g. Spouse, Parent" style={S.input}
-              />
+                placeholder="e.g. Spouse, Parent" />
             </Field>
 
             <Field label="Emergency Contact Phone">
-              <input
+              <PremiumInput
                 type="tel" value={emergencyContactPhone}
                 onChange={(e) => setEmergencyContactPhone(e.target.value)}
-                placeholder="(555) 555-5555" style={S.input}
-              />
+                placeholder="(555) 555-5555" />
             </Field>
           </div>
         </div>
@@ -554,7 +522,7 @@ export default function WaiverSigningClient() {
         <p style={{ ...S.label, marginBottom: '0.85rem' }}>Please select one:</p>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
           <RadioCard selected={ageGroup === 'adult'} onSelect={() => setAgeGroup('adult')}>
-            <span style={{ fontSize: '0.9rem', color: ageGroup === 'adult' ? '#e2e8f3' : 'var(--muted)' }}>
+            <span style={{ fontSize: '0.9rem', color: ageGroup === 'adult' ? 'var(--ad-silver)' : 'var(--muted)' }}>
               I am 18 years of age or older.
             </span>
           </RadioCard>
@@ -564,7 +532,7 @@ export default function WaiverSigningClient() {
             onSelect={() => setAgeGroup('minor')}
             color="#f0b429"
           >
-            <span style={{ fontSize: '0.9rem', color: ageGroup === 'minor' ? '#e2e8f3' : 'var(--muted)' }}>
+            <span style={{ fontSize: '0.9rem', color: ageGroup === 'minor' ? 'var(--ad-silver)' : 'var(--muted)' }}>
               I am under 18 years of age.
             </span>
             {ageGroup === 'minor' && (
@@ -579,8 +547,8 @@ export default function WaiverSigningClient() {
       </div>
 
       {/* Waiver clauses — read-only document view */}
-      <div style={S.card}>
-        <div style={{ padding: '1rem 1.75rem 0.75rem', borderBottom: '1px solid rgba(0,116,255,0.12)' }}>
+      <div style={{ ...S.card, background: 'var(--ad-card-strong)' }}>
+        <div style={{ padding: '1rem 1.75rem 0.75rem', borderBottom: '1px solid rgba(61,139,255,0.12)' }}>
           <h3 style={S.sectionHead}>Agreement Clauses</h3>
         </div>
         {CLAUSES.map((c, i) => (
@@ -590,13 +558,13 @@ export default function WaiverSigningClient() {
               display:      'flex',
               gap:          '1rem',
               padding:      '0.85rem 1.25rem',
-              borderBottom: i < CLAUSES.length - 1 ? '1px solid rgba(0,116,255,0.07)' : 'none',
+              borderBottom: i < CLAUSES.length - 1 ? '1px solid rgba(61,139,255,0.07)' : 'none',
             }}
           >
             <span style={{
               fontFamily: 'monospace',
               fontSize:   '0.78rem',
-              color:      'rgba(0,116,255,0.5)',
+              color:      'rgba(61,139,255,0.5)',
               flexShrink: 0,
               marginTop:  3,
               letterSpacing: '2px',
@@ -610,7 +578,7 @@ export default function WaiverSigningClient() {
 
       {/* Closing paragraph */}
       <div style={{ ...S.card, ...S.cardPad }}>
-        <p style={{ ...S.prose, color: '#e2e8f3' }}>
+        <p style={{ ...S.prose, color: 'var(--ad-silver)' }}>
           I, for myself and the minor participant for whom I am a parent or a legal guardian (if applicable),
           have read and understand this Agreement and agree to be bound by its terms. I am aware that, by
           signing this Agreement, I am waiving certain legal rights and claims which I may have against the
@@ -630,21 +598,21 @@ export default function WaiverSigningClient() {
               </h3>
               <div style={{ ...S.grid, marginBottom: '1rem' }}>
                 <Field label="Signature *">
-                  <input
+                  <PremiumInput
                     type="text" value={signatureText}
                     onChange={(e) => setSignatureText(e.target.value)}
                     placeholder="Type your full name as signature"
-                    style={S.inputSignature}
+                    className="is-signature"
                   />
                 </Field>
                 <Field label="Date">
-                  <input type="text" value={today} readOnly disabled style={S.inputDisabled} />
+                  <PremiumInput type="text" value={today} readOnly disabled />
                 </Field>
                 <Field label="Name Printed *" fullWidth>
-                  <input
+                  <PremiumInput
                     type="text" value={printedName}
                     onChange={(e) => setPrintedName(e.target.value)}
-                    placeholder="Print your full legal name" style={S.input}
+                    placeholder="Print your full legal name"
                   />
                 </Field>
               </div>
@@ -662,23 +630,22 @@ export default function WaiverSigningClient() {
               </p>
               <div style={{ ...S.grid, marginBottom: '1rem' }}>
                 <Field label="Guardian Signature *">
-                  <input
+                  <PremiumInput
                     type="text" value={guardianSignature}
                     onChange={(e) => setGuardianSignature(e.target.value)}
                     placeholder="Type guardian's full name as signature"
-                    style={S.inputSignature}
+                    className="is-signature"
                   />
                 </Field>
                 <Field label="Date">
-                  <input type="text" value={today} readOnly disabled style={S.inputDisabled} />
+                  <PremiumInput type="text" value={today} readOnly disabled />
                 </Field>
 
                 <Field label="Name Printed *" fullWidth>
-                  <input
+                  <PremiumInput
                     type="text" value={guardianNamePrinted}
                     onChange={(e) => setGuardianNamePrinted(e.target.value)}
-                    placeholder="Print guardian's full legal name" style={S.input}
-                  />
+                    placeholder="Print guardian's full legal name" />
                 </Field>
 
                 {/* Parent / Legal Guardian radio */}
@@ -694,7 +661,7 @@ export default function WaiverSigningClient() {
                         style={{
                           display: 'flex', alignItems: 'center', gap: '0.5rem',
                           cursor: 'pointer', fontSize: '0.875rem',
-                          color: guardianType === value ? '#e2e8f3' : 'var(--muted)',
+                          color: guardianType === value ? 'var(--ad-silver)' : 'var(--muted)',
                         }}
                       >
                         <div
@@ -718,18 +685,16 @@ export default function WaiverSigningClient() {
                 </div>
 
                 <Field label="Guardian Email">
-                  <input
+                  <PremiumInput
                     type="email" value={guardianEmail}
                     onChange={(e) => setGuardianEmail(e.target.value)}
-                    placeholder="guardian@email.com" style={S.input}
-                  />
+                    placeholder="guardian@email.com" />
                 </Field>
                 <Field label="Guardian Phone">
-                  <input
+                  <PremiumInput
                     type="tel" value={guardianPhone}
                     onChange={(e) => setGuardianPhone(e.target.value)}
-                    placeholder="(555) 555-5555" style={S.input}
-                  />
+                    placeholder="(555) 555-5555" />
                 </Field>
               </div>
             </>
@@ -760,17 +725,17 @@ export default function WaiverSigningClient() {
             style={{
               width:         '100%',
               padding:       '0.9rem',
-              background:    canSubmit ? 'var(--tekky-blue)' : 'rgba(0,116,255,0.1)',
-              border:        `1px solid ${canSubmit ? 'var(--tekky-blue)' : 'rgba(0,116,255,0.15)'}`,
+              background:    canSubmit ? 'var(--tekky-blue)' : 'rgba(61,139,255,0.1)',
+              border:        `1px solid ${canSubmit ? 'var(--tekky-blue)' : 'rgba(61,139,255,0.15)'}`,
               borderRadius:  10,
-              color:         canSubmit ? '#fff' : 'rgba(255,255,255,0.25)',
+              color:         canSubmit ? 'var(--ad-fg)' : 'rgba(255,255,255,0.25)',
               fontSize:      '1.05rem',
               fontWeight:    700,
               fontFamily:    "'Bebas Neue', sans-serif",
               letterSpacing: '2px',
               cursor:        canSubmit ? 'pointer' : 'not-allowed',
               transition:    'all 0.2s',
-              boxShadow:     canSubmit ? '0 0 20px rgba(0,116,255,0.25)' : 'none',
+              boxShadow:     canSubmit ? '0 0 20px rgba(61,139,255,0.25)' : 'none',
             }}
           >
             {submitting ? (

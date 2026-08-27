@@ -10,6 +10,7 @@ import {
   submitKitOrder,
   updateKitOrder,
 } from '@/services/kitsApi';
+import PremiumSelect, { PremiumInput, PremiumField } from '@/components/dashboard/DashboardControls';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -26,11 +27,11 @@ const ALL_KITS = [
 function Card({ children, style }) {
   return (
     <div style={{
-      background: '#000',
-      border: '1px solid rgba(0,116,255,0.2)',
+      background: 'rgba(15, 23, 42, 0.65)',
+      border: '1px solid rgba(59, 130, 246, 0.3)',
       borderRadius: 12,
       padding: '1.75rem',
-      boxShadow: '0 0 20px rgba(0,116,255,0.05)',
+      boxShadow: '0 0 20px rgba(59, 130, 246, 0.05)',
       ...style,
     }}>
       {children}
@@ -48,7 +49,7 @@ function SectionHeading({ children }) {
       textTransform: 'uppercase',
       margin: '0 0 1.25rem',
       paddingBottom: '0.4rem',
-      borderBottom: '1px solid rgba(0,116,255,0.15)',
+      borderBottom: '1px solid rgba(59, 130, 246, 0.15)',
     }}>
       {children}
     </h3>
@@ -59,7 +60,7 @@ function Banner({ type, children }) {
   const styles = {
     success: { bg: 'rgba(0,200,100,0.1)',  border: 'rgba(0,200,100,0.35)',  color: '#00c864', icon: 'fa-solid fa-circle-check' },
     error:   { bg: 'rgba(255,60,60,0.1)',  border: 'rgba(255,60,60,0.35)',  color: '#ff6b6b', icon: 'fa-solid fa-circle-xmark' },
-    info:    { bg: 'rgba(0,116,255,0.08)', border: 'rgba(0,116,255,0.3)',   color: '#60a0ff', icon: 'fa-solid fa-circle-info'  },
+    info:    { bg: 'rgba(59, 130, 246, 0.08)', border: 'rgba(59, 130, 246, 0.3)', color: 'var(--ad-electric)', icon: 'fa-solid fa-circle-info'  },
     warn:    { bg: 'rgba(255,180,0,0.1)',  border: 'rgba(255,180,0,0.35)',  color: '#ffb400', icon: 'fa-solid fa-triangle-exclamation' },
   };
   const s = styles[type] || styles.info;
@@ -78,24 +79,17 @@ function Banner({ type, children }) {
 
 function SizeDropdown({ label, value, onChange, options, disabled }) {
   return (
-    <div style={{ marginBottom: '1rem' }}>
-      <label style={{
-        display: 'block', fontSize: '0.78rem', color: 'var(--muted)',
-        textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600,
-        marginBottom: '0.4rem',
-      }}>
-        {label}
-      </label>
-      <select
+    <PremiumField label={label}>
+      <PremiumSelect
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
-        style={{ width: '100%', boxSizing: 'border-box', opacity: disabled ? 0.5 : 1, cursor: disabled ? 'not-allowed' : undefined }}
+        placeholder="— select size —"
       >
         <option value="">— select size —</option>
         {options.map((s) => <option key={s} value={s}>{s}</option>)}
-      </select>
-    </div>
+      </PremiumSelect>
+    </PremiumField>
   );
 }
 
@@ -216,43 +210,27 @@ function KitOrderForm({ existingOrder, maxPlayers, onSaved }) {
           onChange={setSocksSize}
           options={SOCKS_SIZES}
         />
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{
-            display: 'block', fontSize: '0.78rem', color: 'var(--muted)',
-            textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600,
-            marginBottom: '0.4rem',
-          }}>
-            Number on Kit <span style={{ color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>(optional, 1–{maxPlayers})</span>
-          </label>
-          <input
+        <PremiumField label="Number on Kit" hint={`optional, 1–${maxPlayers}`}>
+          <PremiumInput
             type="number"
             min={1}
             max={maxPlayers}
             value={numOnKit}
             onChange={(e) => setNumOnKit(e.target.value)}
             placeholder={`1 – ${maxPlayers}`}
-            style={{ width: '100%', boxSizing: 'border-box' }}
           />
-        </div>
+        </PremiumField>
       </div>
 
-      <div style={{ marginBottom: '1rem' }}>
-        <label style={{
-          display: 'block', fontSize: '0.78rem', color: 'var(--muted)',
-          textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600,
-          marginBottom: '0.4rem',
-        }}>
-          Name on Kit <span style={{ color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>(optional, max 20 chars)</span>
-        </label>
-        <input
+      <PremiumField label="Name on Kit" hint="optional, max 20 chars">
+        <PremiumInput
           type="text"
           value={nameOnKit}
           onChange={(e) => setNameOnKit(e.target.value)}
           placeholder="Your name or nickname"
           maxLength={20}
-          style={{ width: '100%', boxSizing: 'border-box' }}
         />
-      </div>
+      </PremiumField>
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button
@@ -316,15 +294,15 @@ function KitPicker({ currentSlug, onSelect, disabled }) {
                 disabled={disabled}
                 style={{
                   position: 'relative',
-                  background: isSelected ? 'rgba(0,116,255,0.12)' : '#050505',
+                  background: isSelected ? 'rgba(59, 130, 246, 0.12)' : 'rgba(15, 23, 42, 0.65)',
                   border: isSelected
                     ? '2px solid var(--tekky-blue)'
-                    : '2px solid rgba(255,255,255,0.08)',
+                    : '2px solid rgba(59, 130, 246, 0.3)',
                   borderRadius: 10,
                   padding: '0.5rem',
                   cursor: disabled ? 'not-allowed' : 'pointer',
                   transition: 'all 0.15s',
-                  boxShadow: isSelected ? '0 0 16px rgba(0,116,255,0.3)' : 'none',
+                  boxShadow: isSelected ? '0 0 16px rgba(59, 130, 246, 0.3)' : 'none',
                 }}
               >
                 <div style={{ position: 'relative', width: '100%', paddingBottom: '100%' }}>
@@ -384,39 +362,26 @@ function KitPicker({ currentSlug, onSelect, disabled }) {
 
 function LockModal({ kitSlug, onConfirm, onCancel, locking }) {
   return (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 200,
-      background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: '1rem',
-    }}>
-      <div style={{
-        background: '#0a0a0a',
-        border: '1px solid rgba(0,116,255,0.3)',
-        borderRadius: 14,
-        padding: '2rem',
-        maxWidth: 440,
-        width: '100%',
-        boxShadow: '0 0 60px rgba(0,0,0,0.8)',
-      }}>
+    <div className="ad-overlay ad-overlay--center">
+      <div className="ad-modal">
         <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>🔒</div>
-        <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', letterSpacing: '1.5px', margin: '0 0 0.75rem', color: '#fff' }}>
+        <h3 className="ad-modal__title" style={{ marginBottom: '0.75rem' }}>
           Lock Kit Selection?
         </h3>
-        <p style={{ fontSize: '0.9rem', color: '#aaa', lineHeight: 1.6, marginBottom: '0.5rem' }}>
-          You are about to lock <strong style={{ color: '#fff' }}>{kitSlug}</strong> as your team kit.
+        <p className="ad-modal__sub" style={{ fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '0.5rem' }}>
+          You are about to lock <strong style={{ color: 'var(--ad-fg)' }}>{kitSlug}</strong> as your team kit.
         </p>
         <p style={{ fontSize: '0.88rem', color: '#ff9090', lineHeight: 1.6, marginBottom: '1.75rem' }}>
           <i className="fa-solid fa-triangle-exclamation" style={{ marginRight: '0.4rem' }} />
           This cannot be undone. Once locked, your team players will be notified and can submit their sizes.
         </p>
-        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
+        <div className="ad-modal__actions">
           <button
             type="button"
             onClick={onCancel}
             disabled={locking}
             style={{
-              padding: '0.6rem 1.25rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)',
+              padding: '0.6rem 1.25rem', borderRadius: 8, border: '1px solid var(--ad-line)',
               background: 'transparent', color: 'var(--muted)', cursor: 'pointer',
               fontSize: '0.88rem', fontFamily: 'inherit',
             }}
@@ -429,7 +394,7 @@ function LockModal({ kitSlug, onConfirm, onCancel, locking }) {
             disabled={locking}
             style={{
               padding: '0.6rem 1.5rem', borderRadius: 8,
-              background: locking ? 'rgba(0,116,255,0.3)' : 'var(--tekky-blue)',
+              background: locking ? 'rgba(59, 130, 246, 0.3)' : 'var(--tekky-blue)',
               border: 'none', color: '#fff', cursor: locking ? 'not-allowed' : 'pointer',
               fontSize: '0.88rem', fontWeight: 700, fontFamily: 'inherit',
               display: 'flex', alignItems: 'center', gap: '0.5rem',
@@ -570,7 +535,7 @@ export default function KitPage() {
                   disabled={kitLocked}
                 />
                 {kit?.kit_slug && (
-                  <div style={{ marginTop: '1.5rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(0,116,255,0.15)', display: 'flex', justifyContent: 'flex-end' }}>
+                  <div style={{ marginTop: '1.5rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(59, 130, 246, 0.15)', display: 'flex', justifyContent: 'flex-end' }}>
                     <button
                       type="button"
                       onClick={() => setShowLockModal(true)}

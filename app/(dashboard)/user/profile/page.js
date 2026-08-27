@@ -10,6 +10,11 @@ import {
 } from '@/services/userApi';
 import { submitProfileLink, submitTeamLink } from '@/services/profilesApi';
 import { useRouter } from 'next/navigation';
+import PremiumSelect, {
+  PremiumInput as Input,
+  PremiumTextarea as Textarea,
+  PremiumField,
+} from '@/components/dashboard/DashboardControls';
 
 // ─── Responsive styles ────────────────────────────────────────────────────────
 
@@ -23,8 +28,8 @@ const STYLES = `
     display: flex;
     gap: 0;
     margin-bottom: 1.5rem;
-    background: #0a0a0a;
-    border: 1px solid rgba(0,116,255,0.2);
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(59, 130, 246, 0.3);
     border-radius: 10px;
     overflow: hidden;
   }
@@ -86,11 +91,11 @@ function Card({ children, style, className }) {
     <div
       className={className}
       style={{
-        background: '#000',
-        border: '1px solid rgba(0,116,255,0.2)',
+        background: 'rgba(15, 23, 42, 0.65)',
+        border: '1px solid rgba(59, 130, 246, 0.3)',
         borderRadius: 12,
         padding: '1.75rem',
-        boxShadow: '0 0 20px rgba(0,116,255,0.05)',
+        boxShadow: '0 0 20px rgba(61, 139, 255, 0.08)',
         ...style,
       }}
     >
@@ -109,7 +114,7 @@ function SectionHeading({ children }) {
       textTransform: 'uppercase',
       margin: '0 0 1.25rem',
       paddingBottom: '0.4rem',
-      borderBottom: '1px solid rgba(0,116,255,0.15)',
+      borderBottom: '1px solid rgba(61, 139, 255, 0.15)',
     }}>
       {children}
     </h3>
@@ -117,38 +122,7 @@ function SectionHeading({ children }) {
 }
 
 function FormField({ label, children }) {
-  return (
-    <div style={{ marginBottom: '1rem' }}>
-      <label style={{
-        display: 'block', fontSize: '0.78rem', color: 'var(--muted)',
-        textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, marginBottom: '0.4rem',
-      }}>
-        {label}
-      </label>
-      {children}
-    </div>
-  );
-}
-
-function Input({ style, ...props }) {
-  return <input style={{ width: '100%', boxSizing: 'border-box', ...style }} {...props} />;
-}
-
-function Select({ children, ...props }) {
-  return (
-    <select style={{ width: '100%', boxSizing: 'border-box' }} {...props}>
-      {children}
-    </select>
-  );
-}
-
-function Textarea({ ...props }) {
-  return (
-    <textarea
-      style={{ width: '100%', boxSizing: 'border-box', resize: 'vertical', minHeight: 80 }}
-      {...props}
-    />
-  );
+  return <PremiumField label={label}>{children}</PremiumField>;
 }
 
 function SuccessBanner({ msg }) {
@@ -264,7 +238,6 @@ function PersonalInfoTab({ user, onUpdated }) {
               type="email"
               value={user?.email || ''}
               disabled
-              style={{ width: '100%', boxSizing: 'border-box', opacity: 0.5, cursor: 'not-allowed' }}
             />
           </FormField>
           <FormField label="Phone">
@@ -276,12 +249,12 @@ function PersonalInfoTab({ user, onUpdated }) {
             />
           </FormField>
           <FormField label="Gender">
-            <Select value={gender} onChange={(e) => setGender(e.target.value)}>
+            <PremiumSelect value={gender} onChange={(e) => setGender(e.target.value)}>
               <option value="">— select —</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other / Prefer not to say</option>
-            </Select>
+            </PremiumSelect>
           </FormField>
         </div>
       </Card>
@@ -292,11 +265,11 @@ function PersonalInfoTab({ user, onUpdated }) {
           <SectionHeading>Player Details</SectionHeading>
           <div className="profile-grid">
             <FormField label="Preferred Division">
-              <Select value={division} onChange={(e) => setDivision(e.target.value)}>
+              <PremiumSelect value={division} onChange={(e) => setDivision(e.target.value)}>
                 <option value="">— select —</option>
                 <option value="north">North</option>
                 <option value="south">South</option>
-              </Select>
+              </PremiumSelect>
             </FormField>
             <FormField label="Date of Birth">
               <Input
@@ -344,33 +317,19 @@ function PersonalInfoTab({ user, onUpdated }) {
 
 // ─── Security Tab ─────────────────────────────────────────────────────────────
 
-function PasswordInput({ id, label, value, onChange, show, onToggle, placeholder, autoComplete }) {
+function PasswordInput({ id, label, value, onChange, placeholder, autoComplete }) {
   return (
     <FormField label={label}>
-      <div style={{ position: 'relative' }}>
-        <Input
-          id={id}
-          type={show ? 'text' : 'password'}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          autoComplete={autoComplete}
-          required
-          style={{ width: '100%', boxSizing: 'border-box', paddingRight: '2.6rem', marginBottom: 0 }}
-        />
-        <button
-          type="button"
-          onClick={onToggle}
-          tabIndex={-1}
-          style={{
-            position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)',
-            background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer',
-            padding: 0, fontSize: '0.9rem', lineHeight: 1,
-          }}
-        >
-          <i className={show ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'} />
-        </button>
-      </div>
+      <Input
+        id={id}
+        type="password"
+        passwordToggle
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        autoComplete={autoComplete}
+        required
+      />
     </FormField>
   );
 }
@@ -379,9 +338,6 @@ function SecurityTab() {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
-  const [showOld,     setShowOld]     = useState(false);
-  const [showNew,     setShowNew]     = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [saving,      setSaving]      = useState(false);
   const [success,     setSuccess]     = useState('');
   const [error,       setError]       = useState('');
@@ -416,19 +372,16 @@ function SecurityTab() {
         <PasswordInput
           id="old-password" label="Current Password" value={oldPassword}
           onChange={(e) => setOldPassword(e.target.value)}
-          show={showOld} onToggle={() => setShowOld((v) => !v)}
           placeholder="Enter current password" autoComplete="current-password"
         />
         <PasswordInput
           id="new-password" label="New Password" value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          show={showNew} onToggle={() => setShowNew((v) => !v)}
           placeholder="At least 8 characters" autoComplete="new-password"
         />
         <PasswordInput
           id="confirm-password" label="Confirm New Password" value={confirmPass}
           onChange={(e) => setConfirmPass(e.target.value)}
-          show={showConfirm} onToggle={() => setShowConfirm((v) => !v)}
           placeholder="Repeat new password" autoComplete="new-password"
         />
         <div className="profile-save-btn" style={{ marginTop: '0.5rem' }}>
@@ -547,7 +500,7 @@ function CopyableUrl({ label, url }) {
   }
 
   return (
-    <div style={{ marginBottom: '1.5rem', padding: '1rem 1.25rem', background: 'rgba(0,116,255,0.06)', border: '1px solid rgba(0,116,255,0.25)', borderRadius: 10 }}>
+    <div style={{ marginBottom: '1.5rem', padding: '1rem 1.25rem', background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: 10 }}>
       <p style={{ fontSize: '0.73rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, marginBottom: '0.5rem' }}>
         {label}
       </p>
@@ -566,9 +519,9 @@ function CopyableUrl({ label, url }) {
             flexShrink: 0,
             display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
             padding: '0.35rem 0.85rem', borderRadius: 6,
-            background: copied ? 'rgba(0,200,100,0.12)' : 'rgba(0,116,255,0.1)',
-            border: `1px solid ${copied ? 'rgba(0,200,100,0.35)' : 'rgba(0,116,255,0.3)'}`,
-            color: copied ? '#00c864' : 'var(--tekky-blue)',
+            background: copied ? 'rgba(0,200,100,0.12)' : 'rgba(61, 139, 255, 0.1)',
+            border: `1px solid ${copied ? 'rgba(0,200,100,0.35)' : 'rgba(61, 139, 255, 0.3)'}`,
+            color: copied ? '#00c864' : 'var(--ad-electric)',
             fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
             transition: 'all 0.15s',
           }}
@@ -593,7 +546,7 @@ function LinksTab({ user, onUpdated }) {
   const teamUrl       = profile?.team_slug  ? `${origin}/team/${profile.team_slug}` : null;
 
   const STATUS_MAP = {
-    none:     { color: '#555',    label: 'Not submitted',   icon: 'fa-solid fa-circle-minus'  },
+    none:     { color: 'var(--ad-muted)', label: 'Not submitted',   icon: 'fa-solid fa-circle-minus'  },
     pending:  { color: '#ffb400', label: 'Pending approval',icon: 'fa-solid fa-clock'          },
     approved: { color: '#00c864', label: 'Live on profile', icon: 'fa-solid fa-circle-check'  },
     rejected: { color: '#ff6b6b', label: 'Rejected',        icon: 'fa-solid fa-circle-xmark'  },
@@ -650,8 +603,8 @@ function LinksTab({ user, onUpdated }) {
         <CopyableUrl label="Your Team's Public URL" url={teamUrl} />
       )}
       {!playerUrl && (
-        <div style={{ marginBottom: '1.5rem', padding: '0.85rem 1.1rem', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, fontSize: '0.85rem', color: 'var(--muted)' }}>
-          <i className="fa-solid fa-lock" style={{ marginRight: '0.5rem', color: '#555' }} />
+        <div style={{ marginBottom: '1.5rem', padding: '0.85rem 1.1rem', background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: 10, fontSize: '0.85rem', color: 'var(--muted)' }}>
+          <i className="fa-solid fa-lock" style={{ marginRight: '0.5rem', color: 'var(--ad-muted)' }} />
           Your public profile URL will appear here once you are confirmed on a team.
         </div>
       )}
@@ -685,17 +638,16 @@ function LinksTab({ user, onUpdated }) {
             <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, marginBottom: '0.4rem' }}>
               Profile URL
             </label>
-            <input
+            <Input
               type="url"
               value={pLink}
               onChange={(e) => setPLink(e.target.value)}
               placeholder="https://youtube.com/your-highlights"
-              style={{ width: '100%', boxSizing: 'border-box' }}
             />
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.6rem' }}>
             {pLink && (
-              <button type="button" onClick={() => { setPLink(''); }} style={{ padding: '0.55rem 1rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85rem' }}>
+              <button type="button" onClick={() => { setPLink(''); }} style={{ padding: '0.55rem 1rem', borderRadius: 8, border: '1px solid var(--ad-line)', background: 'transparent', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85rem' }}>
                 Clear
               </button>
             )}
@@ -721,12 +673,11 @@ function LinksTab({ user, onUpdated }) {
               <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, marginBottom: '0.4rem' }}>
                 Team URL
               </label>
-              <input
+              <Input
                 type="url"
                 value={tLink}
                 onChange={(e) => setTLink(e.target.value)}
                 placeholder="https://instagram.com/yourteam"
-                style={{ width: '100%', boxSizing: 'border-box' }}
               />
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -765,13 +716,18 @@ export default function PlayerProfilePage() {
       <div style={{ maxWidth: 780 }}>
 
         {/* Profile header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '2rem', flexWrap: 'wrap',
+          background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(59, 130, 246, 0.3)',
+          borderRadius: 14, padding: '1.25rem 1.5rem', backdropFilter: 'blur(14px)',
+          boxShadow: '0 10px 28px rgba(2, 6, 20, 0.35)',
+        }}>
           <div style={{
             width: 60, height: 60, borderRadius: '50%', flexShrink: 0,
-            background: 'linear-gradient(135deg, var(--tekky-blue), #0044cc)',
+            background: 'linear-gradient(135deg, var(--ad-electric), var(--ad-blue-deep))',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.7rem', color: '#fff',
-            boxShadow: '0 0 20px rgba(0,116,255,0.35)',
+            fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.7rem', color: 'var(--ad-fg)',
+            boxShadow: '0 0 20px rgba(61, 139, 255, 0.35)',
           }}>
             {initial}
           </div>
@@ -813,9 +769,9 @@ export default function PlayerProfilePage() {
                 onClick={() => setActiveTab(tab.key)}
                 className="profile-tab-btn"
                 style={{
-                  background:   active ? 'rgba(0,116,255,0.12)' : 'transparent',
+                  background:   active ? 'rgba(59, 130, 246, 0.15)' : 'transparent',
                   borderBottom: active ? '2px solid var(--tekky-blue)' : '2px solid transparent',
-                  color:        active ? '#fff' : 'var(--muted)',
+                  color:        active ? 'var(--ad-fg)' : 'var(--muted)',
                   fontWeight:   active ? 600 : 400,
                 }}
               >

@@ -12,8 +12,8 @@ function UnsignedState() {
       <WaiverBanner isCaptain={false} />
 
       <div style={{
-        background:   'rgba(0,0,0,0.45)',
-        border:       '1px solid rgba(255,180,0,0.18)',
+        background:   'rgba(15, 23, 42, 0.65)',
+        border:       '1px solid rgba(59, 130, 246, 0.3)',
         borderRadius: 12,
         padding:      '2.5rem 2rem',
         textAlign:    'center',
@@ -127,8 +127,8 @@ function SignedState({ user }) {
 
       {/* Pool placeholder */}
       <div style={{
-        background:   'rgba(0,0,0,0.45)',
-        border:       '1px solid rgba(0,116,255,0.18)',
+        background:   'rgba(15, 23, 42, 0.65)',
+        border:       '1px solid rgba(59, 130, 246, 0.3)',
         borderRadius: 12,
         padding:      '3rem 2rem',
         textAlign:    'center',
@@ -137,7 +137,7 @@ function SignedState({ user }) {
           className="fa-solid fa-users"
           style={{
             fontSize:     '2.5rem',
-            color:        'rgba(0,116,255,0.3)',
+            color:        'var(--ad-electric)',
             display:      'block',
             marginBottom: '1rem',
           }}

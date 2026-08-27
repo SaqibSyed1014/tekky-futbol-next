@@ -46,15 +46,15 @@ function AppCard({ app }) {
 
   return (
     <div style={{
-      background: '#000',
-      border: '1px solid rgba(0,116,255,0.2)',
+      background: 'rgba(15, 23, 42, 0.65)',
+      border: '1px solid rgba(59, 130, 246, 0.3)',
       borderRadius: 12,
       padding: '1.3rem 1.5rem',
-      boxShadow: '0 0 16px rgba(0,116,255,0.07)',
+      boxShadow: '0 0 16px rgba(59, 130, 246, 0.07)',
       transition: 'box-shadow 0.2s',
     }}
-      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 0 24px rgba(0,116,255,0.15)'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 0 16px rgba(0,116,255,0.07)'; }}
+      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 0 24px rgba(59, 130, 246, 0.15)'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 0 16px rgba(59, 130, 246, 0.07)'; }}
     >
       {/* Top row */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.9rem', flexWrap: 'wrap', gap: '0.5rem' }}>
@@ -64,8 +64,8 @@ function AppCard({ app }) {
             fontSize: '0.8rem',
             letterSpacing: '1px',
             color: 'var(--tekky-blue)',
-            background: 'rgba(0,116,255,0.1)',
-            border: '1px solid rgba(0,116,255,0.25)',
+            background: 'rgba(59, 130, 246, 0.1)',
+            border: '1px solid rgba(59, 130, 246, 0.25)',
             borderRadius: 4,
             padding: '0.15rem 0.5rem',
           }}>
@@ -91,7 +91,7 @@ function AppCard({ app }) {
 
       {/* Status message */}
       {app.status === 'pending' && (
-        <p style={{ marginTop: '1rem', fontSize: '0.82rem', color: 'var(--muted)', borderTop: '1px solid rgba(0,116,255,0.1)', paddingTop: '0.8rem' }}>
+        <p style={{ marginTop: '1rem', fontSize: '0.82rem', color: 'var(--muted)', borderTop: '1px solid rgba(59, 130, 246, 0.1)', paddingTop: '0.8rem' }}>
           Your application is under review. We&apos;ll be in touch once a decision has been made.
         </p>
       )}
@@ -143,9 +143,9 @@ function TeamCard({ membership, teammates }) {
   const s = MEMBERSHIP_STYLE[membership.membershipBucket] ?? MEMBERSHIP_STYLE.pending_admin;
   return (
     <div style={{
-      background: '#000', border: '1px solid rgba(0,116,255,0.25)',
+      background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(59, 130, 246, 0.3)',
       borderRadius: 12, padding: '1.4rem 1.5rem',
-      boxShadow: '0 0 20px rgba(0,116,255,0.08)', marginBottom: '2rem',
+      boxShadow: '0 0 20px rgba(59, 130, 246, 0.08)', marginBottom: '2rem',
     }}>
       {/* Team header */}
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', marginBottom: '1rem', flexWrap: 'wrap' }}>
@@ -153,11 +153,11 @@ function TeamCard({ membership, teammates }) {
           <img
             src={membership.teamLogoUrl}
             alt="Team logo"
-            style={{ width: 60, height: 60, objectFit: 'contain', borderRadius: 8, border: '1px solid rgba(0,116,255,0.2)', padding: 4, flexShrink: 0 }}
+            style={{ width: 60, height: 60, objectFit: 'contain', borderRadius: 8, border: '1px solid rgba(59, 130, 246, 0.2)', padding: 4, flexShrink: 0 }}
           />
         ) : (
-          <div style={{ width: 60, height: 60, borderRadius: 8, border: '1px solid rgba(0,116,255,0.15)', background: 'rgba(0,116,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <i className="fa-solid fa-shield-halved" style={{ color: 'rgba(0,116,255,0.4)', fontSize: '1.5rem' }} />
+          <div style={{ width: 60, height: 60, borderRadius: 8, border: '1px solid rgba(59, 130, 246, 0.15)', background: 'rgba(59, 130, 246, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <i className="fa-solid fa-shield-halved" style={{ color: 'rgba(61, 139, 255, 0.4)', fontSize: '1.5rem' }} />
           </div>
         )}
         <div style={{ flex: 1 }}>
@@ -207,8 +207,8 @@ function TeamCard({ membership, teammates }) {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
             {teammates.map((t) => (
               <div key={t.id} style={{
-                background: 'rgba(0,116,255,0.06)',
-                border: '1px solid rgba(0,116,255,0.15)',
+                background: 'rgba(59, 130, 246, 0.06)',
+                border: '1px solid rgba(59, 130, 246, 0.15)',
                 borderRadius: 8, padding: '0.4rem 0.75rem',
                 fontSize: '0.85rem', color: 'var(--fg)',
               }}>
@@ -296,7 +296,7 @@ export default function PlayerHomeClient({ user }) {
       {loading && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {[1, 2].map((i) => (
-            <div key={i} style={{ height: 140, borderRadius: 12, background: 'rgba(0,116,255,0.05)', border: '1px solid rgba(0,116,255,0.1)', animation: 'playerPulse 1.5s ease-in-out infinite' }} />
+            <div key={i} style={{ height: 140, borderRadius: 12, background: 'rgba(59, 130, 246, 0.05)', border: '1px solid rgba(59, 130, 246, 0.1)', animation: 'playerPulse 1.5s ease-in-out infinite' }} />
           ))}
         </div>
       )}
@@ -310,13 +310,13 @@ export default function PlayerHomeClient({ user }) {
       {!loading && !error && (
         applications.length === 0 ? (
           <div style={{
-            background: '#000',
-            border: '1px dashed rgba(0,116,255,0.3)',
+            background: 'rgba(15, 23, 42, 0.65)',
+            border: '1px dashed rgba(59, 130, 246, 0.3)',
             borderRadius: 12,
             padding: '3rem 2rem',
             textAlign: 'center',
           }}>
-            <i className="fa-solid fa-inbox" style={{ fontSize: '2.5rem', color: 'rgba(0,116,255,0.3)', marginBottom: '1rem', display: 'block' }} />
+            <i className="fa-solid fa-inbox" style={{ fontSize: '2.5rem', color: 'rgba(61, 139, 255, 0.3)', marginBottom: '1rem', display: 'block' }} />
             <p style={{ color: 'var(--muted)', marginBottom: '1.2rem' }}>
               You haven&apos;t submitted an application yet.
             </p>
@@ -327,7 +327,7 @@ export default function PlayerHomeClient({ user }) {
                 padding: '0.6rem 1.4rem',
                 border: '2px solid var(--tekky-blue)',
                 borderRadius: 40,
-                color: '#fff',
+                color: 'var(--ad-fg)',
                 fontFamily: "'Bebas Neue', sans-serif",
                 letterSpacing: '1px',
                 boxShadow: '0 0 12px var(--tekky-blue)',

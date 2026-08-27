@@ -31,9 +31,9 @@ const STATUS_CONFIG = {
   },
   cancelled: {
     icon: 'fa-solid fa-ban',
-    color: '#888',
-    bg: 'rgba(128,128,128,0.08)',
-    border: 'rgba(128,128,128,0.25)',
+    color: 'var(--ad-muted)',
+    bg: 'rgba(148,163,184,0.08)',
+    border: 'rgba(148,163,184,0.25)',
     label: 'Cancelled',
     message: 'Your payment was cancelled. You can try again below.',
   },
@@ -89,13 +89,13 @@ export default function UserPaymentPage() {
 
       {/* Status card */}
       <div style={{
-        background: '#000',
-        border: '1px solid rgba(0,116,255,0.2)',
+        background: 'rgba(15, 23, 42, 0.65)',
+        border: '1px solid rgba(59, 130, 246, 0.3)',
         borderRadius: 12,
         padding: '1.75rem',
         marginBottom: '1.25rem',
       }}>
-        <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#fff', marginBottom: '1.25rem' }}>
+        <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--ad-fg)', marginBottom: '1.25rem' }}>
           Registration Fee
         </h2>
 
@@ -103,12 +103,12 @@ export default function UserPaymentPage() {
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '1rem 1.25rem',
-          background: 'rgba(0,116,255,0.05)',
-          border: '1px solid rgba(0,116,255,0.12)',
+          background: 'rgba(59, 130, 246, 0.05)',
+          border: '1px solid rgba(59, 130, 246, 0.12)',
           borderRadius: 8, marginBottom: '1rem',
         }}>
-          <span style={{ color: '#b6c2d3', fontSize: '0.9rem' }}>Registration Fee</span>
-          <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.5rem', color: '#fff', letterSpacing: '1px' }}>
+          <span style={{ color: 'var(--ad-muted)', fontSize: '0.9rem' }}>Registration Fee</span>
+          <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.5rem', color: 'var(--ad-fg)', letterSpacing: '1px' }}>
             $700.00
           </span>
         </div>
@@ -126,11 +126,11 @@ export default function UserPaymentPage() {
               <div style={{ fontWeight: 700, color: cfg.color, fontSize: '0.88rem', marginBottom: '0.2rem' }}>
                 {cfg.label}
               </div>
-              <div style={{ color: '#b6c2d3', fontSize: '0.84rem', lineHeight: 1.5 }}>
+              <div style={{ color: 'var(--ad-muted)', fontSize: '0.84rem', lineHeight: 1.5 }}>
                 {cfg.message}
               </div>
               {payment.paid_at && (
-                <div style={{ marginTop: '0.4rem', fontSize: '0.8rem', color: '#666' }}>
+                <div style={{ marginTop: '0.4rem', fontSize: '0.8rem', color: 'var(--ad-muted)' }}>
                   Paid on {fmtDate(payment.paid_at)}
                 </div>
               )}
@@ -142,7 +142,7 @@ export default function UserPaymentPage() {
             background: 'rgba(255,180,0,0.06)',
             border: '1px solid rgba(255,180,0,0.2)',
             borderRadius: 8, marginBottom: '1rem',
-            color: '#b6c2d3', fontSize: '0.88rem', lineHeight: 1.5,
+            color: 'var(--ad-muted)', fontSize: '0.88rem', lineHeight: 1.5,
           }}>
             <i className="fa-solid fa-circle-info" style={{ color: '#ffb400', marginRight: '0.5rem' }} />
             {waiversigned
@@ -170,9 +170,9 @@ export default function UserPaymentPage() {
             disabled={paying}
             style={{
               width: '100%', padding: '0.85rem',
-              background: paying ? 'rgba(0,116,255,0.4)' : 'rgba(0,116,255,0.15)',
-              border: '2px solid rgba(0,116,255,0.6)',
-              borderRadius: 8, color: '#fff', fontSize: '0.95rem', fontWeight: 700,
+              background: paying ? 'rgba(59, 130, 246, 0.4)' : 'rgba(59, 130, 246, 0.15)',
+              border: '2px solid rgba(59, 130, 246, 0.6)',
+              borderRadius: 8, color: 'var(--ad-fg)', fontSize: '0.95rem', fontWeight: 700,
               cursor: paying ? 'not-allowed' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
               fontFamily: 'inherit',
@@ -188,7 +188,7 @@ export default function UserPaymentPage() {
       </div>
 
       {/* Info note */}
-      <p style={{ fontSize: '0.8rem', color: '#555', lineHeight: 1.6 }}>
+      <p style={{ fontSize: '0.8rem', color: 'var(--ad-muted)', lineHeight: 1.6 }}>
         Payments are processed securely by Stripe. You will be redirected to their
         hosted payment page to complete your transaction.
       </p>
