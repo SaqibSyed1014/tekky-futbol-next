@@ -57,11 +57,12 @@ export default function LoginClient() {
           <form
             onSubmit={handleSubmit}
             style={{
-              background: 'rgba(0,0,0,0.45)',
-              border: '1px solid rgba(0,116,255,0.4)',
+              background: 'var(--card)',
+              border: '1px solid var(--line-blue)',
               borderRadius: 16,
               padding: '2rem',
-              boxShadow: '0 0 25px rgba(0,116,255,0.15)',
+              boxShadow: 'var(--shadow)',
+              backdropFilter: 'blur(18px)',
             }}
           >
             <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", color: 'var(--tekky-blue)', fontSize: '1.8rem', marginBottom: '1.5rem' }}>

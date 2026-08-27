@@ -195,7 +195,7 @@ function LogoUploadZone({ file, preview, onSelect, onRemove, error, onSizeError 
             height: 72,
             borderRadius: 8,
             border: '1px solid rgba(0,116,255,0.2)',
-            background: 'rgba(0,0,0,0.4)',
+            background: 'var(--card-strong)',
             flexShrink: 0,
             overflow: 'hidden',
             display: 'flex',

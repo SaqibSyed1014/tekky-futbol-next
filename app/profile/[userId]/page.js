@@ -26,8 +26,8 @@ function fmtRecord(wins, losses, draws) {
 function StatCard({ value, label }) {
   return (
     <div style={{
-      background: 'rgba(0,0,0,0.35)',
-      border: '1px solid rgba(0,116,255,0.4)',
+      background: 'var(--card)',
+      border: '1px solid var(--line-blue)',
       borderRadius: 12,
       padding: '1rem',
       textAlign: 'center',
@@ -58,11 +58,11 @@ function InfoRow({ label, value }) {
 function SectionCard({ title, children, style }) {
   return (
     <div style={{
-      background: 'rgba(0,0,0,0.45)',
-      border: '1px solid rgba(0,116,255,0.4)',
+      background: 'var(--card)',
+      border: '1px solid var(--line-blue)',
       borderRadius: 16,
       padding: '2rem',
-      boxShadow: '0 0 25px rgba(0,116,255,0.12)',
+      boxShadow: 'var(--shadow)',
       lineHeight: 1.8,
       color: '#e2e8f3',
       ...style,
@@ -72,7 +72,6 @@ function SectionCard({ title, children, style }) {
         color: 'var(--tekky-blue)',
         fontSize: '1.6rem',
         letterSpacing: '1.5px',
-        textShadow: '0 0 12px var(--tekky-blue)',
         marginBottom: '1rem',
       }}>
         {title}
@@ -129,7 +128,7 @@ export default function PublicProfilePage() {
   if (loading) {
     return (
       <div style={{
-        minHeight: '100vh', background: '#000',
+        minHeight: '100vh', background: 'var(--bg)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
         <span className="spinner" style={{ width: 40, height: 40, borderWidth: 4 }} />
@@ -142,7 +141,7 @@ export default function PublicProfilePage() {
     return (
       <div style={{
         minHeight: '100vh',
-        background: 'linear-gradient(180deg,#000 0%,#020b18 100%)',
+        background: 'linear-gradient(180deg, var(--navy) 0%, var(--royal) 100%)',
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
         fontFamily: "'Montserrat', sans-serif", color: '#e9eef7',
@@ -156,10 +155,12 @@ export default function PublicProfilePage() {
           This player's profile is not public yet or does not exist.
         </p>
         <Link href="/" style={{
-          padding: '0.65rem 1.5rem', border: '2px solid var(--tekky-blue)',
+          padding: '0.65rem 1.5rem',
+          border: '1px solid rgba(255,255,255,0.22)',
           borderRadius: 40, color: '#fff', textDecoration: 'none',
           fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1px',
-          boxShadow: '0 0 12px var(--tekky-blue)',
+          background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
+          boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
         }}>
           Back to Home
         </Link>
@@ -175,12 +176,9 @@ export default function PublicProfilePage() {
   return (
     <>
       <style>{`
-        :root { --tekky-blue: #0074ff; --bg: #000000; --fg: #e9eef7; --muted: #b6c2d3; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(180deg,#000 0%,#020b18 100%); color: var(--fg); overflow-x: hidden; }
-        @keyframes pulseGlow { 0% { text-shadow: 0 0 15px var(--tekky-blue) } 100% { text-shadow: 0 0 40px var(--tekky-blue) } }
-        @keyframes buttonPulse { 0% { box-shadow: 0 0 10px var(--tekky-blue) } 100% { box-shadow: 0 0 25px var(--tekky-blue) } }
-        .spinner { display: inline-block; width: 32px; height: 32px; border: 3px solid rgba(0,116,255,0.2); border-top-color: #0074ff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: var(--fg); overflow-x: hidden; }
+        .spinner { display: inline-block; width: 32px; height: 32px; border: 3px solid rgba(61,139,255,0.2); border-top-color: var(--tekky-blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .profile-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
         @media (max-width: 700px) { .profile-cards-grid { grid-template-columns: 1fr; } }
@@ -191,16 +189,16 @@ export default function PublicProfilePage() {
         position: 'relative', minHeight: '50vh',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         textAlign: 'center', paddingTop: '6.5rem',
-        background: 'radial-gradient(60% 50% at 50% 35%, rgba(0,116,255,0.3), rgba(0,0,0,0.95) 60%)',
+        background: 'radial-gradient(60% 50% at 50% 35%, rgba(61,139,255,0.3), rgba(7,26,69,0.95) 60%)',
       }}>
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 900, padding: '0 1rem' }}>
           {/* Avatar */}
           <div style={{
             width: 90, height: 90, borderRadius: '50%',
-            background: 'linear-gradient(135deg, var(--tekky-blue), #0044cc)',
+            background: 'linear-gradient(135deg, var(--tekky-blue), #1553d1)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontFamily: "'Bebas Neue', sans-serif", fontSize: '2.5rem', color: '#fff',
-            boxShadow: '0 0 30px rgba(0,116,255,0.5)',
+            boxShadow: '0 12px 32px rgba(21, 83, 209, 0.45)',
             margin: '0 auto 1rem',
           }}>
             {(profile.name || profile.email || '?')[0].toUpperCase()}
@@ -209,7 +207,6 @@ export default function PublicProfilePage() {
           <h1 style={{
             fontFamily: "'Bebas Neue', sans-serif", fontSize: '3rem',
             letterSpacing: '2px',
-            animation: 'pulseGlow 3s ease-in-out infinite alternate',
           }}>
             {fmt(profile.name, 'PLAYER PROFILE')}
           </h1>
@@ -226,7 +223,7 @@ export default function PublicProfilePage() {
       <div style={{
         width: '80%', height: 4, margin: '2rem auto',
         background: 'linear-gradient(90deg, transparent, var(--tekky-blue), transparent)',
-        borderRadius: 4, boxShadow: '0 0 20px var(--tekky-blue)',
+        borderRadius: 4, boxShadow: '0 0 18px rgba(61, 139, 255, 0.35)',
       }} />
 
       {/* ── Cards grid — always 2×2 on desktop ── */}
@@ -266,10 +263,11 @@ export default function PublicProfilePage() {
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
                   padding: '0.55rem 1.25rem',
-                  border: '2px solid var(--tekky-blue)', borderRadius: 40,
+                  border: '1px solid rgba(255,255,255,0.22)', borderRadius: 40,
                   color: '#fff', textDecoration: 'none',
                   fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1px', fontSize: '0.95rem',
-                  animation: 'buttonPulse 2s infinite alternate',
+                  background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
+                  boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
                 }}
               >
                 <i className="fa-solid fa-arrow-up-right-from-square" />
@@ -317,7 +315,7 @@ export default function PublicProfilePage() {
       {/* ── Footer ── */}
       <footer style={{
         borderTop: '1px solid rgba(0,116,255,0.2)',
-        padding: '2rem 1rem', textAlign: 'center', background: '#000',
+        padding: '2rem 1rem', textAlign: 'center', background: 'rgba(5, 16, 48, 0.78)',
         fontFamily: "'Montserrat', sans-serif", fontSize: '0.85rem', color: '#b6c2d3',
       }}>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '0.6rem', fontSize: '1.3rem' }}>

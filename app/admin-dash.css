@@ -256,10 +256,12 @@
   margin: 0;
 }
 
-.admin-dash .cta:hover {
+.admin-dash .cta:hover,
+.admin-dash .cta:active {
   background: linear-gradient(180deg, #4d95ff, #1553d1);
   box-shadow: 0 0 26px rgba(61, 139, 255, 0.6);
   transform: none;
+  filter: none;
 }
 
 /* --- Chrome --- */

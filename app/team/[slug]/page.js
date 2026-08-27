@@ -18,11 +18,11 @@ function fmt(val, fallback = '—') {
 function SectionCard({ title, children }) {
   return (
     <div style={{
-      background: 'rgba(0,0,0,0.45)',
-      border: '1px solid rgba(0,116,255,0.4)',
+      background: 'var(--card)',
+      border: '1px solid var(--line-blue)',
       borderRadius: 16,
       padding: '2rem',
-      boxShadow: '0 0 25px rgba(0,116,255,0.12)',
+      boxShadow: 'var(--shadow)',
       lineHeight: 1.8,
       color: '#e2e8f3',
     }}>
@@ -31,7 +31,6 @@ function SectionCard({ title, children }) {
         color: 'var(--tekky-blue)',
         fontSize: '1.6rem',
         letterSpacing: '1.5px',
-        textShadow: '0 0 12px var(--tekky-blue)',
         marginBottom: '1rem',
       }}>
         {title}
@@ -131,8 +130,8 @@ export default function PublicTeamProfilePage() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <span style={{ display: 'inline-block', width: 40, height: 40, border: '3px solid rgba(0,116,255,0.2)', borderTopColor: '#0074ff', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+      <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ display: 'inline-block', width: 40, height: 40, border: '3px solid rgba(61,139,255,0.2)', borderTopColor: 'var(--tekky-blue)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
@@ -142,7 +141,7 @@ export default function PublicTeamProfilePage() {
     return (
       <div style={{
         minHeight: '100vh',
-        background: 'linear-gradient(180deg,#000 0%,#020b18 100%)',
+        background: 'linear-gradient(180deg, var(--navy) 0%, var(--royal) 100%)',
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
         fontFamily: "'Montserrat', sans-serif", color: '#e9eef7',
@@ -156,10 +155,10 @@ export default function PublicTeamProfilePage() {
           This team does not exist or is not available.
         </p>
         <Link href="/" style={{
-          padding: '0.65rem 1.5rem', border: '2px solid #0074ff',
+          padding: '0.65rem 1.5rem', border: '2px solid var(--tekky-blue)',
           borderRadius: 40, color: '#fff', textDecoration: 'none',
           fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1px',
-          boxShadow: '0 0 12px #0074ff',
+          boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
         }}>
           Back to Home
         </Link>
@@ -172,21 +171,18 @@ export default function PublicTeamProfilePage() {
   return (
     <>
       <style>{`
-        :root { --tekky-blue: #0074ff; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(180deg,#000 0%,#020b18 100%); color: #e9eef7; overflow-x: hidden; }
-        @keyframes pulseGlow { 0% { text-shadow: 0 0 15px #0074ff } 100% { text-shadow: 0 0 40px #0074ff } }
-        @keyframes buttonPulse { 0% { box-shadow: 0 0 10px #0074ff } 100% { box-shadow: 0 0 25px #0074ff } }
+        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: #fff; overflow-x: hidden; }
       `}</style>
 
       {/* Nav */}
       <nav style={{
         position: 'fixed', top: 0, left: 0, width: '100%',
         display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.9rem 1.25rem',
-        background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(0,116,255,0.2)', zIndex: 100,
+        background: 'rgba(7, 26, 69, 0.72)', backdropFilter: 'blur(18px)',
+        borderBottom: '1px solid var(--line)', zIndex: 100,
       }}>
-        <Link href="/" style={{ color: '#0074ff', textDecoration: 'none', fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', letterSpacing: '2px', textShadow: '0 0 10px #0074ff' }}>
+        <Link href="/" style={{ color: 'var(--tekky-blue)', textDecoration: 'none', fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', letterSpacing: '2px' }}>
           TekkyFutbol
         </Link>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '1rem', fontFamily: "'Bebas Neue', sans-serif" }}>
@@ -199,7 +195,7 @@ export default function PublicTeamProfilePage() {
         position: 'relative', minHeight: '52vh',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         textAlign: 'center', paddingTop: '6.5rem',
-        background: 'radial-gradient(60% 50% at 50% 35%, rgba(0,116,255,0.28), rgba(0,0,0,0.95) 60%)',
+        background: 'radial-gradient(60% 50% at 50% 35%, rgba(61,139,255,0.28), rgba(7,26,69,0.95) 60%)',
       }}>
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 900, padding: '0 1rem' }}>
 
@@ -211,10 +207,10 @@ export default function PublicTeamProfilePage() {
           ) : (
             <div style={{
               width: 90, height: 90, borderRadius: '50%',
-              background: 'linear-gradient(135deg, #0074ff, #0044cc)',
+              background: 'linear-gradient(135deg, #3d8bff, #1553d1)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '2.2rem', margin: '0 auto 1rem',
-              boxShadow: '0 0 30px rgba(0,116,255,0.5)',
+              boxShadow: '0 12px 32px rgba(21, 83, 209, 0.45)',
             }}>
               <i className="fa-solid fa-shield-halved" style={{ color: '#fff' }} />
             </div>
@@ -222,12 +218,11 @@ export default function PublicTeamProfilePage() {
 
           <h1 style={{
             fontFamily: "'Bebas Neue', sans-serif", fontSize: '3rem', letterSpacing: '2px',
-            animation: 'pulseGlow 3s ease-in-out infinite alternate',
           }}>
             {team.name}
           </h1>
 
-          <p style={{ marginTop: '0.4rem', color: '#0074ff', fontWeight: 700, fontSize: '0.95rem', letterSpacing: '1px' }}>
+          <p style={{ marginTop: '0.4rem', color: 'var(--tekky-blue)', fontWeight: 700, fontSize: '0.95rem', letterSpacing: '1px' }}>
             {isOfficial ? '✅ Official Team' : '⏳ Forming'}
             {team.captain_name ? ` — Captain: ${team.captain_name}` : ''}
           </p>
@@ -241,10 +236,11 @@ export default function PublicTeamProfilePage() {
               style={{
                 display: 'inline-block', marginTop: '1rem',
                 padding: '0.65rem 1.5rem',
-                border: '2px solid #0074ff', borderRadius: 40,
+                border: '1px solid rgba(255,255,255,0.22)', borderRadius: 40,
                 color: '#fff', textDecoration: 'none',
                 fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1px',
-                animation: 'buttonPulse 2s infinite alternate',
+                background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
+                boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
               }}
             >
               <i className="fa-solid fa-link" style={{ marginRight: '0.5rem' }} />
@@ -257,8 +253,8 @@ export default function PublicTeamProfilePage() {
       {/* Glow divider */}
       <div style={{
         width: '80%', height: 4, margin: '2rem auto',
-        background: 'linear-gradient(90deg, transparent, #0074ff, transparent)',
-        borderRadius: 4, boxShadow: '0 0 20px #0074ff',
+        background: 'linear-gradient(90deg, transparent, var(--tekky-blue), transparent)',
+        borderRadius: 4, boxShadow: '0 0 18px rgba(61, 139, 255, 0.35)',
       }} />
 
       {/* Cards */}
@@ -292,7 +288,7 @@ export default function PublicTeamProfilePage() {
       {/* Footer */}
       <footer style={{
         borderTop: '1px solid rgba(0,116,255,0.2)',
-        padding: '2rem 1rem', textAlign: 'center', background: '#000',
+        padding: '2rem 1rem', textAlign: 'center', background: 'rgba(5, 16, 48, 0.78)',
         fontFamily: "'Montserrat', sans-serif", fontSize: '0.85rem', color: '#b6c2d3',
       }}>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '0.6rem', fontSize: '1.3rem' }}>

@@ -12,7 +12,7 @@ import { auth } from '@/services/api';
 function PageShell({ children }) {
   return (
     <div style={{
-      minHeight: '100vh', background: '#000',
+      minHeight: '100vh', background: 'var(--bg)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem 1.25rem',
       fontFamily: "'Helvetica Neue', Arial, sans-serif",
@@ -24,7 +24,7 @@ function PageShell({ children }) {
             fontFamily: "'Bebas Neue', sans-serif",
             fontSize: '1.8rem', letterSpacing: '3px',
             color: 'var(--tekky-blue)',
-            textShadow: '0 0 14px rgba(0,116,255,0.5)',
+            textShadow: '0 8px 24px rgba(61, 139, 255, 0.28)',
           }}>
             TekkyFutbol
           </span>
@@ -38,11 +38,11 @@ function PageShell({ children }) {
 function Card({ children }) {
   return (
     <div style={{
-      background: '#0a0a0a',
-      border: '1px solid rgba(0,116,255,0.25)',
+      background: 'var(--card-strong)',
+      border: '1px solid var(--line-blue)',
       borderRadius: 16,
       padding: '2rem 2rem',
-      boxShadow: '0 0 40px rgba(0,116,255,0.1)',
+      boxShadow: 'var(--shadow)',
     }}>
       {children}
     </div>

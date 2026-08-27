@@ -20,7 +20,7 @@ export default function RefundPage() {
       <main style={{ maxWidth: 900, margin: '3rem auto 4rem', padding: '0 1.25rem', textAlign: 'left' }}>
         <GlowDivider />
 
-        <div style={{ background: 'rgba(0,0,0,0.45)', border: '1px solid rgba(0,116,255,0.4)', borderRadius: 16, padding: '2rem', boxShadow: '0 0 25px rgba(0,116,255,0.25)', lineHeight: 1.8, color: '#e2e8f3' }}>
+        <div className="glass-panel" style={{ borderRadius: 16, padding: '2rem', lineHeight: 1.8, color: '#e2e8f3' }}>
           <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', color: 'var(--tekky-blue)', fontSize: '1.8rem', marginBottom: '1rem' }}>Refund Timeline</h2>
           <p style={{ marginBottom: '1rem' }}>Refunds allowed up to 7–14 days before the season start date.</p>
 

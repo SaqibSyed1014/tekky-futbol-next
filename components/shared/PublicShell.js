@@ -21,10 +21,10 @@ export default function PublicShell({ children }) {
   if (isDashboard) return <>{children}</>;
 
   return (
-    <>
+    <div className="public-site">
       <Navbar />
       {children}
       <Footer />
-    </>
+    </div>
   );
 }

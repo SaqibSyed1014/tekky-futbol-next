@@ -24,13 +24,13 @@ export default function PaymentSuccessPage() {
     <>
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Montserrat', sans-serif; background: #000; color: #e9eef7; }
+        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: #fff; }
       `}</style>
       <div style={{
         minHeight: '100vh', display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
         padding: '2rem', textAlign: 'center',
-        background: 'linear-gradient(180deg,#000 0%,#020b18 100%)',
+        background: 'linear-gradient(180deg, var(--navy) 0%, var(--royal) 100%)',
       }}>
         <div style={{
           width: 80, height: 80, borderRadius: '50%',
@@ -57,11 +57,11 @@ export default function PaymentSuccessPage() {
           marginTop: '2rem',
           display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
           padding: '0.7rem 1.75rem',
-          background: 'rgba(0,116,255,0.12)',
-          border: '2px solid rgba(0,116,255,0.5)',
+          background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
+          border: '1px solid rgba(255,255,255,0.22)',
           borderRadius: 40, color: '#fff', textDecoration: 'none',
           fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1.5px', fontSize: '1rem',
-          boxShadow: '0 0 16px rgba(0,116,255,0.3)',
+          boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
         }}>
           <i className="fa-solid fa-house" />
           Go to Dashboard

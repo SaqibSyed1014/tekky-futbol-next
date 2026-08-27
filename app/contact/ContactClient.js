@@ -54,11 +54,12 @@ export default function ContactClient() {
               display: 'flex',
               flexDirection: 'column',
               gap: '1rem',
-              background: 'rgba(0,0,0,0.4)',
+              background: 'var(--card)',
               padding: '2rem',
-              border: '1px solid rgba(0,116,255,0.3)',
+              border: '1px solid var(--line-blue)',
               borderRadius: 16,
-              boxShadow: '0 0 20px rgba(0,116,255,0.15)',
+              boxShadow: 'var(--shadow)',
+              backdropFilter: 'blur(18px)',
             }}
           >
             <input
@@ -105,7 +106,7 @@ export default function ContactClient() {
             </button>
 
             {success && (
-              <div style={{ color: 'var(--tekky-blue)', fontWeight: 600, marginTop: '1rem', textShadow: '0 0 8px var(--tekky-blue)' }}>
+              <div style={{ color: 'var(--tekky-blue)', fontWeight: 600, marginTop: '1rem' }}>
                 <span>✅</span> Your message has been sent!
               </div>
             )}

@@ -25,7 +25,7 @@ function KitCard({ kit }) {
         <img src={kit.img} alt={kit.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </div>
       <div style={{ fontWeight: 600 }}>{kit.name}</div>
-      <div style={{ boxShadow: '0 0 12px var(--tekky-blue)', border: '2px solid var(--tekky-blue)', borderRadius: 40, padding: '6px 20px', color: '#fff', fontSize: 14, display: 'inline-block' }}>{kit.status}</div>
+      <div style={{ border: '1px solid var(--line-blue)', borderRadius: 40, padding: '6px 20px', color: '#fff', fontSize: 14, display: 'inline-block', background: 'rgba(61, 139, 255, 0.12)' }}>{kit.status}</div>
     </div>
   );
 }

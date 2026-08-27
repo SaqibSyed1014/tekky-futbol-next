@@ -126,7 +126,7 @@ function FinalePartnerForm({ onSuccess }) {
           </label>
         ))}
       </div>
-      <textarea placeholder="Tell us briefly how you'd like to be involved." value={fields.message} onChange={set('message')} rows={4} style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(0,116,255,0.4)', borderRadius: 8, padding: '0.8rem', color: 'var(--fg)', fontSize: '1rem', width: '100%', resize: 'vertical', minHeight: 120 }} />
+      <textarea placeholder="Tell us briefly how you'd like to be involved." value={fields.message} onChange={set('message')} rows={4} style={{ background: 'rgba(6, 18, 50, 0.72)', border: '1px solid var(--line)', borderRadius: 10, padding: '0.8rem', color: 'var(--fg)', fontSize: '1rem', width: '100%', resize: 'vertical', minHeight: 120 }} />
       <button type="submit" className="cta close-overlay" disabled={submitting}>
         {submitting ? <><span className="spinner" />Submitting</> : 'Request Finale Partnership'}
       </button>

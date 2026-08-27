@@ -61,7 +61,7 @@ export default function HomeClient() {
   const [highlightSuccess, setHighlightSuccess] = useState(false);
 
   return (
-    <>
+    <div className="home-landing">
       <header className="no-space" style={{ position: 'relative', zIndex: 0, minHeight: '70vh', display: 'flex', alignItems: 'stretch', justifyContent: 'center', textAlign: 'center' }}>
         <div
           className="hero"
@@ -82,16 +82,21 @@ export default function HomeClient() {
             .hero::before {
               content: '';
               position: absolute;
-              background: url('/images/hero-bg.png') no-repeat;
-              background-size: cover;
-              background-position: 100% 30%;
               left: 0; top: 0;
               z-index: -1;
               width: 100%; height: 100%;
-              background-color: rgba(0,0,0,0.4);
+              background-color: #071a45;
+              background-image:
+                linear-gradient(180deg, rgba(6, 16, 48, 0.38) 0%, rgba(7, 26, 69, 0.16) 34%, rgba(5, 14, 42, 0.58) 100%),
+                radial-gradient(90% 70% at 78% 16%, rgba(61, 139, 255, 0.3), transparent 60%),
+                radial-gradient(70% 55% at 12% 82%, rgba(21, 83, 209, 0.24), transparent 62%),
+                url('/images/hero-bg.png');
+              background-repeat: no-repeat;
+              background-size: cover, cover, cover, cover;
+              background-position: center, center, center, 100% 30%;
             }
             @media (max-width: 768px) {
-              .hero::before { background-position: center; }
+              .hero::before { background-position: center, center, center, center; }
             }
           `}</style>
 
@@ -118,17 +123,17 @@ export default function HomeClient() {
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Phase 2: Dominion — Top 2 per division. Single-elimination. Champion crowned.</p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.4rem', marginTop: '1.3rem' }}>
-            <div style={{ background: 'black', border: '1px solid rgba(0,116,255,0.25)', borderRadius: 12, padding: '1.2rem', textAlign: 'center', boxShadow: '0 0 12px var(--tekky-blue)', transition: '.25s' }}>
+            <div className="glass-panel" style={{ borderRadius: 12, padding: '1.2rem', textAlign: 'center', transition: '.25s' }}>
               <i className="fas fa-location-dot" style={{ fontSize: '2rem', color: 'var(--tekky-blue)', marginBottom: '0.4rem' }}></i>
               <h3>Two Divisions</h3>
               <p>North &amp; South compete as one league — with the season culminating at a neutral Finale venue.</p>
             </div>
-            <div style={{ background: 'black', border: '1px solid rgba(0,116,255,0.25)', borderRadius: 12, padding: '1.2rem', textAlign: 'center', boxShadow: '0 0 12px var(--tekky-blue)', transition: '.25s' }}>
+            <div className="glass-panel" style={{ borderRadius: 12, padding: '1.2rem', textAlign: 'center', transition: '.25s' }}>
               <i className="fas fa-trophy" style={{ fontSize: '2rem', color: 'var(--tekky-blue)', marginBottom: '0.4rem' }}></i>
               <h3>Playoffs</h3>
               <p>When the margin disappears. Win and advance. Lose and it ends. The season tightens — and only the strongest remain.</p>
             </div>
-            <div style={{ background: 'black', border: '1px solid rgba(0,116,255,0.25)', borderRadius: 12, padding: '1.2rem', textAlign: 'center', boxShadow: '0 0 12px var(--tekky-blue)', transition: '.25s' }}>
+            <div className="glass-panel" style={{ borderRadius: 12, padding: '1.2rem', textAlign: 'center', transition: '.25s' }}>
               <i className="fa-solid fa-heart" style={{ fontSize: '2rem', color: 'var(--tekky-blue)', marginBottom: '0.4rem' }}></i>
               <h3>Culture</h3>
               <p>Creative football. Cinematic energy. Rules designed for flow.</p>
@@ -199,12 +204,12 @@ export default function HomeClient() {
           </div>
         </section>
 
-        <section id="cta-block" style={{ margin: '3rem 0', textAlign: 'center' }}>
+        <section id="cta-block" style={{ margin: '3rem 0 1rem', textAlign: 'center' }}>
           <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', textAlign: 'center', marginBottom: '0.5rem' }}>Join the Movement</h2>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Players. Creators. Sponsors. Be part of the Tekky era.</p>
           <div className="sec-cta">
             <Link className="cta" href="/partners">Sponsor the Movement</Link>
-            <Link className="cta" href="/staff" style={{ marginLeft: '0.8rem' }}>Volunteer / Join Staff</Link>
+            <Link className="cta" href="/staff">Volunteer / Join Staff</Link>
           </div>
         </section>
       </main>
@@ -244,6 +249,6 @@ export default function HomeClient() {
           Back to site
         </button>
       </Modal>
-    </>
+    </div>
   );
 }

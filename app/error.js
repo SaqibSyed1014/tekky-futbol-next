@@ -18,7 +18,7 @@ export default function Error({ error, reset }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#000',
+      background: 'var(--bg)',
       color: '#e8eef6',
       display: 'flex',
       flexDirection: 'column',
