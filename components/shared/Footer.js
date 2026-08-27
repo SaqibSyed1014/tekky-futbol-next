@@ -26,7 +26,7 @@ export default function Footer() {
         <Link href="/kit-and-branding-policy">Kit &amp; Branding Policy</Link>
       </div>
 
-      <p>© 2025 TekkyFutbol — For Ballers Who Create</p>
+      <p>© 2026 TekkyFutbol — For Ballers Who Create</p>
       {/*<p>*/}
       {/*  <a href="mailto:tekkyfutbol@gmail.com" style={{ color: '#dfe7ff', textDecoration: 'none' }}>*/}
       {/*    tekkyfutbol@gmail.com*/}
