@@ -43,7 +43,7 @@ export default function TopScorersPage() {
         <GlowDivider />
 
         <section style={{ margin: '3rem 0' }}>
-          <h2>2026 SEASON — SCORING LEADERS</h2>
+          <h2>2027 SEASON — SCORING LEADERS</h2>
 
           <div className="table-wrap">
             {/*<h2>Tekky North</h2>*/}

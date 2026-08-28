@@ -151,8 +151,8 @@ export default function SeasonFinaleClient() {
           <div className="finale-hero-street" />
         </div>
         <div className="finale-hero-seam" aria-hidden="true" />
-        <span className="finale-hero-label finale-hero-label--premium">Premium</span>
-        <span className="finale-hero-label finale-hero-label--street">Street</span>
+        <span className="finale-hero-label finale-hero-label--premium">EST. 2027</span>
+        <span className="finale-hero-label finale-hero-label--street">[SYS_ROSTER]</span>
         <div className="finale-hero-content">
           <h1>SEASON FINALE EXPERIENCE</h1>
           <p className="tagline">For Ballers Who Create</p>
@@ -206,8 +206,8 @@ export default function SeasonFinaleClient() {
 
         <section id="location" className="finale-panel finale-panel--street">
           <h2>LOCATION</h2>
-          <p>Harrison Park (planned) — Street Championship Stage</p>
-          <p>The TekkyFutbol Season Finale is expected to take place at Harrison Park in West Chicago.</p>
+          <p>The Street Championship Stage (TBA)</p>
+          <p>The TekkyFutbol Season Finale descends on a dedicated outdoor street court in the city.</p>
           <p>On Championship Day, the league moves from its structured regular season environment to a true street stage, where the Dominion playoffs determine the season&#39;s champions.</p>
           <p>Semifinals, third place, and the championship final are decided here in one defining day.</p>
           <p>When the final whistle blows, the court transforms into the official TekkyFutbol Finale Celebration.</p>

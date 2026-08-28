@@ -297,7 +297,7 @@ export default function PublicTeamProfilePage() {
           <a href="https://x.com/TekkyFutbol" target="_blank" rel="noreferrer" style={{ color: '#dfe7ff' }}><i className="fab fa-x-twitter" /></a>
           <a href="https://youtube.com/@TekkyFutbol" target="_blank" rel="noreferrer" style={{ color: '#dfe7ff' }}><i className="fab fa-youtube" /></a>
         </div>
-        <p>© 2026 TekkyFutbol — For Ballers Who Create.</p>
+        <p>© 2027 TekkyFutbol — For Ballers Who Create.</p>
       </footer>
     </>
   );
