@@ -100,6 +100,8 @@ export default function Navbar() {
   /* modal states */
   const [hofOpen, setHofOpen] = useState(false);
   const [hofSuccess, setHofSuccess] = useState(false);
+  const [broadcastsOpen, setBroadcastsOpen] = useState(false);
+  const [broadcastsSuccess, setBroadcastsSuccess] = useState(false);
   const [teamsOpen, setTeamsOpen] = useState(false);
   const [teamsSuccess, setTeamsSuccess] = useState(false);
   const [partnersOpen, setPartnersOpen] = useState(false);
@@ -211,14 +213,6 @@ export default function Navbar() {
         {/* nav links */}
         <div className={`nav-links${menuOpen ? ' active' : ''}`}>
           <ul>
-            {/* Shop dropdown */}
-            <Dropdown name="shop" label="Shop">
-              <NavLink href="/shop/north-division">North Division</NavLink>
-              <NavLink href="/shop/south-division">South Division</NavLink>
-              <NavLink href="/shop/finale-collection">Finale Collection</NavLink>
-              <NavLink href="/shop/signature-drops">Signature Drops</NavLink>
-            </Dropdown>
-
             {/* Schedule dropdown */}
             <Dropdown name="schedule" label="Schedule">
               <NavLink href="/schedule">League Schedule</NavLink>
@@ -228,6 +222,13 @@ export default function Navbar() {
               <NavLink href="/next-fixtures">Next Fixtures</NavLink>
             </Dropdown>
 
+            {/* Broadcasts — coming soon */}
+            <li>
+              <div className="nav-link" onClick={() => setBroadcastsOpen(true)}>
+                Broadcasts
+              </div>
+            </li>
+
             {/* Teams — coming soon */}
             <li>
               <div className="nav-link" onClick={() => setTeamsOpen(true)}>
@@ -235,15 +236,11 @@ export default function Navbar() {
               </div>
             </li>
 
-            {/* About dropdown */}
-            <Dropdown name="about" label="About">
-              <NavLink href="/about">About TekkyFutbol</NavLink>
-              <NavLink href="/staff">Staff &amp; Volunteers</NavLink>
-              <ComingSoonTrigger onClick={() => setHofOpen(true)}>Hall of Fame</ComingSoonTrigger>
-            </Dropdown>
-
             <li>
               <Link href="/venues">Venues</Link>
+            </li>
+            <li>
+              <Link href="/season-finale">Finale</Link>
             </li>
             <li>
               <Link href="/season-1-kits">Season 1 Kits</Link>
@@ -255,6 +252,21 @@ export default function Navbar() {
                 <Image src="/images/logo.webp" alt="TekkyFutbol Logo" width={70} height={70} />
               </Link>
             </li>
+
+            {/* Shop dropdown */}
+            <Dropdown name="shop" label="Shop">
+              <NavLink href="/shop/north-division">North Division</NavLink>
+              <NavLink href="/shop/south-division">South Division</NavLink>
+              <NavLink href="/shop/finale-collection">Finale Collection</NavLink>
+              <NavLink href="/shop/signature-drops">Signature Drops</NavLink>
+            </Dropdown>
+
+            {/* About dropdown */}
+            <Dropdown name="about" label="About">
+              <NavLink href="/about">About TekkyFutbol</NavLink>
+              <NavLink href="/staff">Staff &amp; Volunteers</NavLink>
+              <ComingSoonTrigger onClick={() => setHofOpen(true)}>Hall of Fame</ComingSoonTrigger>
+            </Dropdown>
 
             {/* Rules dropdown */}
             <Dropdown name="rules" label="Rules">
@@ -273,7 +285,7 @@ export default function Navbar() {
             </Dropdown>
 
             <li>
-              <Link href="/season-finale">Finale</Link>
+              <Link href="/registration">Register</Link>
             </li>
             <li>
               <Link href="/contact">Contact</Link>
@@ -281,12 +293,9 @@ export default function Navbar() {
             <li className="cart-nav-desktop">
               <CartNavButton />
             </li>
-            <li>
-              <Link href="/registration">Register</Link>
-            </li>
-            <li>
-              <Link href="/login">Login</Link>
-            </li>
+            {/*<li>*/}
+            {/*  <Link href="/login">Login</Link>*/}
+            {/*</li>*/}
           </ul>
         </div>
       </nav>
@@ -328,6 +337,47 @@ export default function Navbar() {
           You&apos;ll be notified when the Hall of Fame goes live and new inductions are revealed.
         </p>
         <button className="cta close-overlay" onClick={() => setHofSuccess(false)}>
+          Explore the League
+        </button>
+      </Modal>
+
+      {/* Broadcasts */}
+      <Modal isOpen={broadcastsOpen} onClose={() => { setBroadcastsOpen(false); setBroadcastsSuccess(false); }}>
+        {!broadcastsSuccess ? (
+          <>
+            <h3>Broadcasts Are Coming</h3>
+            <p>
+              Watch TekkyFutbol live and on demand — match streams, recaps, and the moments that
+              define the season. Join the list to be notified when broadcasts go live.
+            </p>
+            <SignupForm
+              accessKey="11f721a1-d8fd-4e57-b071-74af8292fb15"
+              buttonLabel="Notify Me"
+              onSuccess={() => { setBroadcastsOpen(false); setBroadcastsSuccess(true); }}
+            />
+          </>
+        ) : (
+          <>
+            <h3>You&apos;re In</h3>
+            <p className="subtext">
+              You&apos;ll be notified when broadcasts drop. Night games. Recorded highlights. Energy
+              that builds week after week.
+            </p>
+            <button className="cta close-overlay" onClick={() => setBroadcastsSuccess(false)}>
+              Explore the League
+            </button>
+          </>
+        )}
+      </Modal>
+
+      {/* Broadcasts success */}
+      <Modal isOpen={broadcastsSuccess} onClose={() => setBroadcastsSuccess(false)}>
+        <h3>You&apos;re In</h3>
+        <p className="subtext">
+          You&apos;ll be notified when broadcasts drop. Night games. Recorded highlights. Energy
+          that builds week after week.
+        </p>
+        <button className="cta close-overlay" onClick={() => setBroadcastsSuccess(false)}>
           Explore the League
         </button>
       </Modal>
