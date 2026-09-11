@@ -22,6 +22,11 @@ export function updatePlayerProfile(data) {
   return api.patch('/users/profile/me/', data);
 }
 
+/** PATCH /users/fan/me/ — update fan name, division, zip, shipping, sizing */
+export function updateFanProfile(data) {
+  return api.patch('/users/fan/me/', data);
+}
+
 /** DELETE /users/me/delete/ — permanently delete own account */
 export function deleteAccount() {
   return api.delete('/users/me/delete/');

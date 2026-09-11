@@ -14,7 +14,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { login as apiLogin, logout as apiLogout, fetchMe } from '@/services/authApi';
+import { login as apiLogin, logout as apiLogout, fetchMe, fanLogin as apiFanLogin, fanRegister as apiFanRegister, fanOAuth as apiFanOAuth } from '@/services/authApi';
 import {auth} from "@/services/api";
 
 const AuthContext = createContext(null);
@@ -79,6 +79,51 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  const loginFan = useCallback(async (credentials) => {
+    setError(null);
+    setLoading(true);
+    try {
+      const data = await apiFanLogin(credentials);
+      setUser(data.user);
+      return data.user;
+    } catch (err) {
+      setError(err.message || 'Login failed. Please try again.');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const registerFan = useCallback(async (payload) => {
+    setError(null);
+    setLoading(true);
+    try {
+      const data = await apiFanRegister(payload);
+      setUser(data.user);
+      return data.user;
+    } catch (err) {
+      setError(err.message || 'Registration failed. Please try again.');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const oauthFan = useCallback(async (provider, payload) => {
+    setError(null);
+    setLoading(true);
+    try {
+      const data = await apiFanOAuth(provider, payload);
+      setUser(data.user);
+      return data.user;
+    } catch (err) {
+      setError(err.message || 'Sign-in failed. Please try again.');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const logout = useCallback(async () => {
     setLoading(true);
     await apiLogout();
@@ -101,7 +146,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, error, login, logout, clearError, refreshUser }}>
+    <AuthContext.Provider value={{ user, loading, error, login, loginFan, registerFan, oauthFan, logout, clearError, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

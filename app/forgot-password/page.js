@@ -53,7 +53,11 @@ export default function ForgotPasswordPage() {
                 If <strong style={{ color: 'var(--fg)' }}>{email}</strong> is registered with us, you'll receive a password reset link within a few minutes. Check your spam folder if you don't see it.
               </p>
               <Link href="/login" style={{ color: 'var(--tekky-blue)', fontWeight: 600, fontSize: '0.9rem' }}>
-                ← Back to Login
+                ← Player login
+              </Link>
+              <span style={{ color: 'var(--muted)', margin: '0 0.5rem' }}>·</span>
+              <Link href="/fan/login" style={{ color: 'var(--tekky-blue)', fontWeight: 600, fontSize: '0.9rem' }}>
+                Fan login
               </Link>
             </div>
           ) : (
@@ -113,7 +117,11 @@ export default function ForgotPasswordPage() {
               <div style={{ marginTop: '1.25rem', textAlign: 'center', fontSize: '0.88rem', color: 'var(--muted)' }}>
                 Remembered it?{' '}
                 <Link href="/login" style={{ color: 'var(--tekky-blue)', fontWeight: 600 }}>
-                  Back to Login
+                  Player login
+                </Link>
+                {' · '}
+                <Link href="/fan/login" style={{ color: 'var(--tekky-blue)', fontWeight: 600 }}>
+                  Fan login
                 </Link>
               </div>
             </form>

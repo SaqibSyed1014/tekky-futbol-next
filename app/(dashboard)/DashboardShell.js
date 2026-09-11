@@ -347,6 +347,10 @@ export default function DashboardLayout({ children }) {
       router.replace('/login');
       return;
     }
+    if (user.role === 'fan') {
+      router.replace('/fan');
+      return;
+    }
     // Block players from accessing admin routes
     if (user.role !== 'admin' && pathname.startsWith('/admin')) {
       router.replace('/user');

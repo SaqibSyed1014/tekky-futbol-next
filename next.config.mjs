@@ -32,6 +32,8 @@ const nextConfig = {
       { source: '/admin/:path*', headers: noStore },
       { source: '/user', headers: noStore },
       { source: '/user/:path*', headers: noStore },
+      { source: '/fan', headers: noStore },
+      { source: '/fan/:path*', headers: noStore },
     ];
   },
 };

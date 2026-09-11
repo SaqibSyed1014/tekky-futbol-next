@@ -4,13 +4,15 @@ import { NextResponse } from 'next/server';
  * Navigation guard — runs on every request before the page renders.
  *
  * Rules:
- *  1. Not logged in  + accessing a dashboard route  → redirect to /login
- *  2. Logged in      + accessing any public page    → redirect to their dashboard
- *  3. Logged in      + wrong dashboard for role     → redirect to correct dashboard
- *     (admin on /user → /admin, player on /admin → /user)
+ *  1. Not logged in  + accessing a dashboard / fan account route  → login
+ *  2. Logged in player/admin + accessing a public page            → their dashboard
+ *  3. Logged in fan          + accessing public pages             → stay (shop, home)
+ *  4. Logged in              + wrong area for role                → redirect home
  */
 
 const DASHBOARD_PREFIXES = ['/admin', '/user'];
+const FAN_AUTH_PAGES = ['/fan/login', '/fan/register'];
+const PLAYER_AUTH_PAGES = ['/login', '/registration'];
 
 /**
  * Pages that require auth-awareness but must remain accessible to BOTH
@@ -29,20 +31,36 @@ function decodeToken(token) {
   }
 }
 
+function homeForRole(role) {
+  if (role === 'admin') return '/admin';
+  if (role === 'fan') return '/fan';
+  return '/user';
+}
+
+function isFanAuthPage(pathname) {
+  return FAN_AUTH_PAGES.includes(pathname);
+}
+
+function isFanApp(pathname) {
+  return pathname === '/fan' || pathname.startsWith('/fan/');
+}
+
 export function proxy(request) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('tf_token')?.value;
 
-  const isDashboard  = DASHBOARD_PREFIXES.some((p) => pathname.startsWith(p));
-  const isAuthAware  = AUTH_AWARE_PREFIXES.some((p) => pathname.startsWith(p));
-  const isPublic     = !isDashboard && !isAuthAware;
+  const isDashboard = DASHBOARD_PREFIXES.some((p) => pathname.startsWith(p));
+  const isFanAuth = isFanAuthPage(pathname);
+  const isFanProtected = isFanApp(pathname) && !isFanAuth;
+  const isAuthAware = AUTH_AWARE_PREFIXES.some((p) => pathname.startsWith(p));
+  const isPublic = !isDashboard && !isAuthAware && !isFanApp(pathname);
 
   // ── Not logged in ──────────────────────────────────────────────────────────
   if (!token) {
-    if (isDashboard) {
-      return NextResponse.redirect(new URL('/login', request.url));
+    if (isDashboard || isFanProtected) {
+      const login = isFanProtected ? '/fan/login' : '/login';
+      return NextResponse.redirect(new URL(login, request.url));
     }
-    // Auth-aware and public pages are always accessible when logged out
     return NextResponse.next();
   }
 
@@ -51,33 +69,52 @@ export function proxy(request) {
 
   // Invalid / tampered / expired token — treat as logged-out
   if (!payload) {
-    const res = isDashboard
-      ? NextResponse.redirect(new URL('/login', request.url))
+    const res = (isDashboard || isFanProtected)
+      ? NextResponse.redirect(new URL(isFanProtected ? '/fan/login' : '/login', request.url))
       : NextResponse.next();
     res.cookies.delete('tf_token');
     return res;
   }
 
   const role = payload.role;
-  const homeDashboard = role === 'admin' ? '/admin' : '/user';
+  const homeDashboard = homeForRole(role);
 
-  // Auth-aware pages (/register, /join) — always pass through, the page itself
-  // renders the right content based on whether the user is logged in.
   if (isAuthAware) {
     return NextResponse.next();
   }
 
-  // Redirect logged-in users away from regular public pages (e.g. /login, /registration)
+  if (isFanAuth) {
+    if (role === 'fan') {
+      return NextResponse.redirect(new URL('/fan', request.url));
+    }
+    if (role === 'admin' || role === 'player') {
+      return NextResponse.redirect(new URL(homeDashboard, request.url));
+    }
+    return NextResponse.next();
+  }
+
+  if (isFanProtected) {
+    if (role !== 'fan') {
+      return NextResponse.redirect(new URL(homeDashboard, request.url));
+    }
+    return NextResponse.next();
+  }
+
   if (isPublic) {
+    if (role === 'fan') {
+      if (PLAYER_AUTH_PAGES.some((p) => pathname === p || pathname.startsWith(`${p}/`))) {
+        return NextResponse.redirect(new URL('/fan', request.url));
+      }
+      return NextResponse.next();
+    }
     return NextResponse.redirect(new URL(homeDashboard, request.url));
   }
 
-  // Role isolation — prevent accessing the wrong dashboard
   if (pathname.startsWith('/admin') && role !== 'admin') {
-    return NextResponse.redirect(new URL('/user', request.url));
+    return NextResponse.redirect(new URL(homeDashboard, request.url));
   }
-  if (pathname.startsWith('/user') && role === 'admin') {
-    return NextResponse.redirect(new URL('/admin', request.url));
+  if (pathname.startsWith('/user') && role !== 'player') {
+    return NextResponse.redirect(new URL(homeDashboard, request.url));
   }
 
   return NextResponse.next();

@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import Modal from '../ui/Modal';
 import { useWeb3Form } from '../ui/useWeb3Form';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 /* ─── tiny sub-component: dropdown chevron ─── */
 function ChevronDown() {
@@ -92,6 +93,8 @@ function CartNavButton() {
 /* ─── main Navbar ─── */
 export default function Navbar() {
   const pathname = usePathname();
+  const { user } = useAuth();
+  const isFan = user?.role === 'fan';
 
   /* mobile menu state */
   const [menuOpen, setMenuOpen] = useState(false);
@@ -290,12 +293,16 @@ export default function Navbar() {
             <li>
               <Link href="/contact">Contact</Link>
             </li>
+            <li>
+              {isFan ? (
+                <Link href="/fan">{user.name || 'Account'}</Link>
+              ) : (
+                <Link href="/fan/login">Fan Login</Link>
+              )}
+            </li>
             <li className="cart-nav-desktop">
               <CartNavButton />
             </li>
-            {/*<li>*/}
-            {/*  <Link href="/login">Login</Link>*/}
-            {/*</li>*/}
           </ul>
         </div>
       </nav>

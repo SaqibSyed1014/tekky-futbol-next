@@ -32,6 +32,33 @@ export async function register(payload) {
 }
 
 /**
+ * POST /auth/fan/login/
+ */
+export async function fanLogin({ email, password }) {
+  const data = await api.post('/auth/fan/login/', { email, password });
+  auth.setToken(data.token);
+  return data;
+}
+
+/**
+ * POST /auth/fan/register/
+ */
+export async function fanRegister(payload) {
+  const data = await api.post('/auth/fan/register/', payload);
+  if (data.token) auth.setToken(data.token);
+  return data;
+}
+
+/**
+ * POST /auth/oauth/google/ or /auth/oauth/apple/
+ */
+export async function fanOAuth(provider, payload) {
+  const data = await api.post(`/auth/oauth/${provider}/`, payload);
+  if (data.token) auth.setToken(data.token);
+  return data;
+}
+
+/**
  * GET /auth/me
  * Returns the currently authenticated user, or null if unauthenticated.
  *

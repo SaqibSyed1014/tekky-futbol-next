@@ -82,11 +82,13 @@ function handleGlobalError(error) {
     const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
     const isPublicPage =
       pathname.startsWith('/login') ||
+      pathname.startsWith('/fan/login') ||
+      pathname.startsWith('/fan/register') ||
       pathname.startsWith('/payment/');
     if (!isPublicPage && auth.getToken()) {
       auth.clearToken();
       if (typeof window !== 'undefined') {
-        window.location.href = '/login';
+        window.location.href = pathname.startsWith('/fan') ? '/fan/login' : '/login';
       }
     }
   }
@@ -103,6 +105,22 @@ function handleGlobalError(error) {
   }
 
   throw error;
+}
+
+/** Pull a human-readable message from a wrapped API error body. */
+export function formatApiError(err, fallback = 'Something went wrong. Please try again.') {
+  const detail = err?.data?.error?.detail ?? err?.data;
+  if (typeof detail === 'string' && detail.trim()) return detail;
+  if (detail && typeof detail === 'object') {
+    for (const value of Object.values(detail)) {
+      if (typeof value === 'string' && value.trim()) return value;
+      if (Array.isArray(value) && value[0]) return String(value[0]);
+      if (value && typeof value === 'object' && typeof value.detail === 'string') {
+        return value.detail;
+      }
+    }
+  }
+  return err?.message || fallback;
 }
 
 // ─── Core request ────────────────────────────────────────────────────────────

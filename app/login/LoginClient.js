@@ -169,6 +169,12 @@ export default function LoginClient() {
                 Forgot your password?
               </Link>
             </span>
+            <span>
+              Fan?{' '}
+              <Link href="/fan/login" style={{ color: 'var(--tekky-blue)', fontWeight: 600 }}>
+                Fan login
+              </Link>
+            </span>
           </div>
         </section>}
 
