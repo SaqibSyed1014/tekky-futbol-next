@@ -92,3 +92,17 @@ export function getAdminTeams({ status = '', search = '', page = 1 } = {}) {
   if (search) q.set('search', search);
   return api.get(`/admin/teams/?${q}`);
 }
+
+// ─── Fans ───────────────────────────────────────────────────────────────────
+
+/**
+ * GET /admin/fans/
+ * @param {{ search?: string, auth_method?: 'google'|'apple'|'email', division?: 'north'|'south', page?: number }} params
+ */
+export function getAdminFans({ search = '', auth_method = '', division = '', page = 1 } = {}) {
+  const q = new URLSearchParams({ page });
+  if (search) q.set('search', search);
+  if (auth_method) q.set('auth_method', auth_method);
+  if (division) q.set('division', division);
+  return api.get(`/admin/fans/?${q}`);
+}
