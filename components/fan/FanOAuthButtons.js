@@ -216,15 +216,17 @@ export default function FanOAuthButtons({ onSuccess, extraPayload = {}, disabled
         </button>
       )}
 
-      <button
-        type="button"
-        onClick={handleApple}
-        disabled={disabled || !!busy}
-        style={oauthBtnStyle}
-      >
-        {busy === 'apple' ? <span className="spinner" /> : <AppleIcon />}
-        Continue with Apple
-      </button>
+      {APPLE_CLIENT_ID && (
+        <button
+          type="button"
+          onClick={handleApple}
+          disabled={disabled || !!busy}
+          style={oauthBtnStyle}
+        >
+          {busy === 'apple' ? <span className="spinner" /> : <AppleIcon />}
+          Continue with Apple
+        </button>
+      )}
     </div>
   );
 }
