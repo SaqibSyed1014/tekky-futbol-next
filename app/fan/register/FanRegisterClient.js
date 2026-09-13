@@ -29,19 +29,13 @@ export default function FanRegisterClient() {
   const next = safeNext(searchParams?.get('next'));
   const { registerFan, loading, error, clearError } = useAuth();
 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
-  const [favoriteDivision, setFavoriteDivision] = useState('');
-  const [zipCode, setZipCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [localError, setLocalError] = useState('');
-
-  const extraPayload = {
-    ...(favoriteDivision ? { favorite_division: favoriteDivision } : {}),
-    ...(zipCode ? { zip_code: zipCode } : {}),
-  };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -52,19 +46,14 @@ export default function FanRegisterClient() {
       setLocalError('Passwords do not match.');
       return;
     }
-    if (zipCode && !/^\d{5}$/.test(zipCode)) {
-      setLocalError('Zip code must be 5 digits.');
-      return;
-    }
 
     setSubmitting(true);
     try {
       await registerFan({
         email,
+        name,
         password,
         password2,
-        favorite_division: favoriteDivision,
-        zip_code: zipCode,
       });
       router.push(next);
     } catch (err) {
@@ -98,7 +87,6 @@ export default function FanRegisterClient() {
 
             <FanOAuthButtons
               disabled={busy}
-              extraPayload={extraPayload}
               onSuccess={() => router.push(next)}
             />
 
@@ -126,6 +114,19 @@ export default function FanRegisterClient() {
                   {displayError}
                 </div>
               )}
+
+              <label htmlFor="fan-reg-name">Full Name</label>
+              <input
+                id="fan-reg-name"
+                type="text"
+                placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                minLength={2}
+                autoComplete="name"
+                disabled={busy}
+              />
 
               <label htmlFor="fan-reg-email">Email</label>
               <input
@@ -185,32 +186,6 @@ export default function FanRegisterClient() {
                 required
                 minLength={8}
                 autoComplete="new-password"
-                disabled={busy}
-              />
-
-              <label htmlFor="fan-reg-division">Favorite Division</label>
-              <select
-                id="fan-reg-division"
-                value={favoriteDivision}
-                onChange={(e) => setFavoriteDivision(e.target.value)}
-                disabled={busy}
-              >
-                <option value="">Select a court</option>
-                <option value="north">North Court</option>
-                <option value="south">South Court</option>
-              </select>
-
-              <label htmlFor="fan-reg-zip">Zip Code <span style={{ color: 'var(--muted)', fontWeight: 400 }}>(optional)</span></label>
-              <input
-                id="fan-reg-zip"
-                type="text"
-                inputMode="numeric"
-                pattern="\d{5}"
-                maxLength={5}
-                placeholder="60601"
-                value={zipCode}
-                onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                autoComplete="postal-code"
                 disabled={busy}
               />
 
