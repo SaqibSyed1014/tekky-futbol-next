@@ -2,11 +2,17 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import GlowDivider from '@/components/ui/GlowDivider';
 import FanOAuthButtons from '@/components/fan/FanOAuthButtons';
 import { formatApiError } from '@/services/api';
+
+/** Only allow same-site relative paths — never an absolute/protocol-relative URL. */
+function safeNext(next) {
+  if (next && next.startsWith('/') && !next.startsWith('//')) return next;
+  return '/fan';
+}
 
 const cardStyle = {
   background: 'var(--card)',
@@ -19,6 +25,8 @@ const cardStyle = {
 
 export default function FanRegisterClient() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = safeNext(searchParams?.get('next'));
   const { registerFan, loading, error, clearError } = useAuth();
 
   const [email, setEmail] = useState('');
@@ -58,7 +66,7 @@ export default function FanRegisterClient() {
         favorite_division: favoriteDivision,
         zip_code: zipCode,
       });
-      router.push('/fan');
+      router.push(next);
     } catch (err) {
       setLocalError(formatApiError(err, 'Registration failed. Please try again.'));
     } finally {
@@ -91,7 +99,7 @@ export default function FanRegisterClient() {
             <FanOAuthButtons
               disabled={busy}
               extraPayload={extraPayload}
-              onSuccess={() => router.push('/fan')}
+              onSuccess={() => router.push(next)}
             />
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', margin: '1.4rem 0' }}>
@@ -220,7 +228,7 @@ export default function FanRegisterClient() {
           <div style={{ marginTop: '1.5rem', textAlign: 'center', color: 'var(--muted)', fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
             <span>
               Already have a fan account?{' '}
-              <Link href="/fan/login" style={{ color: 'var(--tekky-blue)', fontWeight: 600 }}>
+              <Link href={next !== '/fan' ? `/fan/login?next=${encodeURIComponent(next)}` : '/fan/login'} style={{ color: 'var(--tekky-blue)', fontWeight: 600 }}>
                 Sign in
               </Link>
             </span>

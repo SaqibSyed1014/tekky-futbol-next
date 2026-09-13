@@ -2,12 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import CrossIcon from '@/components/ui/CrossIcon';
+import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { buildCheckoutPayload, formatPrice } from '@/lib/shopUtils';
 import { initiateShopCheckout } from '@/services/shopApi';
 
 export default function CartDrawer() {
+  const { user } = useAuth();
+  const pathname = usePathname();
   const {
     items,
     itemCount,
@@ -21,6 +26,11 @@ export default function CartDrawer() {
 
   const [checkingOut, setCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
+  const [needsAuth, setNeedsAuth] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) setNeedsAuth(false);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -40,6 +50,11 @@ export default function CartDrawer() {
 
   async function handleCheckout() {
     if (items.length === 0 || checkingOut) return;
+
+    if (!user) {
+      setNeedsAuth(true);
+      return;
+    }
 
     sessionStorage.setItem('shopReturnPath', window.location.pathname);
     setCheckingOut(true);
@@ -154,25 +169,51 @@ export default function CartDrawer() {
                 <p className="cart-checkout-error">{checkoutError}</p>
               )}
 
-              <button
-                type="button"
-                className="cta close-overlay cart-checkout-btn"
-                onClick={handleCheckout}
-                disabled={checkingOut}
-              >
-                {checkingOut ? (
-                  <>
-                    <span className="spinner" />
-                    Processing…
-                  </>
-                ) : (
-                  'Checkout'
-                )}
-              </button>
+              {needsAuth ? (
+                <div className="cart-auth-prompt">
+                  <p className="cart-auth-prompt__text">
+                    Sign in or create a fan account to check out.
+                  </p>
+                  <Link
+                    href={`/fan/login?next=${encodeURIComponent(pathname)}`}
+                    className="cta close-overlay cart-checkout-btn"
+                    style={{ display: 'block', textAlign: 'center' }}
+                  >
+                    Log In
+                  </Link>
+                  <Link
+                    href={`/fan/register?next=${encodeURIComponent(pathname)}`}
+                    className="cart-auth-prompt__secondary"
+                  >
+                    Create a fan account
+                  </Link>
+                  <button type="button" className="cart-clear-btn" onClick={() => setNeedsAuth(false)}>
+                    Back to cart
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="cta close-overlay cart-checkout-btn"
+                    onClick={handleCheckout}
+                    disabled={checkingOut}
+                  >
+                    {checkingOut ? (
+                      <>
+                        <span className="spinner" />
+                        Processing…
+                      </>
+                    ) : (
+                      'Checkout'
+                    )}
+                  </button>
 
-              <button type="button" className="cart-clear-btn" onClick={clearCart}>
-                Clear cart
-              </button>
+                  <button type="button" className="cart-clear-btn" onClick={clearCart}>
+                    Clear cart
+                  </button>
+                </>
+              )}
             </footer>
           </>
         )}

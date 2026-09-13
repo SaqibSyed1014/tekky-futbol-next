@@ -1380,6 +1380,37 @@ tr:hover {
   color: var(--fg);
 }
 
+.cart-auth-prompt {
+  text-align: center;
+}
+
+.cart-auth-prompt__text {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.cart-auth-prompt__secondary {
+  display: block;
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--line-blue);
+  border-radius: 999px;
+  color: var(--tekky-blue);
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.cart-auth-prompt__secondary:hover {
+  background: rgba(61, 139, 255, 0.1);
+  border-color: var(--tekky-blue);
+}
+
 .shop-product-actions {
   display: flex;
   flex-direction: column;

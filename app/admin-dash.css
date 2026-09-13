@@ -338,6 +338,12 @@
   border-color: rgba(0, 200, 100, 0.35);
 }
 
+.ad-role--fan {
+  color: #d9b8ff;
+  background: rgba(186, 120, 255, 0.22);
+  border-color: rgba(200, 140, 255, 0.55);
+}
+
 .ad-nav {
   padding: 0.7rem 0.7rem;
   flex: 1;

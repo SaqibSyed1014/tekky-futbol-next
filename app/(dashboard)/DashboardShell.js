@@ -9,7 +9,7 @@ import { initiatePayment } from '@/services/paymentsApi';
 import ChicagoStar, { AdminStarCrop } from '@/components/admin/ChicagoStar';
 
 function getDashTone(pathname) {
-  if (pathname === '/admin' || pathname === '/user') return 'home';
+  if (pathname === '/admin' || pathname === '/user' || pathname === '/fan') return 'home';
   if (
     pathname.startsWith('/admin/kits') || pathname.startsWith('/admin/payments') ||
     pathname.startsWith('/user/kit') || pathname.startsWith('/user/payment')
@@ -46,6 +46,12 @@ const CAPTAIN_NAV = [
   { href: '/user/payment', icon: 'fa-solid fa-credit-card',      label: 'Payment'      },
 ];
 
+const FAN_NAV = [
+  { href: '/fan',         icon: 'fa-solid fa-house',        label: 'Home'    },
+  { href: '/fan/profile', icon: 'fa-solid fa-user',         label: 'Profile' },
+  { href: '/fan/orders',  icon: 'fa-solid fa-bag-shopping', label: 'Orders'  },
+];
+
 const PAGE_TITLES = {
   '/admin':                'Home',
   '/admin/applications':   'Applications',
@@ -64,6 +70,9 @@ const PAGE_TITLES = {
   '/user/profile':         'My Profile',
   '/user/kit':             'Kit Selection',
   '/user/payment':         'Registration Fee',
+  '/fan':                  'Dashboard',
+  '/fan/profile':          'My Profile',
+  '/fan/orders':           'Order History',
 };
 
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
@@ -72,9 +81,10 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
   const pathname = usePathname();
   const { logout } = useAuth();
   const isAdmin = role === 'admin';
-  const navItems = isAdmin ? ADMIN_NAV : isCaptain ? CAPTAIN_NAV : PLAYER_NAV;
-  const roleLabel = isAdmin ? 'Admin' : isCaptain ? 'Captain' : 'Player';
-  const roleModifier = isAdmin ? '' : isCaptain ? ' ad-role--captain' : ' ad-role--player';
+  const isFan = role === 'fan';
+  const navItems = isAdmin ? ADMIN_NAV : isFan ? FAN_NAV : isCaptain ? CAPTAIN_NAV : PLAYER_NAV;
+  const roleLabel = isAdmin ? 'Admin' : isFan ? 'Fan' : isCaptain ? 'Captain' : 'Player';
+  const roleModifier = isAdmin ? '' : isFan ? ' ad-role--fan' : isCaptain ? ' ad-role--captain' : ' ad-role--player';
 
   return (
     <>
@@ -102,7 +112,7 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
 
         <div className="ad-nav">
           {navItems.map((item) => {
-            const active = pathname === item.href || (item.href !== '/admin' && item.href !== '/user' && pathname.startsWith(item.href));
+            const active = pathname === item.href || (item.href !== '/admin' && item.href !== '/user' && item.href !== '/fan' && pathname.startsWith(item.href));
             const isWaiverGated = item.href === '/user/waiver' || item.href === '/user/pool';
             const showWaiverBadge = isWaiverGated && !isAdmin && !waiverSigned;
             return (
@@ -144,7 +154,8 @@ function Topbar({ user, onMenuToggle }) {
   const pageTitle = PAGE_TITLES[pathname] ?? 'Dashboard';
   const initial = String(user?.name || user?.email || '?').charAt(0).toUpperCase() || '?';
   const isAdmin = user?.role === 'admin';
-  const breadcrumbRoot = isAdmin ? 'Admin' : user?.is_captain ? 'Captain' : 'Player';
+  const isFan = user?.role === 'fan';
+  const breadcrumbRoot = isAdmin ? 'Admin' : isFan ? 'Fan' : user?.is_captain ? 'Captain' : 'Player';
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -213,7 +224,7 @@ function Topbar({ user, onMenuToggle }) {
                   label="My Profile"
                   onClick={() => {
                     setDropdownOpen(false);
-                    router.push(user?.role === 'admin' ? '/admin/profile' : '/user/profile');
+                    router.push(user?.role === 'admin' ? '/admin/profile' : user?.role === 'fan' ? '/fan/profile' : '/user/profile');
                   }}
                 />
                 <div style={{ height: 1, background: 'var(--ad-line)', margin: '0.3rem 0' }} />
@@ -348,7 +359,14 @@ export default function DashboardLayout({ children }) {
       return;
     }
     if (user.role === 'fan') {
-      router.replace('/fan');
+      if (!pathname.startsWith('/fan')) {
+        router.replace('/fan');
+      }
+      return;
+    }
+    // Block non-fans from accessing fan dashboard routes
+    if (pathname.startsWith('/fan')) {
+      router.replace(user.role === 'admin' ? '/admin' : '/user');
       return;
     }
     // Block players from accessing admin routes
@@ -364,7 +382,7 @@ export default function DashboardLayout({ children }) {
 
   // Show payment prompt when waiver is signed but fee not yet paid
   useEffect(() => {
-    if (!user || user.role === 'admin') return;
+    if (!user || user.role === 'admin' || user.role === 'fan') return;
     const needsPayment = user.waiver_signed && user.payment_status !== 'paid';
     // Don't show the prompt if already on the payment page
     const onPaymentPage = pathname === '/user/payment';

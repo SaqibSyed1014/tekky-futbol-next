@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import FanRegisterClient from './FanRegisterClient';
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function FanRegisterPage() {
-  return <FanRegisterClient />;
+  return (
+    <Suspense fallback={null}>
+      <FanRegisterClient />
+    </Suspense>
+  );
 }
