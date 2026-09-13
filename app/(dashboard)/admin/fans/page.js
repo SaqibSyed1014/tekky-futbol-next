@@ -49,14 +49,13 @@ export default function AdminFansPage() {
   const [tableLoading, setTableLoading] = useState(false);
   const [error,        setError]        = useState('');
   const [search,       setSearch]       = useState('');
-  const [authMethod,   setAuthMethod]   = useState('');
   const [division,     setDivision]     = useState('');
 
   const load = useCallback(async ({ silent = false } = {}) => {
     if (!silent) setTableLoading(true);
     setError('');
     try {
-      const data = await getAdminFans({ search, auth_method: authMethod, division });
+      const data = await getAdminFans({ search, division });
       setFans(data.results ?? data);
     } catch {
       setError('Failed to load fans.');
@@ -64,7 +63,7 @@ export default function AdminFansPage() {
       setTableLoading(false);
       setInitialLoad(false);
     }
-  }, [search, authMethod, division]);
+  }, [search, division]);
 
   useEffect(() => {
     if (!authLoading && user) load();
@@ -97,27 +96,16 @@ export default function AdminFansPage() {
           style={{ flex: 1, minWidth: 200 }}
         />
         <select
-          value={authMethod}
-          onChange={(e) => setAuthMethod(e.target.value)}
-          className="ad-btn"
-          style={{ cursor: 'pointer' }}
-        >
-          <option value="">All sign-in methods</option>
-          <option value="google">Google</option>
-          <option value="apple">Apple</option>
-          <option value="email">Email &amp; Password</option>
-        </select>
-        <select
           value={division}
           onChange={(e) => setDivision(e.target.value)}
           className="ad-btn"
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', width: 'auto', minWidth: 160, margin: 0, padding: '0.42rem 0.9rem' }}
         >
           <option value="">All divisions</option>
           <option value="north">North Court</option>
           <option value="south">South Court</option>
         </select>
-        <button onClick={load} className="cta" style={{ padding: '0.55rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem' }}>
+        <button onClick={load} className="cta" style={{ padding: '0.55rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', margin: 0 }}>
           <i className="fa-solid fa-rotate-right" /> Refresh
         </button>
       </div>
