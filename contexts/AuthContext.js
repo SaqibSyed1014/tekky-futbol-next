@@ -14,7 +14,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { login as apiLogin, logout as apiLogout, fetchMe, fanLogin as apiFanLogin, fanRegister as apiFanRegister, fanOAuth as apiFanOAuth } from '@/services/authApi';
+import { login as apiLogin, logout as apiLogout, fetchMe, fanRegister as apiFanRegister, fanOAuth as apiFanOAuth } from '@/services/authApi';
 import {auth} from "@/services/api";
 
 const AuthContext = createContext(null);
@@ -79,21 +79,6 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  const loginFan = useCallback(async (credentials) => {
-    setError(null);
-    setLoading(true);
-    try {
-      const data = await apiFanLogin(credentials);
-      setUser(data.user);
-      return data.user;
-    } catch (err) {
-      setError(err.message || 'Login failed. Please try again.');
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   const registerFan = useCallback(async (payload) => {
     setError(null);
     setLoading(true);
@@ -146,7 +131,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, error, login, loginFan, registerFan, oauthFan, logout, clearError, refreshUser }}>
+    <AuthContext.Provider value={{ user, loading, error, login, registerFan, oauthFan, logout, clearError, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

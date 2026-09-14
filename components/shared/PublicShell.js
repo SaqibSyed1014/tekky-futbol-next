@@ -11,12 +11,12 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 
 const DASHBOARD_PREFIXES = ['/admin', '/user'];
-const FAN_AUTH_PAGES = ['/fan/login', '/fan/register'];
+const FAN_REGISTER_PAGE = '/fan/register';
 
 function isFanDashboardRoute(pathname) {
   const inFanApp = pathname === '/fan' || pathname.startsWith('/fan/');
   if (!inFanApp) return false;
-  return !FAN_AUTH_PAGES.some((p) => pathname === p || pathname.startsWith(p + '/'));
+  return pathname !== FAN_REGISTER_PAGE && !pathname.startsWith(`${FAN_REGISTER_PAGE}/`);
 }
 
 export default function PublicShell({ children }) {

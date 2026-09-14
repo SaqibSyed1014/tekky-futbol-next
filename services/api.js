@@ -82,13 +82,12 @@ function handleGlobalError(error) {
     const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
     const isPublicPage =
       pathname.startsWith('/login') ||
-      pathname.startsWith('/fan/login') ||
       pathname.startsWith('/fan/register') ||
       pathname.startsWith('/payment/');
     if (!isPublicPage && auth.getToken()) {
       auth.clearToken();
       if (typeof window !== 'undefined') {
-        window.location.href = pathname.startsWith('/fan') ? '/fan/login' : '/login';
+        window.location.href = '/login';
       }
     }
   }

@@ -202,8 +202,8 @@ export default function FanRegisterClient() {
 
           <div style={{ marginTop: '1.5rem', textAlign: 'center', color: 'var(--muted)', fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
             <span>
-              Already have a fan account?{' '}
-              <Link href={next !== '/fan' ? `/fan/login?next=${encodeURIComponent(next)}` : '/fan/login'} style={{ color: 'var(--tekky-blue)', fontWeight: 600 }}>
+              Already have an account?{' '}
+              <Link href={next !== '/fan' ? `/login?next=${encodeURIComponent(next)}` : '/login'} style={{ color: 'var(--tekky-blue)', fontWeight: 600 }}>
                 Sign in
               </Link>
             </span>

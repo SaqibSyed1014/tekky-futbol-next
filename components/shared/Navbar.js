@@ -297,7 +297,7 @@ export default function Navbar() {
               {isFan ? (
                 <Link href="/fan">{user.name || 'Account'}</Link>
               ) : (
-                <Link href="/fan/login">Fan Login</Link>
+                <Link href="/login">Login</Link>
               )}
             </li>
             <li className="cart-nav-desktop">

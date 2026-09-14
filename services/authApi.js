@@ -7,6 +7,7 @@ import api, { auth } from '@/services/api';
 
 /**
  * POST /auth/login
+ * Shared by every role — fan, player, captain, and admin.
  * Stores the returned token, returns the user object.
  *
  * @param {{ email: string, password: string }} credentials
@@ -28,15 +29,6 @@ export async function login({ email, password }) {
 export async function register(payload) {
   const data = await api.post('/auth/register/', payload);
   if (data.token) auth.setToken(data.token);
-  return data;
-}
-
-/**
- * POST /auth/fan/login/
- */
-export async function fanLogin({ email, password }) {
-  const data = await api.post('/auth/fan/login/', { email, password });
-  auth.setToken(data.token);
   return data;
 }
 

@@ -140,7 +140,7 @@ export default function FanOAuthButtons({ onSuccess, extraPayload = {}, disabled
         window.AppleID.auth.init({
           clientId: APPLE_CLIENT_ID,
           scope: 'name email',
-          redirectURI: `${window.location.origin}/fan/login`,
+          redirectURI: `${window.location.origin}/login`,
           usePopup: true,
         });
         appleReady.current = true;
@@ -164,7 +164,7 @@ export default function FanOAuthButtons({ onSuccess, extraPayload = {}, disabled
         window.AppleID.auth.init({
           clientId: APPLE_CLIENT_ID,
           scope: 'name email',
-          redirectURI: `${window.location.origin}/fan/login`,
+          redirectURI: `${window.location.origin}/login`,
           usePopup: true,
         });
         appleReady.current = true;

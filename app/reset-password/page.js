@@ -82,10 +82,7 @@ function ResetPasswordForm() {
         </p>
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link href="/login" className="cta" style={{ display: 'inline-block' }}>
-            Player Login
-          </Link>
-          <Link href="/fan/login" className="cta" style={{ display: 'inline-block' }}>
-            Fan Login
+            Log In
           </Link>
         </div>
       </div>
@@ -196,11 +193,7 @@ function ResetPasswordForm() {
       <div style={{ marginTop: '1.25rem', textAlign: 'center', fontSize: '0.88rem', color: 'var(--muted)' }}>
         Didn&apos;t request this?{' '}
         <Link href="/login" style={{ color: 'var(--tekky-blue)', fontWeight: 600 }}>
-          Player login
-        </Link>
-        {' · '}
-        <Link href="/fan/login" style={{ color: 'var(--tekky-blue)', fontWeight: 600 }}>
-          Fan login
+          Back to login
         </Link>
       </div>
     </form>

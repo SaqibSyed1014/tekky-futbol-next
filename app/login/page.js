@@ -1,10 +1,15 @@
+import { Suspense } from 'react';
 import LoginClient from './LoginClient';
 
 export const metadata = {
   title: 'Login — TekkyFutbol',
-  description: 'Sign in to your TekkyFutbol player account to access your dashboard and stats.',
+  description: 'Sign in to your TekkyFutbol account — player, captain, admin, or fan.',
 };
 
 export default function LoginPage() {
-  return <LoginClient />;
+  return (
+    <Suspense fallback={null}>
+      <LoginClient />
+    </Suspense>
+  );
 }

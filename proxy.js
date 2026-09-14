@@ -8,11 +8,15 @@ import { NextResponse } from 'next/server';
  *  2. Logged in player/admin + accessing a public page            → their dashboard
  *  3. Logged in fan          + accessing public pages             → stay (shop, home)
  *  4. Logged in              + wrong area for role                → redirect home
+ *
+ * Login is a single shared page/endpoint for every role. Registration stays
+ * split: /registration for players, /fan/register for fans.
  */
 
 const DASHBOARD_PREFIXES = ['/admin', '/user'];
-const FAN_AUTH_PAGES = ['/fan/login', '/fan/register'];
-const PLAYER_AUTH_PAGES = ['/login', '/registration'];
+const LOGIN_PAGE = '/login';
+const FAN_REGISTER_PAGE = '/fan/register';
+const PLAYER_REGISTER_PAGE = '/registration';
 
 /**
  * Pages that require auth-awareness but must remain accessible to BOTH
@@ -37,10 +41,6 @@ function homeForRole(role) {
   return '/user';
 }
 
-function isFanAuthPage(pathname) {
-  return FAN_AUTH_PAGES.includes(pathname);
-}
-
 function isFanApp(pathname) {
   return pathname === '/fan' || pathname.startsWith('/fan/');
 }
@@ -50,16 +50,16 @@ export function proxy(request) {
   const token = request.cookies.get('tf_token')?.value;
 
   const isDashboard = DASHBOARD_PREFIXES.some((p) => pathname.startsWith(p));
-  const isFanAuth = isFanAuthPage(pathname);
-  const isFanProtected = isFanApp(pathname) && !isFanAuth;
+  const isFanRegisterPage = pathname === FAN_REGISTER_PAGE;
+  const isFanProtected = isFanApp(pathname) && !isFanRegisterPage;
+  const isLoginPage = pathname === LOGIN_PAGE;
   const isAuthAware = AUTH_AWARE_PREFIXES.some((p) => pathname.startsWith(p));
-  const isPublic = !isDashboard && !isAuthAware && !isFanApp(pathname);
+  const isPublic = !isDashboard && !isAuthAware && !isFanApp(pathname) && !isLoginPage;
 
   // ── Not logged in ──────────────────────────────────────────────────────────
   if (!token) {
     if (isDashboard || isFanProtected) {
-      const login = isFanProtected ? '/fan/login' : '/login';
-      return NextResponse.redirect(new URL(login, request.url));
+      return NextResponse.redirect(new URL(LOGIN_PAGE, request.url));
     }
     return NextResponse.next();
   }
@@ -70,7 +70,7 @@ export function proxy(request) {
   // Invalid / tampered / expired token — treat as logged-out
   if (!payload) {
     const res = (isDashboard || isFanProtected)
-      ? NextResponse.redirect(new URL(isFanProtected ? '/fan/login' : '/login', request.url))
+      ? NextResponse.redirect(new URL(LOGIN_PAGE, request.url))
       : NextResponse.next();
     res.cookies.delete('tf_token');
     return res;
@@ -83,14 +83,15 @@ export function proxy(request) {
     return NextResponse.next();
   }
 
-  if (isFanAuth) {
+  if (isLoginPage) {
+    return NextResponse.redirect(new URL(homeDashboard, request.url));
+  }
+
+  if (isFanRegisterPage) {
     if (role === 'fan') {
       return NextResponse.redirect(new URL('/fan', request.url));
     }
-    if (role === 'admin' || role === 'player') {
-      return NextResponse.redirect(new URL(homeDashboard, request.url));
-    }
-    return NextResponse.next();
+    return NextResponse.redirect(new URL(homeDashboard, request.url));
   }
 
   if (isFanProtected) {
@@ -102,7 +103,7 @@ export function proxy(request) {
 
   if (isPublic) {
     if (role === 'fan') {
-      if (PLAYER_AUTH_PAGES.some((p) => pathname === p || pathname.startsWith(`${p}/`))) {
+      if (pathname === PLAYER_REGISTER_PAGE || pathname.startsWith(`${PLAYER_REGISTER_PAGE}/`)) {
         return NextResponse.redirect(new URL('/fan', request.url));
       }
       return NextResponse.next();

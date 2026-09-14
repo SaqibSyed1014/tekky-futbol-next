@@ -175,7 +175,7 @@ export default function CartDrawer() {
                     Sign in or create a fan account to check out.
                   </p>
                   <Link
-                    href={`/fan/login?next=${encodeURIComponent(pathname)}`}
+                    href={`/login?next=${encodeURIComponent(pathname)}`}
                     className="cta close-overlay cart-checkout-btn"
                     style={{ display: 'block', textAlign: 'center' }}
                   >
