@@ -87,7 +87,7 @@ export default function LoginClient() {
               backdropFilter: 'blur(18px)',
             }}
           >
-            <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", color: 'var(--tekky-blue)', fontSize: '1.8rem', marginBottom: '1.25rem' }}>
+            <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", color: 'var(--tekky-blue)', fontSize: '1.8rem', marginBottom: '1.25rem', textAlign: 'center' }}>
               Sign In
             </h2>
 
