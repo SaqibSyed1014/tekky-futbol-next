@@ -932,6 +932,22 @@ tr:hover {
   gap: 1.2rem;
 }
 
+.grid.shop-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+  .grid.shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid.shop-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .card {
   background: var(--card);
   border: 1px solid var(--line);
@@ -1413,9 +1429,9 @@ tr:hover {
 
 .color-swatches {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.55rem;
-  margin: 0.7rem 0 0.2rem;
+  margin: 0;
 }
 
 .color-swatch {
@@ -1450,6 +1466,179 @@ tr:hover {
   width: 100%;
   margin: 0;
   display: block;
+}
+
+/* ===== Shop product card — north/south/finale collections ===== */
+
+.shop-product-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  text-align: left;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.shop-product-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--line-blue);
+  box-shadow: 0 20px 44px rgba(2, 6, 20, 0.5);
+}
+
+.shop-product-card__media {
+  width: 100%;
+  line-height: 0;
+  border-bottom: 1px solid var(--line);
+  background: #05070f;
+}
+
+.shop-product-card__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.shop-product-card__body {
+  padding: 1.25rem 1.4rem 0.25rem;
+}
+
+.shop-product-card__title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+  color: var(--fg);
+  margin-bottom: 0.3rem;
+}
+
+.shop-product-card__desc {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.shop-product-card__price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+}
+
+.shop-product-card__price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.7rem;
+  letter-spacing: 1px;
+  color: var(--tekky-blue);
+}
+
+.shop-product-card__field {
+  margin-bottom: 1.1rem;
+}
+
+.shop-product-card__label {
+  display: block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 0.55rem;
+}
+
+.shop-product-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.size-options {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.size-option {
+  min-width: 34px;
+  height: 32px;
+  padding: 0 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.size-option:hover {
+  border-color: var(--line-blue);
+  color: var(--fg);
+}
+
+.size-option.is-selected {
+  background: linear-gradient(180deg, #5aa4ff 0%, #3d8bff 38%, #1e5fe0 72%, #1553d1 100%);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(21, 83, 209, 0.4);
+}
+
+.qty-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.qty-stepper button {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.qty-stepper button:hover {
+  background: rgba(61, 139, 255, 0.16);
+  color: var(--tekky-blue);
+}
+
+.qty-stepper span {
+  min-width: 26px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.shop-product-card__cta {
+  padding: 0;
+  margin-top: auto;
+}
+
+.shop-product-card__cta .cta {
+  width: 100%;
+  margin: 0;
+  display: block;
+  border-radius: 0;
+  padding: 1rem 1.5rem;
+  text-align: center;
 }
 
 @media (min-width: 901px) {

@@ -6,7 +6,7 @@ import ShopProductActions from './ShopProductActions';
 import ColorSwatches, { DEFAULT_COLOR_KEY, colorLabelFor } from './ColorSwatches';
 
 /**
- * One division-shop product card with a color swatch selector.
+ * One division-shop product card — image, quantity, and color swatches.
  * Product images live at /images/divisions/<division>/<productType>/<color>.jpg —
  * switching the swatch swaps the displayed image and the color that gets
  * added to the cart (and, from there, shown on the Stripe checkout line item).
@@ -20,30 +20,62 @@ import ColorSwatches, { DEFAULT_COLOR_KEY, colorLabelFor } from './ColorSwatches
  */
 export default function DivisionProductCard({ division, productType, name, sub, price }) {
   const [color, setColor] = useState(DEFAULT_COLOR_KEY);
+  const [quantity, setQuantity] = useState(1);
+
   const image = `/images/divisions/${division}/${productType}/${color}.jpg`;
   const colorLabel = colorLabelFor(color);
 
   return (
-    <div className="card">
-      <div className="img-placeholder real">
+    <div className="shop-product-card">
+      <div className="shop-product-card__media">
         <Image
           src={image}
           alt={`${name} — ${colorLabel}`}
-          width={300}
-          height={200}
+          width={400}
+          height={320}
           style={{ width: '100%', height: 'auto' }}
         />
       </div>
-      <h3>{name}</h3>
-      <span className="muted">{sub}</span>
-      <p className="price">{price}</p>
-      <ColorSwatches value={color} onChange={setColor} />
+
+      <div className="shop-product-card__body">
+        <h3 className="shop-product-card__title">{name}</h3>
+        <p className="shop-product-card__desc">{sub}</p>
+
+        <div className="shop-product-card__price-row">
+          <span className="shop-product-card__price">{price}</span>
+          <div className="qty-stepper">
+            <button
+              type="button"
+              aria-label="Decrease quantity"
+              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+            >
+              &minus;
+            </button>
+            <span>{quantity}</span>
+            <button
+              type="button"
+              aria-label="Increase quantity"
+              onClick={() => setQuantity((q) => Math.min(99, q + 1))}
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        <div className="shop-product-card__field">
+          <span className="shop-product-card__label">Colors</span>
+          <ColorSwatches value={color} onChange={setColor} />
+        </div>
+      </div>
+
       <ShopProductActions
         name={name}
         sub={sub}
         price={price}
         image={image}
         variant={colorLabel}
+        quantity={quantity}
+        className="shop-product-card__cta"
       />
     </div>
   );

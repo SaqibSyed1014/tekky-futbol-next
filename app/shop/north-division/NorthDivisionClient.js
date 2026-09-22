@@ -43,7 +43,7 @@ export default function NorthDivisionClient() {
               <h2>NORTH DIVISION COLLECTION</h2>
               <p className="subtext">Control. Precision. Composure. Built for structured football under the lights.</p>
 
-              <div className="grid">
+              <div className="grid shop-grid">
                   {northProducts.map((p) => (
                       <DivisionProductCard
                         key={p.name}

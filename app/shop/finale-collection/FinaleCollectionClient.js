@@ -41,7 +41,7 @@ export default function FinaleCollectionClient() {
           <h2 className="main-heading">SEASON 01 DIVISION DROPS</h2>
           <h2>FINALE COLLECTION</h2>
           <p className="subtext">Worn by those who reach the final stage. Championship energy only. Limited release.</p>
-          <div className="grid">
+          <div className="grid shop-grid">
             {finaleProducts.map((p) => (
               <DivisionProductCard
                 key={p.name}

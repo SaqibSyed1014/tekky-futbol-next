@@ -12,8 +12,10 @@ import { useCart } from '@/contexts/CartContext';
  * @param {string} props.price — display price e.g. "$80"
  * @param {string} props.image — image path
  * @param {string | null} [props.variant]
+ * @param {number} [props.quantity]
+ * @param {string} [props.className] — override the wrapper class (default 'shop-product-actions')
  */
-export default function ShopProductActions({ name, sub, price, image, variant = null }) {
+export default function ShopProductActions({ name, sub, price, image, variant = null, quantity = 1, className = 'shop-product-actions' }) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
 
@@ -24,13 +26,14 @@ export default function ShopProductActions({ name, sub, price, image, variant = 
       price,
       image,
       variant,
+      quantity,
     });
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1500);
   }
 
   return (
-    <div className="shop-product-actions">
+    <div className={className}>
       <button
         type="button"
         className="cta"

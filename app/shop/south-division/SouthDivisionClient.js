@@ -41,7 +41,7 @@ export default function SouthDivisionClient() {
               <h2>SOUTH DIVISION COLLECTION</h2>
               <p className="subtext">Intensity. Rhythm. Expression. Built for players who create under pressure.</p>
 
-              <div className="grid">
+              <div className="grid shop-grid">
                   {southProducts.map((p) => (
                       <DivisionProductCard
                         key={p.name}
