@@ -61,7 +61,7 @@ function TeamKitCard({ entry }) {
         {/* Kit thumbnail */}
         <div style={{ position: 'relative', width: 48, height: 48, flexShrink: 0 }}>
           <Image
-            src={`/images/kits/${entry.kit_slug}.webp`}
+            src={`/images/tf-kits/${entry.kit_slug}.JPEG`}
             alt={entry.kit_slug}
             fill
             style={{ objectFit: 'contain' }}

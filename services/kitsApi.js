@@ -4,9 +4,11 @@ import api from '@/services/api';
 
 /**
  * GET /kits/my/
- * Returns { kit, my_order, is_captain, team_name, max_players }
+ * Returns { kit, my_order, is_captain, team_name, max_players, preferred_division }
  * kit is null if captain hasn't selected one yet.
  * my_order is null if the user hasn't submitted their order yet.
+ * preferred_division ("north" | "south" | "") is the captain's preferred
+ * division — used to scope the kit picker to just that division's designs.
  */
 export const getMyKit = () => api.get('/kits/my/');
 

@@ -7,13 +7,13 @@ export const metadata = {
 };
 
 const northKits = Array.from({ length: 8 }, (_, i) => ({
-  img: `/images/kits/north-${i + 1}.webp`,
+  img: `/images/tf-kits/north-${i + 1}.JPEG`,
   name: `North Division Kit ${i + 1}`,
   status: 'Available',
 }));
 
 const southKits = Array.from({ length: 8 }, (_, i) => ({
-  img: `/images/kits/south-${i + 1}.webp`,
+  img: `/images/tf-kits/south-${i + 1}.JPEG`,
   name: `South Division Kit ${i + 1}`,
   status: 'Available',
 }));

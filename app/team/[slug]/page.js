@@ -202,7 +202,7 @@ export default function PublicTeamProfilePage() {
           {/* Kit thumbnail or shield icon */}
           {team.kit_slug ? (
             <div style={{ position: 'relative', width: 110, height: 110, margin: '0 auto 1rem', filter: 'drop-shadow(0 0 20px rgba(0,116,255,0.5))' }}>
-              <Image src={`/images/kits/${team.kit_slug}.webp`} alt={team.kit_slug} fill style={{ objectFit: 'contain' }} />
+              <Image src={`/images/tf-kits/${team.kit_slug}.JPEG`} alt={team.kit_slug} fill style={{ objectFit: 'contain' }} />
             </div>
           ) : (
             <div style={{

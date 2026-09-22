@@ -109,7 +109,7 @@ function LockedKitDisplay({ kitSlug }) {
         boxShadow: '0 0 30px rgba(0,200,100,0.15)',
       }}>
         <Image
-          src={`/images/kits/${kitSlug}.webp`}
+          src={`/images/tf-kits/${kitSlug}.JPEG`}
           alt={`Kit ${kitSlug}`}
           fill
           style={{ objectFit: 'contain' }}
@@ -252,13 +252,14 @@ function KitOrderForm({ existingOrder, maxPlayers, onSaved }) {
 
 // ─── Captain kit picker ────────────────────────────────────────────────────────
 
-function KitPicker({ currentSlug, onSelect, disabled }) {
+const DIVISION_LABEL = { north: 'North Division Kits', south: 'South Division Kits' };
+
+function KitPicker({ currentSlug, preferredDivision, onSelect, disabled }) {
   const [selected, setSelected] = useState(currentSlug || '');
   const [saving,   setSaving]   = useState(false);
   const [error,    setError]    = useState('');
 
-  const northKits = ALL_KITS.filter((k) => k.startsWith('north'));
-  const southKits = ALL_KITS.filter((k) => k.startsWith('south'));
+  const divisionKits = ALL_KITS.filter((k) => k.startsWith(preferredDivision));
 
   async function handleConfirm() {
     if (!selected) return;
@@ -307,7 +308,7 @@ function KitPicker({ currentSlug, onSelect, disabled }) {
               >
                 <div style={{ position: 'relative', width: '100%', paddingBottom: '100%' }}>
                   <Image
-                    src={`/images/kits/${slug}.webp`}
+                    src={`/images/tf-kits/${slug}.JPEG`}
                     alt={slug}
                     fill
                     style={{ objectFit: 'contain' }}
@@ -334,11 +335,18 @@ function KitPicker({ currentSlug, onSelect, disabled }) {
     );
   }
 
+  if (!preferredDivision) {
+    return (
+      <Banner type="warn">
+        Set your favorite division in your profile first — we use it to show you the right kit designs.
+      </Banner>
+    );
+  }
+
   return (
     <div>
       <Banner type="error">{error}</Banner>
-      <KitGrid kits={northKits} title="North Division Kits" />
-      <KitGrid kits={southKits} title="South Division Kits" />
+      <KitGrid kits={divisionKits} title={DIVISION_LABEL[preferredDivision] || 'Kits'} />
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button
           type="button"
@@ -485,7 +493,7 @@ export default function KitPage() {
     );
   }
 
-  const { kit, my_order, is_captain, team_name, max_players } = kitData;
+  const { kit, my_order, is_captain, team_name, max_players, preferred_division } = kitData;
   const kitLocked = kit?.is_locked ?? false;
 
   return (
@@ -531,6 +539,7 @@ export default function KitPage() {
                 )}
                 <KitPicker
                   currentSlug={kit?.kit_slug}
+                  preferredDivision={preferred_division}
                   onSelect={() => load()}
                   disabled={kitLocked}
                 />
