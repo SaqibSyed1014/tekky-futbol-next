@@ -1411,6 +1411,33 @@ tr:hover {
   border-color: var(--tekky-blue);
 }
 
+.color-swatches {
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  margin: 0.7rem 0 0.2rem;
+}
+
+.color-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: var(--swatch-color);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.color-swatch:hover {
+  transform: scale(1.1);
+}
+
+.color-swatch.is-selected {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4), 0 0 10px var(--swatch-color);
+}
+
 .shop-product-actions {
   display: flex;
   flex-direction: column;

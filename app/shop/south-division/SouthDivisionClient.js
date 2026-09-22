@@ -1,19 +1,18 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 import GlowDivider from '@/components/ui/GlowDivider';
 import Modal from '@/components/ui/Modal';
 import { SignupForm } from '@/components/ui/SignUpForm';
-import ShopProductActions from '@/components/shop/ShopProductActions';
+import DivisionProductCard from '@/components/shop/DivisionProductCard';
 import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import CheckoutCancelledBanner from '@/components/ui/CheckoutCancelledBanner';
 
 const southProducts = [
-  { img: '/images/shop/south-hoodie.webp', name: 'SOUTH Division Heavyweight Hoodie', sub: 'Season 01 South Drop', price: '$80' },
-  { img: '/images/shop/south-trousers.webp', name: 'SOUTH Division Heavyweight Trouser', sub: 'Season 01 South Drop', price: '$60' },
-  { img: '/images/shop/south-shorts.webp', name: 'SOUTH Division Match Shorts', sub: 'Season 01 South Drop', price: '$50' },
-  { img: '/images/shop/south-shirt.webp', name: 'SOUTH Division Match Jersey', sub: 'Season 01 South Drop', price: '$90' },
+  { productType: 'Hoodie', name: 'SOUTH Division Heavyweight Hoodie', sub: 'Season 01 South Drop', price: '$80' },
+  { productType: 'Pant', name: 'SOUTH Division Heavyweight Trouser', sub: 'Season 01 South Drop', price: '$60' },
+  { productType: 'Short', name: 'SOUTH Division Match Shorts', sub: 'Season 01 South Drop', price: '$50' },
+  { productType: 'Tshirt', name: 'SOUTH Division Match Jersey', sub: 'Season 01 South Drop', price: '$90' },
 ];
 
 export default function SouthDivisionClient() {
@@ -44,21 +43,14 @@ export default function SouthDivisionClient() {
 
               <div className="grid">
                   {southProducts.map((p) => (
-                      <div className="card" key={p.name}>
-                          <div className="img-placeholder real">
-                              <Image src={p.img} alt={p.name} width={300} height={200}
-                                     style={{width: '100%', height: 'auto'}}/>
-                          </div>
-                          <h3>{p.name}</h3>
-                          <span className="muted">{p.sub}</span>
-                          <p className="price">{p.price}</p>
-                          <ShopProductActions
-                            name={p.name}
-                            sub={p.sub}
-                            price={p.price}
-                            image={p.img}
-                          />
-                      </div>
+                      <DivisionProductCard
+                        key={p.name}
+                        division="south"
+                        productType={p.productType}
+                        name={p.name}
+                        sub={p.sub}
+                        price={p.price}
+                      />
                   ))}
               </div>
           </section>
