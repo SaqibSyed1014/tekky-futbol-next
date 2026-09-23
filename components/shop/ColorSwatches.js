@@ -9,7 +9,7 @@ export const PRODUCT_COLORS = [
   { key: 'purple', label: 'Purple', hex: '#6C2BD9' },
   { key: 'sky-blue', label: 'Sky Blue', hex: '#17B8C9' },
   { key: 'green', label: 'Green', hex: '#22B14C' },
-  { key: 'orange', label: 'Orange', hex: '#E8562A' },
+  { key: 'orange', label: 'Orange', hex: '#992a45' },
 ];
 
 export const DEFAULT_COLOR_KEY = PRODUCT_COLORS[0].key;
