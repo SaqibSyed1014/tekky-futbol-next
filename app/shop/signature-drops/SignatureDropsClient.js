@@ -26,7 +26,7 @@ export default function SignatureDropsClient() {
     <>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
-          <h1>SIGNATURE DROPS</h1>
+          <h1>STREETWEAR</h1>
           <p className="tagline">For Ballers Who Create</p>
           <p className="subtext">Season 01 drops built by division — limited pieces for the pitch, the street, and everything in between.</p>
         </div>
@@ -38,7 +38,6 @@ export default function SignatureDropsClient() {
         {cancelled && <CheckoutCancelledBanner onDismiss={dismiss} />}
 
         <section style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 className="main-heading">Signature Drops</h2>
           <h2>SIGNATURE COLLECTION</h2>
           <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Designed once. Released once. No restocks.</p>
           <div className="grid two-columns">

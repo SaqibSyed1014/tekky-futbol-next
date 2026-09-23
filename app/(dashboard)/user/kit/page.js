@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import {
   getMyKit,
+  getKitStatus,
   selectKit,
   lockKit,
   submitKitOrder,
@@ -254,12 +255,42 @@ function KitOrderForm({ existingOrder, maxPlayers, onSaved }) {
 
 const DIVISION_LABEL = { north: 'North Division Kits', south: 'South Division Kits' };
 
+function StatusBadge({ claimed }) {
+  return (
+    <span style={{
+      display: 'inline-block',
+      marginTop: '0.5rem',
+      padding: '3px 12px',
+      borderRadius: 40,
+      fontSize: '0.68rem',
+      fontWeight: 700,
+      letterSpacing: '0.02em',
+      color: claimed ? '#ff8080' : 'var(--tekky-blue)',
+      background: claimed ? 'rgba(255,60,60,0.12)' : 'rgba(61, 139, 255, 0.12)',
+      border: `1px solid ${claimed ? 'rgba(255,90,90,0.45)' : 'rgba(59, 130, 246, 0.4)'}`,
+    }}>
+      {claimed ? 'Claimed' : 'Available'}
+    </span>
+  );
+}
+
 function KitPicker({ currentSlug, preferredDivision, onSelect, disabled }) {
   const [selected, setSelected] = useState(currentSlug || '');
   const [saving,   setSaving]   = useState(false);
   const [error,    setError]    = useState('');
+  const [claimedSlugs, setClaimedSlugs] = useState([]);
+  const [statusLoading, setStatusLoading] = useState(true);
 
   const divisionKits = ALL_KITS.filter((k) => k.startsWith(preferredDivision));
+
+  useEffect(() => {
+    let cancelled = false;
+    getKitStatus()
+      .then((data) => { if (!cancelled) setClaimedSlugs(data.claimed || []); })
+      .catch(() => { /* status badges are a nice-to-have — fail quiet */ })
+      .finally(() => { if (!cancelled) setStatusLoading(false); });
+    return () => { cancelled = true; };
+  }, []);
 
   async function handleConfirm() {
     if (!selected) return;
@@ -284,29 +315,35 @@ function KitPicker({ currentSlug, preferredDivision, onSelect, disabled }) {
         }}>
           {title}
         </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '0.75rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '1.1rem' }}>
           {kits.map((slug) => {
             const isSelected = selected === slug;
+            const isClaimed = claimedSlugs.includes(slug) && slug !== currentSlug;
+            const isDisabled = disabled || isClaimed;
             return (
               <button
                 key={slug}
                 type="button"
-                onClick={() => !disabled && setSelected(slug)}
-                disabled={disabled}
+                onClick={() => !isDisabled && setSelected(slug)}
+                disabled={isDisabled}
                 style={{
                   position: 'relative',
                   background: isSelected ? 'rgba(59, 130, 246, 0.12)' : 'rgba(15, 23, 42, 0.65)',
                   border: isSelected
                     ? '2px solid var(--tekky-blue)'
                     : '2px solid rgba(59, 130, 246, 0.3)',
-                  borderRadius: 10,
-                  padding: '0.5rem',
-                  cursor: disabled ? 'not-allowed' : 'pointer',
+                  borderRadius: 14,
+                  padding: '0.85rem',
+                  cursor: isDisabled ? 'not-allowed' : 'pointer',
                   transition: 'all 0.15s',
-                  boxShadow: isSelected ? '0 0 16px rgba(59, 130, 246, 0.3)' : 'none',
+                  boxShadow: isSelected ? '0 0 20px rgba(59, 130, 246, 0.3)' : 'none',
+                  opacity: isClaimed ? 0.5 : 1,
                 }}
               >
-                <div style={{ position: 'relative', width: '100%', paddingBottom: '100%' }}>
+                <div style={{
+                  position: 'relative', width: '100%', paddingBottom: '100%',
+                  borderRadius: 10, overflow: 'hidden', background: 'rgba(0,0,0,0.35)',
+                }}>
                   <Image
                     src={`/images/tf-kits/${slug}.JPEG`}
                     alt={slug}
@@ -316,17 +353,25 @@ function KitPicker({ currentSlug, preferredDivision, onSelect, disabled }) {
                 </div>
                 {isSelected && (
                   <div style={{
-                    position: 'absolute', top: 4, right: 4,
+                    position: 'absolute', top: 12, right: 12,
                     background: 'var(--tekky-blue)', borderRadius: '50%',
-                    width: 18, height: 18,
+                    width: 22, height: 22,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: '0 0 10px rgba(61,139,255,0.6)',
                   }}>
-                    <i className="fa-solid fa-check" style={{ fontSize: '0.6rem', color: '#fff' }} />
+                    <i className="fa-solid fa-check" style={{ fontSize: '0.7rem', color: '#fff' }} />
                   </div>
                 )}
-                <p style={{ margin: '0.4rem 0 0', fontSize: '0.65rem', color: isSelected ? 'var(--tekky-blue)' : 'var(--muted)', textAlign: 'center' }}>
+                <p style={{ margin: '0.6rem 0 0', fontSize: '0.78rem', fontWeight: 600, color: isSelected ? 'var(--tekky-blue)' : 'var(--fg)', textAlign: 'center' }}>
                   {slug}
                 </p>
+                <div style={{ textAlign: 'center' }}>
+                  {statusLoading ? (
+                    <span style={{ display: 'inline-block', marginTop: '0.5rem', fontSize: '0.68rem', color: 'var(--muted)' }}>—</span>
+                  ) : (
+                    <StatusBadge claimed={isClaimed} />
+                  )}
+                </div>
               </button>
             );
           })}

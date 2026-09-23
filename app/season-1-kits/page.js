@@ -1,34 +1,11 @@
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
+import SeasonKitsBrowser from '@/components/shop/SeasonKitsBrowser';
 
 export const metadata = {
   title: 'TekkyFutbol — Season 1 Kits',
   description: 'One team. One kit. All season—designed for consistency, clarity, and presence at game speed.',
 };
-
-const northKits = Array.from({ length: 8 }, (_, i) => ({
-  img: `/images/tf-kits/north-${i + 1}.JPEG`,
-  name: `North Division Kit ${i + 1}`,
-  status: 'Available',
-}));
-
-const southKits = Array.from({ length: 8 }, (_, i) => ({
-  img: `/images/tf-kits/south-${i + 1}.JPEG`,
-  name: `South Division Kit ${i + 1}`,
-  status: 'Available',
-}));
-
-function KitCard({ kit }) {
-  return (
-    <div className="card" style={{ textAlign: 'center' }}>
-      <div style={{ width: '100%', height: 200, borderRadius: 12, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', background: 'rgba(0,116,255,0.05)' }}>
-        <img src={kit.img} alt={kit.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-      </div>
-      <div style={{ fontWeight: 600 }}>{kit.name}</div>
-      <div style={{ border: '1px solid var(--line-blue)', borderRadius: 40, padding: '6px 20px', color: '#fff', fontSize: 14, display: 'inline-block', background: 'rgba(61, 139, 255, 0.12)' }}>{kit.status}</div>
-    </div>
-  );
-}
 
 export default function Season1KitsPage() {
   return (
@@ -58,35 +35,9 @@ export default function Season1KitsPage() {
 
         <GlowDivider />
 
-        {/*<section id="northKits" style={{ margin: '3rem 0', textAlign: 'center' }}>*/}
-        {/*  <h2>North Division Kits</h2>*/}
-        {/*  <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Teams competing in the North Division will select their kit from the options below.</p>*/}
-        {/*  <div className="divisions-grid" style={{ marginTop: '1.5rem' }}>*/}
-        {/*    {northKits.map((kit) => <KitCard key={kit.name} kit={kit} />)}*/}
-        {/*  </div>*/}
-        {/*  <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Secure your preferred kit early.</p>*/}
-        {/*  <div className="sec-cta">*/}
-        {/*    <Link className="cta" href="/registration">Register Your Team</Link>*/}
-        {/*    <Link className="cta" href="/registration">Free Agent</Link>*/}
-        {/*  </div>*/}
-        {/*</section>*/}
+        <SeasonKitsBrowser />
 
-        {/*<GlowDivider />*/}
-
-        {/*<section id="southKits" style={{ margin: '3rem 0', textAlign: 'center' }}>*/}
-        {/*  <h2>South Division Kits</h2>*/}
-        {/*  <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Teams competing in the South Division will select their kit from the options below.</p>*/}
-        {/*  <div className="divisions-grid" style={{ marginTop: '1.5rem' }}>*/}
-        {/*    {southKits.map((kit) => <KitCard key={kit.name} kit={kit} />)}*/}
-        {/*  </div>*/}
-        {/*  <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Availability will not last once selection begins.</p>*/}
-        {/*  <div className="sec-cta">*/}
-        {/*    <Link className="cta" href="/registration">Register Your Team</Link>*/}
-        {/*    <Link className="cta" href="/registration">Free Agent</Link>*/}
-        {/*  </div>*/}
-        {/*</section>*/}
-
-        {/*<GlowDivider />*/}
+        <GlowDivider />
 
         <section style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2>One Team. One Kit.</h2>

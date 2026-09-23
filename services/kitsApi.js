@@ -1,5 +1,14 @@
 import api from '@/services/api';
 
+// ─── Public endpoints ────────────────────────────────────────────────────────
+
+/**
+ * GET /kits/status/
+ * Public, unauthenticated. Returns { claimed: string[] } — kit slugs that
+ * are currently locked by a captain. Used by the public Season 1 Kits page.
+ */
+export const getKitStatus = () => api.get('/kits/status/');
+
 // ─── Team member endpoints ───────────────────────────────────────────────────
 
 /**
