@@ -84,16 +84,16 @@ export default function TopScorersPage() {
         <GlowDivider />
 
         <section id="golden-creator" style={{ margin: '3rem 0' }}>
-          <h2>GOLDEN CREATOR AWARD</h2>
+          <h2>GOLDEN STRIKER AWARD</h2>
           <p className="text-left">At the end of each season:</p>
           <ul className="bullet-list">
-            <li>Highest official goal total wins the Golden Creator</li>
+            <li>Highest official goal total wins the Golden Striker</li>
             <li>Award presented at the Finale</li>
             <li>Tiebreaker: Fewest matches played</li>
             <li>Secondary tiebreaker: Playoff goals</li>
           </ul>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Dominion may reward flair.</p>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>But the Golden Creator rewards finishers.</p>
+          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>But the Golden Striker rewards finishers.</p>
         </section>
 
         <GlowDivider />
