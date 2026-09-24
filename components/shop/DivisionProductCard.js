@@ -64,7 +64,7 @@ export default function DivisionProductCard({ division, productType, name, sub, 
 
         <div className="shop-product-card__field">
           <span className="shop-product-card__label">Colors</span>
-          <ColorSwatches value={color} onChange={setColor} />
+          <ColorSwatches value={color} onChange={setColor} division={division} />
         </div>
       </div>
 

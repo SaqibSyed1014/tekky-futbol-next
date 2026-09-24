@@ -14,17 +14,31 @@ export const PRODUCT_COLORS = [
 
 export const DEFAULT_COLOR_KEY = PRODUCT_COLORS[0].key;
 
+/** Per-division swatch-color overrides — label stays the same, only the dot's hex changes. */
+const DIVISION_COLOR_OVERRIDES = {
+  finale: { orange: '#bf4845' },
+};
+
+function colorsForDivision(division) {
+  const overrides = DIVISION_COLOR_OVERRIDES[division];
+  if (!overrides) return PRODUCT_COLORS;
+  return PRODUCT_COLORS.map((c) => (overrides[c.key] ? { ...c, hex: overrides[c.key] } : c));
+}
+
 export function colorLabelFor(key) {
   return PRODUCT_COLORS.find((c) => c.key === key)?.label || key;
 }
 
 /**
  * Row of circular color swatches. Controlled — pass `value` (color key) and `onChange`.
+ * `division` is optional — lets a specific division override a swatch's hex
+ * (e.g. Finale's last swatch) without affecting the others.
  */
-export default function ColorSwatches({ value, onChange }) {
+export default function ColorSwatches({ value, onChange, division }) {
+  const colors = colorsForDivision(division);
   return (
     <div className="color-swatches" role="radiogroup" aria-label="Color">
-      {PRODUCT_COLORS.map((c) => {
+      {colors.map((c) => {
         const selected = value === c.key;
         return (
           <button
