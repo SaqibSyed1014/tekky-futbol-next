@@ -82,7 +82,6 @@ export default function TopScorersPage() {
         </section>
 
         <GlowDivider />
-
         <section id="golden-creator" style={{ margin: '3rem 0' }}>
           <h2>GOLDEN STRIKER AWARD</h2>
           <p className="text-left">At the end of each season:</p>
