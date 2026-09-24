@@ -1,18 +1,17 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 import GlowDivider from '@/components/ui/GlowDivider';
 import Modal from '@/components/ui/Modal';
 import { SignupForm } from '@/components/ui/SignUpForm';
-import ShopProductActions from '@/components/shop/ShopProductActions';
+import SimpleProductCard from '@/components/shop/SimpleProductCard';
 import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import CheckoutCancelledBanner from '@/components/ui/CheckoutCancelledBanner';
 
-const signatureProducts = [
-  { name: 'North Division Button-Up Jersey', sub: 'HEAVYWEIGHT MESH', price: '$100' },
-  { name: 'South Division Button-Up Jersey', sub: 'HEAVYWEIGHT MESH', price: '$100' },
-  { name: 'Finale Button-Up Jersey', sub: 'HEAVYWEIGHT MESH', price: '$100' },
+const streetwearProducts = [
+  { img: '/images/divisions/streatwear/north-jersey.jpg', name: 'North Division Button-Up Jersey', sub: 'HEAVYWEIGHT MESH', price: '$100' },
+  { img: '/images/divisions/streatwear/south-jersey.jpg', name: 'South Division Button-Up Jersey', sub: 'HEAVYWEIGHT MESH', price: '$100' },
+  { img: '/images/divisions/streatwear/finale-jersey.jpg', name: 'Finale Button-Up Jersey', sub: 'HEAVYWEIGHT MESH', price: '$100' },
 ];
 
 export default function StreetwearClient() {
@@ -38,22 +37,15 @@ export default function StreetwearClient() {
         {cancelled && <CheckoutCancelledBanner onDismiss={dismiss} />}
 
         <section style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <div className="grid two-columns">
-            {signatureProducts.map((p) => (
-              <div className="card drop" key={p.name}>
-                <div className="img-placeholder show">
-                  <Image src="/images/logo.webp" alt={p.name} width={120} height={120} />
-                </div>
-                <h3>{p.name}</h3>
-                <span className="muted">{p.sub}</span>
-                <p className="price">{p.price}</p>
-                <ShopProductActions
-                  name={p.name}
-                  sub={p.sub}
-                  price={p.price}
-                  image="/images/logo.webp"
-                />
-              </div>
+          <div className="grid shop-grid">
+            {streetwearProducts.map((p) => (
+              <SimpleProductCard
+                key={p.name}
+                image={p.img}
+                name={p.name}
+                sub={p.sub}
+                price={p.price}
+              />
             ))}
           </div>
         </section>
