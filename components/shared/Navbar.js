@@ -261,7 +261,7 @@ export default function Navbar() {
               <NavLink href="/shop/north-division">North Division</NavLink>
               <NavLink href="/shop/south-division">South Division</NavLink>
               <NavLink href="/shop/finale-collection">Finale Collection</NavLink>
-              <NavLink href="/shop/signature-drops">Signature Drops</NavLink>
+              <NavLink href="/shop/streetwear">Streetwear</NavLink>
             </Dropdown>
 
             {/* About dropdown */}

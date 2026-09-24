@@ -9,10 +9,10 @@ import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import CheckoutCancelledBanner from '@/components/ui/CheckoutCancelledBanner';
 
 const northProducts = [
-  { productType: 'Hoodie', name: 'North Division Heavyweight Hoodie', sub: 'Season 01 North Drop', price: '$80' },
-  { productType: 'Pant', name: 'North Division Heavyweight Trouser', sub: 'Season 01 North Drop', price: '$60' },
-  { productType: 'Short', name: 'North Division Match Shorts', sub: 'Season 01 North Drop', price: '$50' },
-  { productType: 'Tshirt', name: 'North Division Match Jersey', sub: 'Season 01 North Drop', price: '$90' },
+  { productType: 'Hoodie', name: 'PITCH SIDE HOODIE', sub: 'Season 01 North Drop', price: '$80' },
+  { productType: 'Pant', name: 'PITCH WARM-UP TROUSER', sub: 'Season 01 North Drop', price: '$60' },
+  { productType: 'Short', name: 'S01 MATCH SHORTS', sub: 'Season 01 North Drop', price: '$50' },
+  { productType: 'Tshirt', name: 'S01 MATCH JERSEY', sub: 'Season 01 North Drop', price: '$90' },
 ];
 
 export default function NorthDivisionClient() {
@@ -26,10 +26,10 @@ export default function NorthDivisionClient() {
     <>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
-          <h1>North Division Drops</h1>
+          <h1>NORTH DIVISION PERFORMANCE</h1>
           <p className="tagline">For Ballers Who Create</p>
           <p className="subtext">
-              Season 01 drops built by division — limited pieces for the pitch, the street, and everything in between.
+              Official North Division match kits and technical activewear built for high-speed performance under the lights.
           </p>
         </div>
       </header>
@@ -40,9 +40,6 @@ export default function NorthDivisionClient() {
         {cancelled && <CheckoutCancelledBanner onDismiss={dismiss} />}
 
           <section style={{margin: '3rem 0', textAlign: 'center'}}>
-              <h2>NORTH DIVISION COLLECTION</h2>
-              <p className="subtext">Control. Precision. Composure. Built for structured football under the lights.</p>
-
               <div className="grid shop-grid">
                   {northProducts.map((p) => (
                       <DivisionProductCard
@@ -62,10 +59,10 @@ export default function NorthDivisionClient() {
           <section id="subscribe" style={{margin: '3rem 0', textAlign: 'center'}}>
           <h2>Stay Connected</h2>
           <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            Subscribe to stay in the loop — new drops, finale events, and culture updates straight from the league.
+            Subscribe to stay in the loop — league standings, restock alerts, and exclusive signature drops straight from TekkyFutbol.
           </p>
           <div className="sec-cta">
-            <button className="cta" onClick={() => setUpdatesOpen(true)}>Get updates on future drops</button>
+            <button className="cta" onClick={() => setUpdatesOpen(true)}>GET LEAGUE UPDATES</button>
           </div>
         </section>
       </main>

@@ -9,10 +9,10 @@ import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import CheckoutCancelledBanner from '@/components/ui/CheckoutCancelledBanner';
 
 const finaleProducts = [
-  { productType: 'Hoodie', name: 'FINALE Heavyweight HOODIE', sub: 'Season 01 Finale Drop', price: '$80' },
-  { productType: 'Pant', name: 'FINALE Heavyweight TROUSER', sub: 'Season 01 Finale Drop', price: '$60' },
-  { productType: 'Short', name: 'FINALE Match SHORTS', sub: 'Season 01 Finale Drop', price: '$50' },
-  { productType: 'Tshirt', name: 'FINALE Match JERSEY', sub: 'Season 01 Finale Drop', price: '$90' },
+  { productType: 'Hoodie', name: 'PITCH SIDE HOODIE', sub: 'Season 01 Finale Drop', price: '$80' },
+  { productType: 'Pant', name: 'PITCH WARM-UP TROUSER', sub: 'Season 01 Finale Drop', price: '$60' },
+  { productType: 'Short', name: 'S01 MATCH SHORTS', sub: 'Season 01 Finale Drop', price: '$50' },
+  { productType: 'Tshirt', name: 'S01 MATCH JERSEY', sub: 'Season 01 Finale Drop', price: '$90' },
 ];
 
 export default function FinaleCollectionClient() {
@@ -26,9 +26,9 @@ export default function FinaleCollectionClient() {
     <>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
-          <h1>FINALE COLLECTION DROPS</h1>
+          <h1>FINALE COLLECTION PERFORMANCE</h1>
           <p className="tagline">For Ballers Who Create</p>
-          <p className="subtext">Season 01 drops built by division — limited pieces for the pitch, the street, and everything in between.</p>
+          <p className="subtext">Official Finale Collection match kits and technical activewear built for high-speed performance under the lights.</p>
         </div>
       </header>
 
@@ -38,9 +38,6 @@ export default function FinaleCollectionClient() {
         {cancelled && <CheckoutCancelledBanner onDismiss={dismiss} />}
 
         <section style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 className="main-heading">SEASON 01 DIVISION DROPS</h2>
-          <h2>FINALE COLLECTION</h2>
-          <p className="subtext">Worn by those who reach the final stage. Championship energy only. Limited release.</p>
           <div className="grid shop-grid">
             {finaleProducts.map((p) => (
               <DivisionProductCard
@@ -60,10 +57,10 @@ export default function FinaleCollectionClient() {
         <section id="subscribe" style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2>Stay Connected</h2>
           <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            Subscribe to stay in the loop — new drops, finale events, and culture updates straight from the league.
+            Subscribe to stay in the loop — league standings, restock alerts, and exclusive signature drops straight from TekkyFutbol.
           </p>
           <div className="sec-cta">
-            <button className="cta" onClick={() => setUpdatesOpen(true)}>Get updates on future drops</button>
+            <button className="cta" onClick={() => setUpdatesOpen(true)}>GET LEAGUE UPDATES</button>
           </div>
         </section>
       </main>

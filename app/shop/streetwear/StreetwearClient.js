@@ -10,12 +10,12 @@ import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import CheckoutCancelledBanner from '@/components/ui/CheckoutCancelledBanner';
 
 const signatureProducts = [
-  { name: 'North Division Button-Up Jersey', sub: 'Designed once. Released once.', price: '$100' },
-  { name: 'South Division Button-Up Jersey', sub: 'Designed once. Released once.', price: '$100' },
-  { name: 'Finale Button-Up Jersey', sub: 'Designed once. Released once.', price: '$100' },
+  { name: 'North Division Button-Up Jersey', sub: 'HEAVYWEIGHT MESH', price: '$100' },
+  { name: 'South Division Button-Up Jersey', sub: 'HEAVYWEIGHT MESH', price: '$100' },
+  { name: 'Finale Button-Up Jersey', sub: 'HEAVYWEIGHT MESH', price: '$100' },
 ];
 
-export default function SignatureDropsClient() {
+export default function StreetwearClient() {
   const [signatureOpen, setSignatureOpen] = useState(false);
   const [signatureSuccess, setSignatureSuccess] = useState(false);
   const [updatesOpen, setUpdatesOpen] = useState(false);
@@ -26,9 +26,9 @@ export default function SignatureDropsClient() {
     <>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
-          <h1>STREETWEAR</h1>
+          <h1>STREETWEAR CAPSULES // LIMITED RUNS</h1>
           <p className="tagline">For Ballers Who Create</p>
-          <p className="subtext">Season 01 drops built by division — limited pieces for the pitch, the street, and everything in between.</p>
+          <p className="subtext">Crafted from heavyweight textiles, custom silhouettes, and limited production batches. Street culture engineered for creators off the pitch.</p>
         </div>
       </header>
 
@@ -38,8 +38,6 @@ export default function SignatureDropsClient() {
         {cancelled && <CheckoutCancelledBanner onDismiss={dismiss} />}
 
         <section style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2>SIGNATURE COLLECTION</h2>
-          <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Designed once. Released once. No restocks.</p>
           <div className="grid two-columns">
             {signatureProducts.map((p) => (
               <div className="card drop" key={p.name}>
