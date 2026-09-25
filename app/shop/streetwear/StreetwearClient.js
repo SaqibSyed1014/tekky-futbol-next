@@ -45,6 +45,7 @@ export default function StreetwearClient() {
                 name={p.name}
                 sub={p.sub}
                 price={p.price}
+                onNotify={() => setSignatureOpen(true)}
               />
             ))}
           </div>

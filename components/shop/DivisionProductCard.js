@@ -17,8 +17,9 @@ import ColorSwatches, { DEFAULT_COLOR_KEY, colorLabelFor } from './ColorSwatches
  * @param {string} props.name
  * @param {string} props.sub
  * @param {string} props.price
+ * @param {() => void} [props.onNotify] — opens the page's early-access modal instead of adding to cart
  */
-export default function DivisionProductCard({ division, productType, name, sub, price }) {
+export default function DivisionProductCard({ division, productType, name, sub, price, onNotify }) {
   const [color, setColor] = useState(DEFAULT_COLOR_KEY);
   const [quantity, setQuantity] = useState(1);
 
@@ -76,6 +77,7 @@ export default function DivisionProductCard({ division, productType, name, sub, 
         variant={colorLabel}
         quantity={quantity}
         className="shop-product-card__cta"
+        onNotify={onNotify}
       />
     </div>
   );

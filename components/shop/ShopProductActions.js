@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { useCart } from '@/contexts/CartContext';
 
 /**
- * Add to Cart action for shop product cards.
+ * "Notify Me At Drop" action for shop product cards. When the page supplies
+ * `onNotify` (i.e. the product isn't live for purchase yet), the button opens
+ * that page's early-access modal instead of adding the item to the cart.
  *
  * @param {Object} props
  * @param {string} props.name
@@ -14,12 +16,17 @@ import { useCart } from '@/contexts/CartContext';
  * @param {string | null} [props.variant]
  * @param {number} [props.quantity]
  * @param {string} [props.className] — override the wrapper class (default 'shop-product-actions')
+ * @param {() => void} [props.onNotify] — opens the page's early-access modal; when omitted, falls back to adding the item to the cart
  */
-export default function ShopProductActions({ name, sub, price, image, variant = null, quantity = 1, className = 'shop-product-actions' }) {
+export default function ShopProductActions({ name, sub, price, image, variant = null, quantity = 1, className = 'shop-product-actions', onNotify }) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
 
-  function handleAddToCart() {
+  function handleClick() {
+    if (onNotify) {
+      onNotify();
+      return;
+    }
     addItem({
       name,
       description: sub,
@@ -37,9 +44,9 @@ export default function ShopProductActions({ name, sub, price, image, variant = 
       <button
         type="button"
         className="cta"
-        onClick={handleAddToCart}
+        onClick={handleClick}
       >
-        {added ? 'Added!' : 'Add to Cart'}
+        {added ? 'Added!' : 'Notify Me At Drop'}
       </button>
     </div>
   );

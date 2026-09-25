@@ -15,8 +15,9 @@ import ShopProductActions from './ShopProductActions';
  * @param {string} props.name
  * @param {string} props.sub
  * @param {string} props.price
+ * @param {() => void} [props.onNotify] — opens the page's early-access modal instead of adding to cart
  */
-export default function SimpleProductCard({ image, name, sub, price }) {
+export default function SimpleProductCard({ image, name, sub, price, onNotify }) {
   const [quantity, setQuantity] = useState(1);
 
   return (
@@ -64,6 +65,7 @@ export default function SimpleProductCard({ image, name, sub, price }) {
         image={image}
         quantity={quantity}
         className="shop-product-card__cta"
+        onNotify={onNotify}
       />
     </div>
   );

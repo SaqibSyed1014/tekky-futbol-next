@@ -47,6 +47,7 @@ export default function SouthDivisionClient() {
                         name={p.name}
                         sub={p.sub}
                         price={p.price}
+                        onNotify={() => setEarlyAccessOpen(true)}
                       />
                   ))}
               </div>
