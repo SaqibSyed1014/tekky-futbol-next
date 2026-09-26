@@ -190,7 +190,7 @@ export default function HomeClient() {
           <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', textAlign: 'center', marginBottom: '0.5rem' }}>The Drip</h2>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Each season drops limited gear. Built for creators on and off the pitch.</p>
           <div className="sec-cta">
-            <Link className="cta" href="/shop">Shop the Collection</Link>
+            <Link className="cta" href="/shop/finale-collection">Shop the Collection</Link>
           </div>
         </section>
 
