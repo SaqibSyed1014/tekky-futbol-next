@@ -108,7 +108,6 @@ export default function NextFixturesClient() {
         <div className="sec-cta">
           <Link className="cta" href="/results">View Results</Link>
           <Link className="cta" href="/registration">Register Your Squad</Link>
-          <Link className="cta" href="/">Back to Home</Link>
         </div>
       </main>
     </>

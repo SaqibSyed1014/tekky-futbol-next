@@ -107,7 +107,6 @@ export default function VenuesPage() {
         <div className="sec-cta">
           <Link className="cta" href="/schedule">View Schedule</Link>
           <Link className="cta" href="/registration">Register Your Squad</Link>
-          <Link className="cta" href="/">Back to Home</Link>
         </div>
       </main>
     </>

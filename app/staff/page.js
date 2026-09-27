@@ -64,7 +64,6 @@ export default function StaffPage() {
         <div className="sec-cta">
           <Link className="cta" href="/registration">Register Your Squad</Link>
           <Link className="cta" href="/partners">View Partners</Link>
-          <Link className="cta" href="/">Back to Home</Link>
         </div>
       </main>
     </>

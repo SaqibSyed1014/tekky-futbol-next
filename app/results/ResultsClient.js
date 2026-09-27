@@ -163,7 +163,6 @@ export default function ResultsClient() {
         <div className="sec-cta">
           <Link className="cta" href="/next-fixtures">View Next Fixtures</Link>
           <Link className="cta" href="/registration">Register Your Squad</Link>
-          <Link className="cta" href="/">Back to Home</Link>
         </div>
       </main>
     </>

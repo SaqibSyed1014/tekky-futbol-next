@@ -212,12 +212,6 @@ export default function LoginClient() {
             </span>
           </div>
         </section>}
-
-        <GlowDivider />
-
-        <div className="sec-cta">
-          <Link className="cta" href="/">Back to Home</Link>
-        </div>
       </main>
     </>
   );

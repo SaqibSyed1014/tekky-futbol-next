@@ -118,8 +118,6 @@ export default function PartnershipInquiryClient() {
             </button>
           </form>
         </section>
-
-        <GlowDivider />
       </main>
 
       <Modal isOpen={success} onClose={() => setSuccess(false)}>

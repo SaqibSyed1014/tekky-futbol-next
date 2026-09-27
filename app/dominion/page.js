@@ -134,15 +134,6 @@ export default function Page() {
             <li>Ceremony + Celebration included</li>
           </ul>
         </section>
-
-        <GlowDivider/>
-
-        <section>
-          <div className="sec-cta">
-            <a className="cta un-focused" href="#top">Back to Top</a>
-            <a className="cta" href="registration.html">Register Now</a>
-          </div>
-        </section>
       </main>
     </>
   );

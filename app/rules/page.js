@@ -145,13 +145,6 @@ export default function RulesPage() {
             <Link className="cta" href="/registration">Play With Respect — Register</Link>
           </div>
         </section>
-
-        <GlowDivider />
-
-        <div className="sec-cta">
-          <Link className="cta" href="/registration">Register Now</Link>
-          <Link className="cta" href="/">Back to Home</Link>
-        </div>
       </main>
     </>
   );
