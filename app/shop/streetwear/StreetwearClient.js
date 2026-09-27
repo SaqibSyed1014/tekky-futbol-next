@@ -56,10 +56,10 @@ export default function StreetwearClient() {
         <section id="subscribe" style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2>Stay Connected</h2>
           <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            Subscribe to stay in the loop — new drops, finale events, and culture updates straight from the league.
+              Get early access to kit drops, exclusive collabs, and live event updates from the culture.
           </p>
           <div className="sec-cta">
-            <button className="cta" onClick={() => setUpdatesOpen(true)}>Get updates on future drops</button>
+            <button className="cta" onClick={() => setUpdatesOpen(true)}>JOIN THE CLUB</button>
           </div>
         </section>
       </main>

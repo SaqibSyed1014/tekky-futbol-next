@@ -56,12 +56,12 @@ export default function FinaleCollectionClient() {
         <GlowDivider />
 
         <section id="subscribe" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2>Stay Connected</h2>
+          <h2>NEVER OUT OF REACH</h2>
           <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            Subscribe to stay in the loop — league standings, restock alerts, and exclusive signature drops straight from TekkyFutbol.
+              Sign up to receive instant restock alerts, core collection updates, and priority notifications for back-in-stock gear.
           </p>
           <div className="sec-cta">
-            <button className="cta" onClick={() => setUpdatesOpen(true)}>GET LEAGUE UPDATES</button>
+            <button className="cta" onClick={() => setUpdatesOpen(true)}>NOTIFY ME ON RESTOCK</button>
           </div>
         </section>
       </main>
@@ -78,9 +78,9 @@ export default function FinaleCollectionClient() {
       </Modal>
 
       <Modal isOpen={updatesOpen && !updatesSuccess} onClose={() => setUpdatesOpen(false)}>
-        <h3>Access Drops Before They&#39;re Gone</h3>
-        <p className="subtext">Get early access to limited TekkyFutbol drops, collabs, and special releases.</p>
-        <SignupForm type="Updates on Future Drops" ctaLabel="Get Early Access" onSuccess={() => { setUpdatesOpen(false); setUpdatesSuccess(true); }} />
+        <h3>BACK IN YOUR ROTATION</h3>
+        <p className="subtext">Sign up for instant restock alerts on core essentials and priority notifications when sold-out sizes return.</p>
+        <SignupForm type="Updates on Future Drops" ctaLabel="SET RESTOCK ALERTS" onSuccess={() => { setUpdatesOpen(false); setUpdatesSuccess(true); }} />
       </Modal>
       <Modal isOpen={updatesSuccess} onClose={() => setUpdatesSuccess(false)}>
         <h3>Access Secured</h3>
