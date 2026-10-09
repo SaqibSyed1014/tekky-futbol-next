@@ -28,29 +28,41 @@ const ADMIN_NAV = [
   { href: '/admin/waivers',        icon: 'fa-solid fa-file-signature',  label: 'Waivers'      },
   { href: '/admin/kits',           icon: 'fa-solid fa-shirt',           label: 'Kits'         },
   { href: '/admin/payments',       icon: 'fa-solid fa-dollar-sign',     label: 'Payments'     },
+  { href: '/admin/tickets',        icon: 'fa-solid fa-ticket',          label: 'Tickets'      },
 ];
 
 const PLAYER_NAV = [
-  { href: '/user',         icon: 'fa-solid fa-house',          label: 'Home'    },
-  { href: '/user/waiver',  icon: 'fa-solid fa-file-signature', label: 'Waiver'  },
-  { href: '/user/kit',     icon: 'fa-solid fa-shirt',          label: 'Kit'     },
-  { href: '/user/payment', icon: 'fa-solid fa-credit-card',    label: 'Payment' },
+  { href: '/user',             icon: 'fa-solid fa-house',          label: 'Home'       },
+  { href: '/user/waiver',      icon: 'fa-solid fa-file-signature', label: 'Waiver'     },
+  { href: '/user/kit',         icon: 'fa-solid fa-shirt',          label: 'Kit'        },
+  { href: '/user/payment',     icon: 'fa-solid fa-credit-card',    label: 'Payment'    },
+  { href: '/user/broadcasts',  icon: 'fa-solid fa-video',          label: 'Broadcasts' },
+  { href: '/shop',             icon: 'fa-solid fa-shirt',          label: 'Clothing'   },
+  { href: '/user/tickets',     icon: 'fa-solid fa-ticket',         label: 'Tickets'    },
+  { href: '/user/orders',      icon: 'fa-solid fa-bag-shopping',   label: 'Orders'     },
 ];
 
 // Captain shares the /user route but also gets roster nav links
 const CAPTAIN_NAV = [
-  { href: '/user',         icon: 'fa-solid fa-house',            label: 'Home'         },
-  { href: '/user/roster',  icon: 'fa-solid fa-users',            label: 'My Roster'    },
-  { href: '/user/pool',    icon: 'fa-solid fa-magnifying-glass', label: 'Find Players' },
-  { href: '/user/waiver',  icon: 'fa-solid fa-file-signature',   label: 'Waiver'       },
-  { href: '/user/kit',     icon: 'fa-solid fa-shirt',            label: 'Kit'          },
-  { href: '/user/payment', icon: 'fa-solid fa-credit-card',      label: 'Payment'      },
+  { href: '/user',             icon: 'fa-solid fa-house',            label: 'Home'         },
+  { href: '/user/roster',      icon: 'fa-solid fa-users',            label: 'My Roster'    },
+  { href: '/user/pool',        icon: 'fa-solid fa-magnifying-glass', label: 'Find Players' },
+  { href: '/user/waiver',      icon: 'fa-solid fa-file-signature',   label: 'Waiver'       },
+  { href: '/user/kit',         icon: 'fa-solid fa-shirt',            label: 'Kit'          },
+  { href: '/user/payment',     icon: 'fa-solid fa-credit-card',      label: 'Payment'      },
+  { href: '/user/broadcasts',  icon: 'fa-solid fa-video',            label: 'Broadcasts'   },
+  { href: '/shop',             icon: 'fa-solid fa-shirt',            label: 'Clothing'     },
+  { href: '/user/tickets',     icon: 'fa-solid fa-ticket',           label: 'Tickets'      },
+  { href: '/user/orders',      icon: 'fa-solid fa-bag-shopping',     label: 'Orders'       },
 ];
 
 const FAN_NAV = [
-  { href: '/fan',         icon: 'fa-solid fa-house',        label: 'Home'    },
-  { href: '/fan/profile', icon: 'fa-solid fa-user',         label: 'Profile' },
-  { href: '/fan/orders',  icon: 'fa-solid fa-bag-shopping', label: 'Orders'  },
+  { href: '/fan',             icon: 'fa-solid fa-house',        label: 'Home'       },
+  { href: '/fan/profile',     icon: 'fa-solid fa-user',         label: 'Profile'    },
+  { href: '/fan/broadcasts',  icon: 'fa-solid fa-video',        label: 'Broadcasts' },
+  { href: '/shop',            icon: 'fa-solid fa-shirt',        label: 'Clothing'   },
+  { href: '/fan/tickets',     icon: 'fa-solid fa-ticket',       label: 'Tickets'    },
+  { href: '/fan/orders',      icon: 'fa-solid fa-bag-shopping', label: 'Orders'     },
 ];
 
 const PAGE_TITLES = {
@@ -64,6 +76,7 @@ const PAGE_TITLES = {
   '/admin/players':        'Players',
   '/admin/fans':           'Fans',
   '/admin/payments':       'Payments',
+  '/admin/tickets':        'Tickets',
   '/user':                 'Dashboard',
   '/user/roster':          'My Roster',
   '/user/invites':         'Invitations',
@@ -72,8 +85,13 @@ const PAGE_TITLES = {
   '/user/profile':         'My Profile',
   '/user/kit':             'Kit Selection',
   '/user/payment':         'Registration Fee',
+  '/user/broadcasts':      'Broadcasts',
+  '/user/tickets':         'My Tickets',
+  '/user/orders':          'Order History',
   '/fan':                  'Dashboard',
   '/fan/profile':          'My Profile',
+  '/fan/broadcasts':       'Broadcasts',
+  '/fan/tickets':          'My Tickets',
   '/fan/orders':           'Order History',
 };
 
@@ -394,7 +412,7 @@ export default function DashboardLayout({ children }) {
   const waiting = loading || !user;
   // Standalone mode: waiver viewer at /admin/waivers/[userId]
   // Authenticated as admin (guard above), but no sidebar or topbar needed.
-  const isStandalone = /^\/admin\/waivers\/[^/]+$/.test(pathname);
+  const isStandalone = /^\/admin\/waivers\/[^/]+$/.test(pathname) || pathname === '/admin/tickets/scan';
   const isAdmin = user?.role === 'admin';
   const dashTone = getDashTone(pathname);
 

@@ -248,6 +248,13 @@ export default function Navbar() {
             <li>
               <Link href="/season-1-kits">Season 1 Kits</Link>
             </li>
+            {/* Clothing dropdown */}
+            <Dropdown name="clothing" label="Clothing">
+              <NavLink href="/shop/north-division">North Division</NavLink>
+              <NavLink href="/shop/south-division">South Division</NavLink>
+              <NavLink href="/shop/finale-collection">Finale Collection</NavLink>
+              <NavLink href="/shop/streetwear">Streetwear</NavLink>
+            </Dropdown>
 
             {/* desktop center logo */}
             <li className="logo-desktop">
@@ -256,12 +263,11 @@ export default function Navbar() {
               </Link>
             </li>
 
-            {/* Shop dropdown */}
-            <Dropdown name="shop" label="Shop">
-              <NavLink href="/shop/north-division">North Division</NavLink>
-              <NavLink href="/shop/south-division">South Division</NavLink>
-              <NavLink href="/shop/finale-collection">Finale Collection</NavLink>
-              <NavLink href="/shop/streetwear">Streetwear</NavLink>
+            {/* Match Passes dropdown — placed directly under Clothing per the brief */}
+            <Dropdown name="tickets" label="Match Passes">
+              <NavLink href="/tickets/north-division">North Division</NavLink>
+              <NavLink href="/tickets/south-division">South Division</NavLink>
+              <NavLink href="/tickets/league-passes">League Passes</NavLink>
             </Dropdown>
 
             {/* About dropdown */}

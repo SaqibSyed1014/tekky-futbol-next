@@ -3,6 +3,7 @@ const PRESETS = {
   pending_admin: { label: 'Pending',   icon: 'fa-solid fa-clock',           tone: 'pending' },
   approved:      { label: 'Approved',  icon: 'fa-solid fa-circle-check',    tone: 'success' },
   paid:          { label: 'Paid',      icon: 'fa-solid fa-circle-check',    tone: 'success' },
+  checked_in:    { label: 'Checked In', icon: 'fa-solid fa-qrcode',         tone: 'blue' },
   official:      { label: 'Official',  icon: 'fa-solid fa-shield-halved',   tone: 'success' },
   rejected:      { label: 'Rejected',  icon: 'fa-solid fa-circle-xmark',    tone: 'danger' },
   failed:        { label: 'Failed',    icon: 'fa-solid fa-circle-xmark',    tone: 'danger' },
