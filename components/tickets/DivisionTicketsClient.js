@@ -6,7 +6,6 @@ import { formatApiError } from '@/services/api';
 import { fetchTicketAvailability, initiateTicketCheckout } from '@/services/ticketsApi';
 
 const WEEKS = Array.from({ length: 16 }, (_, i) => i + 1);
-const APPAREL_SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
 const VENUE_CAPACITY = 120;
 
 const DIVISION_COPY = {
@@ -37,9 +36,6 @@ export default function DivisionTicketsClient({ division }) {
   const [availability, setAvailability] = useState(null);
   const [availabilityError, setAvailabilityError] = useState('');
 
-  const [apparelSize, setApparelSize] = useState('');
-  const [fulfillmentMethod, setFulfillmentMethod] = useState('pickup');
-
   const [purchasingTier, setPurchasingTier] = useState('');
   const [checkoutError, setCheckoutError] = useState('');
 
@@ -62,12 +58,6 @@ export default function DivisionTicketsClient({ division }) {
   async function handleBuy(tier) {
     if (purchasingTier) return;
     setCheckoutError('');
-
-    if (tier === 'supporter_bundle' && !apparelSize) {
-      setCheckoutError('Select an apparel size first.');
-      return;
-    }
-
     setPurchasingTier(tier);
 
     const cancelUrl = `${window.location.origin}${window.location.pathname}?checkout=cancelled`;
@@ -76,9 +66,6 @@ export default function DivisionTicketsClient({ division }) {
       division,
       week_number: week,
       cancel_url: cancelUrl,
-      ...(tier === 'supporter_bundle'
-        ? { apparel_size: apparelSize, fulfillment_method: fulfillmentMethod }
-        : {}),
     };
 
     try {
@@ -185,41 +172,6 @@ export default function DivisionTicketsClient({ division }) {
             1 Single Match Pass + 1 Official Tekky Drop Apparel Item (select size at checkout).
             High-spec streetwear meets matchday access.
           </p>
-
-          <div className="shop-product-card__field" style={{ display: 'inline-block', textAlign: 'left', margin: '1rem 0' }}>
-            <span className="shop-product-card__label">Apparel Size</span>
-            <div className="size-options">
-              {APPAREL_SIZES.map((size) => (
-                <button
-                  key={size}
-                  type="button"
-                  className={`size-option${apparelSize === size ? ' is-selected' : ''}`}
-                  onClick={() => setApparelSize(size)}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="shop-product-card__field" style={{ display: 'inline-block', textAlign: 'left', margin: '1rem 2rem 0 1.5rem' }}>
-            <span className="shop-product-card__label">Fulfillment</span>
-            <div className="size-options">
-              {[
-                { value: 'pickup', label: 'Pickup at venue' },
-                { value: 'ship', label: 'Ship' },
-              ].map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  className={`size-option${fulfillmentMethod === opt.value ? ' is-selected' : ''}`}
-                  onClick={() => setFulfillmentMethod(opt.value)}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          </div>
 
           <p className="muted" style={{ fontSize: '0.85rem' }}>
             Pick up your apparel at the venue merch desk on matchday using your QR pass, or select standard shipping.
