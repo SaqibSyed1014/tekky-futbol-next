@@ -114,6 +114,9 @@ export default function TicketWalletList({ browseHref }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div className="sec-cta" style={{ justifyContent: 'flex-start' }}>
+        <Link className="cta" href={browseHref}>Browse Match Passes</Link>
+      </div>
       {tickets.map((ticket) => (
         <TicketCard key={ticket.id} ticket={ticket} />
       ))}
