@@ -191,9 +191,9 @@ export default function DivisionTicketsClient({ division }) {
 
         <GlowDivider />
 
-        <section style={{ margin: '3rem 0', textAlign: 'left' }}>
-          <h2 style={{ textAlign: 'center' }}>Gate &amp; Access Rules</h2>
-          <p className="muted" style={{ textAlign: 'center', fontSize: '0.85rem', marginBottom: '1rem' }}>
+        <section style={{ margin: '3rem 0' }}>
+          <h2>Gate &amp; Access Rules</h2>
+          <p className="muted" style={{ fontSize: '0.85rem', marginBottom: '1rem' }}>
             Digital wallet access only
           </p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
@@ -202,19 +202,19 @@ export default function DivisionTicketsClient({ division }) {
             tickets issued.
           </p>
 
-          <h3>Inventory Pooling</h3>
+          <h3 style={{ marginTop: '2rem' }}>The Inventory Pooling Architecture</h3>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             To ensure total spectator sales never exceed the 40-ticket limit (leaving 80 slots for players,
             staff, referees, media, and season pass holders), Single Match Passes and Supporter Bundles draw
             from a shared pool.
           </p>
-          <ul className="bullet-list">
+          <ul className="bullet-list centered">
             <li>Total Paid Sales Cap: 40 Tickets Maximum</li>
             <li>Supporter Bundle Sub-Cap: 10 Bundles Maximum (included within the 40 total)</li>
           </ul>
 
-          <h3>Step By Step Checkout</h3>
-          <ol className="bullet-list">
+          <h3 style={{ marginTop: '2rem' }}>Step By Step Checkout</h3>
+          <ol style={{ display: 'inline-block', margin: '0 auto', textAlign: 'left' }}>
             <li>Fixture selection</li>
             <li>Tier selection</li>
             <li>{copy.label} merch item and size (S–XXL)</li>
