@@ -12,7 +12,8 @@ function getDashTone(pathname) {
   if (pathname === '/admin' || pathname === '/user' || pathname === '/fan') return 'home';
   if (
     pathname.startsWith('/admin/kits') || pathname.startsWith('/admin/payments') ||
-    pathname.startsWith('/user/kit') || pathname.startsWith('/user/payment')
+    pathname.startsWith('/user/kit') || pathname.startsWith('/user/payment') ||
+    pathname.startsWith('/fan/shop') || pathname.startsWith('/user/shop')
   ) return 'shop';
   return 'league';
 }
@@ -31,13 +32,33 @@ const ADMIN_NAV = [
   { href: '/admin/tickets',        icon: 'fa-solid fa-ticket',          label: 'Tickets'      },
 ];
 
+const USER_CLOTHING_DROPDOWN = {
+  icon: 'fa-solid fa-shirt', label: 'Clothing',
+  children: [
+    { href: '/user/shop/north-division',    label: 'North Division'    },
+    { href: '/user/shop/south-division',    label: 'South Division'    },
+    { href: '/user/shop/finale-collection', label: 'Finale Collection' },
+    { href: '/user/shop/streetwear',        label: 'Streetwear'        },
+  ],
+};
+
+const FAN_CLOTHING_DROPDOWN = {
+  icon: 'fa-solid fa-shirt', label: 'Clothing',
+  children: [
+    { href: '/fan/shop/north-division',    label: 'North Division'    },
+    { href: '/fan/shop/south-division',    label: 'South Division'    },
+    { href: '/fan/shop/finale-collection', label: 'Finale Collection' },
+    { href: '/fan/shop/streetwear',        label: 'Streetwear'        },
+  ],
+};
+
 const PLAYER_NAV = [
   { href: '/user',             icon: 'fa-solid fa-house',          label: 'Home'       },
   { href: '/user/waiver',      icon: 'fa-solid fa-file-signature', label: 'Waiver'     },
   { href: '/user/kit',         icon: 'fa-solid fa-shirt',          label: 'Kit'        },
   { href: '/user/payment',     icon: 'fa-solid fa-credit-card',    label: 'Payment'    },
   { href: '/user/broadcasts',  icon: 'fa-solid fa-video',          label: 'Broadcasts' },
-  { href: '/shop',             icon: 'fa-solid fa-shirt',          label: 'Clothing'   },
+  USER_CLOTHING_DROPDOWN,
   { href: '/user/tickets',     icon: 'fa-solid fa-ticket',         label: 'Tickets'    },
   { href: '/user/orders',      icon: 'fa-solid fa-bag-shopping',   label: 'Orders'     },
 ];
@@ -51,7 +72,7 @@ const CAPTAIN_NAV = [
   { href: '/user/kit',         icon: 'fa-solid fa-shirt',            label: 'Kit'          },
   { href: '/user/payment',     icon: 'fa-solid fa-credit-card',      label: 'Payment'      },
   { href: '/user/broadcasts',  icon: 'fa-solid fa-video',            label: 'Broadcasts'   },
-  { href: '/shop',             icon: 'fa-solid fa-shirt',            label: 'Clothing'     },
+  USER_CLOTHING_DROPDOWN,
   { href: '/user/tickets',     icon: 'fa-solid fa-ticket',           label: 'Tickets'      },
   { href: '/user/orders',      icon: 'fa-solid fa-bag-shopping',     label: 'Orders'       },
 ];
@@ -60,7 +81,7 @@ const FAN_NAV = [
   { href: '/fan',             icon: 'fa-solid fa-house',        label: 'Home'       },
   { href: '/fan/profile',     icon: 'fa-solid fa-user',         label: 'Profile'    },
   { href: '/fan/broadcasts',  icon: 'fa-solid fa-video',        label: 'Broadcasts' },
-  { href: '/shop',            icon: 'fa-solid fa-shirt',        label: 'Clothing'   },
+  FAN_CLOTHING_DROPDOWN,
   { href: '/fan/tickets',     icon: 'fa-solid fa-ticket',       label: 'Tickets'    },
   { href: '/fan/orders',      icon: 'fa-solid fa-bag-shopping', label: 'Orders'     },
 ];
@@ -86,11 +107,19 @@ const PAGE_TITLES = {
   '/user/kit':             'Kit Selection',
   '/user/payment':         'Registration Fee',
   '/user/broadcasts':      'Broadcasts',
+  '/user/shop/north-division':    'North Division',
+  '/user/shop/south-division':    'South Division',
+  '/user/shop/finale-collection': 'Finale Collection',
+  '/user/shop/streetwear':        'Streetwear',
   '/user/tickets':         'My Tickets',
   '/user/orders':          'Order History',
   '/fan':                  'Dashboard',
   '/fan/profile':          'My Profile',
   '/fan/broadcasts':       'Broadcasts',
+  '/fan/shop/north-division':    'North Division',
+  '/fan/shop/south-division':    'South Division',
+  '/fan/shop/finale-collection': 'Finale Collection',
+  '/fan/shop/streetwear':        'Streetwear',
   '/fan/tickets':          'My Tickets',
   '/fan/orders':           'Order History',
 };
@@ -105,6 +134,21 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
   const navItems = isAdmin ? ADMIN_NAV : isFan ? FAN_NAV : isCaptain ? CAPTAIN_NAV : PLAYER_NAV;
   const roleLabel = isAdmin ? 'Admin' : isFan ? 'Fan' : isCaptain ? 'Captain' : 'Player';
   const roleModifier = isAdmin ? '' : isFan ? ' ad-role--fan' : isCaptain ? ' ad-role--captain' : ' ad-role--player';
+
+  // Which dropdown (by label) is open — defaults to whichever one contains the
+  // current page, so e.g. landing on /fan/shop/streetwear directly still
+  // shows Clothing expanded. manualToggle overrides that default once the
+  // user actually clicks a dropdown header.
+  const matchingDropdownLabel = navItems.find((item) => item.children?.some((c) => pathname.startsWith(c.href)))?.label ?? null;
+  const [manualToggle, setManualToggle] = useState(null);
+
+  function isDropdownOpen(label) {
+    return manualToggle?.label === label ? manualToggle.open : label === matchingDropdownLabel;
+  }
+
+  function toggleDropdown(label) {
+    setManualToggle({ label, open: !isDropdownOpen(label) });
+  }
 
   return (
     <>
@@ -132,6 +176,49 @@ function Sidebar({ role, isCaptain, waiverSigned, sidebarOpen, onClose }) {
 
         <div className="ad-nav">
           {navItems.map((item) => {
+            if (item.children) {
+              const open = isDropdownOpen(item.label);
+              const groupActive = matchingDropdownLabel === item.label;
+              return (
+                <div key={item.label}>
+                  <button
+                    type="button"
+                    onClick={() => toggleDropdown(item.label)}
+                    className={`ad-nav-link${groupActive ? ' is-active' : ''}`}
+                    style={{ width: '100%', cursor: 'pointer', background: groupActive ? undefined : 'transparent', border: groupActive ? undefined : '1px solid transparent' }}
+                  >
+                    <i className={item.icon} />
+                    {item.label}
+                    <i
+                      className="fa-solid fa-chevron-down"
+                      style={{
+                        marginLeft: 'auto', fontSize: '0.65rem', width: 'auto', height: 'auto',
+                        transition: 'transform 0.2s ease', transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+                      }}
+                    />
+                  </button>
+                  {open && (
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      {item.children.map((child) => {
+                        const childActive = pathname === child.href || pathname.startsWith(`${child.href}/`);
+                        return (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            onClick={onClose}
+                            className={`ad-nav-link${childActive ? ' is-active' : ''}`}
+                            style={{ paddingLeft: '2.6rem', fontSize: '0.84rem' }}
+                          >
+                            {child.label}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
             const active = pathname === item.href || (item.href !== '/admin' && item.href !== '/user' && item.href !== '/fan' && pathname.startsWith(item.href));
             const isWaiverGated = item.href === '/user/waiver' || item.href === '/user/pool';
             const showWaiverBadge = isWaiverGated && !isAdmin && !waiverSigned;
