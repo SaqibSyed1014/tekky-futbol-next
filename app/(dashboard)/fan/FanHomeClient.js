@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { fetchShopOrders } from '@/services/shopApi';
 
 const DIVISION_LABEL = { north: 'North Court', south: 'South Court' };
@@ -35,27 +34,6 @@ function StatCard({ icon, label, value, sub }) {
         {sub && <p style={{ fontSize: '0.78rem', color: 'var(--muted)', margin: '0.15rem 0 0' }}>{sub}</p>}
       </div>
     </div>
-  );
-}
-
-function QuickLink({ href, icon, label }) {
-  return (
-    <Link
-      href={href}
-      style={{
-        display: 'flex', alignItems: 'center', gap: '0.7rem',
-        padding: '0.9rem 1.1rem',
-        background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(59, 130, 246, 0.3)',
-        borderRadius: 10, color: 'var(--fg)', textDecoration: 'none',
-        fontSize: '0.9rem', fontWeight: 600, transition: 'border-color 0.15s, background 0.15s',
-      }}
-      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(61,139,255,0.6)'; e.currentTarget.style.background = 'rgba(61,139,255,0.08)'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'; e.currentTarget.style.background = 'rgba(15,23,42,0.65)'; }}
-    >
-      <i className={icon} style={{ color: 'var(--ad-electric)', width: 18, textAlign: 'center' }} />
-      {label}
-      <i className="fa-solid fa-chevron-right" style={{ marginLeft: 'auto', fontSize: '0.75rem', color: 'var(--muted)' }} />
-    </Link>
   );
 }
 
@@ -97,15 +75,6 @@ export default function FanHomeClient({ user }) {
           sub={orderCount === null ? 'Loading…' : orderCount === 0 ? 'No orders yet' : undefined}
         />
         <StatCard icon="fa-solid fa-truck" label="Shipping Info" value={hasShipping ? 'Saved' : 'Not saved'} />
-      </div>
-
-      <p style={{ fontSize: '0.72rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, margin: '0 0 0.75rem' }}>
-        Quick Links
-      </p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0.75rem' }}>
-        <QuickLink href="/fan/profile" icon="fa-solid fa-user" label="Edit Profile" />
-        <QuickLink href="/fan/orders" icon="fa-solid fa-bag-shopping" label="Order History" />
-        <QuickLink href="/shop" icon="fa-solid fa-store" label="Shop Merch" />
       </div>
     </div>
   );
