@@ -13,6 +13,11 @@ import Footer from './Footer';
 const DASHBOARD_PREFIXES = ['/admin', '/user'];
 const FAN_REGISTER_PAGE = '/fan/register';
 
+// Public pages that still get the Footer but never the Navbar — reached
+// directly from outside the site (e.g. scanning a QR code with a phone's
+// camera), so the normal site chrome would be misleading/distracting here.
+const NO_NAVBAR_PAGES = ['/tickets/verify'];
+
 function isFanDashboardRoute(pathname) {
   const inFanApp = pathname === '/fan' || pathname.startsWith('/fan/');
   if (!inFanApp) return false;
@@ -26,6 +31,15 @@ export default function PublicShell({ children }) {
     isFanDashboardRoute(pathname);
 
   if (isDashboard) return <>{children}</>;
+
+  if (NO_NAVBAR_PAGES.includes(pathname)) {
+    return (
+      <div className="public-site">
+        {children}
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="public-site">

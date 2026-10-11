@@ -30,6 +30,7 @@ const ADMIN_NAV = [
   { href: '/admin/kits',           icon: 'fa-solid fa-shirt',           label: 'Kits'         },
   { href: '/admin/payments',       icon: 'fa-solid fa-dollar-sign',     label: 'Payments'     },
   { href: '/admin/tickets',        icon: 'fa-solid fa-ticket',          label: 'Tickets'      },
+  { href: '/admin/staff',          icon: 'fa-solid fa-id-badge',        label: 'Staff'        },
 ];
 
 const USER_CLOTHING_DROPDOWN = {
@@ -98,6 +99,7 @@ const PAGE_TITLES = {
   '/admin/fans':           'Fans',
   '/admin/payments':       'Payments',
   '/admin/tickets':        'Tickets',
+  '/admin/staff':          'Staff',
   '/user':                 'Dashboard',
   '/user/roster':          'My Roster',
   '/user/invites':         'Invitations',
@@ -499,7 +501,7 @@ export default function DashboardLayout({ children }) {
   const waiting = loading || !user;
   // Standalone mode: waiver viewer at /admin/waivers/[userId]
   // Authenticated as admin (guard above), but no sidebar or topbar needed.
-  const isStandalone = /^\/admin\/waivers\/[^/]+$/.test(pathname) || pathname === '/admin/tickets/scan';
+  const isStandalone = /^\/admin\/waivers\/[^/]+$/.test(pathname);
   const isAdmin = user?.role === 'admin';
   const dashTone = getDashTone(pathname);
 

@@ -18,8 +18,11 @@ export const fetchTicketBySession = (sessionId) =>
 export const fetchMyTickets = () =>
   api.get('/tickets/my/');
 
-export const checkInTicket = (token) =>
-  api.post('/tickets/check-in/', { token });
+export const fetchTicketVerifyDetails = (token) =>
+  api.get(`/tickets/verify-details/?token=${encodeURIComponent(token)}`);
+
+export const verifyTicket = (token, staffUniqueId) =>
+  api.post('/tickets/verify/', { token, staff_unique_id: staffUniqueId });
 
 export const getAdminTickets = (params = {}) => {
   const qs = new URLSearchParams();
@@ -29,3 +32,12 @@ export const getAdminTickets = (params = {}) => {
   const query = qs.toString();
   return api.get(`/admin/tickets/${query ? `?${query}` : ''}`);
 };
+
+export const getAdminStaff = () =>
+  api.get('/admin/staff/');
+
+export const createStaff = (payload) =>
+  api.post('/admin/staff/', payload);
+
+export const deleteStaff = (id) =>
+  api.delete(`/admin/staff/${id}/`);

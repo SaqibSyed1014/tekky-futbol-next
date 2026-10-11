@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { getAdminTickets } from '@/services/ticketsApi';
 import { AdminLoader, AdminStarsDivider } from '@/components/admin/ChicagoStar';
@@ -76,12 +75,6 @@ export default function AdminTicketsPage() {
         <p className="ad-kicker">Match Passes</p>
         <h1 className="ad-title">Tickets</h1>
         <p className="ad-sub">Every purchased match pass — who holds it, and whether it&apos;s been scanned.</p>
-        <div className="sec-cta" style={{ marginTop: '0.75rem' }}>
-          <Link className="cta" href="/admin/tickets/scan">
-            <i className="fa-solid fa-qrcode" style={{ marginRight: '0.5rem' }} />
-            Open Gate Scanner
-          </Link>
-        </div>
       </div>
       <AdminStarsDivider />
 

@@ -23,7 +23,7 @@ const PLAYER_REGISTER_PAGE = '/registration';
  * logged-in and logged-out users (they render different content per state).
  * e.g. /register?invite=<token>, /join/<token>
  */
-const AUTH_AWARE_PREFIXES = ['/register', '/join'];
+const AUTH_AWARE_PREFIXES = ['/register', '/join', '/tickets/verify'];
 
 /** Decode JWT payload without verifying signature (routing only, not a security check). */
 function decodeToken(token) {
