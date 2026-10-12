@@ -40,7 +40,7 @@ export default function TicketsPage() {
 
         <div className="grid">
           {CHOICES.map((choice) => (
-            <div className="card" key={choice.href}>
+            <div className="card full-space" key={choice.href}>
               <h3>{choice.title}</h3>
               <p className="muted">{choice.description}</p>
               <div className="sec-cta">
