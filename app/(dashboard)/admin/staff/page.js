@@ -137,7 +137,7 @@ export default function AdminStaffPage() {
         <p className="ad-kicker">Gate Verification</p>
         <h1 className="ad-title">Staff</h1>
         <p className="ad-sub">The roster of staff who can verify tickets at the gate.</p>
-        <div className="sec-cta" style={{ marginTop: '0.75rem' }}>
+        <div className="sec-cta on-right" style={{ marginTop: '0.75rem' }}>
           <button type="button" className="cta" onClick={() => setModalOpen(true)}>
             <i className="fa-solid fa-plus" style={{ marginRight: '0.5rem' }} />
             Add Staff
