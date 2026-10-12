@@ -132,7 +132,7 @@ export default function AdminStaffPage() {
   }
 
   return (
-    <div className="ad-page" style={{ maxWidth: 900 }}>
+    <div className="ad-page ad-staff-page" style={{ maxWidth: 900 }}>
       <div className="ad-page-head">
         <p className="ad-kicker">Gate Verification</p>
         <h1 className="ad-title">Staff</h1>
@@ -154,23 +154,51 @@ export default function AdminStaffPage() {
             No staff members yet.
           </p>
         ) : (
-          <div className="ad-table-wrap">
-            <table className="ad-table">
-              <thead>
-                <tr>
-                  {['Name', 'Email', 'Unique ID', ''].map((h) => <th key={h}>{h}</th>)}
-                </tr>
-              </thead>
-              <tbody>
-                {staff.map((s) => (
-                  <tr key={s.id}>
-                    <td className="ad-table__name">{s.name}</td>
-                    <td className="ad-table__meta">{s.email || '—'}</td>
-                    <td style={{ fontFamily: 'var(--ad-display)', letterSpacing: '2px' }}>{s.unique_id}</td>
-                    <td className="ad-table__col-actions">
+          <>
+            <div className="ad-table-wrap">
+              <table className="ad-table">
+                <thead>
+                  <tr>
+                    {['Name', 'Email', 'Unique ID', ''].map((h) => <th key={h}>{h}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {staff.map((s) => (
+                    <tr key={s.id}>
+                      <td className="ad-table__name">{s.name}</td>
+                      <td className="ad-table__meta">{s.email || '—'}</td>
+                      <td style={{ fontFamily: 'var(--ad-display)', letterSpacing: '2px' }}>{s.unique_id}</td>
+                      <td className="ad-table__col-actions">
+                        <button
+                          type="button"
+                          className="ad-btn"
+                          onClick={() => handleDelete(s.id)}
+                          disabled={deletingId === s.id}
+                          aria-label={`Remove ${s.name}`}
+                        >
+                          {deletingId === s.id
+                            ? <span className="spinner" style={{ width: 12, height: 12, borderWidth: 2 }} />
+                            : <i className="fa-solid fa-trash" />}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="ad-staff-cards">
+              {staff.map((s) => (
+                <div className="ad-staff-card" key={s.id}>
+                  <div className="ad-staff-card__avatar" aria-hidden="true">
+                    {s.name.trim().charAt(0).toUpperCase() || '?'}
+                  </div>
+                  <div className="ad-staff-card__body">
+                    <div className="ad-staff-card__top">
+                      <span className="ad-staff-card__name">{s.name}</span>
                       <button
                         type="button"
-                        className="ad-btn"
+                        className="ad-staff-card__delete"
                         onClick={() => handleDelete(s.id)}
                         disabled={deletingId === s.id}
                         aria-label={`Remove ${s.name}`}
@@ -179,12 +207,24 @@ export default function AdminStaffPage() {
                           ? <span className="spinner" style={{ width: 12, height: 12, borderWidth: 2 }} />
                           : <i className="fa-solid fa-trash" />}
                       </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                    <div className="ad-staff-card__row">
+                      <span className="ad-staff-card__chip">
+                        <i className="fa-solid fa-id-badge" />
+                        {s.unique_id}
+                      </span>
+                    </div>
+                    {s.email && (
+                      <div className="ad-staff-card__row ad-staff-card__email">
+                        <i className="fa-solid fa-envelope" />
+                        <span>{s.email}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 
