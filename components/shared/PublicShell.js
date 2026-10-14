@@ -16,7 +16,7 @@ const FAN_REGISTER_PAGE = '/fan/register';
 // Public pages that still get the Footer but never the Navbar — reached
 // directly from outside the site (e.g. scanning a QR code with a phone's
 // camera), so the normal site chrome would be misleading/distracting here.
-const NO_NAVBAR_PAGES = ['/tickets/verify'];
+const NO_NAVBAR_PAGES = ['/tickets/verify', '/tickets/order/success'];
 
 function isFanDashboardRoute(pathname) {
   const inFanApp = pathname === '/fan' || pathname.startsWith('/fan/');
