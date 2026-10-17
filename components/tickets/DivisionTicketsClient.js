@@ -2,11 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import GlowDivider from '@/components/ui/GlowDivider';
+import Modal from '@/components/ui/Modal';
 import { formatApiError } from '@/services/api';
 import { fetchTicketAvailability, initiateTicketCheckout } from '@/services/ticketsApi';
 
 const WEEKS = Array.from({ length: 16 }, (_, i) => i + 1);
 const VENUE_CAPACITY = 120;
+const APPAREL_SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
+const FULFILLMENT_OPTIONS = [
+  { value: 'pickup', label: 'Pick Up At Venue' },
+  { value: 'ship', label: 'Ship To Me' },
+];
 
 const DIVISION_COPY = {
   north: {
@@ -39,6 +45,11 @@ export default function DivisionTicketsClient({ division }) {
   const [purchasingTier, setPurchasingTier] = useState('');
   const [checkoutError, setCheckoutError] = useState('');
 
+  const [bundleModalOpen, setBundleModalOpen] = useState(false);
+  const [bundleSize, setBundleSize] = useState('');
+  const [bundleFulfillment, setBundleFulfillment] = useState('');
+  const [bundleModalError, setBundleModalError] = useState('');
+
   useEffect(() => {
     let cancelled = false;
     setAvailability(null);
@@ -55,7 +66,7 @@ export default function DivisionTicketsClient({ division }) {
     };
   }, [division, week]);
 
-  async function handleBuy(tier) {
+  async function handleBuy(tier, extra = {}) {
     if (purchasingTier) return;
     setCheckoutError('');
     setPurchasingTier(tier);
@@ -66,6 +77,7 @@ export default function DivisionTicketsClient({ division }) {
       division,
       week_number: week,
       cancel_url: cancelUrl,
+      ...extra,
     };
 
     try {
@@ -75,6 +87,23 @@ export default function DivisionTicketsClient({ division }) {
       setPurchasingTier('');
       setCheckoutError(formatApiError(err, 'Something went wrong. Please try again.'));
     }
+  }
+
+  function openBundleModal() {
+    setBundleSize('');
+    setBundleFulfillment('');
+    setBundleModalError('');
+    setBundleModalOpen(true);
+  }
+
+  function handleBundleSubmit(e) {
+    e.preventDefault();
+    if (!bundleSize || !bundleFulfillment) {
+      setBundleModalError('Select a size and a fulfillment method to continue.');
+      return;
+    }
+    setBundleModalOpen(false);
+    handleBuy('supporter_bundle', { apparel_size: bundleSize, fulfillment_method: bundleFulfillment });
   }
 
   const matchdaySoldOut = availability ? availability.matchday_remaining <= 0 : false;
@@ -182,12 +211,54 @@ export default function DivisionTicketsClient({ division }) {
               type="button"
               className="cta"
               disabled={bundleSoldOut || purchasingTier === 'supporter_bundle'}
-              onClick={() => handleBuy('supporter_bundle')}
+              onClick={openBundleModal}
             >
               {bundleSoldOut ? 'SOLD OUT' : purchasingTier === 'supporter_bundle' ? 'Redirecting…' : 'CLAIM SUPPORTER BUNDLE'}
             </button>
           </div>
         </section>
+
+        <Modal isOpen={bundleModalOpen} onClose={() => setBundleModalOpen(false)}>
+          <h3>Supporter Bundle</h3>
+          <p className="subtext">Pick your apparel size and how you&apos;d like to receive it.</p>
+          <form onSubmit={handleBundleSubmit} style={{ paddingTop: '1rem' }}>
+            <p className="venue-cell" style={{ marginBottom: '0.5rem', textAlign: 'left' }}>Apparel Size</p>
+            <div className="size-options" style={{ flexWrap: 'wrap' }}>
+              {APPAREL_SIZES.map((size) => (
+                <button
+                  key={size}
+                  type="button"
+                  className={`size-option${bundleSize === size ? ' is-selected' : ''}`}
+                  onClick={() => setBundleSize(size)}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+
+            <p className="venue-cell" style={{ margin: '1.25rem 0 0.5rem', textAlign: 'left' }}>Fulfillment</p>
+            <div className="size-options" style={{ flexWrap: 'wrap' }}>
+              {FULFILLMENT_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  className={`size-option${bundleFulfillment === opt.value ? ' is-selected' : ''}`}
+                  onClick={() => setBundleFulfillment(opt.value)}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+
+            {bundleModalError && (
+              <p style={{ color: '#ff6b6b', fontSize: '0.85rem', marginTop: '0.75rem' }}>{bundleModalError}</p>
+            )}
+
+            <button type="submit" className="cta close-overlay" style={{ marginTop: '1.25rem' }}>
+              Continue To Payment
+            </button>
+          </form>
+        </Modal>
 
         <GlowDivider />
 

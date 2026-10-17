@@ -146,6 +146,11 @@ export default function AdminTicketsPage() {
                           {t.week_number ? ` — Week ${t.week_number}` : ''}
                         </div>
                       )}
+                      {t.apparel_size && (
+                        <div className="ad-table__meta">
+                          Size {t.apparel_size} — {t.fulfillment_method === 'ship' ? 'Ship' : 'Venue Pickup'}
+                        </div>
+                      )}
                     </td>
                     <td className="ad-table__num">{formatPrice((t.amount_cents || 0) / 100)}</td>
                     <td>
