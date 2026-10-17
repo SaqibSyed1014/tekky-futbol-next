@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatApiError } from '@/services/api';
 import { fetchTicketBySession } from '@/services/ticketsApi';
+import { findProduct, getProductImage } from '@/data/divisionProducts';
 
 export default function TicketOrderSuccessPage() {
   const [ticket, setTicket] = useState(null);
@@ -61,11 +63,36 @@ export default function TicketOrderSuccessPage() {
         <>
           <h1>Pass Confirmed</h1>
           <p className="subtext">{ticket.product_name}</p>
-          {ticket.apparel_size && (
+
+          {ticket.merch_item_id && (() => {
+            const product = findProduct(ticket.division, ticket.merch_item_id);
+            if (!product) return null;
+            const image = getProductImage(ticket.division, product.productType);
+            return (
+              <div
+                className="shop-product-card"
+                style={{ maxWidth: 280, margin: '1.25rem auto 0', textAlign: 'left' }}
+              >
+                <div className="shop-product-card__media">
+                  <Image src={image} alt={product.name} width={400} height={320} style={{ width: '100%', height: 'auto' }} />
+                </div>
+                <div className="shop-product-card__body" style={{ paddingBottom: '1.25rem' }}>
+                  <h3 className="shop-product-card__title">{product.name}</h3>
+                  <p className="shop-product-card__desc" style={{ marginBottom: 0 }}>{product.sub}</p>
+                  <p className="subtext" style={{ marginTop: '0.6rem', marginBottom: 0 }}>
+                    Size {ticket.apparel_size} — {ticket.fulfillment_method === 'ship' ? 'Ship to Me' : 'Pickup at Venue'}
+                  </p>
+                </div>
+              </div>
+            );
+          })()}
+
+          {!ticket.merch_item_id && ticket.apparel_size && (
             <p className="subtext" style={{ marginTop: '-0.5rem' }}>
               Size {ticket.apparel_size} — {ticket.fulfillment_method === 'ship' ? 'Ship to Me' : 'Pickup at Venue'}
             </p>
           )}
+
           <div style={{ background: '#fff', borderRadius: 12, padding: '1.5rem', display: 'inline-block', margin: '1.5rem 0' }}>
             <img
               src={`data:image/png;base64,${ticket.qr_code_base64}`}

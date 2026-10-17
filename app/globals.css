@@ -1647,6 +1647,49 @@ tr:hover {
   text-align: center;
 }
 
+/* Supporter Bundle merch picker — a selectable variant of .shop-product-card,
+   rendered as a <button> so the whole card is one click target. */
+.overlay-content--wide {
+  max-width: 880px;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .overlay-content--wide {
+    max-width: 94vw;
+  }
+}
+
+.merch-picker-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 640px) {
+  .merch-picker-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.merch-picker-card {
+  width: 100%;
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--line);
+}
+
+.merch-picker-card.is-selected {
+  border-color: var(--tekky-blue);
+  box-shadow: 0 0 0 2px var(--tekky-blue);
+}
+
+.merch-picker-card__badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tekky-blue);
+}
+
 @media (min-width: 901px) {
   .nav-actions {
     display: none;

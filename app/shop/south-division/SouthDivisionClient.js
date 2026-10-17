@@ -7,13 +7,9 @@ import { SignupForm } from '@/components/ui/SignUpForm';
 import DivisionProductCard from '@/components/shop/DivisionProductCard';
 import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import CheckoutCancelledBanner from '@/components/ui/CheckoutCancelledBanner';
+import { getDivisionProducts } from '@/data/divisionProducts';
 
-const southProducts = [
-  { productType: 'Hoodie', name: 'PITCH SIDE HOODIE', sub: 'Season 01 South Drop', price: '$80' },
-  { productType: 'Pant', name: 'PITCH WARM-UP TROUSER', sub: 'Season 01 South Drop', price: '$60' },
-  { productType: 'Short', name: 'S01 MATCH SHORTS', sub: 'Season 01 South Drop', price: '$50' },
-  { productType: 'Tshirt', name: 'S01 MATCH JERSEY', sub: 'Season 01 South Drop', price: '$90' },
-];
+const southProducts = getDivisionProducts('south');
 
 export default function SouthDivisionClient() {
   const [earlyAccessOpen, setEarlyAccessOpen] = useState(false);

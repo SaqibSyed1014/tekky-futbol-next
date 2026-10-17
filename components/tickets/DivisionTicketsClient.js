@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import GlowDivider from '@/components/ui/GlowDivider';
 import Modal from '@/components/ui/Modal';
+import MerchItemPicker from '@/components/tickets/MerchItemPicker';
+import { getDivisionProducts } from '@/data/divisionProducts';
 import { formatApiError } from '@/services/api';
 import { fetchTicketAvailability, initiateTicketCheckout } from '@/services/ticketsApi';
 
@@ -37,6 +39,7 @@ const DIVISION_COPY = {
  */
 export default function DivisionTicketsClient({ division }) {
   const copy = DIVISION_COPY[division];
+  const merchProducts = getDivisionProducts(division);
 
   const [week, setWeek] = useState(1);
   const [availability, setAvailability] = useState(null);
@@ -46,6 +49,7 @@ export default function DivisionTicketsClient({ division }) {
   const [checkoutError, setCheckoutError] = useState('');
 
   const [bundleModalOpen, setBundleModalOpen] = useState(false);
+  const [bundleMerchId, setBundleMerchId] = useState('');
   const [bundleSize, setBundleSize] = useState('');
   const [bundleFulfillment, setBundleFulfillment] = useState('');
   const [bundleModalError, setBundleModalError] = useState('');
@@ -90,6 +94,7 @@ export default function DivisionTicketsClient({ division }) {
   }
 
   function openBundleModal() {
+    setBundleMerchId('');
     setBundleSize('');
     setBundleFulfillment('');
     setBundleModalError('');
@@ -98,12 +103,20 @@ export default function DivisionTicketsClient({ division }) {
 
   function handleBundleSubmit(e) {
     e.preventDefault();
+    if (!bundleMerchId) {
+      setBundleModalError('Select a merch item to continue.');
+      return;
+    }
     if (!bundleSize || !bundleFulfillment) {
       setBundleModalError('Select a size and a fulfillment method to continue.');
       return;
     }
     setBundleModalOpen(false);
-    handleBuy('supporter_bundle', { apparel_size: bundleSize, fulfillment_method: bundleFulfillment });
+    handleBuy('supporter_bundle', {
+      merch_item_id: bundleMerchId,
+      apparel_size: bundleSize,
+      fulfillment_method: bundleFulfillment,
+    });
   }
 
   const matchdaySoldOut = availability ? availability.matchday_remaining <= 0 : false;
@@ -218,11 +231,23 @@ export default function DivisionTicketsClient({ division }) {
           </div>
         </section>
 
-        <Modal isOpen={bundleModalOpen} onClose={() => setBundleModalOpen(false)}>
+        <Modal
+          isOpen={bundleModalOpen}
+          onClose={() => setBundleModalOpen(false)}
+          contentClassName="overlay-content--wide"
+        >
           <h3>Supporter Bundle</h3>
-          <p className="subtext">Pick your apparel size and how you&apos;d like to receive it.</p>
+          <p className="subtext">Pick your apparel item, size, and how you&apos;d like to receive it.</p>
           <form onSubmit={handleBundleSubmit} style={{ paddingTop: '1rem' }}>
-            <p className="venue-cell" style={{ marginBottom: '0.5rem', textAlign: 'left' }}>Apparel Size</p>
+            <p className="venue-cell" style={{ marginBottom: '0.5rem', textAlign: 'left' }}>Merch Item</p>
+            <MerchItemPicker
+              division={division}
+              products={merchProducts}
+              selectedId={bundleMerchId}
+              onSelect={setBundleMerchId}
+            />
+
+            <p className="venue-cell" style={{ margin: '1.5rem 0 0.5rem', textAlign: 'left' }}>Apparel Size</p>
             <div className="size-options" style={{ flexWrap: 'wrap' }}>
               {APPAREL_SIZES.map((size) => (
                 <button

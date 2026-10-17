@@ -8,6 +8,7 @@ import StatCard from '@/components/admin/StatCard';
 import StatusBadge from '@/components/admin/StatusBadge';
 import { PremiumSelect } from '@/components/dashboard/DashboardControls';
 import { formatPrice } from '@/lib/shopUtils';
+import { findProduct } from '@/data/divisionProducts';
 
 function fmtDate(val) {
   if (!val) return '—';
@@ -144,6 +145,11 @@ export default function AdminTicketsPage() {
                         <div className="ad-table__meta">
                           {t.division === 'north' ? 'North' : 'South'} Division
                           {t.week_number ? ` — Week ${t.week_number}` : ''}
+                        </div>
+                      )}
+                      {t.merch_item_id && (
+                        <div className="ad-table__meta">
+                          {findProduct(t.division, t.merch_item_id)?.name || t.merch_item_id}
                         </div>
                       )}
                       {t.apparel_size && (
