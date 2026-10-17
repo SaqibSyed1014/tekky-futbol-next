@@ -9,6 +9,7 @@ import StatusBadge from '@/components/admin/StatusBadge';
 import { PremiumSelect } from '@/components/dashboard/DashboardControls';
 import { formatPrice } from '@/lib/shopUtils';
 import { findProduct } from '@/data/divisionProducts';
+import { colorLabelFor } from '@/components/shop/ColorSwatches';
 
 function fmtDate(val) {
   if (!val) return '—';
@@ -150,6 +151,7 @@ export default function AdminTicketsPage() {
                       {t.merch_item_id && (
                         <div className="ad-table__meta">
                           {findProduct(t.division, t.merch_item_id)?.name || t.merch_item_id}
+                          {t.merch_item_color ? ` — ${colorLabelFor(t.merch_item_color)}` : ''}
                         </div>
                       )}
                       {t.apparel_size && (

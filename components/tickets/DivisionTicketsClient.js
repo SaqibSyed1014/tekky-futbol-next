@@ -50,6 +50,7 @@ export default function DivisionTicketsClient({ division }) {
 
   const [bundleModalOpen, setBundleModalOpen] = useState(false);
   const [bundleMerchId, setBundleMerchId] = useState('');
+  const [bundleColor, setBundleColor] = useState('');
   const [bundleSize, setBundleSize] = useState('');
   const [bundleFulfillment, setBundleFulfillment] = useState('');
   const [bundleModalError, setBundleModalError] = useState('');
@@ -95,10 +96,16 @@ export default function DivisionTicketsClient({ division }) {
 
   function openBundleModal() {
     setBundleMerchId('');
+    setBundleColor('');
     setBundleSize('');
     setBundleFulfillment('');
     setBundleModalError('');
     setBundleModalOpen(true);
+  }
+
+  function handleMerchSelect(id, color) {
+    setBundleMerchId(id);
+    setBundleColor(color);
   }
 
   function handleBundleSubmit(e) {
@@ -114,6 +121,7 @@ export default function DivisionTicketsClient({ division }) {
     setBundleModalOpen(false);
     handleBuy('supporter_bundle', {
       merch_item_id: bundleMerchId,
+      merch_item_color: bundleColor,
       apparel_size: bundleSize,
       fulfillment_method: bundleFulfillment,
     });
@@ -244,7 +252,7 @@ export default function DivisionTicketsClient({ division }) {
               division={division}
               products={merchProducts}
               selectedId={bundleMerchId}
-              onSelect={setBundleMerchId}
+              onSelect={handleMerchSelect}
             />
 
             <p className="venue-cell" style={{ margin: '1.5rem 0 0.5rem', textAlign: 'left' }}>Apparel Size</p>

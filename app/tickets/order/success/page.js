@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { formatApiError } from '@/services/api';
 import { fetchTicketBySession } from '@/services/ticketsApi';
 import { findProduct, getProductImage } from '@/data/divisionProducts';
+import { colorLabelFor } from '@/components/shop/ColorSwatches';
 
 export default function TicketOrderSuccessPage() {
   const [ticket, setTicket] = useState(null);
@@ -67,7 +68,7 @@ export default function TicketOrderSuccessPage() {
           {ticket.merch_item_id && (() => {
             const product = findProduct(ticket.division, ticket.merch_item_id);
             if (!product) return null;
-            const image = getProductImage(ticket.division, product.productType);
+            const image = getProductImage(ticket.division, product.productType, ticket.merch_item_color);
             return (
               <div
                 className="shop-product-card"
@@ -78,7 +79,9 @@ export default function TicketOrderSuccessPage() {
                 </div>
                 <div className="shop-product-card__body" style={{ paddingBottom: '1.25rem' }}>
                   <h3 className="shop-product-card__title">{product.name}</h3>
-                  <p className="shop-product-card__desc" style={{ marginBottom: 0 }}>{product.sub}</p>
+                  <p className="shop-product-card__desc" style={{ marginBottom: 0 }}>
+                    {product.sub}{ticket.merch_item_color ? ` — ${colorLabelFor(ticket.merch_item_color)}` : ''}
+                  </p>
                   <p className="subtext" style={{ marginTop: '0.6rem', marginBottom: 0 }}>
                     Size {ticket.apparel_size} — {ticket.fulfillment_method === 'ship' ? 'Ship to Me' : 'Pickup at Venue'}
                   </p>
