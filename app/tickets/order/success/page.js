@@ -61,6 +61,11 @@ export default function TicketOrderSuccessPage() {
         <>
           <h1>Pass Confirmed</h1>
           <p className="subtext">{ticket.product_name}</p>
+          {ticket.apparel_size && (
+            <p className="subtext" style={{ marginTop: '-0.5rem' }}>
+              Size {ticket.apparel_size} — {ticket.fulfillment_method === 'ship' ? 'Ship to Me' : 'Pickup at Venue'}
+            </p>
+          )}
           <div style={{ background: '#fff', borderRadius: 12, padding: '1.5rem', display: 'inline-block', margin: '1.5rem 0' }}>
             <img
               src={`data:image/png;base64,${ticket.qr_code_base64}`}
