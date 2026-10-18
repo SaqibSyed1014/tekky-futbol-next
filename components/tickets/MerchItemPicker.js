@@ -60,11 +60,14 @@ function MerchItemCard({ division, product, isSelected, onSelect }) {
         </div>
         <div className="shop-product-card__body">
           <h3 className="shop-product-card__title">{product.name}</h3>
-          <p className="shop-product-card__desc">{product.sub}</p>
-          <div className="shop-product-card__price-row">
-            <span className="shop-product-card__price">{product.price}</span>
-            {isSelected && <span className="merch-picker-card__badge">Selected</span>}
-          </div>
+          <p className="shop-product-card__desc" style={{ marginBottom: isSelected ? '0.5rem' : 0 }}>
+            {product.sub}
+          </p>
+          {isSelected && (
+            <div className="shop-product-card__price-row" style={{ justifyContent: 'flex-end' }}>
+              <span className="merch-picker-card__badge">Selected</span>
+            </div>
+          )}
         </div>
       </button>
 

@@ -1652,6 +1652,26 @@ tr:hover {
 .overlay-content--wide {
   max-width: 880px;
   width: 100%;
+  /* .overlay-content hides its scrollbar everywhere else (short, non-scrolling
+     popups), but this modal is tall enough to always need scrolling — with no
+     visible scrollbar it looks like a dead end, so show a thin one here, and
+     make sure iOS actually gives it inertial touch scrolling. */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tekky-blue) transparent;
+}
+
+.overlay-content--wide::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overlay-content--wide::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overlay-content--wide::-webkit-scrollbar-thumb {
+  background: var(--tekky-blue);
+  border-radius: 3px;
 }
 
 @media (max-width: 900px) {
