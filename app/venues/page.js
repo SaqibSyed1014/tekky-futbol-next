@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
+import { EnvironmentSpecs, VenueScene } from '@/components/venue/VenueArt';
 
 export const metadata = {
   title: 'TekkyFutbol — Venues',
@@ -20,8 +21,14 @@ export default function VenuesPage() {
       <main className="tight-list-content" style={{ maxWidth: 1080, margin: '2.8rem auto 4rem', padding: '0 1.25rem' }}>
         <GlowDivider />
 
-        <section id="venues" style={{ margin: '3rem 0', textAlign: 'center' }}>
+        <section id="venues" className="venue-card">
+          <div className="venue-card__art">
+            <VenueScene variant="attrition" />
+          </div>
+          <div className="venue-card__body">
+          <p className="venue-card__kicker">Regular season // Turf + futsal</p>
           <h2>THE ATTRITION STAGE</h2>
+          <EnvironmentSpecs className="venue-card__specs" />
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Regular Season Matchdays</p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Chicago-Area Venues (Planned)</p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
@@ -47,12 +54,19 @@ export default function VenuesPage() {
             <li>Different environments that test complete teams</li>
             <li>A competitive atmosphere that rewards intelligence and flair</li>
           </ul>
+          </div>
         </section>
 
         <GlowDivider />
 
-        <section id="stage" style={{ margin: '3rem 0', textAlign: 'center' }}>
+        <section id="stage" className="venue-card">
+          <div className="venue-card__art">
+            <VenueScene variant="dominion" />
+          </div>
+          <div className="venue-card__body">
+          <p className="venue-card__kicker">Postseason // Concrete</p>
           <h2>THE DOMINION STAGE</h2>
+          <EnvironmentSpecs className="venue-card__specs" />
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Concrete Playoffs</p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Chicago Championship Venue (Planned)</p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
@@ -78,12 +92,19 @@ export default function VenuesPage() {
             <li>Concrete playing surface</li>
             <li>Weather backup venue</li>
           </ul>
+          </div>
         </section>
 
         <GlowDivider />
 
-        <section style={{ margin: '3rem 0', textAlign: 'center' }}>
+        <section id="festival" className="venue-card">
+          <div className="venue-card__art">
+            <VenueScene variant="festival" />
+          </div>
+          <div className="venue-card__body">
+          <p className="venue-card__kicker">Closing night // Festival</p>
           <h2>Festival Venue</h2>
+          <EnvironmentSpecs className="venue-card__specs" />
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Festival Night (Planned)</p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             TekkyFutbol championship weekend extends beyond the court.
@@ -100,6 +121,7 @@ export default function VenuesPage() {
             <li>Awards & celebration</li>
             <li>Community atmosphere</li>
           </ul>
+          </div>
         </section>
 
         <GlowDivider />

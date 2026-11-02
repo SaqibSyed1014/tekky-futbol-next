@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
+import { VenueEnvironmentBanner } from '@/components/venue/VenueArt';
 
 const MATCHWEEKS = Array.from({ length: 16 }, (_, i) => ({ value: i + 1, label: `Matchweek ${i + 1}` }));
 const ALL_WEEKS  = [...MATCHWEEKS, { value: 17, label: 'Season Finale' }];
@@ -30,6 +31,11 @@ export default function WomenNextFixturesClient() {
             <Link className="cta" href="/next-fixtures">Men</Link>
             <Link className="cta active" href="/women/next-fixtures">Women</Link>
           </div>
+
+          <VenueEnvironmentBanner
+            variant={week === 17 ? 'dominion' : 'attrition'}
+            label={week === 17 ? 'Championship venue // Concrete' : 'Match environment // Outdoor urban'}
+          />
 
           <section>
             <div className="dropdown-wrap">

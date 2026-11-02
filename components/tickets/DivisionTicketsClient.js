@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import TicketPageShell, { TicketRule } from '@/components/tickets/TicketPageShell';
+import { CoordinateTag } from '@/components/venue/VenueArt';
 import PassTicket from '@/components/tickets/PassTicket';
 import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import Modal from '@/components/ui/Modal';
@@ -184,6 +185,7 @@ export default function DivisionTicketsClient({ division }) {
           <div className="tkt-stat">
             <p className="tkt-tag">Location</p>
             <p className="tkt-stat__value">{copy.venueLocation}</p>
+            <p className="tkt-stat__sub"><CoordinateTag /></p>
           </div>
           <div className="tkt-stat">
             <p className="tkt-tag">Venue capacity</p>

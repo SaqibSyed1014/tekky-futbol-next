@@ -1,0 +1,248 @@
+/* =========================================================================
+   MATCH ENVIRONMENT ARTWORK — roadmap §4
+   Street lights · chain-link perimeters · urban coordinates.
+   Flat line art only: no glows, no blur, no gradients.
+   ========================================================================= */
+
+.venue-scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--type-silver);
+}
+
+.venue-scene__ground {
+  fill: var(--type-icy);
+  fill-opacity: 0.07;
+}
+
+.venue-scene__line {
+  stroke: var(--type-silver);
+  stroke-opacity: 0.55;
+  stroke-width: 2;
+}
+
+.venue-scene__marks line,
+.venue-scene__marks path {
+  stroke: var(--type-slate);
+  stroke-opacity: 0.45;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+/* chain-link */
+.venue-scene__meshpath {
+  fill: none;
+  stroke: var(--type-slate);
+  stroke-opacity: 0.55;
+  stroke-width: 0.9;
+}
+
+.venue-scene__rail {
+  stroke: var(--type-silver);
+  stroke-opacity: 0.8;
+  stroke-width: 3;
+  fill: none;
+}
+
+.venue-scene__rail--low {
+  stroke-width: 2;
+  stroke-opacity: 0.5;
+}
+
+.venue-scene__post {
+  fill: var(--type-silver);
+  fill-opacity: 0.75;
+}
+
+/* street lights */
+.venue-scene__pole {
+  fill: var(--type-silver);
+}
+
+.venue-scene__arm {
+  fill: none;
+  stroke: var(--type-silver);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.venue-scene__lamp {
+  fill: var(--type-white);
+}
+
+.venue-scene__cone {
+  fill: var(--type-cyan);
+  fill-opacity: 0.07;
+}
+
+.venue-scene__cone--core {
+  fill-opacity: 0.09;
+}
+
+.venue-scene__pennants polygon {
+  fill: var(--type-icy);
+  fill-opacity: 0.8;
+}
+
+.venue-scene__pennants polygon:nth-child(3n) {
+  fill: var(--type-cyan);
+}
+
+.venue-scene__pennants polygon:nth-child(3n + 1) {
+  fill: var(--type-white);
+  fill-opacity: 0.85;
+}
+
+/* coordinates printed on the slab */
+.venue-scene__coords circle,
+.venue-scene__coords path {
+  fill: none;
+  stroke: var(--type-cyan);
+  stroke-width: 1.4;
+}
+
+.venue-scene__coords text {
+  fill: var(--type-cyan);
+  font-family: var(--font-tactical);
+  font-size: 15px;
+  letter-spacing: 0.14em;
+}
+
+/* ── Spec chips ────────────────────────────────────────────────────────── */
+
+.venue-specs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.venue-specs > li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  max-width: none;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: var(--font-tactical);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--type-white);
+}
+
+.venue-specs > li svg {
+  flex: none;
+  color: var(--type-cyan);
+}
+
+/* ── Coordinate tag ────────────────────────────────────────────────────── */
+
+.venue-coord {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-tactical);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--venue-tag, var(--type-cyan));
+  white-space: nowrap;
+}
+
+.venue-coord:hover span {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.venue-coord svg {
+  flex: none;
+}
+
+.venue-specs > li .venue-coord {
+  letter-spacing: 0.12em;
+}
+
+/* ── Banner (schedule + fixtures) ──────────────────────────────────────── */
+
+.venue-banner {
+  margin: 0 0 2.2rem;
+  overflow: hidden;
+  background: var(--card-strong);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.venue-banner figcaption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem 1.1rem;
+  border-top: 1px solid var(--line);
+}
+
+.venue-banner__label {
+  font-family: var(--font-tactical);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--type-white);
+}
+
+/* ── Venue card (/venues) ──────────────────────────────────────────────── */
+
+.venue-card {
+  margin: 3rem 0;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  text-align: center;
+}
+
+.venue-card__art {
+  border-bottom: 1px solid var(--line);
+  background: var(--card-strong);
+}
+
+.venue-card__body {
+  padding: 2rem 1.5rem 2.2rem;
+}
+
+.venue-card__body > h2 {
+  margin-top: 0.6rem;
+}
+
+.venue-card__kicker {
+  margin: 0 auto;
+  font-family: var(--font-tactical);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--type-cyan);
+}
+
+.venue-card__specs {
+  margin: 1.1rem 0 1.4rem;
+}
+
+@media (max-width: 640px) {
+  .venue-card__body {
+    padding: 1.6rem 1.1rem 1.8rem;
+  }
+
+  .venue-specs > li {
+    font-size: 0.64rem;
+  }
+}

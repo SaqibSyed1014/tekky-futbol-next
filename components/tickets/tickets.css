@@ -11,6 +11,7 @@
    ========================================================================= */
 
 .tkt-page {
+  --venue-tag: var(--tkt-tag);
   --tkt-radius: 4px;
   --tkt-bw: 1px;
   --tkt-keyline: var(--type-keyline);
