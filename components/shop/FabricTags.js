@@ -9,17 +9,10 @@ function WeightIcon() {
   );
 }
 
-function WeaveIcon() {
-  return (
-    <svg className="fabric-tag__icon" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
-      <path d="M1.5 6c1-3 2-3 3 0s2 3 3 0 2-3 3 0" />
-    </svg>
-  );
-}
-
 /**
- * Technical fabric callouts for a clothing product card — e.g. "480 GSM" and
- * "FRENCH TERRY". Presentational only, so it renders in server or client trees.
+ * Technical fabric callout for a clothing product card — a single tag reading
+ * "480 GSM FRENCH TERRY" (weight + fabric are one spec, not two). Presentational
+ * only, so it renders in server or client trees.
  *
  * @param {Object} props
  * @param {string} [props.weight]  — fabric weight, defaults to the storefront-wide spec
@@ -31,19 +24,15 @@ export default function FabricTags({
   fabric = DEFAULT_FABRIC.fabric,
   className = '',
 }) {
-  // Spans + list roles (not <ul>/<li>) so the tags are valid phrasing content
+  // Spans + list roles (not <ul>/<li>) so the tag is valid phrasing content
   // even when rendered inside a <button>, like the bundle picker's cards.
+  const spec = `${weight} ${fabric}`;
   return (
-    <span className={`fabric-tags${className ? ` ${className}` : ''}`} role="list" aria-label="Fabric specifications">
-      <span className="fabric-tag" role="listitem" title={`Fabric weight: ${weight}`}>
+    <span className={`fabric-tags${className ? ` ${className}` : ''}`} role="list" aria-label="Fabric specification">
+      <span className="fabric-tag" role="listitem" title={`Fabric: ${spec}`}>
         <WeightIcon />
-        <span className="visually-hidden">Fabric weight: </span>
-        {weight}
-      </span>
-      <span className="fabric-tag fabric-tag--accent" role="listitem" title={`Fabric: ${fabric}`}>
-        <WeaveIcon />
         <span className="visually-hidden">Fabric: </span>
-        {fabric}
+        {spec}
       </span>
     </span>
   );
