@@ -44,7 +44,7 @@ export default function ContactClient() {
         <GlowDivider />
 
         <section id="contact-form">
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", color: 'var(--tekky-blue)', fontSize: '2rem', marginBottom: '1rem' }}>
+          <h2 style={{ marginBottom: '1rem' }}>
             Send a Message
           </h2>
 
@@ -116,7 +116,7 @@ export default function ContactClient() {
         <GlowDivider />
 
         <section id="contact-info" style={{ marginTop: '2rem' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", color: 'var(--tekky-blue)', fontSize: '2rem', marginBottom: '1rem' }}>
+          <h2 style={{ marginBottom: '1rem' }}>
             Direct Contact
           </h2>
           <p style={{ margin: '0.4rem 0' }}>

@@ -42,16 +42,9 @@ function Card({ children, style }) {
 
 function SectionHeading({ children }) {
   return (
-    <h3 style={{
-      fontFamily: "'Bebas Neue', sans-serif",
-      fontSize: '1.1rem',
-      letterSpacing: '1.5px',
-      color: 'var(--tekky-blue)',
-      textTransform: 'uppercase',
-      margin: '0 0 1.25rem',
+    <h3 style={{ fontFamily: 'var(--font-ui)', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--type-silver)', fontSize: '0.9rem', margin: '0 0 1.25rem',
       paddingBottom: '0.4rem',
-      borderBottom: '1px solid rgba(59, 130, 246, 0.15)',
-    }}>
+      borderBottom: '1px solid rgba(59, 130, 246, 0.15)' }}>
       {children}
     </h3>
   );
@@ -117,13 +110,9 @@ function LockedKitDisplay({ kitSlug }) {
         />
       </div>
       <div style={{ textAlign: 'center' }}>
-        <span style={{
-          fontSize: '0.75rem', fontFamily: "'Bebas Neue', sans-serif",
-          letterSpacing: '1.5px', textTransform: 'uppercase',
-          color: '#00c864', background: 'rgba(0,200,100,0.1)',
+        <span style={{ fontFamily: 'var(--font-tactical)', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.68rem', color: '#00c864', background: 'rgba(0,200,100,0.1)',
           border: '1px solid rgba(0,200,100,0.3)', borderRadius: 4,
-          padding: '0.2rem 0.6rem',
-        }}>
+          padding: '0.2rem 0.6rem' }}>
           <i className="fa-solid fa-lock" style={{ marginRight: '0.4rem', fontSize: '0.65rem' }} />
           Locked — {kitSlug}
         </span>

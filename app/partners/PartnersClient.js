@@ -67,7 +67,7 @@ export default function PartnersClient() {
 
         <section id="vision" style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2>Vision</h2>
-          <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
+          <p className="subtext" style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             We elevate football culture through authenticity — connecting brand partners with the next wave of creators, players, and street-level energy. Every partnership is built on shared ambition and long-term impact.
           </p>
           <div className="sec-cta">
@@ -93,7 +93,7 @@ export default function PartnersClient() {
 
         <section id="reach" style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2>Our Reach</h2>
-          <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
+          <p className="subtext" style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             Our digital footprint stretches from the pitch to the street — connecting players, fans, and culture through social media, live events, and creator-driven collaborations.
           </p>
         </section>
@@ -102,7 +102,7 @@ export default function PartnersClient() {
 
         <section id="connect" style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2>Let&#39;s Connect</h2>
-          <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
+          <p className="subtext" style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             We&#39;re ready to collaborate. Reach out and let&#39;s create impact together.
           </p>
           <div className="sec-cta">

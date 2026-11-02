@@ -53,7 +53,7 @@ function ResetPasswordForm() {
         boxShadow: '0 0 25px rgba(0,116,255,0.1)',
       }}>
         <i className="fa-solid fa-link-slash" style={{ fontSize: '3rem', color: '#ff6b6b', marginBottom: '1rem', display: 'block' }} />
-        <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", color: '#ff6b6b', fontSize: '1.6rem', marginBottom: '0.75rem' }}>
+        <h2 style={{ marginBottom: '0.75rem' }}>
           Invalid Reset Link
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '0.92rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
@@ -74,7 +74,7 @@ function ResetPasswordForm() {
         boxShadow: '0 0 25px rgba(0,116,255,0.1)',
       }}>
         <i className="fa-solid fa-circle-check" style={{ fontSize: '3rem', color: '#00c864', marginBottom: '1rem', display: 'block' }} />
-        <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", color: '#00c864', fontSize: '1.6rem', marginBottom: '0.75rem' }}>
+        <h2 style={{ marginBottom: '0.75rem' }}>
           Password Reset!
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '0.92rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
@@ -99,7 +99,7 @@ function ResetPasswordForm() {
         backdropFilter: 'blur(18px)',
       }}
     >
-      <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", color: 'var(--tekky-blue)', fontSize: '1.8rem', marginBottom: '0.5rem' }}>
+      <h2 style={{ marginBottom: '0.5rem' }}>
         Set New Password
       </h2>
       <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginBottom: '1.5rem', lineHeight: 1.5 }}>

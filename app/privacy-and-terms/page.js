@@ -21,7 +21,7 @@ export default function PrivacyAndTermsPage() {
         <GlowDivider />
 
         <section id="privacy" style={{ margin: '3rem 0' }}>
-          <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', color: 'var(--tekky-blue)', fontSize: '1.8rem', marginBottom: '1rem' }}>Privacy Policy</h2>
+          <h2 style={{ marginBottom: '1rem' }}>Privacy Policy</h2>
           <p style={{ maxWidth: '100%', marginBottom: '0.8rem' }}>At TekkyFutbol, we value your privacy and are committed to protecting your personal data. This policy explains what we collect, why we collect it, and how we use it.</p>
           <ul className="bullet-list">
             <li style={{ maxWidth: '100%', marginBottom: '0.8rem' }}><strong>Information We Collect:</strong> Names, emails, payment details, and registration data provided voluntarily through forms or checkout.</li>
@@ -36,7 +36,7 @@ export default function PrivacyAndTermsPage() {
         <GlowDivider />
 
         <section id="terms" style={{ margin: '3rem 0' }}>
-          <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', color: 'var(--tekky-blue)', fontSize: '1.8rem', marginBottom: '1rem' }}>Terms of Use</h2>
+          <h2 style={{ marginBottom: '1rem' }}>Terms of Use</h2>
           <ul className="bullet-list">
             <li style={{ maxWidth: '100%', marginBottom: '0.8rem' }}><strong>Acceptance:</strong> By using TekkyFutbol.net or participating in any event, you agree to these terms.</li>
             <li style={{ maxWidth: '100%', marginBottom: '0.8rem' }}><strong>Conduct:</strong> Players, coaches, and fans must uphold respect, creativity, and sportsmanship at all times.</li>
@@ -54,7 +54,7 @@ export default function PrivacyAndTermsPage() {
         <GlowDivider />
 
         <section id="contact" style={{ margin: '3rem 0' }}>
-          <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', color: 'var(--tekky-blue)', fontSize: '1.8rem', marginBottom: '1rem' }}>Contact Us</h2>
+          <h2 style={{ marginBottom: '1rem' }}>Contact Us</h2>
           <p style={{ maxWidth: '100%', marginBottom: '0.8rem' }}>Questions, privacy concerns, or legal inquiries? Reach out — we&#39;ll respond as fast as our players move.</p>
           <div className="sec-cta">
             <a className="cta" href="mailto:legal@tekkyfutbol.net">Email Us</a>

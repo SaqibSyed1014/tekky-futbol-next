@@ -23,7 +23,7 @@ export default function AboutPage() {
         <GlowDivider />
 
         <section style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', marginBottom: '0.5rem' }}>Our Story</h2>
+          <h2 style={{ marginBottom: '0.5rem' }}>Our Story</h2>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             TekkyFutbol was founded to redefine small-sided competition. Every touch, every play,
             every moment — built around creative flow and passion for the game.
@@ -33,7 +33,7 @@ export default function AboutPage() {
         <GlowDivider />
 
         <section id="structure" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', marginBottom: '0.5rem' }}>Structure</h2>
+          <h2 style={{ marginBottom: '0.5rem' }}>Structure</h2>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             TekkyFutbol runs a structured 16-matchweek season with 8 teams per division — North and South.
           </p>
@@ -63,7 +63,7 @@ export default function AboutPage() {
         <GlowDivider />
 
         <section id="evolution" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', marginBottom: '0.5rem' }}>EVOLUTION</h2>
+          <h2 style={{ marginBottom: '0.5rem' }}>EVOLUTION</h2>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>TekkyFutbol is built for growth.</p>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             The long-term vision includes permanent clubs, true home venues, expanded divisions, and
@@ -80,7 +80,7 @@ export default function AboutPage() {
         <GlowDivider />
 
         <section style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', marginBottom: '0.5rem' }}>Mission</h2>
+          <h2 style={{ marginBottom: '0.5rem' }}>Mission</h2>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             Our mission is simple: reward the players who take risks, adapt under pressure, and finish
             what they start.
@@ -90,7 +90,7 @@ export default function AboutPage() {
         <GlowDivider />
 
         <section style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', marginBottom: '0.5rem' }}>Movement</h2>
+          <h2 style={{ marginBottom: '0.5rem' }}>Movement</h2>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             TekkyFutbol is rooted in street principles — adaptability under pressure, confidence
             without permission, and moments that decide everything.

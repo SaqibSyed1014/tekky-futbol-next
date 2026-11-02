@@ -171,7 +171,7 @@ export default function ShopClient() {
         <section style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2 className="main-heading">Streetwear</h2>
           <h2>SIGNATURE COLLECTION</h2>
-          <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Designed once. Released once. No restocks.</p>
+          <p className="subtext" style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Designed once. Released once. No restocks.</p>
           <div className="grid two-columns">
             {signatureProducts.map((p) => (
               <ShopCard
@@ -193,7 +193,7 @@ export default function ShopClient() {
 
         <section id="subscribe" style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2>Stay Connected</h2>
-          <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
+          <p className="subtext" style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
             Subscribe to stay in the loop — new drops, finale events, and culture updates straight from the league.
           </p>
           <div className="sec-cta">

@@ -28,7 +28,7 @@ export default function StaffPage() {
               <div className="img-placeholder show" style={{ borderRadius: '50%', width: 120, height: 120, margin: '0 auto 1rem' }}>
                 <img src="/images/staff.jpg" alt="Jesus" />
               </div>
-              <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.4rem', color: 'var(--tekky-blue)' }}>Jesus</div>
+              <h3 style={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.1rem' }}>Jesus</h3>
               <div style={{ color: 'var(--muted)', fontSize: '0.95rem', marginTop: '0.2rem', fontWeight: 600 }}>League Director</div>
               <p style={{ fontSize: '0.9rem', marginTop: '0.5rem', lineHeight: 1.5 }}>
                 Oversees league operations, partnerships, and season structure.
@@ -38,7 +38,7 @@ export default function StaffPage() {
               <div className="img-placeholder show" style={{ borderRadius: '50%', width: 120, height: 120, margin: '0 auto 1rem' }}>
                 <img src="/images/staff.jpg" alt="Josue" />
               </div>
-              <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.4rem', color: 'var(--tekky-blue)' }}>Josue</div>
+              <h3 style={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '1.1rem' }}>Josue</h3>
               <div style={{ color: 'var(--muted)', fontSize: '0.95rem', marginTop: '0.2rem', fontWeight: 600 }}>Creative Media Lead</div>
               <p style={{ fontSize: '0.9rem', marginTop: '0.5rem', lineHeight: 1.5 }}>
                 Directs photo, video, and storytelling content across Tekky platforms.

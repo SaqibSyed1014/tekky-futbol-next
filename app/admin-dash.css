@@ -23,9 +23,11 @@
   --ad-radius: 12px;
   --ad-ease: 0.22s ease;
   --ad-shadow: 0 10px 28px rgba(2, 6, 20, 0.45);
-  --ad-display: var(--font-oswald, 'Oswald'), sans-serif;
-  --ad-impact: var(--font-anton, 'Anton'), sans-serif;
-  --ad-body: var(--font-manrope, 'Manrope'), sans-serif;
+  /* Roadmap typographic hierarchy (see globals.css): tags = JetBrains Mono,
+     hero = Anton, subheaders/body = Inter. */
+  --ad-display: var(--font-tactical);
+  --ad-impact: var(--font-hero);
+  --ad-body: var(--font-ui);
   --ad-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
   --ad-grid: linear-gradient(rgba(93, 185, 255, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(93, 185, 255, 0.06) 1px, transparent 1px);
@@ -82,8 +84,10 @@
 .admin-dash h2,
 .admin-dash h3 {
   font-family: var(--ad-impact);
-  text-shadow: none;
-  color: var(--ad-fg);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-shadow: var(--type-keyline);
+  color: var(--type-white);
 }
 
 .admin-dash header.ad-topbar {
@@ -118,12 +122,12 @@
   z-index: 2;
   padding: 0.78rem 1.1rem;
   text-align: left;
-  font-family: var(--ad-display);
+  font-family: var(--ad-body);
   font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ad-on-dark);
+  color: var(--type-icy);
   background: var(--ad-black);
   border-bottom: 1px solid var(--ad-line-blue);
   white-space: nowrap;
@@ -132,7 +136,7 @@
 .ad-table tbody td {
   padding: 0.95rem 1.1rem;
   vertical-align: middle;
-  color: var(--ad-fg);
+  color: var(--type-slate);
   border-bottom: 1px solid var(--ad-line);
   background: var(--ad-card);
   transition: background 0.18s ease;
@@ -180,7 +184,7 @@
   font-family: var(--ad-display);
   font-size: 1.05rem;
   letter-spacing: 0.4px;
-  color: var(--ad-electric);
+  color: var(--type-cyan);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -303,10 +307,10 @@
   border-radius: 999px;
   background: rgba(61, 139, 255, 0.12);
   border: 1px solid var(--ad-line-blue);
-  color: var(--ad-cyan);
+  color: var(--type-cyan);
   font-family: var(--ad-display);
   font-size: 0.78rem;
-  letter-spacing: 2px;
+  letter-spacing: 0.14em;
 }
 
 .ad-staff-card__chip i {
@@ -413,10 +417,10 @@
 }
 
 .ad-brand__name {
-  font-family: 'Bebas Neue', sans-serif;
-  color: var(--ad-on-dark);
+  font-family: var(--ad-impact);
+  color: var(--type-white);
   font-size: 1.45rem;
-  letter-spacing: 2px;
+  letter-spacing: 0.08em;
   line-height: 1;
 }
 
@@ -427,8 +431,8 @@
 .ad-role {
   font-size: 0.72rem;
   font-family: var(--ad-display);
-  letter-spacing: 2px;
-  color: var(--ad-cyan);
+  letter-spacing: 0.14em;
+  color: var(--type-cyan);
   background: rgba(7, 21, 54, 0.28);
   border: 1px solid rgba(94, 200, 255, 0.35);
   border-radius: 2px;
@@ -799,20 +803,20 @@
 .ad-kicker {
   font-family: var(--ad-display);
   font-size: 0.78rem;
-  letter-spacing: 2.4px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--ad-label);
+  color: var(--type-cyan);
   margin: 0 0 0.35rem;
 }
 
 .ad-title {
   font-family: var(--ad-impact);
   font-size: 2.15rem;
-  letter-spacing: 1.5px;
-  color: var(--ad-fg);
+  letter-spacing: 0.04em;
+  color: var(--type-white);
   margin: 0;
   line-height: 1;
-  text-shadow: none;
+  text-shadow: var(--type-keyline);
 }
 
 .ad-sub {
@@ -1102,10 +1106,11 @@
 }
 
 .ad-section-label {
-  font-family: var(--ad-impact);
-  font-size: 0.95rem;
-  color: var(--ad-electric);
-  letter-spacing: 1.8px;
+  font-family: var(--ad-body);
+  font-weight: 500;
+  font-size: 0.82rem;
+  color: var(--type-icy);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   margin: 0 0 0.9rem;
 }
@@ -1179,8 +1184,8 @@
 }
 
 .ad-foot__mark {
-  font-family: var(--ad-impact);
-  letter-spacing: 2px;
+  font-family: var(--ad-display);
+  letter-spacing: 0.14em;
   font-size: 0.78rem;
   color: var(--ad-chrome);
 }
@@ -1482,10 +1487,11 @@
 }
 
 .ad-drawer__label {
-  font-family: var(--ad-impact);
-  font-size: 1.05rem;
-  letter-spacing: 1.5px;
-  color: var(--ad-electric);
+  font-family: var(--ad-body);
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  color: var(--type-icy);
   text-transform: uppercase;
   margin: 1.4rem 0 0.6rem;
   border-bottom: 1px solid var(--ad-line);

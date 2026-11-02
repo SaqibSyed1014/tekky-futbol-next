@@ -106,16 +106,9 @@ function Card({ children, style, className }) {
 
 function SectionHeading({ children }) {
   return (
-    <h3 style={{
-      fontFamily: "'Bebas Neue', sans-serif",
-      fontSize: '1.1rem',
-      letterSpacing: '1.5px',
-      color: 'var(--tekky-blue)',
-      textTransform: 'uppercase',
-      margin: '0 0 1.25rem',
+    <h3 style={{ fontFamily: 'var(--font-ui)', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--type-silver)', fontSize: '0.9rem', margin: '0 0 1.25rem',
       paddingBottom: '0.4rem',
-      borderBottom: '1px solid rgba(61, 139, 255, 0.15)',
-    }}>
+      borderBottom: '1px solid rgba(61, 139, 255, 0.15)' }}>
       {children}
     </h3>
   );
@@ -722,31 +715,23 @@ export default function PlayerProfilePage() {
           borderRadius: 14, padding: '1.25rem 1.5rem', backdropFilter: 'blur(14px)',
           boxShadow: '0 10px 28px rgba(2, 6, 20, 0.35)',
         }}>
-          <div style={{
-            width: 60, height: 60, borderRadius: '50%', flexShrink: 0,
+          <div style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', width: 60, height: 60, borderRadius: '50%', flexShrink: 0,
             background: 'linear-gradient(135deg, var(--ad-electric), var(--ad-blue-deep))',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.7rem', color: 'var(--ad-fg)',
-            boxShadow: '0 0 20px rgba(61, 139, 255, 0.35)',
-          }}>
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.7rem', color: 'var(--ad-fg)',
+            boxShadow: '0 0 20px rgba(61, 139, 255, 0.35)' }}>
             {initial}
           </div>
           <div style={{ minWidth: 0 }}>
-            <h2 style={{
-              fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.55rem',
-              margin: '0 0 0.3rem', letterSpacing: '1px',
-              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-            }}>
+            <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize: '1.55rem',
+              margin: '0 0 0.3rem',
+              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {user.name || 'Player'}
             </h2>
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-              <span style={{
-                fontSize: '0.78rem', fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1.2px',
-                color: isCaptain ? '#f0b429' : '#00c864',
+              <span style={{ fontFamily: 'var(--font-tactical)', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.68rem', color: isCaptain ? '#f0b429' : '#00c864',
                 background: isCaptain ? 'rgba(240,180,41,0.1)' : 'rgba(0,200,100,0.1)',
                 border: `1px solid ${isCaptain ? 'rgba(240,180,41,0.3)' : 'rgba(0,200,100,0.3)'}`,
-                borderRadius: 4, padding: '0.2rem 0.55rem',
-              }}>
+                borderRadius: 4, padding: '0.2rem 0.55rem' }}>
                 {isCaptain ? 'Captain' : 'Player'}
               </span>
               <span style={{

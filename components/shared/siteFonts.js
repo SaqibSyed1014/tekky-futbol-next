@@ -1,8 +1,19 @@
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Anton, Inter, JetBrains_Mono } from 'next/font/google';
 
-// Roadmap typography: JetBrains Mono for tactical tags / system metadata,
-// Inter for subheaders and body copy. Server-side only (imported by the root
-// layout) — next/font must not be pulled into a client component.
+// Roadmap typographic hierarchy — the only three families on the platform:
+//   Anton          hero headers (Druk Wide is the spec's first choice but is a
+//                  paid typeface; Anton is the spec's listed alternative)
+//   Inter          subheaders + body text
+//   JetBrains Mono tactical tags / system metadata
+// Server-side only (imported by the root layout) — next/font must not be
+// pulled into a client component.
+export const anton = Anton({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-anton',
+  display: 'swap',
+});
+
 export const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
@@ -15,4 +26,4 @@ export const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
-export const siteFontVars = `${inter.variable} ${jetbrainsMono.variable}`;
+export const siteFontVars = `${anton.variable} ${inter.variable} ${jetbrainsMono.variable}`;

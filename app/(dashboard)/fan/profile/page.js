@@ -72,11 +72,8 @@ function Card({ children, style }) {
 
 function SectionHeading({ children }) {
   return (
-    <h3 style={{
-      fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.1rem', letterSpacing: '1.5px',
-      color: 'var(--tekky-blue)', textTransform: 'uppercase', margin: '0 0 1.25rem',
-      paddingBottom: '0.4rem', borderBottom: '1px solid rgba(61, 139, 255, 0.15)',
-    }}>
+    <h3 style={{ fontFamily: 'var(--font-ui)', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--type-silver)', fontSize: '0.9rem', margin: '0 0 1.25rem',
+      paddingBottom: '0.4rem', borderBottom: '1px solid rgba(61, 139, 255, 0.15)' }}>
       {children}
     </h3>
   );

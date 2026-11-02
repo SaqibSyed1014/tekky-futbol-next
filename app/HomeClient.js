@@ -95,7 +95,7 @@ export default function HomeClient() {
 
       <main style={{ maxWidth: 1080, margin: '2.8rem auto 4rem', padding: '0 1.25rem' }}>
         <section id="league" style={{ margin: '3rem 0' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', textAlign: 'center', marginBottom: '0.5rem' }}>The League</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>The League</h2>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Regular season rotates across surfaces. The finale stands alone.</p>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Phase 1: Attrition — 8 teams per division. 16 matchweeks. Earn position.</p>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Phase 2: Dominion — Top 2 per division. Single-elimination. Champion crowned.</p>
@@ -118,7 +118,7 @@ export default function HomeClient() {
         <GlowDivider />
 
         <section id="experience" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', textAlign: 'center', marginBottom: '0.5rem' }}>The Experience</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>The Experience</h2>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Every match is built for atmosphere.</p>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Night games. Recorded highlights. Energy that builds week after week.</p>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>The league grows louder as the stakes rise.</p>
@@ -130,7 +130,7 @@ export default function HomeClient() {
         <GlowDivider />
 
         <section id="media" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', textAlign: 'center', marginBottom: '0.5rem' }}>The Culture</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>The Culture</h2>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Creative football. Cinematic energy. Competitive street culture.</p>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Rules built for flow. Players built for moments.</p>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Street football deserves a stage.</p>
@@ -144,7 +144,7 @@ export default function HomeClient() {
         <GlowDivider />
 
         <section id="finale" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', textAlign: 'center', marginBottom: '0.5rem' }}>The Finale</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>The Finale</h2>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>The season ends in one defining day.</p>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Semifinals. Third place. Championship.</p>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Four matches decide everything.</p>
@@ -157,7 +157,7 @@ export default function HomeClient() {
         <GlowDivider />
 
         <section id="merch" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', textAlign: 'center', marginBottom: '0.5rem' }}>The Drip</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>The Drip</h2>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Each season drops limited gear. Built for creators on and off the pitch.</p>
           <div className="sec-cta">
             <Link className="cta" href="/shop/finale-collection">Shop the Collection</Link>
@@ -165,7 +165,7 @@ export default function HomeClient() {
         </section>
 
         <section id="founding" style={{ margin: '3rem 0', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', textAlign: 'center', marginBottom: '0.5rem' }}>FOUNDING SEASON</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>FOUNDING SEASON</h2>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>The first season sets the standard.</p>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Limited teams. Limited spots.</p>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Founding players become part of the league&apos;s history.</p>
@@ -175,7 +175,7 @@ export default function HomeClient() {
         </section>
 
         <section id="cta-block" style={{ margin: '3rem 0 1rem', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: 'var(--tekky-blue)', textAlign: 'center', marginBottom: '0.5rem' }}>Join the Movement</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>Join the Movement</h2>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Players. Creators. Sponsors. Be part of the Tekky era.</p>
           <div className="sec-cta">
             <Link className="cta" href="/partners">Sponsor the Movement</Link>

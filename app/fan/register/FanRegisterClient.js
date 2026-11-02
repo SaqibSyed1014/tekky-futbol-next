@@ -81,7 +81,7 @@ export default function FanRegisterClient() {
 
         <section style={{ margin: '2.5rem 0' }}>
           <div style={cardStyle}>
-            <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", color: 'var(--tekky-blue)', fontSize: '1.8rem', marginBottom: '1.25rem' }}>
+            <h2 style={{ marginBottom: '1.25rem' }}>
               Create Account
             </h2>
 

@@ -28,7 +28,7 @@ function StatCard({ icon, label, value, sub }) {
         <p style={{ fontSize: '0.72rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, margin: '0 0 0.2rem' }}>
           {label}
         </p>
-        <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.3rem', letterSpacing: '0.5px', color: 'var(--fg)', margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font-ui)', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '1.07rem', color: 'var(--fg)', margin: 0 }}>
           {value}
         </p>
         {sub && <p style={{ fontSize: '0.78rem', color: 'var(--muted)', margin: '0.15rem 0 0' }}>{sub}</p>}
@@ -55,10 +55,8 @@ export default function FanHomeClient({ user }) {
   return (
     <div style={{ maxWidth: 780 }}>
       <div style={{ marginBottom: '2rem' }}>
-        <h2 style={{
-          fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.8rem', color: 'var(--fg)',
-          margin: 0, letterSpacing: '1px',
-        }}>
+        <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize: '1.8rem',
+          margin: 0 }}>
           Welcome, {user.name || 'Fan'} 👋
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginTop: '0.35rem' }}>

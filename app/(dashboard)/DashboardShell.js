@@ -407,7 +407,7 @@ function PaymentPrompt({ onDismiss }) {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
           <span style={{ color: 'var(--ad-muted)', fontSize: '0.88rem' }}>Registration Fee</span>
-          <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', color: 'var(--ad-fg)', letterSpacing: '1px' }}>
+          <span style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize: '1.4rem', color: 'var(--ad-fg)' }}>
             $700.00
           </span>
         </div>

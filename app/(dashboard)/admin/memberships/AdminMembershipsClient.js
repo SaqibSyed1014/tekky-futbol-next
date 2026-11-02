@@ -252,7 +252,7 @@ export default function AdminMembershipsClient() {
                     </td>
                     <td>
                       <div className="ad-table__name">{m.teamName || '—'}</div>
-                      <div className="ad-table__meta" style={{ fontFamily: 'monospace' }}>{m.teamId?.slice(0, 8)}…</div>
+                      <div className="ad-table__meta" style={{ fontFamily: 'var(--font-tactical)' }}>{m.teamId?.slice(0, 8)}…</div>
                     </td>
                     <td className="ad-table__muted">{m.captainEmail || '—'}</td>
                     <td>

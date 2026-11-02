@@ -101,7 +101,7 @@ export default function PartnershipInquiryClient() {
               rows={4}
               value={fields.message}
               onChange={set('message')}
-              style={{ width: '100%', padding: '0.8rem', marginBottom: '1.2rem', background: 'rgba(6, 18, 50, 0.72)', border: '1px solid var(--line)', borderRadius: 10, color: 'var(--fg)', fontFamily: 'Montserrat, sans-serif', resize: 'vertical' }}
+              style={{ width: '100%', padding: '0.8rem', marginBottom: '1.2rem', background: 'rgba(6, 18, 50, 0.72)', border: '1px solid var(--line)', borderRadius: 10, color: 'var(--fg)', fontFamily: 'var(--font-ui)', resize: 'vertical' }}
             />
 
             <label htmlFor="timeline">Timeline</label>

@@ -120,13 +120,8 @@ const S = {
   },
 
   // Card section heading (Bebas Neue, blue)
-  sectionHead: {
-    fontFamily:    "'Bebas Neue', sans-serif",
-    fontSize:      '0.95rem',
-    color:         'var(--tekky-blue)',
-    letterSpacing: '1.5px',
-    margin:        0,
-  },
+  sectionHead: { fontFamily: 'var(--font-ui)', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.78rem', color: 'var(--type-silver)',
+    margin:        0 },
 
   // Muted body text (clauses / paragraphs)
   prose: {
@@ -182,11 +177,7 @@ function AlreadySigned({ signedData }) {
           <i className="fa-solid fa-circle-check" style={{ fontSize: '2rem', color: '#00c864' }} />
         </div>
 
-        <h2 style={{
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: '2rem', color: '#00c864',
-          letterSpacing: '2px', margin: '0 0 0.6rem',
-        }}>
+        <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize: '2rem', margin: '0 0 0.6rem' }}>
           Waiver Signed
         </h2>
 
@@ -396,22 +387,15 @@ export default function WaiverSigningClient() {
       {/* Logo + company name */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '1.5rem' }}>
         <Image src="/images/logo.webp" alt="TekkyFutbol Logo" width={70} height={70} />
-        <p style={{
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: '1.4rem', letterSpacing: '3px',
-          color: 'var(--fg)', margin: '0.5rem 0 0', textAlign: 'center',
-        }}>
+        <p style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize: '1.4rem',
+          color: 'var(--fg)', margin: '0.5rem 0 0', textAlign: 'center' }}>
           TEKKY FUTBOL, LLC
         </p>
       </div>
 
       {/* Waiver title */}
       <div style={{ marginBottom: '0.5rem', textAlign: 'center' }}>
-        <h1 style={{
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: '1.8rem', letterSpacing: '2px',
-          color: 'var(--fg)', margin: 0,
-        }}>
+        <h1 style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize: '1.8rem', margin: 0 }}>
           Release and Waiver of Liability Agreement
         </h1>
         <p style={{ color: 'var(--muted)', fontSize: '0.85rem', marginTop: '0.3rem' }}>
@@ -562,7 +546,7 @@ export default function WaiverSigningClient() {
             }}
           >
             <span style={{
-              fontFamily: 'monospace',
+              fontFamily: 'var(--font-tactical)',
               fontSize:   '0.78rem',
               color:      'rgba(61,139,255,0.5)',
               flexShrink: 0,
@@ -722,21 +706,16 @@ export default function WaiverSigningClient() {
           <button
             type="submit"
             disabled={!canSubmit}
-            style={{
-              width:         '100%',
+            style={{ fontFamily: 'var(--font-ui)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', width:         '100%',
               padding:       '0.9rem',
               background:    canSubmit ? 'var(--tekky-blue)' : 'rgba(61,139,255,0.1)',
               border:        `1px solid ${canSubmit ? 'var(--tekky-blue)' : 'rgba(61,139,255,0.15)'}`,
               borderRadius:  10,
               color:         canSubmit ? 'var(--ad-fg)' : 'rgba(255,255,255,0.25)',
               fontSize:      '1.05rem',
-              fontWeight:    700,
-              fontFamily:    "'Bebas Neue', sans-serif",
-              letterSpacing: '2px',
               cursor:        canSubmit ? 'pointer' : 'not-allowed',
               transition:    'all 0.2s',
-              boxShadow:     canSubmit ? '0 0 20px rgba(61,139,255,0.25)' : 'none',
-            }}
+              boxShadow:     canSubmit ? '0 0 20px rgba(61,139,255,0.25)' : 'none' }}
           >
             {submitting ? (
               <>

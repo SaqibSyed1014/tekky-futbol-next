@@ -36,13 +36,8 @@ function Value({ children, color }) {
 
 function SectionTitle({ children }) {
   return (
-    <h3 style={{
-      fontFamily: "'Bebas Neue', sans-serif",
-      fontSize: '1.1rem', letterSpacing: '1.5px',
-      color: 'var(--tekky-blue)', textTransform: 'uppercase',
-      margin: '0 0 0.9rem', borderBottom: '1px solid rgba(59,130,246,0.15)',
-      paddingBottom: '0.35rem',
-    }}>
+    <h3 style={{ fontFamily: 'var(--font-ui)', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--type-silver)', fontSize: '0.9rem', margin: '0 0 0.9rem', borderBottom: '1px solid rgba(59,130,246,0.15)',
+      paddingBottom: '0.35rem' }}>
       {children}
     </h3>
   );
@@ -151,7 +146,7 @@ function RosterTable({ title, rows, bucketColor, onRemove, removingId, showRemov
           display: 'inline-block', width: 8, height: 8, borderRadius: '50%',
           background: bucketColor, boxShadow: `0 0 6px ${bucketColor}`,
         }} />
-        <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '0.95rem', color: bucketColor, letterSpacing: '1px' }}>
+        <span style={{ fontFamily: 'var(--font-ui)', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.78rem', color: bucketColor }}>
           {title} ({rows.length})
         </span>
       </div>
@@ -259,7 +254,7 @@ function InviteLinkPanel() {
           }}>
             <span style={{
               flex: 1, fontSize: '0.8rem', color: 'var(--ad-muted)',
-              wordBreak: 'break-all', fontFamily: 'monospace',
+              wordBreak: 'break-all', fontFamily: 'var(--font-tactical)',
             }}>
               {invite.inviteUrl}
             </span>
@@ -504,10 +499,7 @@ export default function CaptainDashboardClient({ user, defaultSection, soloSecti
     <div style={{ maxWidth: 1100 }}>
       {/* Header */}
       <div style={{ marginBottom: '2rem' }}>
-        <h2 style={{
-          fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.8rem',
-          color: 'var(--fg)', margin: 0, letterSpacing: '1px',
-        }}>
+        <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize: '1.8rem', margin: 0 }}>
           Welcome, Captain {user?.name || ''} ⚽
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginTop: '0.35rem' }}>
@@ -559,7 +551,7 @@ export default function CaptainDashboardClient({ user, defaultSection, soloSecti
                 {/* Team info */}
                 <div style={{ flex: 1, minWidth: 200 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
-                    <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.6rem', margin: 0, letterSpacing: '1px' }}>
+                    <h3 style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize: '1.6rem', margin: 0 }}>
                       {team.name}
                     </h3>
                     <StatusBadge status={team.status} />
@@ -588,7 +580,7 @@ export default function CaptainDashboardClient({ user, defaultSection, soloSecti
                       <span style={{ fontSize: '0.75rem', color: 'var(--muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
                         {label}
                       </span>
-                      <span style={{ fontSize: '1.1rem', fontFamily: "'Bebas Neue', sans-serif", color, letterSpacing: '0.5px' }}>
+                      <span style={{ fontFamily: 'var(--font-ui)', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.9rem', color }}>
                         {value}
                       </span>
                     </div>

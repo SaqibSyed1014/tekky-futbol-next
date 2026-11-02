@@ -60,9 +60,11 @@ function DivisionToggle({ division, onChange }) {
               borderRadius: 999,
               border: 'none',
               cursor: 'pointer',
-              fontFamily: "'Bebas Neue', sans-serif",
-              letterSpacing: '1px',
-              fontSize: '0.95rem',
+              fontFamily: 'var(--font-ui)',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              fontSize: '0.8rem',
               color: active ? '#fff' : 'var(--muted)',
               background: active
                 ? 'linear-gradient(180deg, #5aa4ff 0%, #3d8bff 38%, #1e5fe0 72%, #1553d1 100%)'

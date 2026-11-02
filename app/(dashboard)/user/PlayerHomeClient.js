@@ -59,16 +59,11 @@ function AppCard({ app }) {
       {/* Top row */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.9rem', flexWrap: 'wrap', gap: '0.5rem' }}>
         <div>
-          <span style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '0.8rem',
-            letterSpacing: '1px',
-            color: 'var(--tekky-blue)',
+          <span style={{ fontFamily: 'var(--font-tactical)', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.68rem', color: 'var(--type-cyan)',
             background: 'rgba(59, 130, 246, 0.1)',
             border: '1px solid rgba(59, 130, 246, 0.25)',
             borderRadius: 4,
-            padding: '0.15rem 0.5rem',
-          }}>
+            padding: '0.15rem 0.5rem' }}>
             {typeLabel}
           </span>
         </div>
@@ -162,7 +157,7 @@ function TeamCard({ membership, teammates }) {
         )}
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '0.3rem' }}>
-            <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', margin: 0, letterSpacing: '1px' }}>
+            <h3 style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize: '1.4rem', margin: 0 }}>
               {membership.teamName}
             </h3>
             <span style={{
@@ -258,14 +253,8 @@ export default function PlayerHomeClient({ user }) {
     <div>
       {/* Welcome */}
       <div style={{ marginBottom: '2rem' }}>
-        <h2 style={{
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: '1.8rem',
-          color: 'var(--fg)',
-          margin: 0,
-          textShadow: 'none',
-          letterSpacing: '1px',
-        }}>
+        <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize: '1.8rem',
+          margin: 0 }}>
           Welcome, {user?.name || 'Player'} 👋
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginTop: '0.35rem' }}>
@@ -322,18 +311,14 @@ export default function PlayerHomeClient({ user }) {
             </p>
             <Link
               href="/registration"
-              style={{
-                display: 'inline-block',
+              style={{ fontFamily: 'var(--font-ui)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'inline-block',
                 padding: '0.6rem 1.4rem',
                 border: '2px solid var(--tekky-blue)',
                 borderRadius: 40,
                 color: 'var(--ad-fg)',
-                fontFamily: "'Bebas Neue', sans-serif",
-                letterSpacing: '1px',
                 boxShadow: '0 0 12px var(--tekky-blue)',
                 transition: '0.2s',
-                textDecoration: 'none',
-              }}
+                textDecoration: 'none' }}
               onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--tekky-blue)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
             >

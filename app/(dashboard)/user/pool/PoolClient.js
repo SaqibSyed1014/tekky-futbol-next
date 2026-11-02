@@ -33,13 +33,8 @@ function UnsignedState() {
           <i className="fa-solid fa-eye-slash" style={{ color: '#ffb400', fontSize: '1.4rem' }} />
         </div>
 
-        <h2 style={{
-          fontFamily:    "'Bebas Neue', sans-serif",
-          fontSize:      '1.55rem',
-          letterSpacing: '1.5px',
-          color:         '#ffb400',
-          margin:        '0 0 0.6rem',
-        }}>
+        <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize:      '1.55rem',
+          margin:        '0 0 0.6rem' }}>
           You&apos;re Not Visible Yet
         </h2>
 
@@ -56,8 +51,7 @@ function UnsignedState() {
 
         <Link
           href="/user/waiver"
-          style={{
-            display:        'inline-flex',
+          style={{ fontFamily: 'var(--font-ui)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', display:        'inline-flex',
             alignItems:     'center',
             gap:            '0.5rem',
             background:     '#ffb400',
@@ -65,11 +59,7 @@ function UnsignedState() {
             borderRadius:   8,
             padding:        '0.65rem 1.5rem',
             fontSize:       '0.9rem',
-            fontWeight:     700,
-            fontFamily:     "'Bebas Neue', sans-serif",
-            letterSpacing:  '1px',
-            textDecoration: 'none',
-          }}
+            textDecoration: 'none' }}
         >
           <i className="fa-solid fa-file-signature" style={{ fontSize: '0.85rem' }} />
           Sign Waiver
@@ -90,13 +80,8 @@ function SignedState({ user }) {
     <div>
       {/* Page header */}
       <div style={{ marginBottom: '1.75rem' }}>
-        <h2 style={{
-          fontFamily:    "'Bebas Neue', sans-serif",
-          fontSize:      '1.8rem',
-          color:         'var(--fg)',
-          margin:        0,
-          letterSpacing: '1px',
-        }}>
+        <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize:      '1.8rem',
+          margin:        0 }}>
           Free Agent Pool
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginTop: '0.35rem' }}>
@@ -142,13 +127,8 @@ function SignedState({ user }) {
             marginBottom: '1rem',
           }}
         />
-        <h3 style={{
-          fontFamily:    "'Bebas Neue', sans-serif",
-          fontSize:      '1.4rem',
-          letterSpacing: '1.5px',
-          color:         'var(--tekky-blue)',
-          margin:        '0 0 0.6rem',
-        }}>
+        <h3 style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize:      '1.4rem',
+          margin:        '0 0 0.6rem' }}>
           Pool Coming Soon
         </h3>
         <p style={{ color: 'var(--muted)', fontSize: '0.875rem', lineHeight: 1.65, maxWidth: 380, margin: '0 auto' }}>

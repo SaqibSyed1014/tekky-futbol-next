@@ -14,7 +14,7 @@ export default function CheckoutCancelledBanner({ onDismiss }) {
       maxWidth: 700,
       margin: '0 auto 1.5rem',
     }}>
-      <span style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#e9eef7', fontSize: '0.92rem' }}>
+      <span style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--type-silver)', fontSize: '0.92rem' }}>
         <i className="fa-solid fa-circle-info" style={{ color: '#ffa500' }} />
         Checkout was cancelled — no payment was taken. You can buy whenever you&#39;re ready.
       </span>

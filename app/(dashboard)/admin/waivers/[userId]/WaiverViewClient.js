@@ -64,9 +64,8 @@ const S = {
     minHeight:  '100vh',
     background: '#030303',
     color:      '#e2e8f3',
-    fontFamily: "'Montserrat', sans-serif",
-    padding:    '2rem 1rem 4rem',
-  },
+    fontFamily: 'var(--font-ui)',
+    padding:    '2rem 1rem 4rem' },
   wrap:      { maxWidth: 800, margin: '0 auto' },
   card: {
     background:   'rgba(0,0,0,0.45)',
@@ -302,7 +301,7 @@ export default function WaiverViewClient({ userId }) {
                 borderBottom: i < CLAUSES.length - 1 ? '1px solid rgba(0,116,255,0.07)' : 'none',
               }}>
                 <span style={{
-                  flexShrink: 0, fontFamily: 'monospace', fontSize: '0.78rem',
+                  flexShrink: 0, fontFamily: 'var(--font-tactical)', fontSize: '0.78rem',
                   color: 'var(--tekky-blue)', background: 'rgba(0,116,255,0.08)',
                   border: '1px solid rgba(0,116,255,0.2)', borderRadius: 4,
                   padding: '0.15rem 0.45rem', height: 'fit-content', marginTop: '0.1rem',

@@ -45,8 +45,7 @@ export default function WaiverBanner({ isCaptain }) {
       {/* CTA */}
       <Link
         href="/user/waiver"
-        style={{
-          display:        'inline-flex',
+        style={{ fontFamily: 'var(--font-ui)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', display:        'inline-flex',
           alignItems:     'center',
           gap:            '0.4rem',
           background:     '#ffb400',
@@ -54,13 +53,9 @@ export default function WaiverBanner({ isCaptain }) {
           borderRadius:   7,
           padding:        '0.45rem 1rem',
           fontSize:       '0.8rem',
-          fontWeight:     700,
-          fontFamily:     "'Bebas Neue', sans-serif",
-          letterSpacing:  '1px',
           textDecoration: 'none',
           whiteSpace:     'nowrap',
-          flexShrink:     0,
-        }}
+          flexShrink:     0 }}
       >
         Sign Waiver
         <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.68rem' }} />

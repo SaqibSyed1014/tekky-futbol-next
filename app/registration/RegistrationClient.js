@@ -36,9 +36,6 @@ const INITIAL_FORM = {
 };
 
 const h2Style = {
-  fontFamily: "'Bebas Neue', sans-serif",
-  color: 'var(--tekky-blue)',
-  fontSize: '2rem',
   marginBottom: '1.2rem',
 };
 

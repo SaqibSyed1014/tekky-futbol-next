@@ -7,7 +7,7 @@ export default function PaymentFailedPage() {
     <>
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: #fff; }
+        body { font-family: var(--font-ui); background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: #fff; }
       `}</style>
       <div style={{
         minHeight: '100vh', display: 'flex', flexDirection: 'column',
@@ -24,14 +24,11 @@ export default function PaymentFailedPage() {
           <i className="fa-solid fa-xmark" style={{ fontSize: '2rem', color: '#ff6b6b' }} />
         </div>
 
-        <h1 style={{
-          fontFamily: "'Bebas Neue', sans-serif", fontSize: '2.5rem',
-          letterSpacing: '2px', color: '#fff', marginBottom: '0.75rem',
-        }}>
+        <h1 style={{ marginBottom: '0.75rem' }}>
           Payment Failed
         </h1>
 
-        <p style={{ color: '#b6c2d3', fontSize: '1rem', maxWidth: 420, lineHeight: 1.7 }}>
+        <p style={{ fontSize: '1rem', maxWidth: 420, lineHeight: 1.7 }}>
           Your payment was not completed. You can try again from your dashboard at any time.
         </p>
 
@@ -42,7 +39,7 @@ export default function PaymentFailedPage() {
           background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
           border: '1px solid rgba(255,255,255,0.22)',
           borderRadius: 40, color: '#fff', textDecoration: 'none',
-          fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1.5px', fontSize: '1rem',
+          fontFamily: 'var(--font-ui)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem',
           boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
         }}>
           <i className="fa-solid fa-house" />

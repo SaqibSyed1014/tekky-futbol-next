@@ -15,16 +15,16 @@ function PageShell({ children }) {
       minHeight: '100vh', background: 'var(--bg)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem 1.25rem',
-      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontFamily: 'var(--font-ui)',
     }}>
       <div style={{ width: '100%', maxWidth: 480 }}>
         {/* Brand */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <span style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '1.8rem', letterSpacing: '3px',
-            color: 'var(--tekky-blue)',
-            textShadow: '0 8px 24px rgba(61, 139, 255, 0.28)',
+            fontFamily: 'var(--font-hero)',
+            fontSize: '1.8rem', letterSpacing: '0.12em', textTransform: 'uppercase',
+            color: 'var(--type-white)',
+            textShadow: 'var(--type-keyline)',
           }}>
             TekkyFutbol
           </span>
@@ -66,7 +66,7 @@ function TeamInfo({ team }) {
         </div>
       )}
       <div>
-        <p style={{ margin: 0, fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.3rem', letterSpacing: '1px' }}>
+        <p style={{ margin: 0, fontFamily: 'var(--font-ui)', fontWeight: 500, fontSize: '1.1rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--type-silver)' }}>
           {team.name}
         </p>
         <p style={{ margin: '0.15rem 0 0', fontSize: '0.8rem', color: 'var(--muted)' }}>
@@ -106,7 +106,7 @@ function StatePanel({ icon, color, title, message, action }) {
     <Card>
       <div style={{ textAlign: 'center', padding: '0.5rem 0 1.25rem' }}>
         <i className={icon} style={{ fontSize: '2.8rem', color, marginBottom: '1rem', display: 'block' }} />
-        <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.6rem', color, margin: '0 0 0.6rem', letterSpacing: '1px' }}>
+        <h2 style={{ margin: '0 0 0.6rem' }}>
           {title}
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
@@ -270,7 +270,7 @@ export default function JoinPageClient({ token }) {
   return (
     <PageShell>
       <Card>
-        <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.6rem', margin: '0 0 0.4rem', letterSpacing: '1px', textAlign: 'center' }}>
+        <h2 style={{ margin: '0 0 0.4rem', textAlign: 'center' }}>
           Team Invitation
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '0.88rem', textAlign: 'center', margin: '0 0 1.5rem' }}>

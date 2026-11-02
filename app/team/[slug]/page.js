@@ -24,15 +24,9 @@ function SectionCard({ title, children }) {
       padding: '2rem',
       boxShadow: 'var(--shadow)',
       lineHeight: 1.8,
-      color: '#e2e8f3',
+      color: 'var(--type-slate)',
     }}>
-      <h2 style={{
-        fontFamily: "'Bebas Neue', sans-serif",
-        color: 'var(--tekky-blue)',
-        fontSize: '1.6rem',
-        letterSpacing: '1.5px',
-        marginBottom: '1rem',
-      }}>
+      <h2 style={{ marginBottom: '1rem' }}>
         {title}
       </h2>
       {children}
@@ -43,8 +37,8 @@ function SectionCard({ title, children }) {
 function InfoRow({ label, value }) {
   return (
     <p style={{ marginBottom: '0.5rem', lineHeight: 1.7 }}>
-      <strong style={{ color: '#b6c2d3' }}>{label}:</strong>{' '}
-      <span style={{ color: '#e9eef7' }}>{value}</span>
+      <strong style={{ color: 'var(--type-silver)', fontWeight: 500 }}>{label}:</strong>{' '}
+      <span style={{ color: 'var(--type-slate)' }}>{value}</span>
     </p>
   );
 }
@@ -54,7 +48,7 @@ function InfoRow({ label, value }) {
 function RosterTable({ roster }) {
   if (!roster || roster.length === 0) {
     return (
-      <p style={{ color: '#666', fontSize: '0.9rem' }}>No public players yet.</p>
+      <p style={{ fontSize: '0.9rem' }}>No public players yet.</p>
     );
   }
 
@@ -66,8 +60,8 @@ function RosterTable({ roster }) {
             {['#', 'Name', 'Position', 'Profile'].map((h) => (
               <th key={h} style={{
                 padding: '0.55rem 0.85rem', textAlign: 'left',
-                color: '#b6c2d3', fontWeight: 600, fontSize: '0.75rem',
-                textTransform: 'uppercase', letterSpacing: '0.4px',
+                fontFamily: 'var(--font-ui)', color: 'var(--type-icy)', fontWeight: 500, fontSize: '0.75rem',
+                textTransform: 'uppercase', letterSpacing: '0.1em',
               }}>
                 {h}
               </th>
@@ -77,13 +71,13 @@ function RosterTable({ roster }) {
         <tbody>
           {roster.map((p, i) => (
             <tr key={p.user_id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-              <td style={{ padding: '0.65rem 0.85rem', color: 'var(--tekky-blue)', fontWeight: 700, fontFamily: "'Bebas Neue', sans-serif", fontSize: '1rem', width: 40 }}>
+              <td style={{ padding: '0.65rem 0.85rem', color: 'var(--type-cyan)', fontWeight: 500, fontFamily: 'var(--font-tactical)', fontSize: '0.9rem', width: 40 }}>
                 {p.number_on_kit != null ? p.number_on_kit : `${i + 1}`}
               </td>
-              <td style={{ padding: '0.65rem 0.85rem', color: '#fff', fontWeight: 500 }}>
+              <td style={{ padding: '0.65rem 0.85rem', color: 'var(--type-silver)', fontWeight: 500 }}>
                 {fmt(p.name)}
               </td>
-              <td style={{ padding: '0.65rem 0.85rem', color: '#b6c2d3' }}>
+              <td style={{ padding: '0.65rem 0.85rem', color: 'var(--type-slate)' }}>
                 {fmt(p.position)}
               </td>
               <td style={{ padding: '0.65rem 0.85rem' }}>
@@ -144,20 +138,20 @@ export default function PublicTeamProfilePage() {
         background: 'linear-gradient(180deg, var(--navy) 0%, var(--royal) 100%)',
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
-        fontFamily: "'Montserrat', sans-serif", color: '#e9eef7',
+        fontFamily: 'var(--font-ui)', color: 'var(--type-slate)',
         padding: '2rem', textAlign: 'center',
       }}>
         <i className="fa-solid fa-shield-halved" style={{ fontSize: '3rem', color: 'rgba(0,116,255,0.3)', marginBottom: '1rem', display: 'block' }} />
-        <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', letterSpacing: '2px', marginBottom: '0.5rem' }}>
+        <h1 style={{ marginBottom: '0.5rem' }}>
           Team Not Found
         </h1>
-        <p style={{ color: '#b6c2d3', marginBottom: '1.5rem' }}>
+        <p style={{ marginBottom: '1.5rem' }}>
           This team does not exist or is not available.
         </p>
         <Link href="/" style={{
           padding: '0.65rem 1.5rem', border: '2px solid var(--tekky-blue)',
           borderRadius: 40, color: '#fff', textDecoration: 'none',
-          fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1px',
+          fontFamily: 'var(--font-ui)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem',
           boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
         }}>
           Back to Home
@@ -172,7 +166,7 @@ export default function PublicTeamProfilePage() {
     <>
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: #fff; overflow-x: hidden; }
+        body { font-family: var(--font-ui); background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: #fff; overflow-x: hidden; }
       `}</style>
 
       {/* Nav */}
@@ -182,11 +176,11 @@ export default function PublicTeamProfilePage() {
         background: 'rgba(7, 26, 69, 0.72)', backdropFilter: 'blur(18px)',
         borderBottom: '1px solid var(--line)', zIndex: 100,
       }}>
-        <Link href="/" style={{ color: 'var(--tekky-blue)', textDecoration: 'none', fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', letterSpacing: '2px' }}>
+        <Link href="/" style={{ color: 'var(--type-white)', textDecoration: 'none', fontFamily: 'var(--font-hero)', fontSize: '1.4rem', letterSpacing: '0.12em', textTransform: 'uppercase', textShadow: 'var(--type-keyline)' }}>
           TekkyFutbol
         </Link>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: '1rem', fontFamily: "'Bebas Neue', sans-serif" }}>
-          <Link href="/" style={{ color: '#fff', textDecoration: 'none', letterSpacing: '1px' }}>Home</Link>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: '1rem', fontFamily: 'var(--font-ui)', fontWeight: 500, fontSize: '0.74rem', textTransform: 'uppercase' }}>
+          <Link href="/" style={{ color: 'var(--type-silver)', textDecoration: 'none', letterSpacing: '0.06em' }}>Home</Link>
         </div>
       </nav>
 
@@ -216,13 +210,11 @@ export default function PublicTeamProfilePage() {
             </div>
           )}
 
-          <h1 style={{
-            fontFamily: "'Bebas Neue', sans-serif", fontSize: '3rem', letterSpacing: '2px',
-          }}>
+          <h1>
             {team.name}
           </h1>
 
-          <p style={{ marginTop: '0.4rem', color: 'var(--tekky-blue)', fontWeight: 700, fontSize: '0.95rem', letterSpacing: '1px' }}>
+          <p style={{ marginTop: '0.4rem', fontFamily: 'var(--font-tactical)', color: 'var(--type-cyan)', fontWeight: 500, fontSize: '0.85rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             {isOfficial ? '✅ Official Team' : '⏳ Forming'}
             {team.captain_name ? ` — Captain: ${team.captain_name}` : ''}
           </p>
@@ -238,7 +230,7 @@ export default function PublicTeamProfilePage() {
                 padding: '0.65rem 1.5rem',
                 border: '1px solid rgba(255,255,255,0.22)', borderRadius: 40,
                 color: '#fff', textDecoration: 'none',
-                fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1px',
+                fontFamily: 'var(--font-ui)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem',
                 background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
                 boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
               }}
@@ -272,7 +264,7 @@ export default function PublicTeamProfilePage() {
           <InfoRow label="Status"    value={isOfficial ? 'Official' : 'Forming'} />
           {team.kit_slug && <InfoRow label="Kit" value={team.kit_slug} />}
           {team.description && (
-            <p style={{ marginTop: '0.75rem', color: '#b6c2d3', fontSize: '0.88rem', lineHeight: 1.7 }}>
+            <p style={{ marginTop: '0.75rem', fontSize: '0.88rem', lineHeight: 1.7 }}>
               {team.description}
             </p>
           )}
@@ -289,7 +281,7 @@ export default function PublicTeamProfilePage() {
       <footer style={{
         borderTop: '1px solid rgba(0,116,255,0.2)',
         padding: '2rem 1rem', textAlign: 'center', background: 'rgba(5, 16, 48, 0.78)',
-        fontFamily: "'Montserrat', sans-serif", fontSize: '0.85rem', color: '#b6c2d3',
+        fontFamily: 'var(--font-ui)', fontSize: '0.85rem', color: 'var(--type-slate)',
       }}>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '0.6rem', fontSize: '1.3rem' }}>
           <a href="https://www.tiktok.com/@TekkyFutbol_23" target="_blank" rel="noreferrer" style={{ color: '#dfe7ff' }}><i className="fab fa-tiktok" /></a>

@@ -36,7 +36,7 @@ function OrderCard({ order }) {
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.6rem' }}>
         <strong style={{ color: 'var(--fg)', fontSize: '0.95rem' }}>{order.product_name}</strong>
-        <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.2rem', letterSpacing: '0.5px', color: 'var(--tekky-blue)' }}>
+        <span style={{ fontFamily: 'var(--font-ui)', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.98rem', color: 'var(--type-silver)' }}>
           {formatPrice((order.amount_cents || 0) / 100)}
         </span>
       </div>
@@ -79,7 +79,7 @@ export default function FanOrdersPage() {
   return (
     <div style={{ maxWidth: 780 }}>
       <div style={{ marginBottom: '1.5rem' }}>
-        <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.6rem', color: 'var(--fg)', margin: 0, letterSpacing: '1px' }}>
+        <h2 style={{ margin: 0 }}>
           Order History
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginTop: '0.35rem' }}>

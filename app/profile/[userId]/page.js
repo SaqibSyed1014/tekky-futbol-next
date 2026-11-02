@@ -32,10 +32,10 @@ function StatCard({ value, label }) {
       padding: '1rem',
       textAlign: 'center',
     }}>
-      <strong style={{ display: 'block', fontSize: '1.5rem', color: 'var(--tekky-blue)', fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1px' }}>
+      <strong style={{ display: 'block', fontSize: '1.5rem', color: 'var(--type-white)', fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em' }}>
         {value}
       </strong>
-      <span style={{ fontSize: '0.8rem', color: '#b6c2d3', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+      <span style={{ fontFamily: 'var(--font-tactical)', fontSize: '0.7rem', color: 'var(--type-cyan)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
         {label}
       </span>
     </div>
@@ -47,8 +47,8 @@ function StatCard({ value, label }) {
 function InfoRow({ label, value }) {
   return (
     <p style={{ marginBottom: '0.5rem', lineHeight: 1.7 }}>
-      <strong style={{ color: '#b6c2d3' }}>{label}:</strong>{' '}
-      <span style={{ color: '#e9eef7' }}>{value}</span>
+      <strong style={{ color: 'var(--type-silver)', fontWeight: 500 }}>{label}:</strong>{' '}
+      <span style={{ color: 'var(--type-slate)' }}>{value}</span>
     </p>
   );
 }
@@ -64,16 +64,10 @@ function SectionCard({ title, children, style }) {
       padding: '2rem',
       boxShadow: 'var(--shadow)',
       lineHeight: 1.8,
-      color: '#e2e8f3',
+      color: 'var(--type-slate)',
       ...style,
     }}>
-      <h2 style={{
-        fontFamily: "'Bebas Neue', sans-serif",
-        color: 'var(--tekky-blue)',
-        fontSize: '1.6rem',
-        letterSpacing: '1.5px',
-        marginBottom: '1rem',
-      }}>
+      <h2 style={{ marginBottom: '1rem' }}>
         {title}
       </h2>
       {children}
@@ -144,21 +138,21 @@ export default function PublicProfilePage() {
         background: 'linear-gradient(180deg, var(--navy) 0%, var(--royal) 100%)',
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
-        fontFamily: "'Montserrat', sans-serif", color: '#e9eef7',
+        fontFamily: 'var(--font-ui)', color: 'var(--type-slate)',
         padding: '2rem', textAlign: 'center',
       }}>
         <i className="fa-solid fa-user-slash" style={{ fontSize: '3rem', color: 'rgba(0,116,255,0.4)', marginBottom: '1rem' }} />
-        <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', letterSpacing: '2px', marginBottom: '0.5rem' }}>
+        <h1 style={{ marginBottom: '0.5rem' }}>
           Profile Not Found
         </h1>
-        <p style={{ color: '#b6c2d3', marginBottom: '1.5rem' }}>
+        <p style={{ marginBottom: '1.5rem' }}>
           This player's profile is not public yet or does not exist.
         </p>
         <Link href="/" style={{
           padding: '0.65rem 1.5rem',
           border: '1px solid rgba(255,255,255,0.22)',
           borderRadius: 40, color: '#fff', textDecoration: 'none',
-          fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1px',
+          fontFamily: 'var(--font-ui)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem',
           background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
           boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
         }}>
@@ -177,7 +171,7 @@ export default function PublicProfilePage() {
     <>
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: var(--fg); overflow-x: hidden; }
+        body { font-family: var(--font-ui); background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: var(--fg); overflow-x: hidden; }
         .spinner { display: inline-block; width: 32px; height: 32px; border: 3px solid rgba(61,139,255,0.2); border-top-color: var(--tekky-blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .profile-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
@@ -197,21 +191,18 @@ export default function PublicProfilePage() {
             width: 90, height: 90, borderRadius: '50%',
             background: 'linear-gradient(135deg, var(--tekky-blue), #1553d1)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: "'Bebas Neue', sans-serif", fontSize: '2.5rem', color: '#fff',
+            fontFamily: 'var(--font-hero)', fontSize: '2.5rem', color: '#fff',
             boxShadow: '0 12px 32px rgba(21, 83, 209, 0.45)',
             margin: '0 auto 1rem',
           }}>
             {(profile.name || profile.email || '?')[0].toUpperCase()}
           </div>
 
-          <h1 style={{
-            fontFamily: "'Bebas Neue', sans-serif", fontSize: '3rem',
-            letterSpacing: '2px',
-          }}>
+          <h1>
             {fmt(profile.name, 'PLAYER PROFILE')}
           </h1>
 
-          <p style={{ marginTop: '0.4rem', color: 'var(--tekky-blue)', fontWeight: 700, fontSize: '1rem', letterSpacing: '1px' }}>
+          <p style={{ marginTop: '0.4rem', fontFamily: 'var(--font-tactical)', color: 'var(--type-cyan)', fontWeight: 500, fontSize: '0.85rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             {profile.is_captain ? '⚽ Captain' : '⚽ Player'}
             {profile.team_name ? ` — ${profile.team_name}` : ''}
           </p>
@@ -265,7 +256,7 @@ export default function PublicProfilePage() {
                   padding: '0.55rem 1.25rem',
                   border: '1px solid rgba(255,255,255,0.22)', borderRadius: 40,
                   color: '#fff', textDecoration: 'none',
-                  fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '1px', fontSize: '0.95rem',
+                  fontFamily: 'var(--font-ui)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem',
                   background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
                   boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
                 }}
@@ -316,7 +307,7 @@ export default function PublicProfilePage() {
       <footer style={{
         borderTop: '1px solid rgba(0,116,255,0.2)',
         padding: '2rem 1rem', textAlign: 'center', background: 'rgba(5, 16, 48, 0.78)',
-        fontFamily: "'Montserrat', sans-serif", fontSize: '0.85rem', color: '#b6c2d3',
+        fontFamily: 'var(--font-ui)', fontSize: '0.85rem', color: 'var(--type-slate)',
       }}>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '0.6rem', fontSize: '1.3rem' }}>
           <a href="https://www.tiktok.com/@TekkyFutbol_23" target="_blank" rel="noreferrer" style={{ color: '#dfe7ff' }}><i className="fab fa-tiktok" /></a>

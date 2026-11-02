@@ -95,7 +95,7 @@ export default function UserPaymentPage() {
         padding: '1.75rem',
         marginBottom: '1.25rem',
       }}>
-        <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--ad-fg)', marginBottom: '1.25rem' }}>
+        <h2 style={{ fontSize: '1rem', marginBottom: '1.25rem' }}>
           Registration Fee
         </h2>
 
@@ -108,7 +108,7 @@ export default function UserPaymentPage() {
           borderRadius: 8, marginBottom: '1rem',
         }}>
           <span style={{ color: 'var(--ad-muted)', fontSize: '0.9rem' }}>Registration Fee</span>
-          <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.5rem', color: 'var(--ad-fg)', letterSpacing: '1px' }}>
+          <span style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', fontSize: '1.5rem', color: 'var(--ad-fg)' }}>
             $700.00
           </span>
         </div>
