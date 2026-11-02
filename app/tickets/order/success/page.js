@@ -7,6 +7,7 @@ import { formatApiError } from '@/services/api';
 import { fetchTicketBySession } from '@/services/ticketsApi';
 import { findProduct, getProductImage } from '@/data/divisionProducts';
 import { colorLabelFor } from '@/components/shop/ColorSwatches';
+import FabricTags from '@/components/shop/FabricTags';
 
 export default function TicketOrderSuccessPage() {
   const [ticket, setTicket] = useState(null);
@@ -79,10 +80,11 @@ export default function TicketOrderSuccessPage() {
                 </div>
                 <div className="shop-product-card__body" style={{ paddingBottom: '1.25rem' }}>
                   <h3 className="shop-product-card__title">{product.name}</h3>
-                  <p className="shop-product-card__desc" style={{ marginBottom: 0 }}>
+                  <p className="shop-product-card__desc">
                     {product.sub}{ticket.merch_item_color ? ` — ${colorLabelFor(ticket.merch_item_color)}` : ''}
                   </p>
-                  <p className="subtext" style={{ marginTop: '0.6rem', marginBottom: 0 }}>
+                  <FabricTags />
+                  <p className="subtext" style={{ marginTop: 0, marginBottom: 0 }}>
                     Size {ticket.apparel_size} — {ticket.fulfillment_method === 'ship' ? 'Ship to Me' : 'Pickup at Venue'}
                   </p>
                 </div>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Modal from '@/components/ui/Modal';
 import GlowDivider from '@/components/ui/GlowDivider';
+import TacticalBlock from '@/components/home/TacticalBlock';
 import { useWeb3Form } from '@/components/ui/useWeb3Form';
 
 // metadata must live in a Server Component — defined in layout.js or a parent page wrapper.
@@ -77,29 +78,6 @@ export default function HomeClient() {
             flexDirection: 'column',
           }}
         >
-          {/* hero background */}
-          <style>{`
-            .hero::before {
-              content: '';
-              position: absolute;
-              left: 0; top: 0;
-              z-index: -1;
-              width: 100%; height: 100%;
-              background-color: #071a45;
-              background-image:
-                linear-gradient(180deg, rgba(6, 16, 48, 0.38) 0%, rgba(7, 26, 69, 0.16) 34%, rgba(5, 14, 42, 0.58) 100%),
-                radial-gradient(90% 70% at 78% 16%, rgba(61, 139, 255, 0.3), transparent 60%),
-                radial-gradient(70% 55% at 12% 82%, rgba(21, 83, 209, 0.24), transparent 62%),
-                url('/images/hero-bg.png');
-              background-repeat: no-repeat;
-              background-size: cover, cover, cover, cover;
-              background-position: center, center, center, 100% 30%;
-            }
-            @media (max-width: 768px) {
-              .hero::before { background-position: center, center, center, center; }
-            }
-          `}</style>
-
           <div style={{ width: '100%', maxWidth: 980, margin: '0 auto' }}>
             <h1>TEKKYFUTBOL</h1>
             <p className="tagline">For Ballers Who Create</p>
@@ -122,22 +100,14 @@ export default function HomeClient() {
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Phase 1: Attrition — 8 teams per division. 16 matchweeks. Earn position.</p>
           <p style={{ textAlign: 'center', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Phase 2: Dominion — Top 2 per division. Single-elimination. Champion crowned.</p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.4rem', marginTop: '1.3rem' }}>
-            <div className="glass-panel" style={{ borderRadius: 12, padding: '1.2rem', textAlign: 'center', transition: '.25s' }}>
-              <i className="fas fa-location-dot" style={{ fontSize: '2rem', color: 'var(--tekky-blue)', marginBottom: '0.4rem' }}></i>
-              <h3>Two Divisions</h3>
-              <p>North &amp; South compete as one league — with the season culminating at a neutral Finale venue.</p>
-            </div>
-            <div className="glass-panel" style={{ borderRadius: 12, padding: '1.2rem', textAlign: 'center', transition: '.25s' }}>
-              <i className="fas fa-trophy" style={{ fontSize: '2rem', color: 'var(--tekky-blue)', marginBottom: '0.4rem' }}></i>
-              <h3>Playoffs</h3>
-              <p>When the margin disappears. Win and advance. Lose and it ends. The season tightens — and only the strongest remain.</p>
-            </div>
-            <div className="glass-panel" style={{ borderRadius: 12, padding: '1.2rem', textAlign: 'center', transition: '.25s' }}>
-              <i className="fa-solid fa-heart" style={{ fontSize: '2rem', color: 'var(--tekky-blue)', marginBottom: '0.4rem' }}></i>
-              <h3>Culture</h3>
-              <p>Creative football. Cinematic energy. Rules designed for flow.</p>
-            </div>
+          <div className="tactical-grid">
+            <TacticalBlock glyph="crosshair" title="Two Divisions" tag="SYS_LOC // NORTH & SOUTH">
+              Two distinct factions competing across asphalt courts all season.
+            </TacticalBlock>
+            <TacticalBlock glyph="position" title="Playoffs" tag="DOMINION // SURVIVE AND ADVANCE" />
+            <TacticalBlock glyph="hexagon" title="Culture" tag="STREET_OPS // CREATIVE FOOTBALL">
+              Heavyweight drops and recorded matches.
+            </TacticalBlock>
           </div>
 
           <div className="sec-cta">

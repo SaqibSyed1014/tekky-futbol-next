@@ -6,6 +6,8 @@ import GlowDivider from '@/components/ui/GlowDivider';
 import Modal from '@/components/ui/Modal';
 import { useWeb3Form } from '@/components/ui/useWeb3Form';
 import ShopProductActions from '@/components/shop/ShopProductActions';
+import FabricTags from '@/components/shop/FabricTags';
+import SizeSelector from '@/components/shop/SizeSelector';
 import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import CheckoutCancelledBanner from '@/components/ui/CheckoutCancelledBanner';
 
@@ -62,30 +64,60 @@ const signatureProducts = [
   { name: 'Finale Button-Up Jersey', sub: 'Designed once. Released once.', price: '$100' },
 ];
 
-function ProductGrid({ products, hasImg = true }) {
+/**
+ * One /shop catalog card. This page adds straight to the cart (no early-access
+ * modal), so a size is required before the item can be added.
+ */
+function ShopCard({ product, cartImage, media, className = 'card' }) {
+  const [size, setSize] = useState('');
+  const [sizeInvalid, setSizeInvalid] = useState(false);
+
+  return (
+    <div className={className}>
+      {media}
+      <h3>{product.name}</h3>
+      <span className="muted">{product.sub}</span>
+      <FabricTags className="fabric-tags--center" />
+      <p className="price">{product.price}</p>
+      <SizeSelector
+        className="size-select--center"
+        value={size}
+        onChange={(next) => { setSize(next); setSizeInvalid(false); }}
+        invalid={sizeInvalid}
+      />
+      <ShopProductActions
+        name={product.name}
+        sub={product.sub}
+        price={product.price}
+        image={cartImage}
+        variant={size || null}
+        canAdd={Boolean(size)}
+        onAddBlocked={() => setSizeInvalid(true)}
+      />
+    </div>
+  );
+}
+
+function ProductGrid({ products }) {
   return (
     <div className="grid">
       {products.map((p) => (
-        <div className="card" key={p.name}>
-          <div className={`img-placeholder ${hasImg ? 'real' : 'show'}`}>
-            <Image
-              src={hasImg ? p.img : '/images/logo.webp'}
-              alt={p.name}
-              width={300}
-              height={200}
-              style={hasImg ? { width: '100%', height: 'auto' } : undefined}
-            />
-          </div>
-          <h3>{p.name}</h3>
-          <span className="muted">{p.sub}</span>
-          <p className="price">{p.price}</p>
-          <ShopProductActions
-            name={p.name}
-            sub={p.sub}
-            price={p.price}
-            image={hasImg ? p.img : '/images/logo.webp'}
-          />
-        </div>
+        <ShopCard
+          key={p.name}
+          product={p}
+          cartImage={p.img}
+          media={(
+            <div className="img-placeholder real">
+              <Image
+                src={p.img}
+                alt={p.name}
+                width={300}
+                height={200}
+                style={{ width: '100%', height: 'auto' }}
+              />
+            </div>
+          )}
+        />
       ))}
     </div>
   );
@@ -142,20 +174,17 @@ export default function ShopClient() {
           <p style={{ color: '#d3d9e3', margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>Designed once. Released once. No restocks.</p>
           <div className="grid two-columns">
             {signatureProducts.map((p) => (
-              <div className="card drop" key={p.name}>
-                <div className="img-placeholder show">
-                  <Image src="/images/logo.webp" alt={p.name} width={120} height={120} />
-                </div>
-                <h3>{p.name}</h3>
-                <span className="muted">{p.sub}</span>
-                <p className="price">{p.price}</p>
-                <ShopProductActions
-                  name={p.name}
-                  sub={p.sub}
-                  price={p.price}
-                  image="/images/logo.webp"
-                />
-              </div>
+              <ShopCard
+                key={p.name}
+                className="card drop"
+                product={p}
+                cartImage="/images/logo.webp"
+                media={(
+                  <div className="img-placeholder show">
+                    <Image src="/images/logo.webp" alt={p.name} width={120} height={120} />
+                  </div>
+                )}
+              />
             ))}
           </div>
         </section>

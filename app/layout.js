@@ -4,6 +4,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { CartProvider } from '@/contexts/CartContext';
 import CartDrawer from '@/components/shop/CartDrawer';
 import ChunkErrorRecovery from '@/components/shared/ChunkErrorRecovery';
+import { siteFontVars } from '@/components/shared/siteFonts';
 
 export const metadata = {
   title: 'TekkyFutbol',
@@ -20,7 +21,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={siteFontVars} suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap"

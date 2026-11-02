@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import ColorSwatches, { DEFAULT_COLOR_KEY } from '@/components/shop/ColorSwatches';
+import FabricTags from '@/components/shop/FabricTags';
 import { getProductImage } from '@/data/divisionProducts';
 
 /**
@@ -60,9 +61,8 @@ function MerchItemCard({ division, product, isSelected, onSelect }) {
         </div>
         <div className="shop-product-card__body">
           <h3 className="shop-product-card__title">{product.name}</h3>
-          <p className="shop-product-card__desc" style={{ marginBottom: isSelected ? '0.5rem' : 0 }}>
-            {product.sub}
-          </p>
+          <p className="shop-product-card__desc">{product.sub}</p>
+          <FabricTags />
           {isSelected && (
             <div className="shop-product-card__price-row" style={{ justifyContent: 'flex-end' }}>
               <span className="merch-picker-card__badge">Selected</span>

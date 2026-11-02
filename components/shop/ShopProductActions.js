@@ -17,14 +17,20 @@ import { useCart } from '@/contexts/CartContext';
  * @param {number} [props.quantity]
  * @param {string} [props.className] — override the wrapper class (default 'shop-product-actions')
  * @param {() => void} [props.onNotify] — opens the page's early-access modal; when omitted, falls back to adding the item to the cart
+ * @param {boolean} [props.canAdd] — false while a required option (e.g. size) is missing; only gates the add-to-cart path
+ * @param {() => void} [props.onAddBlocked] — called instead of adding when `canAdd` is false, so the card can prompt for the missing option
  */
-export default function ShopProductActions({ name, sub, price, image, variant = null, quantity = 1, className = 'shop-product-actions', onNotify }) {
+export default function ShopProductActions({ name, sub, price, image, variant = null, quantity = 1, className = 'shop-product-actions', onNotify, canAdd = true, onAddBlocked }) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
 
   function handleClick() {
     if (onNotify) {
       onNotify();
+      return;
+    }
+    if (!canAdd) {
+      onAddBlocked?.();
       return;
     }
     addItem({
