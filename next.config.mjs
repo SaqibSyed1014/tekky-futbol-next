@@ -21,6 +21,14 @@ const nextConfig = {
     remotePatterns: [],
   },
 
+  // Short pass URLs used in the roadmap resolve to the division pass pages.
+  async redirects() {
+    return [
+      { source: '/tickets/north', destination: '/tickets/north-division', permanent: true },
+      { source: '/tickets/south', destination: '/tickets/south-division', permanent: true },
+    ];
+  },
+
   // Dashboard HTML must not be cached across deploys — stale documents
   // point at deleted JS chunks and render a blank black page.
   async headers() {

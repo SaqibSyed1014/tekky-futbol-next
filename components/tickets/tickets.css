@@ -1,0 +1,1000 @@
+/* =========================================================================
+   MATCH PASSES & TICKETING HUBS — roadmap §5
+   Three pass families, one structure, three palettes:
+     north → matte black #050505 · cold white type · royal-blue rules · silhouette
+     south → off-white #F8F9FA · stark black keylines · asphalt-grid wireframe
+     hub   → gunmetal steel · utility bridge · blueprint node graphic
+   Graphic density: each page carries 4 flat artwork layers (base, hero graphic,
+   rule, ticket frame) versus ~10 on the Season Finale (split hero, grain,
+   diagonal hatching, seam glow, vertical labels, grain panels, …) — ≈60% less.
+   Type roles follow the typographic chart; no glows, no blurred shadows.
+   ========================================================================= */
+
+.tkt-page {
+  --tkt-radius: 4px;
+  --tkt-bw: 1px;
+  --tkt-keyline: var(--type-keyline);
+  position: relative;
+  min-height: 100vh;
+  overflow: clip;
+  background: var(--tkt-base);
+  color: var(--tkt-body);
+}
+
+/* ── Palettes ───────────────────────────────────────────────────────────── */
+
+.tkt-page--north {
+  --tkt-base: #050505;
+  --tkt-surface: #0b0d12;
+  --tkt-head: #ffffff;
+  --tkt-sub: #cbd5e1;
+  --tkt-body: #94a3b8;
+  --tkt-tag: #ffffff;
+  --tkt-rule: #2457e6;
+  --tkt-line: #1a2236;
+  --tkt-line-strong: #2a3a63;
+  --tkt-accent: #3b6bf0;
+  --tkt-cta-bg: #2457e6;
+  --tkt-cta-bg-hover: #3366f2;
+  --tkt-cta-fg: #ffffff;
+  --tkt-cta-border: #6f94ff;
+  --tkt-art: #ffffff;
+  --tkt-art-opacity: 0.15;
+  --tkt-ticket-shadow: inset 0 3px 0 var(--tkt-rule);
+}
+
+.tkt-page--south {
+  --tkt-base: #f8f9fa;
+  --tkt-surface: #ffffff;
+  --tkt-head: #050505;
+  --tkt-sub: #1e293b;
+  --tkt-body: #475569;
+  --tkt-tag: #050505;
+  --tkt-rule: #050505;
+  --tkt-line: #c9d0d8;
+  --tkt-line-strong: #050505;
+  --tkt-accent: #050505;
+  --tkt-cta-bg: #050505;
+  --tkt-cta-bg-hover: #1f2937;
+  --tkt-cta-fg: #ffffff;
+  --tkt-cta-border: #050505;
+  --tkt-art: #050505;
+  --tkt-art-opacity: 0.2;
+  --tkt-radius: 0;
+  --tkt-bw: 2px;
+  --tkt-ticket-shadow: 6px 6px 0 #050505;
+  --tkt-keyline: none;
+}
+
+.tkt-page--hub {
+  --tkt-base: #2a2f36;
+  --tkt-surface: #333a43;
+  --tkt-head: #ffffff;
+  --tkt-sub: #d5dbe3;
+  --tkt-body: #aeb9c7;
+  --tkt-tag: #ffffff;
+  --tkt-rule: #8fa1b5;
+  --tkt-line: #4a535f;
+  --tkt-line-strong: #6a7686;
+  --tkt-accent: #b6c3d3;
+  --tkt-cta-bg: #d5dbe3;
+  --tkt-cta-bg-hover: #ffffff;
+  --tkt-cta-fg: #14181d;
+  --tkt-cta-border: #d5dbe3;
+  --tkt-art: #9fb3c8;
+  --tkt-art-opacity: 0.22;
+  --tkt-ticket-shadow: inset 0 3px 0 var(--tkt-rule);
+}
+
+/* ── Type roles on the themed base ─────────────────────────────────────── */
+
+.tkt-page h1,
+.tkt-page h2 {
+  color: var(--tkt-head);
+  text-shadow: var(--tkt-keyline);
+}
+
+.tkt-page h3 {
+  color: var(--tkt-sub);
+}
+
+.tkt-page p,
+.tkt-page li {
+  color: var(--tkt-body);
+}
+
+.tkt-tag,
+.tkt-page p.tkt-tag {
+  margin: 0;
+  font-family: var(--font-tactical);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--tkt-tag);
+}
+
+/* ── Hero ──────────────────────────────────────────────────────────────── */
+
+.tkt-hero {
+  position: relative;
+  padding: 4.25rem 1.25rem 3rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.tkt-hero__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.tkt-page p.tkt-hero__eyebrow {
+  margin-bottom: 1rem;
+}
+
+.tkt-hero__eyebrow::before {
+  content: '[ ';
+}
+
+.tkt-hero__eyebrow::after {
+  content: ' ]';
+}
+
+.tkt-page .tkt-hero__tagline {
+  margin-top: 0.8rem;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tkt-accent);
+}
+
+.tkt-page--north .tkt-hero__tagline {
+  color: var(--type-icy);
+}
+
+.tkt-page--south .tkt-hero__tagline {
+  color: var(--tkt-sub);
+}
+
+.tkt-page .tkt-hero__sub {
+  margin: 0.9rem auto 0;
+  max-width: 62ch;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--tkt-sub);
+}
+
+/* South hero title: white Anton sits on a stark black plate so the typographic
+   chart (white hero + keyline) holds on an off-white base. */
+.tkt-page--south .tkt-hero__plate {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.7rem 1.5rem 0.8rem;
+  background: #050505;
+  border: 2px solid #050505;
+}
+
+.tkt-page--south .tkt-hero__plate h1 {
+  color: #ffffff;
+  text-shadow: var(--type-keyline);
+}
+
+.tkt-hero h1 {
+  font-size: clamp(2rem, 5.4vw, 3.4rem);
+}
+
+/* ── Hero artwork (one flat SVG layer per theme) ───────────────────────── */
+
+.tkt-art {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  color: var(--tkt-art);
+  opacity: var(--tkt-art-opacity);
+}
+
+.tkt-art--north {
+  right: max(1%, calc(50% - 560px));
+  top: 1.5rem;
+  height: calc(100% - 1.5rem);
+  width: auto;
+  aspect-ratio: 480 / 560;
+  -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+}
+
+.tkt-art--south {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 45%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 45%);
+}
+
+.tkt-art--hub {
+  left: 50%;
+  top: 54%;
+  width: min(940px, 98%);
+  height: auto;
+  transform: translate(-50%, -48%);
+}
+
+/* ── Main column ───────────────────────────────────────────────────────── */
+
+.tkt-main {
+  position: relative;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 1.25rem 4.5rem;
+  text-align: left;
+}
+
+/* Rule — 2px royal blue / stark black / 1px steel dimension line */
+.tkt-rule {
+  position: relative;
+  height: 2px;
+  margin: 2.6rem 0;
+  background: var(--tkt-rule);
+}
+
+.tkt-page--hub .tkt-rule {
+  height: 1px;
+}
+
+.tkt-rule span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: var(--tkt-base);
+  border: 2px solid var(--tkt-rule);
+}
+
+.tkt-page--hub .tkt-rule span {
+  border-width: 1px;
+}
+
+/* ── Pass-type tabs ────────────────────────────────────────────────────── */
+
+.tkt-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 2.4rem;
+}
+
+.tkt-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 52px;
+  padding: 0.6rem 0.9rem;
+  background: var(--tkt-surface);
+  border: var(--tkt-bw) solid var(--tkt-line);
+  border-radius: var(--tkt-radius);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.tkt-page .tkt-tab:hover {
+  border-color: var(--tkt-line-strong);
+}
+
+.tkt-tab:focus-visible,
+.tkt-week:focus-visible,
+.tkt-page .tkt-pass .cta:focus-visible {
+  outline: 2px solid var(--tkt-accent);
+  outline-offset: 2px;
+}
+
+.tkt-tab__index {
+  font-family: var(--font-tactical);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--tkt-accent);
+}
+
+.tkt-tab__label {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tkt-sub);
+}
+
+.tkt-tab.is-active {
+  background: var(--tkt-cta-bg);
+  border-color: var(--tkt-cta-border);
+}
+
+.tkt-tab.is-active .tkt-tab__index,
+.tkt-tab.is-active .tkt-tab__label {
+  color: var(--tkt-cta-fg);
+}
+
+/* ── Panels (fixture picker, rules) ────────────────────────────────────── */
+
+.tkt-panel {
+  background: var(--tkt-surface);
+  border: var(--tkt-bw) solid var(--tkt-line-strong);
+  border-radius: var(--tkt-radius);
+  padding: 1.5rem;
+}
+
+.tkt-panel__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.1rem;
+}
+
+.tkt-panel__head h3 {
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.tkt-weeks {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.45rem;
+}
+
+.tkt-week {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  min-height: 52px;
+  padding: 0.35rem 0;
+  background: transparent;
+  border: 1px solid var(--tkt-line-strong);
+  border-radius: var(--tkt-radius);
+  color: var(--tkt-body);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.tkt-week small {
+  font-family: var(--font-tactical);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  opacity: 0.75;
+}
+
+.tkt-week b {
+  font-family: var(--font-hero);
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+.tkt-week:hover {
+  border-color: var(--tkt-accent);
+  color: var(--tkt-head);
+}
+
+.tkt-week.is-selected {
+  background: var(--tkt-cta-bg);
+  border-color: var(--tkt-cta-border);
+  color: var(--tkt-cta-fg);
+}
+
+.tkt-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--tkt-line-strong);
+}
+
+.tkt-stat {
+  padding: 1rem 1rem 0.2rem 0;
+}
+
+.tkt-stat + .tkt-stat {
+  padding-left: 1rem;
+  border-left: 1px solid var(--tkt-line);
+}
+
+.tkt-page .tkt-stat__value {
+  margin-top: 0.4rem;
+  font-family: var(--font-ui);
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--tkt-head);
+}
+
+.tkt-page .tkt-stat__sub {
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
+  color: var(--tkt-body);
+}
+
+/* ── Pass ticket ───────────────────────────────────────────────────────── */
+
+.tkt-pass {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 248px;
+  margin: 1.6rem 0;
+  background: var(--tkt-surface);
+  border: var(--tkt-bw) solid var(--tkt-line-strong);
+  border-radius: var(--tkt-radius);
+  box-shadow: var(--tkt-ticket-shadow);
+}
+
+.tkt-pass__main {
+  padding: 1.75rem 1.75rem 1.6rem;
+}
+
+.tkt-pass__main h2 {
+  margin: 0.55rem 0 0.7rem;
+  font-size: clamp(1.5rem, 3.2vw, 1.95rem);
+}
+
+.tkt-page .tkt-pass__desc {
+  margin: 0;
+  max-width: 56ch;
+  line-height: 1.75;
+}
+
+.tkt-page .tkt-pass__note {
+  margin: 1rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.tkt-page main ul.tkt-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tkt-page main ul.tkt-chips li {
+  margin: 0;
+  max-width: none;
+  padding: 0.28rem 0.55rem;
+  border: 1px solid var(--tkt-line-strong);
+  border-radius: var(--tkt-radius);
+  font-family: var(--font-tactical);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--tkt-sub);
+}
+
+.tkt-meter {
+  margin-top: 1.25rem;
+  max-width: 56ch;
+}
+
+.tkt-meter__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.45rem;
+}
+
+.tkt-meter__count {
+  font-family: var(--font-tactical);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tkt-head);
+}
+
+.tkt-meter__track {
+  height: 6px;
+  background: var(--tkt-line);
+  border-radius: 0;
+}
+
+.tkt-meter__track span {
+  display: block;
+  height: 100%;
+  background: var(--tkt-accent);
+  transition: width 0.35s ease;
+}
+
+.tkt-meter[data-low] .tkt-meter__track span {
+  background: #f59e0b;
+}
+
+.tkt-pass__stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1.6rem 1.25rem;
+  text-align: center;
+  border-left: 2px dashed var(--tkt-line-strong);
+}
+
+.tkt-page .tkt-pass__valid {
+  margin-bottom: 0.3rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--tkt-line-strong);
+}
+
+.tkt-page .tkt-pass__price {
+  font-family: var(--font-hero);
+  font-size: 3.1rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  color: var(--tkt-head);
+}
+
+.tkt-page .tkt-pass__digital {
+  color: var(--tkt-body);
+  margin-bottom: 0.6rem;
+}
+
+.tkt-pass__stub .cta {
+  width: 100%;
+  margin: 0;
+}
+
+/* perforation notches — half circles centred on the card edge */
+.tkt-pass__stub::before,
+.tkt-pass__stub::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  left: -11px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--tkt-base);
+  border: var(--tkt-bw) solid var(--tkt-line-strong);
+}
+
+.tkt-pass__stub::before {
+  top: calc(-10px - var(--tkt-bw) / 2);
+  clip-path: inset(50% 0 0 0);
+}
+
+.tkt-pass__stub::after {
+  bottom: calc(-10px - var(--tkt-bw) / 2);
+  clip-path: inset(0 0 50% 0);
+}
+
+.tkt-pass.is-locked {
+  box-shadow: none;
+}
+
+.tkt-pass.is-locked .tkt-pass__main,
+.tkt-pass.is-locked .tkt-pass__price {
+  opacity: 0.62;
+}
+
+/* ── CTA (flat, themed — no glow) ──────────────────────────────────────── */
+
+.tkt-page .tkt-pass .cta {
+  padding: 0.8rem 1.1rem;
+  border: 1px solid var(--tkt-cta-border);
+  border-radius: var(--tkt-radius);
+  background: var(--tkt-cta-bg);
+  color: var(--tkt-cta-fg);
+  box-shadow: none;
+}
+
+.tkt-page .tkt-pass .cta:hover:not(:disabled) {
+  background: var(--tkt-cta-bg-hover);
+  box-shadow: none;
+  transform: none;
+}
+
+.tkt-page .tkt-pass .cta:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.tkt-page .tkt-pass .cta:disabled {
+  cursor: not-allowed;
+  background: transparent;
+  color: var(--tkt-body);
+  border-color: var(--tkt-line-strong);
+}
+
+/* ── Gate rules / info columns ─────────────────────────────────────────── */
+
+.tkt-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+}
+
+.tkt-info__card {
+  padding: 1.35rem 1.25rem 1.4rem;
+  background: var(--tkt-surface);
+  border: var(--tkt-bw) solid var(--tkt-line-strong);
+  border-radius: var(--tkt-radius);
+}
+
+.tkt-info__card h3 {
+  margin: 0.5rem 0 0.6rem;
+  font-size: 1.02rem;
+}
+
+.tkt-page .tkt-info__card p,
+.tkt-page .tkt-info__card li {
+  margin: 0;
+  max-width: none;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.tkt-page main ul.tkt-list,
+.tkt-page main ol.tkt-list {
+  margin: 0.7rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tkt-page main ul.tkt-list li,
+.tkt-page main ol.tkt-list li {
+  position: relative;
+  margin: 0.45rem 0 0;
+  padding-left: 1.5rem;
+  max-width: none;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.tkt-page main ul.tkt-list li::before {
+  content: '';
+  position: absolute;
+  left: 0.15rem;
+  top: 0.6em;
+  width: 7px;
+  height: 7px;
+  background: var(--tkt-accent);
+}
+
+.tkt-page main ol.tkt-list {
+  counter-reset: step;
+}
+
+.tkt-page main ol.tkt-list li::before {
+  counter-increment: step;
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.12em;
+  font-family: var(--font-tactical);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  color: var(--tkt-accent);
+}
+
+/* ── Notices ───────────────────────────────────────────────────────────── */
+
+.tkt-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1.4rem;
+  padding: 0.8rem 1rem;
+  background: var(--tkt-surface);
+  border: var(--tkt-bw) solid var(--tkt-line-strong);
+  border-left: 4px solid #f59e0b;
+  border-radius: var(--tkt-radius);
+  font-size: 0.88rem;
+  color: var(--tkt-sub);
+}
+
+.tkt-notice--error {
+  border-left-color: #e5484d;
+}
+
+.tkt-page .tkt-notice p {
+  margin: 0;
+  max-width: none;
+  color: var(--tkt-sub);
+}
+
+.tkt-notice button {
+  flex: none;
+  padding: 0.25rem 0.45rem;
+  background: none;
+  border: none;
+  color: var(--tkt-body);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* ── Hub destination cards (/tickets) — each wears its own palette ─────── */
+
+.tkt-dest-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.tkt-dest {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 330px;
+  padding: 1.5rem 1.4rem 1.4rem;
+  overflow: hidden;
+  border-radius: 4px;
+  transition: transform 0.15s ease;
+}
+
+.tkt-dest:hover {
+  transform: translateY(-3px);
+}
+
+.tkt-dest .tkt-art {
+  right: -1.5rem;
+  bottom: -1rem;
+  opacity: 1;
+}
+
+.tkt-dest > *:not(.tkt-art) {
+  position: relative;
+  z-index: 2;
+}
+
+.tkt-dest h2 {
+  margin: 0.6rem 0 0.55rem;
+  font-size: 1.7rem;
+}
+
+.tkt-page .tkt-dest p.tkt-dest__desc {
+  margin: 0 0 auto;
+  max-width: 28ch;
+  line-height: 1.65;
+  font-size: 0.92rem;
+}
+
+.tkt-dest__go {
+  margin-top: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tkt-dest--north {
+  background: #050505;
+  border: 1px solid #2a3a63;
+  box-shadow: inset 0 3px 0 #2457e6;
+}
+
+.tkt-dest--north h2,
+.tkt-dest--north .tkt-dest__go {
+  color: #ffffff;
+}
+
+.tkt-page .tkt-dest--north .tkt-tag {
+  color: #ffffff;
+}
+
+.tkt-page .tkt-dest--north p {
+  color: #94a3b8;
+}
+
+.tkt-dest--north .tkt-art {
+  color: #ffffff;
+  opacity: 0.14;
+  right: -3.2rem;
+  height: 100%;
+  width: auto;
+  aspect-ratio: 480 / 560;
+}
+
+.tkt-dest--south {
+  background: #f8f9fa;
+  border: 2px solid #050505;
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #050505;
+}
+
+.tkt-dest--south h2 {
+  color: #050505;
+  text-shadow: none;
+}
+
+.tkt-page .tkt-dest--south .tkt-tag,
+.tkt-dest--south .tkt-dest__go {
+  color: #050505;
+}
+
+.tkt-page .tkt-dest--south p {
+  color: #475569;
+}
+
+.tkt-dest--south .tkt-art {
+  color: #050505;
+  opacity: 0.2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 60%;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 50%);
+  mask-image: linear-gradient(180deg, transparent, #000 50%);
+}
+
+.tkt-dest--hub {
+  background: #333a43;
+  border: 1px solid #6a7686;
+  box-shadow: inset 0 3px 0 #8fa1b5;
+}
+
+.tkt-dest--hub h2,
+.tkt-dest--hub .tkt-dest__go {
+  color: #ffffff;
+}
+
+.tkt-page .tkt-dest--hub .tkt-tag {
+  color: #ffffff;
+}
+
+.tkt-page .tkt-dest--hub p {
+  color: #aeb9c7;
+}
+
+.tkt-dest--hub .tkt-art {
+  color: #9fb3c8;
+  opacity: 0.3;
+  left: 50%;
+  right: auto;
+  bottom: 0.4rem;
+  width: 130%;
+  transform: translateX(-50%);
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .tkt-info,
+  .tkt-dest-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tkt-dest {
+    min-height: 260px;
+  }
+}
+
+@media (max-width: 720px) {
+  .tkt-hero {
+    padding-top: 3.25rem;
+  }
+
+  .tkt-art--north {
+    right: -14%;
+    opacity: calc(var(--tkt-art-opacity) * 0.9);
+  }
+
+  .tkt-weeks {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .tkt-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .tkt-stat,
+  .tkt-stat + .tkt-stat {
+    padding: 0.85rem 0 0.2rem;
+    border-left: none;
+  }
+
+  .tkt-stat + .tkt-stat {
+    border-top: 1px solid var(--tkt-line);
+  }
+
+  .tkt-tabs {
+    gap: 0.4rem;
+  }
+
+  .tkt-tab {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.2rem;
+    min-height: 58px;
+    padding: 0.5rem 0.3rem;
+    text-align: center;
+  }
+
+  .tkt-tab__label {
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
+    line-height: 1.25;
+  }
+
+  .tkt-pass {
+    grid-template-columns: 1fr;
+  }
+
+  .tkt-pass__main {
+    padding: 1.4rem 1.2rem 1.3rem;
+  }
+
+  .tkt-pass__stub {
+    border-left: none;
+    border-top: 2px dashed var(--tkt-line-strong);
+    padding: 1.4rem 1.2rem 1.5rem;
+  }
+
+  .tkt-pass__stub::before,
+  .tkt-pass__stub::after {
+    top: -11px;
+    bottom: auto;
+  }
+
+  .tkt-pass__stub::before {
+    left: calc(-10px - var(--tkt-bw) / 2);
+    clip-path: inset(0 0 0 50%);
+  }
+
+  .tkt-pass__stub::after {
+    left: auto;
+    right: calc(-10px - var(--tkt-bw) / 2);
+    clip-path: inset(0 50% 0 0);
+  }
+
+  .tkt-page .tkt-pass__price {
+    font-size: 2.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tkt-dest,
+  .tkt-meter__track span,
+  .tkt-week,
+  .tkt-tab {
+    transition: none;
+  }
+}
+
+/* ── Bundle modal keeps the site's dark overlay on every theme ─────────── */
+
+.tkt-page .overlay-content h3 {
+  color: var(--type-white);
+}
+
+.tkt-page .overlay-content p {
+  color: var(--type-slate);
+}
+
+.tkt-page .overlay-content p.subtext {
+  color: var(--type-silver);
+}
+
+.tkt-page .overlay-content p.venue-cell {
+  color: var(--type-silver);
+}
+
+/* Keep the fixed navbar legible when it floats over the off-white South page */
+.public-site:has(.tkt-page--south) nav {
+  background: rgba(7, 26, 69, 0.97);
+}

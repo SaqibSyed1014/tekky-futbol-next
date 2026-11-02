@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import GlowDivider from '@/components/ui/GlowDivider';
+import TicketPageShell, { TicketRule } from '@/components/tickets/TicketPageShell';
+import PassTicket from '@/components/tickets/PassTicket';
+import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import { formatApiError } from '@/services/api';
 import { fetchTicketAvailability, initiateTicketCheckout } from '@/services/ticketsApi';
 
@@ -14,6 +16,8 @@ const TIERS = [
     description:
       'One pass for every regular season match across both North and South divisions. Guaranteed entrance without buying weekly passes. Includes priority access to playoff and finale ticket drops.',
     capacityNote: 'Strictly limited to 20 total passes league-wide.',
+    cap: 20,
+    specs: ['16 regular season matches', 'North + South', 'Priority playoff drops'],
     cta: 'GET SEASON PASS',
     purchasable: true,
   },
@@ -25,6 +29,8 @@ const TIERS = [
     description:
       'Grants pitchside access to both official semifinal and knockout matches. High-stakes football where loser goes home. Does not include entry to the Season Finale celebration event.',
     capacityNote: 'Capped at 60 total passes for the host venue.',
+    cap: 60,
+    specs: ['Semifinals + knockouts', 'Pitchside access', 'Host venue'],
     cta: 'GET PLAYOFF PASS',
     purchasable: true,
   },
@@ -36,12 +42,14 @@ const TIERS = [
     description:
       'Exclusive entry to the Season Finale afterparty, awards showcase, and championship celebration event at the neutral arena. Active league players enter free; limited guest passes available.',
     capacityNote: 'Capped at 200 guest passes.',
+    cap: 200,
+    specs: ['Afterparty + awards', 'Neutral arena', 'Players enter free'],
     cta: 'COMING SOON',
     purchasable: false,
   },
 ];
 
-function TierCard({ tier, purchasing, remaining, onBuy }) {
+function TierCard({ tier, index, purchasing, remaining, onBuy }) {
   const soldOut = tier.purchasable && remaining !== null && remaining <= 0;
   const disabled = !tier.purchasable || soldOut || purchasing;
 
@@ -50,18 +58,19 @@ function TierCard({ tier, purchasing, remaining, onBuy }) {
   else if (purchasing) ctaLabel = 'Redirecting…';
 
   return (
-    <section style={{ margin: '3rem 0' }}>
-      <p className="muted" style={{ fontSize: '0.8rem', letterSpacing: '1px' }}>{tier.badge}</p>
-      <h2>{tier.title}</h2>
-      <p className="price" style={{ fontSize: '1.8rem', margin: '0.5rem 0' }}>{tier.price}</p>
-      <p style={{ margin: '0.6rem auto', maxWidth: '60ch', lineHeight: 1.8 }}>{tier.description}</p>
-      <p className="muted" style={{ fontSize: '0.85rem' }}>{tier.capacityNote}</p>
-      <div className="sec-cta">
-        <button type="button" className="cta" disabled={disabled} onClick={() => onBuy(tier.tier)}>
-          {ctaLabel}
-        </button>
-      </div>
-    </section>
+    <PassTicket
+      tag={`${String(index + 1).padStart(2, '0')} // ${tier.badge}`}
+      title={tier.title}
+      description={tier.description}
+      note={tier.capacityNote}
+      specs={tier.specs}
+      price={tier.price}
+      meter={tier.purchasable ? { remaining, cap: tier.cap } : undefined}
+      ctaLabel={ctaLabel}
+      disabled={disabled}
+      locked={!tier.purchasable}
+      onCta={() => onBuy(tier.tier)}
+    />
   );
 }
 
@@ -69,6 +78,7 @@ export default function LeaguePassesClient() {
   const [remainingByTier, setRemainingByTier] = useState({});
   const [purchasingTier, setPurchasingTier] = useState('');
   const [checkoutError, setCheckoutError] = useState('');
+  const { cancelled, dismiss } = useCheckoutCancelled();
 
   useEffect(() => {
     let cancelled = false;
@@ -101,53 +111,58 @@ export default function LeaguePassesClient() {
   }
 
   return (
-    <>
-      <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-        <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
-          <h1>{'LEAGUE PASSES // SPECIAL ACCESS'}</h1>
-          <p className="tagline">For Ballers Who Create</p>
-          <p className="subtext">
-            Unrestricted matchday access, playoff knockouts, exclusive merch bundles, and flagship championship passes.
-          </p>
+    <TicketPageShell
+      theme="hub"
+      active="league"
+      eyebrow="Pass Type 03 // Special Access"
+      title="LEAGUE PASSES // SPECIAL ACCESS"
+      subtitle="Unrestricted matchday access, playoff knockouts, exclusive merch bundles, and flagship championship passes."
+    >
+      {cancelled && (
+        <div className="tkt-notice" role="status">
+          <p>Checkout was cancelled — no payment was taken. You can buy whenever you&apos;re ready.</p>
+          <button type="button" onClick={dismiss} aria-label="Dismiss">
+            <i className="fa-solid fa-xmark" />
+          </button>
         </div>
-      </header>
+      )}
 
-      <main style={{ maxWidth: 900, margin: '2.8rem auto 4rem', padding: '0 1.25rem', textAlign: 'center' }}>
-        <GlowDivider />
+      <p className="tkt-tag" style={{ textAlign: 'center' }}>
+        All passes are 100% digital — delivered instantly to your Wallet upon checkout
+      </p>
 
-        <p className="subtext">
-          All passes are 100% digital and delivered instantly to your Wallet upon checkout.
-        </p>
+      <TicketRule />
 
-        <GlowDivider />
+      {checkoutError && (
+        <div className="tkt-notice tkt-notice--error" role="alert">
+          <p>{checkoutError}</p>
+        </div>
+      )}
 
-        {checkoutError && <p className="shop-buy-error">{checkoutError}</p>}
+      {TIERS.map((tier, i) => (
+        <TierCard
+          key={tier.tier}
+          tier={tier}
+          index={i}
+          purchasing={purchasingTier === tier.tier}
+          remaining={remainingByTier[tier.tier] ?? null}
+          onBuy={handleBuy}
+        />
+      ))}
 
-        {TIERS.map((tier, i) => (
-          <div key={tier.tier}>
-            <TierCard
-              tier={tier}
-              purchasing={purchasingTier === tier.tier}
-              remaining={remainingByTier[tier.tier] ?? null}
-              onBuy={handleBuy}
-            />
-            {i < TIERS.length - 1 && <GlowDivider />}
-          </div>
-        ))}
+      <TicketRule />
 
-        <GlowDivider />
-
-        <section style={{ margin: '3rem 0' }}>
-          <p className="muted" style={{ fontSize: '0.8rem', letterSpacing: '1px' }}>
-            DIGITAL WALLET &amp; ACCREDITATION ONLY
-          </p>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
+      <section className="tkt-info" style={{ gridTemplateColumns: '1fr' }} aria-label="Wallet and accreditation">
+        <div className="tkt-info__card">
+          <p className="tkt-tag">Digital wallet &amp; accreditation only</p>
+          <h3>Perimeter gate verification</h3>
+          <p>
             All TekkyFutbol passes are 100% digital. Upon checkout, your pass syncs directly to your account
             Wallet and generates an email QR pass with Apple/Google Wallet support. Security verifies all codes
             at the perimeter gate — no physical tickets issued.
           </p>
-        </section>
-      </main>
-    </>
+        </div>
+      </section>
+    </TicketPageShell>
   );
 }

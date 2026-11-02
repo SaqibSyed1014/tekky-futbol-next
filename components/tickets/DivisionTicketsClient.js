@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import GlowDivider from '@/components/ui/GlowDivider';
+import TicketPageShell, { TicketRule } from '@/components/tickets/TicketPageShell';
+import PassTicket from '@/components/tickets/PassTicket';
+import { useCheckoutCancelled } from '@/hooks/useCheckoutCancelled';
 import Modal from '@/components/ui/Modal';
 import MerchItemPicker from '@/components/tickets/MerchItemPicker';
 import { getDivisionProducts } from '@/data/divisionProducts';
@@ -10,6 +12,8 @@ import { fetchTicketAvailability, initiateTicketCheckout } from '@/services/tick
 
 const WEEKS = Array.from({ length: 16 }, (_, i) => i + 1);
 const VENUE_CAPACITY = 120;
+const MATCHDAY_CAP = 40;
+const BUNDLE_CAP = 10;
 const APPAREL_SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
 const FULFILLMENT_OPTIONS = [
   { value: 'pickup', label: 'Pick Up At Venue' },
@@ -19,6 +23,8 @@ const FULFILLMENT_OPTIONS = [
 const DIVISION_COPY = {
   north: {
     label: 'North Division',
+    theme: 'north',
+    eyebrow: 'Pass Type 01 // Regular Season',
     headline: 'NORTH DIVISION // REGULAR SEASON PASSES',
     subheadline:
       'Concrete grounds. High-tempo football. Lock in your pitchside access for North Division regular season fixtures.',
@@ -26,6 +32,8 @@ const DIVISION_COPY = {
   },
   south: {
     label: 'South Division',
+    theme: 'south',
+    eyebrow: 'Pass Type 02 // Regular Season',
     headline: 'SOUTH DIVISION // REGULAR SEASON PASSES',
     subheadline:
       'Concrete grounds. High-tempo football. Lock in your pitchside access for South Division regular season fixtures.',
@@ -40,6 +48,7 @@ const DIVISION_COPY = {
 export default function DivisionTicketsClient({ division }) {
   const copy = DIVISION_COPY[division];
   const merchProducts = getDivisionProducts(division);
+  const { cancelled, dismiss } = useCheckoutCancelled();
 
   const [week, setWeek] = useState(1);
   const [availability, setAvailability] = useState(null);
@@ -130,114 +139,106 @@ export default function DivisionTicketsClient({ division }) {
   const matchdaySoldOut = availability ? availability.matchday_remaining <= 0 : false;
   const bundleSoldOut = availability ? availability.bundle_remaining <= 0 : false;
 
+  const weekLabel = `Week ${String(week).padStart(2, '0')}`;
+
   return (
-    <>
-      <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-        <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
-          <h1>{copy.headline}</h1>
-          <p className="tagline">For Ballers Who Create</p>
-          <p className="subtext">{copy.subheadline}</p>
+    <TicketPageShell
+      theme={copy.theme}
+      active={division}
+      eyebrow={copy.eyebrow}
+      title={copy.headline}
+      subtitle={copy.subheadline}
+    >
+      {cancelled && (
+        <div className="tkt-notice" role="status">
+          <p>Checkout was cancelled — no payment was taken. You can buy whenever you&apos;re ready.</p>
+          <button type="button" onClick={dismiss} aria-label="Dismiss">
+            <i className="fa-solid fa-xmark" />
+          </button>
         </div>
-      </header>
+      )}
 
-      <main style={{ maxWidth: 900, margin: '2.8rem auto 4rem', padding: '0 1.25rem', textAlign: 'center' }}>
-        <GlowDivider />
+      <section className="tkt-panel" aria-labelledby="tkt-fixture-heading">
+        <div className="tkt-panel__head">
+          <h3 id="tkt-fixture-heading">Select a fixture week</h3>
+          <p className="tkt-tag">Live availability per matchday</p>
+        </div>
 
-        <section style={{ margin: '3rem 0' }}>
-          <p className="subtext" style={{ marginBottom: '1rem' }}>
-            Select a fixture week below to view matchday venue details and live ticket availability.
-          </p>
-
-          <div className="size-options" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
-            {WEEKS.map((w) => (
-              <button
-                key={w}
-                type="button"
-                className={`size-option${week === w ? ' is-selected' : ''}`}
-                onClick={() => setWeek(w)}
-              >
-                WEEK {String(w).padStart(2, '0')}
-              </button>
-            ))}
-          </div>
-
-          <div className="table-wrap" style={{ marginTop: '1.5rem' }}>
-            <table>
-              <tbody>
-                <tr>
-                  <td className="venue-cell">Location</td>
-                  <td>{copy.venueLocation}</td>
-                </tr>
-                <tr>
-                  <td className="venue-cell">Venue Capacity</td>
-                  <td>{VENUE_CAPACITY} (strict limit)</td>
-                </tr>
-                <tr>
-                  <td className="venue-cell">Remaining Passes</td>
-                  <td>
-                    {availabilityError
-                      ? '—'
-                      : availability
-                        ? `${availability.matchday_remaining} of 40`
-                        : 'Loading…'}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <GlowDivider />
-
-        {checkoutError && <p className="shop-buy-error">{checkoutError}</p>}
-
-        <section style={{ margin: '3rem 0' }}>
-          <h2>{`${copy.label.toUpperCase()} // SINGLE MATCH PASS`}</h2>
-          <p className="price" style={{ fontSize: '1.8rem', margin: '0.5rem 0' }}>$10</p>
-          <p style={{ margin: '0.6rem auto', maxWidth: '60ch', lineHeight: 1.8 }}>
-            Guaranteed pitchside entry for one {copy.label} matchday. Select your specific week above.
-            Digital QR pass delivered instantly to your Wallet upon checkout.
-          </p>
-          <p className="muted" style={{ fontSize: '0.85rem' }}>
-            Capped at 40 passes per matchday to maintain venue limits.
-          </p>
-          <div className="sec-cta">
+        <div className="tkt-weeks" role="group" aria-label="Fixture week">
+          {WEEKS.map((w) => (
             <button
+              key={w}
               type="button"
-              className="cta"
-              disabled={matchdaySoldOut || purchasingTier === 'single_match'}
-              onClick={() => handleBuy('single_match')}
+              className={`tkt-week${week === w ? ' is-selected' : ''}`}
+              aria-pressed={week === w}
+              aria-label={`Week ${w}`}
+              onClick={() => setWeek(w)}
             >
-              {matchdaySoldOut ? 'SOLD OUT' : purchasingTier === 'single_match' ? 'Redirecting…' : 'SECURE MATCH PASS'}
+              <small>WK</small>
+              <b>{String(w).padStart(2, '0')}</b>
             </button>
+          ))}
+        </div>
+
+        <div className="tkt-stats">
+          <div className="tkt-stat">
+            <p className="tkt-tag">Location</p>
+            <p className="tkt-stat__value">{copy.venueLocation}</p>
           </div>
-        </section>
-
-        <GlowDivider />
-
-        <section style={{ margin: '3rem 0' }}>
-          <h2>{`${copy.label.toUpperCase()} // SUPPORTER BUNDLE`}</h2>
-          <p className="price" style={{ fontSize: '1.8rem', margin: '0.5rem 0' }}>$60</p>
-          <p style={{ margin: '0.6rem auto', maxWidth: '60ch', lineHeight: 1.8 }}>
-            1 Single Match Pass + 1 Official Tekky Drop Apparel Item (select size at checkout).
-            High-spec streetwear meets matchday access.
-          </p>
-
-          <p className="muted" style={{ fontSize: '0.85rem' }}>
-            Pick up your apparel at the venue merch desk on matchday using your QR pass, or select standard shipping.
-            Strictly limited to 10 bundles per matchday.
-          </p>
-          <div className="sec-cta">
-            <button
-              type="button"
-              className="cta"
-              disabled={bundleSoldOut || purchasingTier === 'supporter_bundle'}
-              onClick={openBundleModal}
-            >
-              {bundleSoldOut ? 'SOLD OUT' : purchasingTier === 'supporter_bundle' ? 'Redirecting…' : 'CLAIM SUPPORTER BUNDLE'}
-            </button>
+          <div className="tkt-stat">
+            <p className="tkt-tag">Venue capacity</p>
+            <p className="tkt-stat__value">{VENUE_CAPACITY}</p>
+            <p className="tkt-stat__sub">Strict limit</p>
           </div>
-        </section>
+          <div className="tkt-stat">
+            <p className="tkt-tag">Remaining passes</p>
+            <p className="tkt-stat__value">
+              {availabilityError
+                ? '—'
+                : availability
+                  ? `${availability.matchday_remaining} of ${MATCHDAY_CAP}`
+                  : 'Loading…'}
+            </p>
+            <p className="tkt-stat__sub">{weekLabel}</p>
+          </div>
+        </div>
+      </section>
+
+      <TicketRule />
+
+      {checkoutError && (
+        <div className="tkt-notice tkt-notice--error" role="alert">
+          <p>{checkoutError}</p>
+        </div>
+      )}
+
+      <PassTicket
+        tag={`${copy.label} // Single match`}
+        title="Single Match Pass"
+        description={`Guaranteed pitchside entry for one ${copy.label} matchday. Select your specific week above. Digital QR pass delivered instantly to your Wallet upon checkout.`}
+        note="Capped at 40 passes per matchday to maintain venue limits."
+        specs={[weekLabel, 'Pitchside entry', 'Instant wallet delivery']}
+        price="$10"
+        validFor={weekLabel}
+        meter={{ remaining: availability ? availability.matchday_remaining : null, cap: MATCHDAY_CAP }}
+        ctaLabel={matchdaySoldOut ? 'SOLD OUT' : purchasingTier === 'single_match' ? 'Redirecting…' : 'SECURE MATCH PASS'}
+        disabled={matchdaySoldOut || purchasingTier === 'single_match'}
+        onCta={() => handleBuy('single_match')}
+      />
+
+      <PassTicket
+        tag={`${copy.label} // Bundle`}
+        title="Supporter Bundle"
+        description="1 Single Match Pass + 1 Official Tekky Drop Apparel Item (select size at checkout). High-spec streetwear meets matchday access."
+        note="Pick up your apparel at the venue merch desk on matchday using your QR pass, or select standard shipping. Strictly limited to 10 bundles per matchday."
+        specs={[weekLabel, 'Match pass + apparel', 'Pickup or ship']}
+        price="$60"
+        validFor={weekLabel}
+        meter={{ remaining: availability ? availability.bundle_remaining : null, cap: BUNDLE_CAP }}
+        ctaLabel={bundleSoldOut ? 'SOLD OUT' : purchasingTier === 'supporter_bundle' ? 'Redirecting…' : 'CLAIM SUPPORTER BUNDLE'}
+        disabled={bundleSoldOut || purchasingTier === 'supporter_bundle'}
+        onCta={openBundleModal}
+      />
 
         <Modal
           isOpen={bundleModalOpen}
@@ -293,39 +294,44 @@ export default function DivisionTicketsClient({ division }) {
           </form>
         </Modal>
 
-        <GlowDivider />
+        <TicketRule />
 
-        <section style={{ margin: '3rem 0' }}>
-          <h2>Gate &amp; Access Rules</h2>
-          <p className="muted" style={{ fontSize: '0.85rem', marginBottom: '1rem' }}>
-            Digital wallet access only
-          </p>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            All TekkyFutbol passes are 100% digital. Upon checkout, your QR pass will instantly appear in your
-            account Wallet and be sent via email. Security scans all passes at the outer gate — no physical
-            tickets issued.
-          </p>
+        <section className="tkt-info" aria-label="Gate and access rules">
+          <div className="tkt-info__card">
+            <p className="tkt-tag">Digital wallet access only</p>
+            <h3>Gate &amp; Access Rules</h3>
+            <p>
+              All TekkyFutbol passes are 100% digital. Upon checkout, your QR pass will instantly appear in your
+              account Wallet and be sent via email. Security scans all passes at the outer gate — no physical
+              tickets issued.
+            </p>
+          </div>
 
-          <h3 style={{ marginTop: '2rem' }}>The Inventory Pooling Architecture</h3>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            To ensure total spectator sales never exceed the 40-ticket limit (leaving 80 slots for players,
-            staff, referees, media, and season pass holders), Single Match Passes and Supporter Bundles draw
-            from a shared pool.
-          </p>
-          <ul className="bullet-list centered">
-            <li>Total Paid Sales Cap: 40 Tickets Maximum</li>
-            <li>Supporter Bundle Sub-Cap: 10 Bundles Maximum (included within the 40 total)</li>
-          </ul>
+          <div className="tkt-info__card">
+            <p className="tkt-tag">Shared pool</p>
+            <h3>The Inventory Pooling Architecture</h3>
+            <p>
+              To ensure total spectator sales never exceed the 40-ticket limit (leaving 80 slots for players,
+              staff, referees, media, and season pass holders), Single Match Passes and Supporter Bundles draw
+              from a shared pool.
+            </p>
+            <ul className="tkt-list">
+              <li>Total Paid Sales Cap: 40 Tickets Maximum</li>
+              <li>Supporter Bundle Sub-Cap: 10 Bundles Maximum (included within the 40 total)</li>
+            </ul>
+          </div>
 
-          <h3 style={{ marginTop: '2rem' }}>Step By Step Checkout</h3>
-          <ol style={{ display: 'inline-block', margin: '0 auto', textAlign: 'left' }}>
-            <li>Fixture selection</li>
-            <li>Tier selection</li>
-            <li>{copy.label} merch item and size (S–XXL)</li>
-            <li>Payment and issuance (wallet/email)</li>
-          </ol>
+          <div className="tkt-info__card">
+            <p className="tkt-tag">4 steps</p>
+            <h3>Step By Step Checkout</h3>
+            <ol className="tkt-list">
+              <li>Fixture selection</li>
+              <li>Tier selection</li>
+              <li>{copy.label} merch item and size (S–XXL)</li>
+              <li>Payment and issuance (wallet/email)</li>
+            </ol>
+          </div>
         </section>
-      </main>
-    </>
+    </TicketPageShell>
   );
 }

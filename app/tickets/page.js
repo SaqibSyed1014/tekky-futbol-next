@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import GlowDivider from '@/components/ui/GlowDivider';
+import TicketPageShell, { TicketRule } from '@/components/tickets/TicketPageShell';
+import { AsphaltGrid, BlueprintNodes, PlayerSilhouette } from '@/components/tickets/TicketArt';
 
 export const metadata = {
   title: 'TekkyFutbol — Match Passes',
@@ -8,48 +9,74 @@ export const metadata = {
 
 const CHOICES = [
   {
+    key: 'north',
     href: '/tickets/north-division',
+    index: '01',
+    tag: 'Matte black',
     title: 'North Division',
     description: 'Single Match Passes and Supporter Bundles for North Division fixtures.',
+    Art: PlayerSilhouette,
   },
   {
+    key: 'south',
     href: '/tickets/south-division',
+    index: '02',
+    tag: 'Off-white',
     title: 'South Division',
     description: 'Single Match Passes and Supporter Bundles for South Division fixtures.',
+    Art: AsphaltGrid,
   },
   {
+    key: 'hub',
     href: '/tickets/league-passes',
+    index: '03',
+    tag: 'Gunmetal',
     title: 'League Passes',
     description: 'Season Access, Playoff, and Finale Celebration passes.',
+    Art: BlueprintNodes,
   },
+];
+
+const STEPS = [
+  { title: 'Choose your pass', body: 'Pick a division match pass, a supporter bundle, or a league-wide pass.' },
+  { title: 'Pay securely', body: 'Checkout with Stripe. Your pass is issued the moment payment clears.' },
+  { title: 'Scan at the gate', body: 'Your QR lands in your Wallet and inbox. Security scans it at the perimeter.' },
 ];
 
 export default function TicketsPage() {
   return (
-    <>
-      <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-        <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
-          <h1>MATCH PASSES</h1>
-          <p className="tagline">For Ballers Who Create</p>
-          <p className="subtext">Get in the stands. Feel the game live.</p>
-        </div>
-      </header>
+    <TicketPageShell
+      theme="hub"
+      active="hub"
+      eyebrow="Ticketing Hub // 3 Pass Types"
+      title="MATCH PASSES"
+      subtitle="Get in the stands. Feel the game live."
+    >
+      <section className="tkt-dest-grid" aria-label="Pass types">
+        {CHOICES.map(({ key, href, index, tag, title, description, Art }) => (
+          <Link key={key} href={href} className={`tkt-dest tkt-dest--${key}`}>
+            <Art className={`tkt-art tkt-art--card-${key}`} />
+            <p className="tkt-tag">{`${index} // ${tag}`}</p>
+            <h2>{title}</h2>
+            <p className="tkt-dest__desc">{description}</p>
+            <span className="tkt-dest__go">
+              View passes <i className="fa-solid fa-arrow-right-long" aria-hidden="true" />
+            </span>
+          </Link>
+        ))}
+      </section>
 
-      <main style={{ maxWidth: 1080, margin: '2.8rem auto 4rem', padding: '0 1.25rem', textAlign: 'center' }}>
-        <GlowDivider />
+      <TicketRule />
 
-        <div className="grid">
-          {CHOICES.map((choice) => (
-            <div className="card full-space" key={choice.href}>
-              <h3>{choice.title}</h3>
-              <p className="muted">{choice.description}</p>
-              <div className="sec-cta">
-                <Link className="cta" href={choice.href}>View Passes</Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </main>
-    </>
+      <section className="tkt-info" aria-label="How passes work">
+        {STEPS.map((step, i) => (
+          <div className="tkt-info__card" key={step.title}>
+            <p className="tkt-tag">Step {String(i + 1).padStart(2, '0')}</p>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </div>
+        ))}
+      </section>
+    </TicketPageShell>
   );
 }
