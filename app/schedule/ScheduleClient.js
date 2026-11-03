@@ -17,7 +17,7 @@ export default function ScheduleClient() {
     <>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
-          <h1>2026 LEAGUE SCHEDULE</h1>
+          <h1>2027 LEAGUE SCHEDULE</h1>
           <p className="tagline">For Ballers Who Create</p>
           <p className="subtext">The action this week — two venues, one flow.</p>
         </div>

@@ -35,28 +35,11 @@ export default function AboutPage() {
         <section id="structure" style={{ margin: '3rem 0', textAlign: 'center' }}>
           <h2 style={{ marginBottom: '0.5rem' }}>Structure</h2>
           <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            TekkyFutbol runs a structured 16-matchweek season with 8 teams per division — North and South.
-          </p>
-          <ul className="bullet-list" style={{ maxWidth: 550, margin: '0 auto' }}>
-            <li style={{ textAlign: 'left' }}>16 regular matchweeks</li>
-            <li style={{ textAlign: 'left' }}>1 semifinal week</li>
-            <li style={{ textAlign: 'left' }}>1 championship week (Final + Third Place)</li>
-          </ul>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            Matchdays alternate between futsal courts and indoor turf, challenging teams to adapt their
-            style across surfaces throughout the season.
-          </p>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            The season concludes with a championship environment built to celebrate performance, culture,
-            and the moments that define the league.
-          </p>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            Championship Week rotates between East and West Chicago each season — reinforcing the
-            territorial energy of North vs South and grounding the finale in the city&apos;s culture.
-          </p>
-          <p style={{ margin: '0.6rem auto', maxWidth: '70ch', lineHeight: 1.8 }}>
-            Every match is recorded and archived — documenting the pressure, the rivalries, and the
-            moments that build Tekky history.
+            TekkyFutbol runs a structured 16-matchweek regular season with 8 teams per division — North
+            and South. The season concludes with a single high-stakes playoff week, culminating in the
+            championship environment built to celebrate performance, culture, and the moments that define
+            the league. Every match is recorded and archived — documenting the pressure, the rivalries,
+            and the history.
           </p>
         </section>
 
