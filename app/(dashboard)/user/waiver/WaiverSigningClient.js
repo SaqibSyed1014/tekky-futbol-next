@@ -165,7 +165,7 @@ function AlreadySigned({ signedData }) {
         borderRadius: 16,
         padding:      '3rem 2rem',
         textAlign:    'center',
-        boxShadow:    '0 0 40px rgba(0,200,100,0.06)',
+ 
       }}>
         <div style={{
           width: 72, height: 72, borderRadius: '50%',
@@ -706,16 +706,7 @@ export default function WaiverSigningClient() {
           <button
             type="submit"
             disabled={!canSubmit}
-            style={{ fontFamily: 'var(--font-ui)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', width:         '100%',
-              padding:       '0.9rem',
-              background:    canSubmit ? 'var(--tekky-blue)' : 'rgba(61,139,255,0.1)',
-              border:        `1px solid ${canSubmit ? 'var(--tekky-blue)' : 'rgba(61,139,255,0.15)'}`,
-              borderRadius:  10,
-              color:         canSubmit ? 'var(--ad-fg)' : 'rgba(255,255,255,0.25)',
-              fontSize:      '1.05rem',
-              cursor:        canSubmit ? 'pointer' : 'not-allowed',
-              transition:    'all 0.2s',
-              boxShadow:     canSubmit ? '0 0 20px rgba(61,139,255,0.25)' : 'none' }}
+            className="cta cta--block"
           >
             {submitting ? (
               <>

@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
             <div style={{
               background: 'rgba(0,200,100,0.08)', border: '1px solid rgba(0,200,100,0.3)',
               borderRadius: 16, padding: '2.5rem 2rem', textAlign: 'center',
-              boxShadow: '0 0 25px rgba(0,116,255,0.1)',
+ 
             }}>
               <i className="fa-solid fa-envelope-circle-check" style={{ fontSize: '3rem', color: '#00c864', marginBottom: '1rem', display: 'block' }} />
               <h2 style={{ marginBottom: '0.75rem' }}>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 import { VenueEnvironmentBanner } from '@/components/venue/VenueArt';
+import LeagueFrame from '@/components/league/LeagueFrame';
 
 const MATCHWEEKS = Array.from({ length: 16 }, (_, i) => ({ value: i + 1, label: `Matchweek ${i + 1}` }));
 const ALL_WEEKS  = [...MATCHWEEKS, { value: 17, label: 'Season Finale' }];
@@ -14,7 +15,7 @@ export default function ScheduleClient() {
   const showFinal = week === 17;
 
   return (
-    <>
+    <LeagueFrame>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
           <h1>2027 LEAGUE SCHEDULE</h1>
@@ -118,6 +119,6 @@ export default function ScheduleClient() {
           <Link className="cta" href="/next-fixtures">View Next Week&#39;s Fixtures</Link>
         </div>
       </main>
-    </>
+    </LeagueFrame>
   );
 }

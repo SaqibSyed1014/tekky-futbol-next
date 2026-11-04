@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
+import LeagueFrame from '@/components/league/LeagueFrame';
 
 const MATCHWEEKS = Array.from({ length: 16 }, (_, i) => ({ value: i + 1, label: `Matchweek ${i + 1}` }));
 const ALL_WEEKS  = [...MATCHWEEKS, { value: 17, label: 'Season Finale' }];
@@ -15,7 +16,7 @@ export default function WomenResultsClient() {
   const selected = ALL_WEEKS.find((w) => w.value === week);
 
   return (
-      <>
+      <LeagueFrame>
         <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
           <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
             <h1>Results</h1>
@@ -166,6 +167,6 @@ export default function WomenResultsClient() {
             <Link className="cta" href="/">Back to Home</Link>
           </div>
         </main>
-      </>
+      </LeagueFrame>
   );
 }

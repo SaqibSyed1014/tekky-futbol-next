@@ -153,7 +153,7 @@ export default function AdminTeamsClient() {
                         <Link
                           href={`/admin/memberships?team=${t.id}`}
                           style={{
-                            padding: '0.28rem 0.7rem', borderRadius: 6,
+                            padding: '0.28rem 0.7rem', borderRadius: 2,
                             border: '1px solid #ffb400', color: '#ffb400',
                             fontSize: '0.8rem', fontWeight: 600,
                             textDecoration: 'none', whiteSpace: 'nowrap',
@@ -180,12 +180,12 @@ export default function AdminTeamsClient() {
       {!loading && totalPages > 1 && (
         <div className="ad-pager">
           <button onClick={() => setPage((p) => Math.max(p - 1, 1))} disabled={page === 1}
-            style={{ background: 'none', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 6, padding: '0.4rem 0.9rem', color: page === 1 ? 'var(--muted)' : 'var(--fg)', cursor: page === 1 ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}>
+            style={{ background: 'none', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 2, padding: '0.4rem 0.9rem', color: page === 1 ? 'var(--muted)' : 'var(--fg)', cursor: page === 1 ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}>
             ← Prev
           </button>
           <span style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>Page {page} of {totalPages}</span>
           <button onClick={() => setPage((p) => Math.min(p + 1, totalPages))} disabled={page === totalPages}
-            style={{ background: 'none', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 6, padding: '0.4rem 0.9rem', color: page === totalPages ? 'var(--muted)' : 'var(--fg)', cursor: page === totalPages ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}>
+            style={{ background: 'none', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 2, padding: '0.4rem 0.9rem', color: page === totalPages ? 'var(--muted)' : 'var(--fg)', cursor: page === totalPages ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}>
             Next →
           </button>
         </div>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
+import LeagueFrame from '@/components/league/LeagueFrame';
 
 export const metadata = {
   title: "TekkyFutbol — Women Top Scorers",
@@ -10,7 +11,7 @@ const ranks = [1, 2, 3, 4, 5, 6, 7, 8];
 
 export default function WomenTopScorersPage() {
   return (
-    <>
+    <LeagueFrame>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
           <h1>TOP SCORERS</h1>
@@ -43,7 +44,7 @@ export default function WomenTopScorersPage() {
         <GlowDivider />
 
         <section style={{ margin: '3rem 0' }}>
-          <h2>2026 SEASON — SCORING LEADERS</h2>
+          <h2>2027 SEASON — SCORING LEADERS</h2>
 
           <div className="table-wrap">
             {/*<h2>Tekky North</h2>*/}
@@ -112,6 +113,6 @@ export default function WomenTopScorersPage() {
           <Link className="cta" href="/women/standings">VIEW FULL STANDINGS</Link>
         </div>
       </main>
-    </>
+    </LeagueFrame>
   );
 }

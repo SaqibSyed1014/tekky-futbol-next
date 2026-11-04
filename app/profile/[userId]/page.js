@@ -148,14 +148,7 @@ export default function PublicProfilePage() {
         <p style={{ marginBottom: '1.5rem' }}>
           This player's profile is not public yet or does not exist.
         </p>
-        <Link href="/" style={{
-          padding: '0.65rem 1.5rem',
-          border: '1px solid rgba(255,255,255,0.22)',
-          borderRadius: 40, color: '#fff', textDecoration: 'none',
-          fontFamily: 'var(--font-ui)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem',
-          background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
-          boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
-        }}>
+        <Link href="/" className="cta">
           Back to Home
         </Link>
       </div>
@@ -171,7 +164,7 @@ export default function PublicProfilePage() {
     <>
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-ui); background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: var(--fg); overflow-x: hidden; }
+        body { font-family: var(--font-ui); background: linear-gradient(180deg, #050b14 0%, #081026 100%); color: var(--fg); overflow-x: hidden; }
         .spinner { display: inline-block; width: 32px; height: 32px; border: 3px solid rgba(61,139,255,0.2); border-top-color: var(--tekky-blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .profile-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
@@ -183,7 +176,7 @@ export default function PublicProfilePage() {
         position: 'relative', minHeight: '50vh',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         textAlign: 'center', paddingTop: '6.5rem',
-        background: 'radial-gradient(60% 50% at 50% 35%, rgba(61,139,255,0.3), rgba(7,26,69,0.95) 60%)',
+        background: 'linear-gradient(180deg, #081026 0%, #050b14 100%)',
       }}>
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 900, padding: '0 1rem' }}>
           {/* Avatar */}
@@ -214,7 +207,7 @@ export default function PublicProfilePage() {
       <div style={{
         width: '80%', height: 4, margin: '2rem auto',
         background: 'linear-gradient(90deg, transparent, var(--tekky-blue), transparent)',
-        borderRadius: 4, boxShadow: '0 0 18px rgba(61, 139, 255, 0.35)',
+        borderRadius: 4, 
       }} />
 
       {/* ── Cards grid — always 2×2 on desktop ── */}
@@ -251,17 +244,8 @@ export default function PublicProfilePage() {
                 href={profile.profile_link}
                 target="_blank"
                 rel="noreferrer"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-                  padding: '0.55rem 1.25rem',
-                  border: '1px solid rgba(255,255,255,0.22)', borderRadius: 40,
-                  color: '#fff', textDecoration: 'none',
-                  fontFamily: 'var(--font-ui)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem',
-                  background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
-                  boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
-                }}
+                className="cta"
               >
-                <i className="fa-solid fa-arrow-up-right-from-square" />
                 My Profile Link
               </a>
             </div>

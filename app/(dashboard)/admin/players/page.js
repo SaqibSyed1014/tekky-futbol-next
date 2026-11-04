@@ -286,10 +286,10 @@ export default function AdminPlayersPage() {
                 <a href={p.profile_link} target="_blank" rel="noreferrer" style={{ fontSize: '0.78rem', color: 'var(--tekky-blue)', wordBreak: 'break-all' }}>{p.profile_link}</a>
               </div>
               <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
-                <button onClick={() => handleLinkAction(p.user_id, 'approve')} style={{ padding: '0.35rem 0.9rem', borderRadius: 6, background: 'rgba(0,200,100,0.12)', border: '1px solid rgba(0,200,100,0.35)', color: '#00c864', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                <button onClick={() => handleLinkAction(p.user_id, 'approve')} style={{ padding: '0.35rem 0.9rem', borderRadius: 2, background: 'rgba(0,200,100,0.12)', border: '1px solid rgba(0,200,100,0.35)', color: '#00c864', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
                   <i className="fa-solid fa-check" style={{ marginRight: '0.35rem' }} />Approve
                 </button>
-                <button onClick={() => handleLinkAction(p.user_id, 'reject')} style={{ padding: '0.35rem 0.9rem', borderRadius: 6, background: 'rgba(255,60,60,0.1)', border: '1px solid rgba(255,60,60,0.3)', color: '#ff6b6b', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                <button onClick={() => handleLinkAction(p.user_id, 'reject')} style={{ padding: '0.35rem 0.9rem', borderRadius: 2, background: 'rgba(255,60,60,0.1)', border: '1px solid rgba(255,60,60,0.3)', color: '#ff6b6b', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
                   <i className="fa-solid fa-xmark" style={{ marginRight: '0.35rem' }} />Reject
                 </button>
               </div>
@@ -366,7 +366,7 @@ export default function AdminPlayersPage() {
                     <td className="ad-table__col-actions">
                       <button
                         onClick={() => setEditPlayer(p)}
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', padding: '0.35rem 0.9rem', borderRadius: 6, background: 'rgba(0,116,255,0.1)', border: '1px solid rgba(0,116,255,0.3)', color: 'var(--tekky-blue)', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', padding: '0.35rem 0.9rem', borderRadius: 2, background: 'rgba(0,116,255,0.1)', border: '1px solid rgba(0,116,255,0.3)', color: 'var(--tekky-blue)', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}
                       >
                         <i className="fa-solid fa-pen-to-square" /> Edit Stats
                       </button>

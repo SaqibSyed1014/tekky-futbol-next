@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 import { EnvironmentSpecs, VenueScene } from '@/components/venue/VenueArt';
+import LeagueFrame from '@/components/league/LeagueFrame';
 
 export const metadata = {
   title: 'TekkyFutbol — Venues',
@@ -9,7 +10,7 @@ export const metadata = {
 
 export default function VenuesPage() {
   return (
-    <>
+    <LeagueFrame>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
           <h1>VENUES</h1>
@@ -131,6 +132,6 @@ export default function VenuesPage() {
           <Link className="cta" href="/registration">Register Your Squad</Link>
         </div>
       </main>
-    </>
+    </LeagueFrame>
   );
 }

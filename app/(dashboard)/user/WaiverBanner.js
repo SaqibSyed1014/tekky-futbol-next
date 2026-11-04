@@ -50,7 +50,7 @@ export default function WaiverBanner({ isCaptain }) {
           gap:            '0.4rem',
           background:     '#ffb400',
           color:          '#000',
-          borderRadius:   7,
+          borderRadius: 2,
           padding:        '0.45rem 1rem',
           fontSize:       '0.8rem',
           textDecoration: 'none',

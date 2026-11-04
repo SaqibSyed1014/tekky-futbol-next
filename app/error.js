@@ -32,15 +32,7 @@ export default function Error({ error, reset }) {
       <button
         type="button"
         onClick={() => reset()}
-        style={{
-          background: 'transparent',
-          border: '1px solid rgba(0,116,255,0.6)',
-          color: '#fff',
-          padding: '0.65rem 1.1rem',
-          borderRadius: 8,
-          cursor: 'pointer',
-          fontFamily: 'inherit',
-        }}
+        className="cta cta--ghost"
       >
         Try again
       </button>

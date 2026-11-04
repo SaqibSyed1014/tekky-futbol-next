@@ -36,7 +36,7 @@ function ActionButton({ onClick, disabled, color, children }) {
       disabled={disabled}
       style={{
         padding: '0.35rem 0.9rem',
-        borderRadius: 6,
+        borderRadius: 2,
         border: `1px solid ${color}`,
         background: 'transparent',
         color,
@@ -573,7 +573,7 @@ export default function AdminClient() {
           <button
             onClick={() => setPage((p) => Math.max(p - 1, 1))}
             disabled={page === 1}
-            style={{ background: 'none', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 6, padding: '0.4rem 0.9rem', color: page === 1 ? 'var(--muted)' : 'var(--fg)', cursor: page === 1 ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
+            style={{ background: 'none', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 2, padding: '0.4rem 0.9rem', color: page === 1 ? 'var(--muted)' : 'var(--fg)', cursor: page === 1 ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
           >
             ← Prev
           </button>
@@ -581,7 +581,7 @@ export default function AdminClient() {
           <button
             onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
             disabled={page === totalPages}
-            style={{ background: 'none', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 6, padding: '0.4rem 0.9rem', color: page === totalPages ? 'var(--muted)' : 'var(--fg)', cursor: page === totalPages ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
+            style={{ background: 'none', border: '1px solid rgba(0,116,255,0.3)', borderRadius: 2, padding: '0.4rem 0.9rem', color: page === totalPages ? 'var(--muted)' : 'var(--fg)', cursor: page === totalPages ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
           >
             Next →
           </button>

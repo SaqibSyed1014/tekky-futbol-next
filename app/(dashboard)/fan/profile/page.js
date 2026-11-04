@@ -62,7 +62,7 @@ function Card({ children, style }) {
       border: '1px solid rgba(59, 130, 246, 0.3)',
       borderRadius: 12,
       padding: '1.75rem',
-      boxShadow: '0 0 20px rgba(61, 139, 255, 0.08)',
+ 
       ...style,
     }}>
       {children}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 import Modal from '@/components/ui/Modal';
 import { useWeb3Form } from '@/components/ui/useWeb3Form';
+import LeagueFrame from '@/components/league/LeagueFrame';
 
 function UpdatesForm({ onSuccess }) {
   const { submitting, handleSubmit } = useWeb3Form();
@@ -37,7 +38,7 @@ export default function StandingsClient() {
   const [updatesSuccess, setUpdatesSuccess] = useState(false);
 
   return (
-    <>
+    <LeagueFrame>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ padding: '0 1rem', textAlign: 'center' }}>
           <h1>STANDINGS</h1>
@@ -103,6 +104,6 @@ export default function StandingsClient() {
         <p className="subtext">You&#39;ll be notified first.</p>
         <button className="cta close-overlay" onClick={() => setUpdatesSuccess(false)}>Explore the League</button>
       </Modal>
-    </>
+    </LeagueFrame>
   );
 }

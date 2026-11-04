@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 import { VenueEnvironmentBanner } from '@/components/venue/VenueArt';
+import LeagueFrame from '@/components/league/LeagueFrame';
 
 const MATCHWEEKS = Array.from({ length: 16 }, (_, i) => ({ value: i + 1, label: `Matchweek ${i + 1}` }));
 const ALL_WEEKS  = [...MATCHWEEKS, { value: 17, label: 'Season Finale' }];
@@ -15,7 +16,7 @@ export default function WomenNextFixturesClient() {
   const isMatchweek = week >= 1 && week <= 16;
 
   return (
-      <>
+      <LeagueFrame>
         <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
           <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
             <h1>Next Fixtures</h1>
@@ -117,6 +118,6 @@ export default function WomenNextFixturesClient() {
             <Link className="cta" href="/">Back to Home</Link>
           </div>
         </main>
-      </>
+      </LeagueFrame>
   );
 }

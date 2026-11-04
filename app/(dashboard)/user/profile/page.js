@@ -95,7 +95,7 @@ function Card({ children, style, className }) {
         border: '1px solid rgba(59, 130, 246, 0.3)',
         borderRadius: 12,
         padding: '1.75rem',
-        boxShadow: '0 0 20px rgba(61, 139, 255, 0.08)',
+ 
         ...style,
       }}
     >
@@ -457,7 +457,7 @@ function AccountTab() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
                 padding: '0.6rem 1.75rem',
                 background: confirm === CONFIRM_PHRASE ? 'rgba(255,60,60,0.15)' : 'rgba(255,60,60,0.05)',
-                border: '1px solid rgba(255,60,60,0.4)', borderRadius: 8,
+                border: '1px solid rgba(255,60,60,0.4)', borderRadius: 2,
                 color: confirm === CONFIRM_PHRASE ? '#ff6b6b' : 'rgba(255,107,107,0.4)',
                 fontSize: '0.88rem', fontWeight: 600,
                 cursor: confirm === CONFIRM_PHRASE ? 'pointer' : 'not-allowed',
@@ -511,7 +511,7 @@ function CopyableUrl({ label, url }) {
           style={{
             flexShrink: 0,
             display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-            padding: '0.35rem 0.85rem', borderRadius: 6,
+            padding: '0.35rem 0.85rem', borderRadius: 2,
             background: copied ? 'rgba(0,200,100,0.12)' : 'rgba(61, 139, 255, 0.1)',
             border: `1px solid ${copied ? 'rgba(0,200,100,0.35)' : 'rgba(61, 139, 255, 0.3)'}`,
             color: copied ? '#00c864' : 'var(--ad-electric)',
@@ -640,7 +640,7 @@ function LinksTab({ user, onUpdated }) {
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.6rem' }}>
             {pLink && (
-              <button type="button" onClick={() => { setPLink(''); }} style={{ padding: '0.55rem 1rem', borderRadius: 8, border: '1px solid var(--ad-line)', background: 'transparent', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85rem' }}>
+              <button type="button" onClick={() => { setPLink(''); }} style={{ padding: '0.55rem 1rem', borderRadius: 2, border: '1px solid var(--ad-line)', background: 'transparent', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85rem' }}>
                 Clear
               </button>
             )}
@@ -718,7 +718,7 @@ export default function PlayerProfilePage() {
           <div style={{ fontFamily: 'var(--font-hero)', fontWeight: 400, letterSpacing: '0.03em', textTransform: 'uppercase', width: 60, height: 60, borderRadius: '50%', flexShrink: 0,
             background: 'linear-gradient(135deg, var(--ad-electric), var(--ad-blue-deep))',
             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.7rem', color: 'var(--ad-fg)',
-            boxShadow: '0 0 20px rgba(61, 139, 255, 0.35)' }}>
+ }}>
             {initial}
           </div>
           <div style={{ minWidth: 0 }}>

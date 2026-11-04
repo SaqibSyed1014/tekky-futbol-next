@@ -50,7 +50,7 @@ function AppCard({ app }) {
       border: '1px solid rgba(59, 130, 246, 0.3)',
       borderRadius: 12,
       padding: '1.3rem 1.5rem',
-      boxShadow: '0 0 16px rgba(59, 130, 246, 0.07)',
+ 
       transition: 'box-shadow 0.2s',
     }}
       onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 0 24px rgba(59, 130, 246, 0.15)'; }}
@@ -140,7 +140,7 @@ function TeamCard({ membership, teammates }) {
     <div style={{
       background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(59, 130, 246, 0.3)',
       borderRadius: 12, padding: '1.4rem 1.5rem',
-      boxShadow: '0 0 20px rgba(59, 130, 246, 0.08)', marginBottom: '2rem',
+ marginBottom: '2rem',
     }}>
       {/* Team header */}
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', marginBottom: '1rem', flexWrap: 'wrap' }}>
@@ -309,19 +309,7 @@ export default function PlayerHomeClient({ user }) {
             <p style={{ color: 'var(--muted)', marginBottom: '1.2rem' }}>
               You haven&apos;t submitted an application yet.
             </p>
-            <Link
-              href="/registration"
-              style={{ fontFamily: 'var(--font-ui)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'inline-block',
-                padding: '0.6rem 1.4rem',
-                border: '2px solid var(--tekky-blue)',
-                borderRadius: 40,
-                color: 'var(--ad-fg)',
-                boxShadow: '0 0 12px var(--tekky-blue)',
-                transition: '0.2s',
-                textDecoration: 'none' }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--tekky-blue)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
-            >
+            <Link href="/registration" className="cta">
               Apply Now
             </Link>
           </div>

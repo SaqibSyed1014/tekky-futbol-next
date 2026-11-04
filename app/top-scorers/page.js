@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
+import LeagueFrame from '@/components/league/LeagueFrame';
 
 export const metadata = {
   title: 'TekkyFutbol — Top Scorers',
@@ -10,7 +11,7 @@ const ranks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export default function TopScorersPage() {
   return (
-    <>
+    <LeagueFrame>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
           <h1>TOP SCORERS</h1>
@@ -111,6 +112,6 @@ export default function TopScorersPage() {
           <Link className="cta" href="/standings">VIEW FULL STANDINGS</Link>
         </div>
       </main>
-    </>
+    </LeagueFrame>
   );
 }

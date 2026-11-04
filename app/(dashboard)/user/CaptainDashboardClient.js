@@ -58,7 +58,7 @@ function Btn({ onClick, disabled, color = 'var(--tekky-blue)', children, small }
       onClick={onClick}
       disabled={disabled}
       style={{
-        padding: pad, borderRadius: 6,
+        padding: pad, borderRadius: 2,
         border: `1px solid ${color}`,
         background: 'transparent', color,
         fontSize: small ? '0.8rem' : '0.88rem', fontWeight: 600,
@@ -123,7 +123,7 @@ function RosterProgress({ approved, max }) {
           background: color,
           borderRadius: 999,
           transition: 'width 0.4s ease',
-          boxShadow: `0 0 8px ${color}66`,
+ 
         }} />
       </div>
       <p style={{ fontSize: '0.75rem', color: 'var(--muted)', margin: '0.35rem 0 0' }}>
@@ -144,7 +144,7 @@ function RosterTable({ title, rows, bucketColor, onRemove, removingId, showRemov
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.6rem' }}>
         <span style={{
           display: 'inline-block', width: 8, height: 8, borderRadius: '50%',
-          background: bucketColor, boxShadow: `0 0 6px ${bucketColor}`,
+          background: bucketColor, 
         }} />
         <span style={{ fontFamily: 'var(--font-ui)', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.78rem', color: bucketColor }}>
           {title} ({rows.length})

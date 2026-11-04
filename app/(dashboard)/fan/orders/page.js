@@ -32,7 +32,7 @@ function OrderCard({ order }) {
   return (
     <div style={{
       background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(59, 130, 246, 0.3)',
-      borderRadius: 12, padding: '1.3rem 1.5rem', boxShadow: '0 0 16px rgba(59, 130, 246, 0.07)',
+      borderRadius: 12, padding: '1.3rem 1.5rem', 
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.6rem' }}>
         <strong style={{ color: 'var(--fg)', fontSize: '0.95rem' }}>{order.product_name}</strong>

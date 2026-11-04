@@ -88,7 +88,7 @@ export default function AdminProfilePage() {
           fontFamily: 'var(--ad-display)',
           fontSize: '1.8rem',
           color: '#fff',
-          boxShadow: '0 0 20px rgba(0,116,255,0.35)',
+ 
           flexShrink: 0,
         }}>
           {initial}

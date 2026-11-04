@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getPublicTeamProfile } from '@/services/profilesApi';
+import LeagueFrame from '@/components/league/LeagueFrame';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -148,12 +149,7 @@ export default function PublicTeamProfilePage() {
         <p style={{ marginBottom: '1.5rem' }}>
           This team does not exist or is not available.
         </p>
-        <Link href="/" style={{
-          padding: '0.65rem 1.5rem', border: '2px solid var(--tekky-blue)',
-          borderRadius: 40, color: '#fff', textDecoration: 'none',
-          fontFamily: 'var(--font-ui)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem',
-          boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
-        }}>
+        <Link href="/" className="cta">
           Back to Home
         </Link>
       </div>
@@ -163,10 +159,10 @@ export default function PublicTeamProfilePage() {
   const isOfficial = team.status === 'official';
 
   return (
-    <>
+    <LeagueFrame>
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-ui); background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: #fff; overflow-x: hidden; }
+        body { font-family: var(--font-ui); background: linear-gradient(180deg, #050b14 0%, #081026 100%); color: #fff; overflow-x: hidden; }
       `}</style>
 
       {/* Nav */}
@@ -189,13 +185,12 @@ export default function PublicTeamProfilePage() {
         position: 'relative', minHeight: '52vh',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         textAlign: 'center', paddingTop: '6.5rem',
-        background: 'radial-gradient(60% 50% at 50% 35%, rgba(61,139,255,0.28), rgba(7,26,69,0.95) 60%)',
       }}>
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 900, padding: '0 1rem' }}>
 
           {/* Kit thumbnail or shield icon */}
           {team.kit_slug ? (
-            <div style={{ position: 'relative', width: 110, height: 110, margin: '0 auto 1rem', filter: 'drop-shadow(0 0 20px rgba(0,116,255,0.5))' }}>
+            <div style={{ position: 'relative', width: 110, height: 110, margin: '0 auto 1rem' }}>
               <Image src={`/images/tf-kits/${team.kit_slug}.JPEG`} alt={team.kit_slug} fill style={{ objectFit: 'contain' }} />
             </div>
           ) : (
@@ -225,17 +220,8 @@ export default function PublicTeamProfilePage() {
               href={team.team_link}
               target="_blank"
               rel="noreferrer"
-              style={{
-                display: 'inline-block', marginTop: '1rem',
-                padding: '0.65rem 1.5rem',
-                border: '1px solid rgba(255,255,255,0.22)', borderRadius: 40,
-                color: '#fff', textDecoration: 'none',
-                fontFamily: 'var(--font-ui)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem',
-                background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
-                boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
-              }}
+              className="cta"
             >
-              <i className="fa-solid fa-link" style={{ marginRight: '0.5rem' }} />
               Team Page
             </a>
           )}
@@ -246,7 +232,7 @@ export default function PublicTeamProfilePage() {
       <div style={{
         width: '80%', height: 4, margin: '2rem auto',
         background: 'linear-gradient(90deg, transparent, var(--tekky-blue), transparent)',
-        borderRadius: 4, boxShadow: '0 0 18px rgba(61, 139, 255, 0.35)',
+        borderRadius: 4, 
       }} />
 
       {/* Cards */}
@@ -291,6 +277,6 @@ export default function PublicTeamProfilePage() {
         </div>
         <p>© 2027 TekkyFutbol — For Ballers Who Create.</p>
       </footer>
-    </>
+    </LeagueFrame>
   );
 }

@@ -1,0 +1,223 @@
+/* =========================================================================
+   LEAGUE ENVIRONMENT FRAME — roadmap §1 (Global Visual & Environmental Architecture)
+   Applies ONLY inside <LeagueFrame> (schedules, results, standings, fixtures,
+   venues, teams, broadcasts). Flat vector line art: chain-link perimeter,
+   light-pole silhouettes with downward cool-white (#FFFFFF) beams, and
+   1–2 tactical coordinate stamps. No blur, no soft glows.
+   Generated from league.tpl.css — pole/tile data URIs are inlined.
+   ========================================================================= */
+
+.league-frame {
+  --chain-tile: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2214%22 height=%2214%22%3E%3Cpath d=%22M0 7 7 0 14 7 7 14Z%22 fill=%22none%22 stroke=%22%2394a3b8%22 stroke-opacity=%22.6%22 stroke-width=%22.9%22/%3E%3C/svg%3E");
+  --pole-l: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 170 380%22 width=%22170%22 height=%22380%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23fff%22 stop-opacity=%22.30%22/%3E%3Cstop offset=%221%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3ClinearGradient id=%22c%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23fff%22 stop-opacity=%22.26%22/%3E%3Cstop offset=%221%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3ClinearGradient id=%22k%22 gradientUnits=%22userSpaceOnUse%22 x1=%220%22 y1=%2243%22 x2=%220%22 y2=%22380%22%3E%3Cstop offset=%220%22 stop-color=%22%23fff%22 stop-opacity=%22.8%22/%3E%3Cstop offset=%221%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg%3E%3Cpolygon points=%2292,43 8,380 168,380%22 fill=%22url(%23b)%22/%3E%3Cpolygon points=%2292,43 52,380 132,380%22 fill=%22url(%23c)%22/%3E%3Cpath d=%22M92 43 L8 380 M92 43 L168 380%22 stroke=%22url(%23k)%22 stroke-width=%221%22 fill=%22none%22/%3E%3Cpath d=%22M92 43 L52 380 M92 43 L132 380%22 stroke=%22url(%23k)%22 stroke-opacity=%22.5%22 stroke-width=%221%22 fill=%22none%22/%3E%3Ccircle cx=%2270%22 cy=%2270%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2262%22 cy=%2295%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2254%22 cy=%22128%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2246%22 cy=%22160%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2238%22 cy=%22196%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2230%22 cy=%22236%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%2222%22 cy=%22280%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22112%22 cy=%2272%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%22122%22 cy=%22100%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%22132%22 cy=%22134%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%22140%22 cy=%22170%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%22148%22 cy=%22210%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22156%22 cy=%22252%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22160%22 cy=%22300%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%2292%22 cy=%22110%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2288%22 cy=%22170%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2296%22 cy=%22232%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%2284%22 cy=%22300%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22100%22 cy=%22340%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Cpath d=%22M21.5 56 Q21.5 36 44 36 H96%22 stroke=%22%23fff%22 stroke-opacity=%22.55%22 stroke-width=%227%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M21.5 56 Q21.5 36 44 36 H96%22 stroke=%22%2302050b%22 stroke-width=%225%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3Crect x=%2217.5%22 y=%2234%22 width=%228%22 height=%22346%22 fill=%22%2302050b%22 stroke=%22%23fff%22 stroke-opacity=%22.55%22/%3E%3Crect x=%2211.5%22 y=%22366%22 width=%2220%22 height=%2214%22 fill=%22%2302050b%22 stroke=%22%23fff%22 stroke-opacity=%22.55%22/%3E%3Crect x=%2270.5%22 y=%2233.5%22 width=%2244%22 height=%229%22 fill=%22%2302050b%22 stroke=%22%23fff%22 stroke-opacity=%22.8%22/%3E%3Crect x=%2275%22 y=%2242%22 width=%2215%22 height=%222.5%22 fill=%22%23fff%22/%3E%3Crect x=%2295%22 y=%2242%22 width=%2215%22 height=%222.5%22 fill=%22%23fff%22/%3E%3C/g%3E%3C/svg%3E");
+  --pole-r: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 170 380%22 width=%22170%22 height=%22380%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23fff%22 stop-opacity=%22.30%22/%3E%3Cstop offset=%221%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3ClinearGradient id=%22c%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23fff%22 stop-opacity=%22.26%22/%3E%3Cstop offset=%221%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3ClinearGradient id=%22k%22 gradientUnits=%22userSpaceOnUse%22 x1=%220%22 y1=%2243%22 x2=%220%22 y2=%22380%22%3E%3Cstop offset=%220%22 stop-color=%22%23fff%22 stop-opacity=%22.8%22/%3E%3Cstop offset=%221%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg transform=%22translate(170 0) scale(-1 1)%22%3E%3Cpolygon points=%2292,43 8,380 168,380%22 fill=%22url(%23b)%22/%3E%3Cpolygon points=%2292,43 52,380 132,380%22 fill=%22url(%23c)%22/%3E%3Cpath d=%22M92 43 L8 380 M92 43 L168 380%22 stroke=%22url(%23k)%22 stroke-width=%221%22 fill=%22none%22/%3E%3Cpath d=%22M92 43 L52 380 M92 43 L132 380%22 stroke=%22url(%23k)%22 stroke-opacity=%22.5%22 stroke-width=%221%22 fill=%22none%22/%3E%3Ccircle cx=%2270%22 cy=%2270%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2262%22 cy=%2295%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2254%22 cy=%22128%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2246%22 cy=%22160%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2238%22 cy=%22196%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2230%22 cy=%22236%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%2222%22 cy=%22280%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22112%22 cy=%2272%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%22122%22 cy=%22100%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%22132%22 cy=%22134%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%22140%22 cy=%22170%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%22148%22 cy=%22210%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22156%22 cy=%22252%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22160%22 cy=%22300%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%2292%22 cy=%22110%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2288%22 cy=%22170%22 r=%221.3%22 fill=%22%23fff%22 fill-opacity=%220.55%22/%3E%3Ccircle cx=%2296%22 cy=%22232%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%2284%22 cy=%22300%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22100%22 cy=%22340%22 r=%220.9%22 fill=%22%23fff%22 fill-opacity=%220.35%22/%3E%3Cpath d=%22M21.5 56 Q21.5 36 44 36 H96%22 stroke=%22%23fff%22 stroke-opacity=%22.55%22 stroke-width=%227%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M21.5 56 Q21.5 36 44 36 H96%22 stroke=%22%2302050b%22 stroke-width=%225%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3Crect x=%2217.5%22 y=%2234%22 width=%228%22 height=%22346%22 fill=%22%2302050b%22 stroke=%22%23fff%22 stroke-opacity=%22.55%22/%3E%3Crect x=%2211.5%22 y=%22366%22 width=%2220%22 height=%2214%22 fill=%22%2302050b%22 stroke=%22%23fff%22 stroke-opacity=%22.55%22/%3E%3Crect x=%2270.5%22 y=%2233.5%22 width=%2244%22 height=%229%22 fill=%22%2302050b%22 stroke=%22%23fff%22 stroke-opacity=%22.8%22/%3E%3Crect x=%2275%22 y=%2242%22 width=%2215%22 height=%222.5%22 fill=%22%23fff%22/%3E%3Crect x=%2295%22 y=%2242%22 width=%2215%22 height=%222.5%22 fill=%22%23fff%22/%3E%3C/g%3E%3C/svg%3E");
+  --fence-w: clamp(10px, 2.4vw, 34px);
+  position: relative;
+  isolation: isolate;
+}
+
+/* ── Background perimeter frame: chain-link strips down both page edges ──── */
+
+.league-frame::before,
+.league-frame::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--fence-w);
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--chain-tile);
+  background-size: 14px 14px;
+  opacity: 0.85;
+}
+
+.league-frame::before {
+  left: 0;
+  border-left: 3px solid rgba(203, 213, 225, 0.55);
+  border-right: 1px solid rgba(203, 213, 225, 0.28);
+}
+
+.league-frame::after {
+  right: 0;
+  border-right: 3px solid rgba(203, 213, 225, 0.55);
+  border-left: 1px solid rgba(203, 213, 225, 0.28);
+}
+
+/* ── Light-pole silhouettes + downward beams: header ────────────────────── */
+
+.league-frame > header {
+  position: relative;
+  padding-top: 5.6rem;
+  padding-bottom: 1rem;
+}
+
+.league-frame > header::before,
+.league-frame > header::after {
+  content: '';
+  position: absolute;
+  top: 56px;
+  width: 170px;
+  height: 380px;
+  z-index: 1;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.league-frame > header::before {
+  left: var(--fence-w);
+  background-image: var(--pole-l);
+}
+
+.league-frame > header::after {
+  right: var(--fence-w);
+  background-image: var(--pole-r);
+}
+
+/* ── Light-pole silhouettes + downward beams: data container ────────────── */
+
+.league-frame > main {
+  position: relative;
+}
+
+.league-frame > main::before,
+.league-frame > main::after {
+  content: '';
+  position: absolute;
+  top: -1.2rem;
+  width: 130px;
+  height: 290px;
+  z-index: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.league-frame > main::before {
+  left: calc(var(--fence-w) - 8px);
+  background-image: var(--pole-l);
+}
+
+.league-frame > main::after {
+  right: calc(var(--fence-w) - 8px);
+  background-image: var(--pole-r);
+}
+
+/* wide screens: stand the poles in the page margin, beside the container */
+@media (min-width: 1360px) {
+  .league-frame > main::before {
+    left: calc(50% - 600px);
+  }
+
+  .league-frame > main::after {
+    right: calc(50% - 600px);
+  }
+}
+
+/* content sits above the poles + beams */
+.league-frame > header > *,
+.league-frame > main > * {
+  position: relative;
+  z-index: 2;
+}
+
+.league-frame > main > .table-wrap,
+.league-frame > main section {
+  z-index: 2;
+}
+
+/* ── Chain-link along container borders ─────────────────────────────────── */
+
+.league-frame .table-wrap {
+  margin: 2rem 0;
+  padding: 9px;
+  background-image: var(--chain-tile);
+  background-size: 14px 14px;
+  border: 1px solid rgba(203, 213, 225, 0.4);
+  border-radius: 2px;
+}
+
+.league-frame .table-wrap > table {
+  margin: 0;
+}
+
+.league-frame :is(.card, .venue-card, .venue-banner) {
+  position: relative;
+}
+
+.league-frame :is(.card, .venue-card, .venue-banner)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 8px;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: var(--chain-tile);
+  background-size: 14px 14px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+/* ── Tactical coordinate stamps (1–2 per page: header + footer) ─────────── */
+
+.league-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-tactical);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--type-cyan);
+  white-space: nowrap;
+}
+
+.league-stamp--top {
+  position: absolute;
+  top: 4.2rem;
+  left: 50%;
+  z-index: 3;
+  transform: translateX(-50%);
+}
+
+a.league-stamp:hover span {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.league-stamp-bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1rem;
+  border-top: 1px solid rgba(203, 213, 225, 0.25);
+  border-bottom: 1px solid rgba(203, 213, 225, 0.25);
+}
+
+@media (max-width: 900px) {
+  .league-frame > header::before,
+  .league-frame > header::after {
+    width: 96px;
+    height: 214px;
+  }
+
+  .league-frame > main::before,
+  .league-frame > main::after {
+    width: 84px;
+    height: 188px;
+  }
+}
+
+@media (max-width: 560px) {
+  .league-stamp {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+  }
+}

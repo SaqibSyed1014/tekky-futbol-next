@@ -84,7 +84,7 @@ function ActionBtn({ onClick, disabled, color, children }) {
       disabled={disabled}
       style={{
         flex: 1, padding: '0.7rem 1rem',
-        borderRadius: 8, border: `1px solid ${color}`,
+        borderRadius: 2, border: `1px solid ${color}`,
         background: `${color}15`, color,
         fontSize: '0.95rem', fontWeight: 700,
         cursor: disabled ? 'not-allowed' : 'pointer',
@@ -178,12 +178,7 @@ export default function JoinPageClient({ token }) {
           action={
             <Link
               href={`/login?next=${returnUrl}`}
-              style={{
-                display: 'inline-block', padding: '0.65rem 1.8rem',
-                background: 'var(--tekky-blue)', color: '#fff',
-                borderRadius: 8, fontWeight: 700, fontSize: '0.95rem',
-                textDecoration: 'none', letterSpacing: '0.3px',
-              }}
+              className="cta"
             >
               Log In to Continue
             </Link>

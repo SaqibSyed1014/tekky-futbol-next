@@ -172,7 +172,7 @@ export default function UserPaymentPage() {
               width: '100%', padding: '0.85rem',
               background: paying ? 'rgba(59, 130, 246, 0.4)' : 'rgba(59, 130, 246, 0.15)',
               border: '2px solid rgba(59, 130, 246, 0.6)',
-              borderRadius: 8, color: 'var(--ad-fg)', fontSize: '0.95rem', fontWeight: 700,
+              borderRadius: 2, color: 'var(--ad-fg)', fontSize: '0.95rem', fontWeight: 700,
               cursor: paying ? 'not-allowed' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
               fontFamily: 'inherit',

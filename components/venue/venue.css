@@ -72,12 +72,16 @@
 }
 
 .venue-scene__cone {
-  fill: var(--type-cyan);
+  fill: var(--type-white);
   fill-opacity: 0.07;
+  stroke: var(--type-white);
+  stroke-opacity: 0.35;
+  stroke-width: 1;
 }
 
 .venue-scene__cone--core {
-  fill-opacity: 0.09;
+  fill-opacity: 0.1;
+  stroke-opacity: 0.2;
 }
 
 .venue-scene__pennants polygon {
@@ -92,21 +96,6 @@
 .venue-scene__pennants polygon:nth-child(3n + 1) {
   fill: var(--type-white);
   fill-opacity: 0.85;
-}
-
-/* coordinates printed on the slab */
-.venue-scene__coords circle,
-.venue-scene__coords path {
-  fill: none;
-  stroke: var(--type-cyan);
-  stroke-width: 1.4;
-}
-
-.venue-scene__coords text {
-  fill: var(--type-cyan);
-  font-family: var(--font-tactical);
-  font-size: 15px;
-  letter-spacing: 0.14em;
 }
 
 /* ── Spec chips ────────────────────────────────────────────────────────── */

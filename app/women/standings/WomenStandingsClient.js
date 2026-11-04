@@ -5,6 +5,7 @@ import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
 import Modal from '@/components/ui/Modal';
 import { useWeb3Form } from '@/components/ui/useWeb3Form';
+import LeagueFrame from '@/components/league/LeagueFrame';
 
 const STANDINGS_ACCESS_KEY = '641836af-0dd0-4a1b-8f2d-f1d2d253c6ae';
 
@@ -41,7 +42,7 @@ export default function WomenStandingsClient() {
   const emptyRows = Array(8).fill(null);
 
   return (
-    <>
+    <LeagueFrame>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
           <h1>STANDINGS</h1>
@@ -121,6 +122,6 @@ export default function WomenStandingsClient() {
         <p className="subtext">League updates will be sent straight to your inbox.</p>
         <button className="cta close-overlay" onClick={() => setUpdatesSuccess(false)}>Back to site</button>
       </Modal>
-    </>
+    </LeagueFrame>
   );
 }

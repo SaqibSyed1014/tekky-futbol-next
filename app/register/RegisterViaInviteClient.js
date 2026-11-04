@@ -195,15 +195,7 @@ function LoggedInPlayerPanel({ user, team, token }) {
       <button
         onClick={handleJoin}
         disabled={joining}
-        style={{
-          width: '100%', padding: '0.75rem',
-          background: 'var(--tekky-blue)', color: '#fff',
-          border: 'none', borderRadius: 8,
-          fontSize: '0.95rem', fontWeight: 700,
-          cursor: joining ? 'not-allowed' : 'pointer',
-          opacity: joining ? 0.7 : 1,
-          fontFamily: 'inherit', transition: 'opacity 0.15s',
-        }}
+        className="cta cta--block"
       >
         {joining ? 'Joining…' : `✓ Join ${team.name}`}
       </button>
@@ -379,15 +371,8 @@ function RegisterForm({ team, token }) {
         <button
           type="submit"
           disabled={submitting}
-          style={{
-            width: '100%', marginTop: '0.5rem', padding: '0.75rem',
-            background: 'var(--tekky-blue)', color: '#fff',
-            border: 'none', borderRadius: 8,
-            fontSize: '0.95rem', fontWeight: 700,
-            cursor: submitting ? 'not-allowed' : 'pointer',
-            opacity: submitting ? 0.7 : 1,
-            fontFamily: 'inherit', transition: 'opacity 0.15s',
-          }}
+          className="cta cta--block"
+          style={{ marginTop: '0.5rem' }}
         >
           {submitting ? 'Creating account…' : `Join ${team.name}`}
         </button>
@@ -442,7 +427,7 @@ export default function RegisterViaInviteClient() {
           title="No Invite Found"
           message="This link doesn't contain a valid team invite. If you want to apply to the league, use the registration page."
           action={
-            <Link href="/registration" style={{ display: 'inline-block', padding: '0.65rem 1.8rem', background: 'var(--tekky-blue)', color: '#fff', borderRadius: 8, fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none' }}>
+            <Link href="/registration" className="cta">
               Go to Registration
             </Link>
           }
@@ -483,10 +468,10 @@ export default function RegisterViaInviteClient() {
           message="You're logged in as an admin. This invite link is for players. Log out to join as a player, or go to your dashboard."
           action={
             <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/admin" style={{ display: 'inline-block', padding: '0.6rem 1.5rem', background: 'var(--tekky-blue)', color: '#fff', borderRadius: 8, fontWeight: 700, fontSize: '0.9rem', textDecoration: 'none' }}>
+              <Link href="/admin" className="cta">
                 Admin Dashboard
               </Link>
-              <Link href="/login" style={{ display: 'inline-block', padding: '0.6rem 1.5rem', border: '1px solid rgba(255,255,255,0.2)', color: 'var(--muted)', borderRadius: 8, fontSize: '0.9rem', textDecoration: 'none' }}>
+              <Link href="/login" className="cta cta--ghost">
                 Switch Account
               </Link>
             </div>

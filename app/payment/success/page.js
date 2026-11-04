@@ -24,7 +24,7 @@ export default function PaymentSuccessPage() {
     <>
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-ui); background: linear-gradient(165deg, #071a45 0%, #0b2566 48%, #071a45 100%); color: #fff; }
+        body { font-family: var(--font-ui); background: linear-gradient(180deg, #050b14 0%, #081026 100%); color: #fff; }
       `}</style>
       <div style={{
         minHeight: '100vh', display: 'flex', flexDirection: 'column',
@@ -50,17 +50,7 @@ export default function PaymentSuccessPage() {
           {status === 'paid' ? ' Your registration is now complete.' : ' Your payment is being confirmed — this may take a moment.'}
         </p>
 
-        <Link href="/user" style={{
-          marginTop: '2rem',
-          display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-          padding: '0.7rem 1.75rem',
-          background: 'linear-gradient(180deg, #3d8bff 0%, #1553d1 100%)',
-          border: '1px solid rgba(255,255,255,0.22)',
-          borderRadius: 40, color: '#fff', textDecoration: 'none',
-          fontFamily: 'var(--font-ui)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem',
-          boxShadow: '0 10px 28px rgba(21, 83, 209, 0.38)',
-        }}>
-          <i className="fa-solid fa-house" />
+        <Link href="/user" className="cta" style={{ marginTop: '2rem' }}>
           Go to Dashboard
         </Link>
       </div>

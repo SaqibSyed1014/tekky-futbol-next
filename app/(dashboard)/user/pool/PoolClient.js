@@ -56,7 +56,7 @@ function UnsignedState() {
             gap:            '0.5rem',
             background:     '#ffb400',
             color:          '#000',
-            borderRadius:   8,
+            borderRadius: 2,
             padding:        '0.65rem 1.5rem',
             fontSize:       '0.9rem',
             textDecoration: 'none' }}

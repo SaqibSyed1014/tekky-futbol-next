@@ -511,7 +511,7 @@ export default function DashboardLayout({ children }) {
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        background: 'linear-gradient(165deg, #071a45 0%, #0b2566 100%)',
+        background: 'linear-gradient(180deg, #050b14 0%, #081026 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

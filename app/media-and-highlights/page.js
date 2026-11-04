@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import GlowDivider from '@/components/ui/GlowDivider';
+import LeagueFrame from '@/components/league/LeagueFrame';
 
 export const metadata = {
   title: 'TekkyFutbol — Media & Highlights',
@@ -17,7 +18,7 @@ const galleryImages = [
 
 export default function MediaPage() {
   return (
-    <>
+    <LeagueFrame>
       <header style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div className="hero" style={{ position: 'relative', zIndex: 2, maxWidth: 980, padding: '0 1rem' }}>
           <h1>MEDIA & HIGHLIGHTS</h1>
@@ -95,6 +96,6 @@ export default function MediaPage() {
           <Link className="cta" href="/">Back to Home</Link>
         </div>
       </main>
-    </>
+    </LeagueFrame>
   );
 }

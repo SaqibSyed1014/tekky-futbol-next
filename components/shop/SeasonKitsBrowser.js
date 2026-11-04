@@ -45,8 +45,8 @@ function DivisionToggle({ division, onChange }) {
   return (
     <div style={{
       display: 'inline-flex', gap: 0, margin: '1.5rem 0',
-      background: 'var(--card)', border: '1px solid var(--line-blue)',
-      borderRadius: 999, overflow: 'hidden', padding: 4,
+      background: 'var(--card)', border: '1px solid var(--cta-border)',
+      borderRadius: 2, overflow: 'hidden', padding: 4, gap: 4,
     }}>
       {['north', 'south'].map((d) => {
         const active = division === d;
@@ -55,22 +55,7 @@ function DivisionToggle({ division, onChange }) {
             key={d}
             type="button"
             onClick={() => onChange(d)}
-            style={{
-              padding: '0.65rem 2rem',
-              borderRadius: 999,
-              border: 'none',
-              cursor: 'pointer',
-              fontFamily: 'var(--font-ui)',
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              fontSize: '0.8rem',
-              color: active ? '#fff' : 'var(--muted)',
-              background: active
-                ? 'linear-gradient(180deg, #5aa4ff 0%, #3d8bff 38%, #1e5fe0 72%, #1553d1 100%)'
-                : 'transparent',
-              transition: 'all 0.2s ease',
-            }}
+            className={`cta cta--sm${active ? '' : ' cta--ghost'}`}
           >
             {d === 'north' ? 'North' : 'South'}
           </button>

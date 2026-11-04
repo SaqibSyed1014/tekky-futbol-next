@@ -32,7 +32,7 @@ function Card({ children, style }) {
       border: '1px solid rgba(59, 130, 246, 0.3)',
       borderRadius: 12,
       padding: '1.75rem',
-      boxShadow: '0 0 20px rgba(59, 130, 246, 0.05)',
+ 
       ...style,
     }}>
       {children}
@@ -100,7 +100,7 @@ function LockedKitDisplay({ kitSlug }) {
         borderRadius: 12,
         border: '2px solid rgba(0,200,100,0.5)',
         overflow: 'hidden',
-        boxShadow: '0 0 30px rgba(0,200,100,0.15)',
+ 
       }}>
         <Image
           src={`/images/tf-kits/${kitSlug}.JPEG`}
@@ -346,7 +346,7 @@ function KitPicker({ currentSlug, preferredDivision, onSelect, disabled }) {
                     background: 'var(--tekky-blue)', borderRadius: '50%',
                     width: 22, height: 22,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: '0 0 10px rgba(61,139,255,0.6)',
+ 
                   }}>
                     <i className="fa-solid fa-check" style={{ fontSize: '0.7rem', color: '#fff' }} />
                   </div>
@@ -422,11 +422,7 @@ function LockModal({ kitSlug, onConfirm, onCancel, locking }) {
             type="button"
             onClick={onCancel}
             disabled={locking}
-            style={{
-              padding: '0.6rem 1.25rem', borderRadius: 8, border: '1px solid var(--ad-line)',
-              background: 'transparent', color: 'var(--muted)', cursor: 'pointer',
-              fontSize: '0.88rem', fontFamily: 'inherit',
-            }}
+            className="cta cta--ghost"
           >
             Cancel
           </button>
@@ -434,18 +430,12 @@ function LockModal({ kitSlug, onConfirm, onCancel, locking }) {
             type="button"
             onClick={onConfirm}
             disabled={locking}
-            style={{
-              padding: '0.6rem 1.5rem', borderRadius: 8,
-              background: locking ? 'rgba(59, 130, 246, 0.3)' : 'var(--tekky-blue)',
-              border: 'none', color: '#fff', cursor: locking ? 'not-allowed' : 'pointer',
-              fontSize: '0.88rem', fontWeight: 700, fontFamily: 'inherit',
-              display: 'flex', alignItems: 'center', gap: '0.5rem',
-            }}
+            className="cta"
           >
             {locking ? (
               <><span className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }} /> Locking…</>
             ) : (
-              <><i className="fa-solid fa-lock" /> Yes, Lock It</>
+              'Yes, Lock It'
             )}
           </button>
         </div>
@@ -582,16 +572,9 @@ export default function KitPage() {
                     <button
                       type="button"
                       onClick={() => setShowLockModal(true)}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: '0.5rem',
-                        padding: '0.6rem 1.75rem', borderRadius: 8,
-                        background: 'rgba(240,180,41,0.12)',
-                        border: '1px solid rgba(240,180,41,0.4)',
-                        color: '#f0b429', fontSize: '0.9rem', fontWeight: 700,
-                        cursor: 'pointer', fontFamily: 'inherit',
-                      }}
+                      className="cta"
                     >
-                      <i className="fa-solid fa-lock" /> Lock Kit Selection
+                      Lock Kit Selection
                     </button>
                   </div>
                 )}

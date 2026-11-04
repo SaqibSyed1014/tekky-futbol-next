@@ -121,7 +121,7 @@ function SignedTable({ rows }) {
                   padding:     '0.35rem 0.8rem',
                   background:  'rgba(0,116,255,0.1)',
                   border:      '1px solid rgba(0,116,255,0.35)',
-                  borderRadius: 6,
+                  borderRadius: 2,
                   color:       'var(--tekky-blue)',
                   fontSize:    '0.78rem',
                   fontWeight:  600,

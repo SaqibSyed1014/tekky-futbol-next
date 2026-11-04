@@ -4,7 +4,8 @@ import './venue.css';
 /**
  * Match-environment artwork (roadmap §4): raw outdoor urban specs drawn as flat
  * line art — street-light poles with flat light cones, a chain-link perimeter,
- * and the league's precise urban coordinates. No gradients, glows or blur.
+ * and (via CoordinateTag) the league's urban coordinates. Coordinates are never
+ * printed inside the scenes — each page stamps its own 1–2 (see LeagueFrame).
  */
 
 export const VENUE_COORDS = {
@@ -118,13 +119,6 @@ export function VenueScene({ variant = 'attrition', className = '' }) {
       {lights.map((x, i) => (
         <StreetLight key={x} x={x} dir={x < 480 || (x === 480 && i === 0) ? 1 : -1} />
       ))}
-
-      {/* registration crosshair + coordinates, printed on the slab */}
-      <g className="venue-scene__coords">
-        <circle cx="64" cy="262" r="8" />
-        <path d="M64 249 V275 M51 262 H77" />
-        <text x="86" y="267">{VENUE_COORDS.display}</text>
-      </g>
     </svg>
   );
 }
@@ -162,9 +156,6 @@ export function EnvironmentSpecs({ className = '' }) {
           <path d="M1 3h14M1 13h14M3 3l4 5-4 5M7 3l4 5-4 5M11 3l4 5-4 5M3 13l4-5-4-5M7 13l4-5-4-5M11 13l4-5-4-5" fill="none" stroke="currentColor" strokeWidth="0.9" />
         </svg>
         Chain-link perimeter
-      </li>
-      <li>
-        <CoordinateTag />
       </li>
     </ul>
   );

@@ -12,7 +12,7 @@ function StatCard({ icon, label, value, sub }) {
       border: '1px solid rgba(59, 130, 246, 0.3)',
       borderRadius: 12,
       padding: '1.25rem 1.4rem',
-      boxShadow: '0 0 16px rgba(59, 130, 246, 0.07)',
+ 
       display: 'flex',
       alignItems: 'center',
       gap: '1rem',
