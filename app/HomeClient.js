@@ -63,7 +63,7 @@ export default function HomeClient() {
 
   return (
     <div className="home-landing">
-      <header className="no-space" style={{ position: 'relative', zIndex: 0, minHeight: '70vh', display: 'flex', alignItems: 'stretch', justifyContent: 'center', textAlign: 'center' }}>
+      <header className="no-space" style={{ position: 'relative', zIndex: 0, minHeight: '52vh', display: 'flex', alignItems: 'stretch', justifyContent: 'center', textAlign: 'center' }}>
         <div
           className="hero"
           style={{

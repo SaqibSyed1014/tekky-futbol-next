@@ -169,7 +169,7 @@ export default function PublicTeamProfilePage() {
       <nav style={{
         position: 'fixed', top: 0, left: 0, width: '100%',
         display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.9rem 1.25rem',
-        background: 'rgba(7, 26, 69, 0.72)', backdropFilter: 'blur(18px)',
+        background: 'rgba(5, 11, 20, 0.86)', backdropFilter: 'blur(18px)',
         borderBottom: '1px solid var(--line)', zIndex: 100,
       }}>
         <Link href="/" style={{ color: 'var(--type-white)', textDecoration: 'none', fontFamily: 'var(--font-hero)', fontSize: '1.4rem', letterSpacing: '0.12em', textTransform: 'uppercase', textShadow: 'var(--type-keyline)' }}>

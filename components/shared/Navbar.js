@@ -166,7 +166,7 @@ export default function Navbar() {
       {/* ── nav spacer pushes page content below fixed bar ── */}
       <div id="nav-spacer" />
 
-      <nav style={{ background: menuOpen ? 'rgba(7, 26, 69, 0.96)' : undefined }}>
+      <nav>
         {/* mobile logo */}
         <Link className="logo logo-mobile" href="/" aria-label="TekkyFutbol Home">
           <Image src="/images/logo.webp" alt="TekkyFutbol Logo" width={70} height={70} />

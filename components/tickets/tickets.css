@@ -997,5 +997,5 @@
 
 /* Keep the fixed navbar legible when it floats over the off-white South page */
 .public-site:has(.tkt-page--south) nav {
-  background: rgba(7, 26, 69, 0.97);
+  background: rgba(5, 11, 20, 0.97);
 }

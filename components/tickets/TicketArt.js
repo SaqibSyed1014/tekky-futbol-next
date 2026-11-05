@@ -19,29 +19,29 @@ export function PlayerSilhouette({ className = '' }) {
       aria-hidden="true"
       focusable="false"
     >
-      {/* head + neck */}
-      <circle cx="252" cy="76" r="34" fill="currentColor" stroke="none" />
-      <path d="M248 112 L244 140" strokeWidth="22" />
-      {/* shoulders + torso (leaning into the strike) */}
-      <path d="M204 152 L296 142" strokeWidth="34" />
-      <path d="M252 150 L228 268" strokeWidth="64" />
+      {/* head + neck (eyes up, driving forward) */}
+      <circle cx="300" cy="88" r="33" fill="currentColor" stroke="none" />
+      <path d="M290 120 L278 146" strokeWidth="22" />
+      {/* shoulders + torso (full sprint lean) */}
+      <path d="M252 158 L300 168" strokeWidth="32" />
+      <path d="M276 160 L222 292" strokeWidth="62" />
       {/* hips */}
-      <path d="M208 276 L250 272" strokeWidth="44" />
-      {/* plant leg */}
-      <path d="M222 282 L204 384" strokeWidth="38" />
-      <path d="M204 384 L184 488" strokeWidth="28" />
-      <path d="M184 492 L232 502" strokeWidth="22" />
-      {/* kicking leg */}
-      <path d="M238 284 L316 332" strokeWidth="36" />
-      <path d="M316 332 L396 376" strokeWidth="26" />
-      <path d="M396 376 L424 362" strokeWidth="20" />
-      {/* arms */}
-      <path d="M206 154 L146 206" strokeWidth="20" />
-      <path d="M146 206 L96 172" strokeWidth="16" />
-      <path d="M294 146 L350 192" strokeWidth="20" />
-      <path d="M350 192 L402 160" strokeWidth="16" />
-      {/* ball */}
-      <circle cx="446" cy="340" r="22" fill="currentColor" stroke="none" />
+      <path d="M204 296 L246 300" strokeWidth="44" />
+      {/* driving leg: knee up, shin tucked under */}
+      <path d="M240 304 L326 344" strokeWidth="38" />
+      <path d="M326 344 L304 432" strokeWidth="26" />
+      <path d="M304 436 L344 446" strokeWidth="20" />
+      {/* trailing leg: full extension behind */}
+      <path d="M214 306 L166 404" strokeWidth="38" />
+      <path d="M166 404 L96 446" strokeWidth="26" />
+      <path d="M96 446 L74 424" strokeWidth="20" />
+      {/* arms pumping, opposite to legs */}
+      <path d="M296 166 L356 206" strokeWidth="20" />
+      <path d="M356 206 L398 164" strokeWidth="16" />
+      <path d="M258 164 L196 214" strokeWidth="20" />
+      <path d="M196 214 L142 186" strokeWidth="16" />
+      {/* ball at the lead foot */}
+      <circle cx="408" cy="484" r="22" fill="currentColor" stroke="none" />
       {/* ground line */}
       <path d="M40 520 H440" strokeWidth="4" />
     </svg>
