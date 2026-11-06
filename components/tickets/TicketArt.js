@@ -3,48 +3,16 @@
  *   North  → high-contrast monochrome player silhouette (watermark)
  *   South  → geometric asphalt-grid wireframe
  *   Hub    → balanced technical blueprint node graphic
- * Each is a single flat SVG layer (no gradients, no blur) coloured via
+ * Each is a single flat layer (no gradients, no blur) coloured via
  * `currentColor`, so the theme in tickets.css controls tone and opacity.
+ * The North player is a PNG alpha mask (public/images/north-silhouette.png).
  */
 
 export function PlayerSilhouette({ className = '' }) {
   return (
-    <svg
-      className={className}
-      viewBox="0 0 480 560"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      {/* head + neck (eyes up, driving forward) */}
-      <circle cx="300" cy="88" r="33" fill="currentColor" stroke="none" />
-      <path d="M290 120 L278 146" strokeWidth="22" />
-      {/* shoulders + torso (full sprint lean) */}
-      <path d="M252 158 L300 168" strokeWidth="32" />
-      <path d="M276 160 L222 292" strokeWidth="62" />
-      {/* hips */}
-      <path d="M204 296 L246 300" strokeWidth="44" />
-      {/* driving leg: knee up, shin tucked under */}
-      <path d="M240 304 L326 344" strokeWidth="38" />
-      <path d="M326 344 L304 432" strokeWidth="26" />
-      <path d="M304 436 L344 446" strokeWidth="20" />
-      {/* trailing leg: full extension behind */}
-      <path d="M214 306 L166 404" strokeWidth="38" />
-      <path d="M166 404 L96 446" strokeWidth="26" />
-      <path d="M96 446 L74 424" strokeWidth="20" />
-      {/* arms pumping, opposite to legs */}
-      <path d="M296 166 L356 206" strokeWidth="20" />
-      <path d="M356 206 L398 164" strokeWidth="16" />
-      <path d="M258 164 L196 214" strokeWidth="20" />
-      <path d="M196 214 L142 186" strokeWidth="16" />
-      {/* ball at the lead foot */}
-      <circle cx="408" cy="484" r="22" fill="currentColor" stroke="none" />
-      {/* ground line */}
-      <path d="M40 520 H440" strokeWidth="4" />
-    </svg>
+    <span className={className} aria-hidden="true">
+      <span className="tkt-silhouette" />
+    </span>
   );
 }
 

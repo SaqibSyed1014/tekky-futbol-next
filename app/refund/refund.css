@@ -23,6 +23,12 @@
   margin-bottom: 1rem;
 }
 
+/* global `section p { margin: auto; max-width: 70ch }` centres text — keep it flush with the heading */
+.policy-panel .policy-block :is(p, li) {
+  max-width: 100%;
+  margin-inline: 0;
+}
+
 .policy-panel .policy-block :is(p, ul):last-child {
   margin-bottom: 0;
 }
