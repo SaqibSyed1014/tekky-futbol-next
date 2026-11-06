@@ -1,0 +1,49 @@
+/* Refund policy — flat, sharp-cornered panel on the shared navy canvas.
+   Matches the global CTA / typography system: no blur, no glow, no hover lift. */
+
+.policy-panel {
+  background: var(--card-strong);
+  border: 1px solid rgba(203, 213, 225, 0.4);
+  border-radius: 2px;
+  padding: 0 2rem;
+  line-height: 1.8;
+  color: var(--type-slate);
+}
+
+.policy-panel .policy-block {
+  padding: 2rem 0;
+  border-top: 1px solid rgba(203, 213, 225, 0.25);
+}
+
+.policy-panel .policy-block:first-child {
+  border-top: 0;
+}
+
+.policy-panel .policy-block h2 {
+  margin-bottom: 1rem;
+}
+
+.policy-panel .policy-block :is(p, ul):last-child {
+  margin-bottom: 0;
+}
+
+.policy-panel .policy-block li:last-child {
+  margin-bottom: 0 !important;
+}
+
+.policy-panel strong {
+  color: var(--type-silver);
+  font-weight: 600;
+}
+
+.policy-panel a {
+  color: var(--type-cyan);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .policy-panel {
+    padding: 0 1.1rem;
+  }
+}
